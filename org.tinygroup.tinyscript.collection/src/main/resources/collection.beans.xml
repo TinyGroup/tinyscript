@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="newIntersectionOperator" scope="singleton"
+          class="org.tinygroup.tinyscript.collection.expression.IntersectionOperator"> 
+    </bean>
+    
+     <bean id="newSubtractOperator" scope="singleton"
+          class="org.tinygroup.tinyscript.collection.expression.SubtractOperator"> 
+    </bean>
+    
+     <bean id="newUnionOperator" scope="singleton"
+          class="org.tinygroup.tinyscript.collection.expression.UnionOperator"> 
+    </bean>
+    
+     <bean id="newXorOperator" scope="singleton"
+          class="org.tinygroup.tinyscript.collection.expression.XorOperator"> 
+    </bean>
+
+    <bean id="copyFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.collection.function.list.CopyFunction"> 
+    </bean>
+    
+    <bean id="fillFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.collection.function.list.FillFunction"> 
+    </bean>
+    
+    <bean id="filterFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.collection.function.list.FilterFunction"> 
+    </bean>
+    
+    <bean id="intersectionFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.collection.function.list.IntersectionFunction"> 
+    </bean>
+    
+    <bean id="removeFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.collection.function.list.RemoveFunction"> 
+    </bean>
+    
+    <bean id="sortFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.collection.function.list.SortFunction"> 
+    </bean>
+    
+    <bean id="subtractFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.collection.function.list.SubtractFunction"> 
+    </bean>
+    
+    <bean id="unionFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.collection.function.list.UnionFunction"> 
+    </bean>
+    
+    <bean id="xorFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.collection.function.list.XorFunction"> 
+    </bean>
+    
+    <bean id="mapIntersectionFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.collection.function.map.MapIntersectionFunction"> 
+    </bean>
+    
+    <bean id="mapSubtractFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.collection.function.map.MapSubtractFunction"> 
+    </bean>
+    
+    <bean id="mapUnionFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.collection.function.map.MapUnionFunction"> 
+    </bean>
+    
+    <bean id="mapXorFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.collection.function.map.MapXorFunction"> 
+    </bean>
+    
+    <bean id="allPermutationFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.collection.function.math.AllPermutationFunction"> 
+    </bean>
+    
+    <bean id="combinationFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.collection.function.math.CombinationFunction"> 
+    </bean>
+    
+    <bean id="permutationFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.collection.function.math.PermutationFunction"> 
+    </bean>
+    
+    <bean id="setIntersectionFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.collection.function.set.SetIntersectionFunction"> 
+    </bean>
+    
+    <bean id="setSubtractFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.collection.function.set.SetSubtractFunction"> 
+    </bean>
+    
+    <bean id="setUnionFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.collection.function.set.SetUnionFunction"> 
+    </bean>
+    
+    <bean id="setXorFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.collection.function.set.SetXorFunction"> 
+    </bean>
+    
+     <bean id="listToListProcessor" scope="singleton"
+          class="org.tinygroup.tinyscript.collection.objectitem.ListToListProcessor"> 
+    </bean>
+    
+     <bean id="mapItemProcessor" scope="singleton"
+          class="org.tinygroup.tinyscript.collection.objectitem.MapItemProcessor"> 
+    </bean>
+    
+</beans>
