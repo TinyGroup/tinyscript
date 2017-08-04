@@ -1,0 +1,14 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                    http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
+       default-autowire="byName" default-lazy-init="true">
+    
+    <bean id="student1"
+          class="org.tinygroup.tinyscript.Student">
+        <property name="name" value="hello"></property>
+        <property name="age" value="50"></property>
+        <property name="registered" value="true"></property>
+    </bean>
+
+</beans>

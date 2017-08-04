@@ -1,0 +1,97 @@
+import java.util.*;
+
+/*模拟习题的无结构计算章节 */
+class NoStructureCalculation {
+    
+    /*筛选法求质数表(不超过自然数N) */
+    getPrimeNumber(N){
+      list = new ArrayList();
+      limit = int(sqrt(N));
+      for(i=1;i<=N;i++){
+        list.add(1);
+      }
+      list.set(0,0);
+      list.set(1,0);
+      for(i=2;i<=limit;i++){
+         if(list.get(i)==1){
+           for(j=i*i;j<N;j+=i){ 
+              list.set(j,0);
+           }
+         }
+      }
+      result = new ArrayList();
+      for(i=1;i<N;i++){
+        if(list.get(i)==1){
+          result.add(i);
+        }
+      }
+      return result;
+    }
+    
+    /*计算第N项菲波那契数列 */
+    getFibonacci(N){
+       a = 1;
+       b = 1;
+       list = [a,b];
+       
+       countFibonacci(a,b,N,list);
+       return list;
+    }
+    
+    countFibonacci(a,b,N,result){
+       while(result.size()<N){
+          c = a+b;
+		  result.add(c);
+		  countFibonacci(b,c,N,result);
+       }
+    }
+    
+    /*计算两数相除,如果存在无限循环的最小循环节点 */
+    getContinueInfo(a,b){
+       a = a % b;
+	   if(a==0){
+		  return "";
+	   }
+	   //初始化临时存储结构
+	   sb = new java.lang.StringBuffer();
+	   r1 =0;
+	   r2 =0;
+	   map = new java.util.HashMap();
+	   while(a!=0){
+	      key = a+ "|"; 
+	      r1 = a*10 / b;   //计算除法结果
+		  r2 = a*10 % b;   //计算余数
+		  sb.append(r1);
+		  key += r2;
+		  
+		  //被除数与余数同时出现重复，代表循环节被发现
+		  if(map.containsKey(key)){
+		     oldLength = map.get(key);
+		     return sb.substring(oldLength-1, sb.length()-1);
+		  }else{
+		     map.put(key, sb.length());
+		  }
+		  a = r2;
+	   }
+	   return "";
+    }
+    
+    /*检查13位机器码真伪：如果前12位的所有奇数位之和，与所有偶数位之和，两者的差值除以10的余数与第13位一致，则机器码为真 */
+    checkBarcode(barcode){
+       if(barcode==null || barcode.length()!=13){
+		  return false;
+	   }
+	   chars = barcode.toCharArray();
+	   s1 =0;
+	   s2 =0;
+	   for(i=0;i<12;i++){
+	     if(i%2==0){
+	       s1 = s1+int(chars[i].toString()); //注意不能直接将char转int
+	     }else{
+	       s2 = s2+int(chars[i].toString());
+	     }
+	   }
+	   result = abs(s1-s2)%10 - int(chars[12].toString());
+	   return result == 0;
+    }
+}

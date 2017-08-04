@@ -1,0 +1,11 @@
+
+import java.util.*;
+
+//测试etl的import
+class import2 {
+   
+   getNewInteger(){
+      abc = new NewInteger();
+      return abc;
+   }
+}

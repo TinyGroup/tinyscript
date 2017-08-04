@@ -1,0 +1,16 @@
+import java.text.SimpleDateFormat;
+import java.util.*;
+
+//测试java的import
+class import1 {
+   
+   getFormat(){
+      format = new SimpleDateFormat();
+      return format;
+   }
+   
+   getList(){
+      list = new ArrayList();
+      return list;
+   }
+}

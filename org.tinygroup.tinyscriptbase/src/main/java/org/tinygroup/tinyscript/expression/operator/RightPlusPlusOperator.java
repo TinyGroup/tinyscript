@@ -1,0 +1,45 @@
+/**
+ *  Copyright (c) 1997-2013, www.tinygroup.org (luo_guo@icloud.com).
+ *
+ *  Licensed under the GPL, Version 3.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *       http://www.gnu.org/licenses/gpl.html
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ */
+package org.tinygroup.tinyscript.expression.operator;
+
+import org.tinygroup.tinyscript.ScriptContext;
+import org.tinygroup.tinyscript.ScriptException;
+import org.tinygroup.tinyscript.assignvalue.AssignValueUtil;
+import org.tinygroup.tinyscript.expression.ExpressionUtil;
+import org.tinygroup.tinyscript.expression.OperatorWithContext;
+
+/**
+ * Created by luoguo on 2014/6/8.
+ */
+public class RightPlusPlusOperator implements OperatorWithContext {
+
+    public String getOperation() {
+        return "++";
+    }
+
+    //返回旧值
+	public Object operation(ScriptContext context, String name, Object value)
+			throws ScriptException {
+		Object newValue = ExpressionUtil.executeOperation("+",value,1);
+		try {
+			AssignValueUtil.operate(name, newValue, context);
+		} catch (Exception e) {
+			throw new ScriptException(e);
+		} //执行赋值操作
+		return value;
+	}
+
+}

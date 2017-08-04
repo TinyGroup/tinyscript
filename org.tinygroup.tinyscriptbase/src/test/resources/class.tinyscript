@@ -1,0 +1,16 @@
+package abc.def;
+
+import org.tinygroup.commons.Math;
+import org.tinygroup.ext.*;
+
+class NewMath {
+   num=99,num2=6;
+   
+   add(a,b){
+     return a+b;
+   }
+   
+   add2(a,b){
+     return a+b;
+   }
+}

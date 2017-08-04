@@ -1,0 +1,11 @@
+package java.util;
+
+class NewInteger {
+   
+   value = 6;
+   
+   getValue(){
+     return value;
+   }
+   
+}
