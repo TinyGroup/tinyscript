@@ -37,6 +37,14 @@
 	</scm>
 	<modules>
 		<module>org.tinygroup.tinyscriptbase</module>
+		<module>org.tinygroup.tinyscript.collection</module>
+		<module>org.tinygroup.tinyscript.dataset</module>
+		<module>org.tinygroup.tinyscript.tree</module>
+		<module>org.tinygroup.tinyscript.database</module>
+		<module>org.tinygroup.tinyscript.excel</module>
+		<module>org.tinygroup.tinyscript.text</module>
+		<module>org.tinygroup.tinyscript.datasetwithtree</module>
+		<module>org.tinygroup.tinyscript</module>
 	</modules>
 	<dependencyManagement>
 		<dependencies>
