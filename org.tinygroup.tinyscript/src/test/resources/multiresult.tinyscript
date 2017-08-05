@@ -1,0 +1,14 @@
+
+/* 有些应用场景需要脚本返回多个处理结果 */
+class Example7 {
+    
+    //通过类实例属性存储
+    result1,result2,result3;
+    
+    createMultiResult(){
+       //模拟多个结果
+       result1 = [1,2,3,4,5];
+       result2 = ["R","G","B"];
+       result3 = {"key1":"dog","key2":"cat","key3":"bird"};
+    }
+}

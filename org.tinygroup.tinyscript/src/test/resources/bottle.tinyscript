@@ -1,0 +1,46 @@
+/*
+  1、小明手上有50元钱；
+  2、1元钱可以买一瓶饮料；
+  3、2个空瓶可以兑换一瓶饮料；
+  4、问题是：最终小明可以喝多少瓶饮料；
+*/
+
+class State {
+   // 手中的钱
+   money;
+   // 空瓶数
+   kp;
+   // 喝掉的瓶数
+   totals;
+   
+   //判断流程是否结束
+   isFinish(){
+      if(money==0 && kp<2){
+         return true;
+      }
+      return false;
+   }
+   
+   dowork(){
+     if(money>0){
+       printf("余钱：%d,花1元购买1瓶并喝掉\n",money);
+       money--;
+       kp++;
+       totals++;
+     }
+     if(kp>=2){
+       printf("空瓶数：%d,兑换2个空瓶为1元钱\n",kp);
+       kp = kp-2;
+       money++;
+     }
+   }
+}
+
+s = new State();
+s.money = 50;
+s.kp=0;
+s.totals =0;
+while(!s.isFinish()){
+   s.dowork();
+}
+printf("总喝掉瓶数：%d",s.totals);
