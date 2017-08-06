@@ -324,7 +324,7 @@ public class ParserRuleContextSegment implements ScriptSegment{
 		}
 		
 		public boolean equals(Object obj){
-			ScriptClassMethod method = innerScriptClass.getScriptMethod("hashCode");
+			ScriptClassMethod method = innerScriptClass.getScriptMethod("equals");
 			if(method!=null && method.getParamterNames()!=null && method.getParamterNames().length==1){
 			   try {
 				  return (Boolean) method.execute(scriptContext,obj);
