@@ -16,4 +16,6 @@ public interface ScriptClassInstance {
 	void setField(String fieldName,Object value);
 	
 	Object execute(ScriptContext context,String methodName,Object... parameters) throws ScriptException;
+
+	void setScriptContext(ScriptContext context);
 }

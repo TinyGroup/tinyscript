@@ -76,6 +76,7 @@ public class ClassFieldAssignValueProcessor implements AssignValueProcessor{
 		}
 		if(instance!=null){
 		   instance.setField(fieldName, value);
+		   instance.setScriptContext(context);  //更新上下文
 		}
 	}
 	

@@ -8,12 +8,11 @@ import java.util.Map;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.springframework.util.CollectionUtils;
 import org.tinygroup.commons.tools.StringUtil;
-import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser;
-import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.*;
+import org.tinygroup.context.impl.ContextImpl;
 import org.tinygroup.tinyscript.ScriptClass;
 import org.tinygroup.tinyscript.ScriptClassConstructor;
-import org.tinygroup.tinyscript.ScriptClassInstance;
 import org.tinygroup.tinyscript.ScriptClassField;
+import org.tinygroup.tinyscript.ScriptClassInstance;
 import org.tinygroup.tinyscript.ScriptClassMethod;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptEngine;
@@ -22,6 +21,14 @@ import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.impl.AbstractScriptEngine;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 import org.tinygroup.tinyscript.interpret.exception.ReturnException;
+import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser;
+import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.ClassDeclarationContext;
+import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.CompilationUnitContext;
+import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.FormalParameterContext;
+import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.ImportDeclarationContext;
+import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.MemberDeclarationContext;
+import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.MethodDeclarationContext;
+import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.VariableDeclaratorContext;
 
 /**
  * 通用解析器脚本片段
@@ -206,11 +213,15 @@ public class ParserRuleContextSegment implements ScriptSegment{
 			if(constructors!=null){
 			   for(ScriptClassConstructor constructor:constructors){
 				   if(constructor.isMatch(parameters)){ 
-					  return constructor.newInstance(context, parameters); 
+					  ScriptClassInstance instance = constructor.newInstance(context, parameters);
+					  instance.setScriptContext(context);
+					  return instance; 
 				   }
 			   }
 			}
-			return new InnerScriptClassInstance(this);
+			ScriptClassInstance instance = new InnerScriptClassInstance(this);
+			instance.setScriptContext(context);
+			return instance; 
 		}
 
 		public ScriptSegment getScriptSegment() {
@@ -236,6 +247,7 @@ public class ParserRuleContextSegment implements ScriptSegment{
 
 		private InnerScriptClass innerScriptClass;
 		private Map<String,Object> valueMaps = new HashMap<String,Object>(); //不同实例的类属性值不同，不能共用ScriptClass的类属性，那里只是初始值。
+		private InnerScriptContext  scriptContext;
 		public InnerScriptClassInstance(InnerScriptClass clazz){
 			this.innerScriptClass = clazz;
 			for(ScriptClassField field:innerScriptClass.fieldMaps.values()){
@@ -258,6 +270,11 @@ public class ParserRuleContextSegment implements ScriptSegment{
 			valueMaps.put(fieldName, value);
 		}
 
+		public void setScriptContext(ScriptContext context) {
+			scriptContext = new InnerScriptContext(context);
+			scriptContext.instance = this;
+		}
+		
 		public Object execute(ScriptContext context,String methodName, Object... parameters)
 				throws ScriptException {
 			ScriptClassMethod method = innerScriptClass.getScriptMethod(methodName);
@@ -268,6 +285,15 @@ public class ParserRuleContextSegment implements ScriptSegment{
 		}
 		
 		public String toString() {
+			ScriptClassMethod method = innerScriptClass.getScriptMethod("toString");
+			if(method!=null && (method.getParamterNames()==null || method.getParamterNames().length==0)){
+			   try {
+				  return (String) method.execute(scriptContext);
+			   } catch (ScriptException e) {
+				  throw new RuntimeException(e);
+			   }
+			}
+			//如果不存在用户自定义toString
 			StringBuilder sb = new StringBuilder();
 			sb.append(innerScriptClass.getClassName()).append("[");
 			ScriptClassField[] fields = innerScriptClass.getScriptFields();
@@ -284,6 +310,66 @@ public class ParserRuleContextSegment implements ScriptSegment{
 			return sb.toString();
 		}
 		
+		public int hashCode(){
+			ScriptClassMethod method = innerScriptClass.getScriptMethod("hashCode");
+			if(method!=null && (method.getParamterNames()==null || method.getParamterNames().length==0)){
+			   try {
+				  return (Integer) method.execute(scriptContext);
+			   } catch (ScriptException e) {
+				  throw new RuntimeException(e);
+			   }
+			}
+			//如果不存在用户自定义hashCode
+			return super.hashCode();
+		}
+		
+		public boolean equals(Object obj){
+			ScriptClassMethod method = innerScriptClass.getScriptMethod("hashCode");
+			if(method!=null && method.getParamterNames()!=null && method.getParamterNames().length==1){
+			   try {
+				  return (Boolean) method.execute(scriptContext,obj);
+			   } catch (ScriptException e) {
+				  throw new RuntimeException(e);
+			   }
+			}
+			//如果不存在用户自定义equals
+			return super.equals(obj);
+		}
+		
+	}
+	
+	@SuppressWarnings("serial")
+	class InnerScriptContext extends ContextImpl implements ScriptContext{
+		private ScriptContext scriptContext;
+		private ScriptClassInstance instance;
+		
+		public InnerScriptContext(ScriptContext context){
+			if(context instanceof InnerScriptContext){
+				scriptContext = ((InnerScriptContext)context).getScriptContext();
+			}else{
+				scriptContext = context;
+			}
+		}
+		
+		public ScriptContext  getScriptContext(){
+			return scriptContext;
+		}
+		
+		public boolean exist(String name) {
+	        boolean exist = instance.existField(name);
+	        if (exist) {
+	            return true;
+	        }
+	        return scriptContext.exist(name);
+	    }
+
+	    @SuppressWarnings("unchecked")
+		public <T> T get(String name) {
+	        if (instance.existField(name)) {
+	            return (T) instance.getField(name);
+	        }
+	        return scriptContext.get(name);
+	    }
 	}
 	
 	class InnerScriptClassConstructor implements ScriptClassConstructor{
