@@ -19,7 +19,7 @@ public class DefaultTinyScriptExecutor {
 			return;
 		}
 		//初始化Spring上下文
-		Runner.init("application.xml", null);
+		Runner.init("/application.xml", null);
 		//执行模拟器
 		operator.execute(args);
 	}
