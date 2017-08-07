@@ -12,7 +12,7 @@
         <!-- 如果没有指定语言或指定语言的内容找不到，则从默认语言查找 -->
         <property name="TINY_DEFAULT_LOCALE" value="zh_CN"/>
          <!-- 脚本引擎实例默认bean配置 -->
-        <property name="defaultScriptEngine" value="bean1"/>
+        <property name="defaultScriptEngine" value="bean2"/>
     </application-properties>
     <!-- config-processors节点由 ProcessorLoader处理器处理，如何配置请参考config-processors配置手册，本段配置如果不配置，则应用系统啥也不干 -->
     <!-- greetings信息由org.tinygroup.application.processor.GreetingProcessor处理器处理，如何配置请参考

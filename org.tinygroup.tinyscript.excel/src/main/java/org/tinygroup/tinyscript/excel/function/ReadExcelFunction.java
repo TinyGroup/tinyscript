@@ -11,6 +11,7 @@ import org.tinygroup.tinyscript.dataset.DataSet;
 import org.tinygroup.tinyscript.excel.SheetDataSet;
 import org.tinygroup.tinyscript.excel.util.ExcelUtil;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
+import org.tinygroup.tinyscript.interpret.FileObjectUtil;
 import org.tinygroup.vfs.FileObject;
 import org.tinygroup.vfs.VFS;
 
@@ -56,7 +57,7 @@ public class ReadExcelFunction extends AbstractScriptFunction {
 		Workbook wb = null;
 		FileObject fileObject = null;
 		try {
-			fileObject = VFS.resolveFile(file);
+			fileObject = FileObjectUtil.findFileObject(file, false);
             wb = ExcelUtil.readWorkbook(fileObject);
         
             if(name!=null){

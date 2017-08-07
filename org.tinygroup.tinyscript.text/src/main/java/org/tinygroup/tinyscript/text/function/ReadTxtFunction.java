@@ -1,7 +1,6 @@
 package org.tinygroup.tinyscript.text.function;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +13,8 @@ import org.tinygroup.tinyscript.dataset.DataSet;
 import org.tinygroup.tinyscript.dataset.Field;
 import org.tinygroup.tinyscript.dataset.util.DataSetUtil;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
+import org.tinygroup.tinyscript.interpret.FileObjectUtil;
+import org.tinygroup.vfs.FileObject;
 
 /**
  * 增加读取char(9)分割记录，char(10)/char(13)换行的文本记录
@@ -50,10 +51,13 @@ public class ReadTxtFunction extends AbstractScriptFunction {
 		   encode = "utf-8";
 		}
 		BufferedReader reader = null;
-		FileInputStream fis = null;
+		FileObject fileObject = null;
 		try{
-			fis = new FileInputStream(path);
-			reader = new BufferedReader(new InputStreamReader(fis,encode));
+			fileObject = FileObjectUtil.findFileObject(path, false);
+			if(fileObject==null){
+			   throw new ScriptException(String.format("查找资源[%s]失败!", path));
+			}
+			reader = new BufferedReader(new InputStreamReader(fileObject.getInputStream(),encode));
 			
 			List<Field> fields = new ArrayList<Field>();
 			List<String[]> values = new ArrayList<String[]>();
@@ -86,8 +90,8 @@ public class ReadTxtFunction extends AbstractScriptFunction {
 			//返回数据集
             return DataSetUtil.createDynamicDataSet(fields, dataArray,getScriptEngine().isIndexFromOne());
 		}finally{
-			if(fis!=null){
-			   fis.close();	
+			if(fileObject!=null){
+			   fileObject.clean();	
 			}
 			if(reader!=null){
 				reader.close();	

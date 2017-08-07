@@ -31,7 +31,8 @@ class Model{
 
 //具体执行逻辑
 model = new Model();
-model.printDataSet("src/test/resources/Orders.txt");
+model.printDataSet("/Orders.txt");
+//model.printDataSet("D:/workspace/tinyscript/org.tinygroup.tinyscript/src/test/resources/Orders.txt");
 model.printList();
 array = model.createArray();
 for(s:array){

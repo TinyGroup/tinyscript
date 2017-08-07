@@ -48,7 +48,7 @@ public class ScriptEngineFactoryTest {
 		
 		//测试全局参数defaultScriptEngine
 		engine = ScriptEngineFactory.createByBean();
-		Assert.assertEquals(DefaultComputeEngine.class, engine.getClass());
-		Assert.assertEquals(false, engine.isIndexFromOne());
+		Assert.assertEquals(DefaultScriptEngine.class, engine.getClass());
+		Assert.assertEquals(true, engine.isIndexFromOne());
 	}
 }

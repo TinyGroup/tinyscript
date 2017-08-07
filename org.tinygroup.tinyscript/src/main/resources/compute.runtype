@@ -1,5 +1,8 @@
 <runtypes>
-	<!-- 调用集算器执行器TinyTemplateExecutor模拟如下后缀的脚本片段-->
+	<!-- 调用脚本引擎运行器
 	<runtype extension="tinyscript" class="org.tinygroup.tinyscript.executor.ComputeEngineExecutor" />
 	<runtype extension="ts" class="org.tinygroup.tinyscript.executor.ComputeEngineExecutor" />
+	-->
+	<runtype extension="tinyscript" class="org.tinygroup.tinyscript.executor.DefaultTinyScriptExecutor" />
+	<runtype extension="ts" class="org.tinygroup.tinyscript.executor.DefaultTinyScriptExecutor" />
 </runtypes>
