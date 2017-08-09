@@ -29,6 +29,8 @@ import org.tinygroup.tinyscript.interpret.call.JavaMethodUtil;
 import org.tinygroup.tinyscript.interpret.call.MethodParameterRule;
 import org.tinygroup.tinyscript.interpret.newinstance.ConstructorParameterRule;
 import org.tinygroup.tinyscript.interpret.newinstance.JavaConstructorUtil;
+import org.tinygroup.tinyscript.interpret.sql.SqlProcessor;
+import org.tinygroup.tinyscript.interpret.sql.SqlUtil;
 import org.tinygroup.tinyscript.objectitem.ObjectItemProcessor;
 import org.tinygroup.tinyscript.objectitem.ObjectItemUtil;
 
@@ -199,6 +201,16 @@ public class DefaultScriptEngineBuilder extends AbstractScriptEngineBuilder{
 		   Iterator<ObjectItemProcessor> it = c.iterator();
 		   while(it.hasNext()){
 			   ObjectItemUtil.addObjectItemProcessor(it.next());
+		   }
+		}
+	}
+
+	protected void registerSqlProcessor() throws ScriptException {
+		Collection<SqlProcessor> c = BeanContainerFactory.getBeanContainer(getClass().getClassLoader()).getBeans(SqlProcessor.class);
+		if(c!=null && !c.isEmpty()){
+		   Iterator<SqlProcessor> it = c.iterator();
+		   while(it.hasNext()){
+			   SqlUtil.addSqlProcessor(it.next());
 		   }
 		}
 	}

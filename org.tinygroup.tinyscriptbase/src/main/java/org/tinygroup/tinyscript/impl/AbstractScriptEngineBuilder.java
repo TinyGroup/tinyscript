@@ -37,6 +37,7 @@ public abstract class AbstractScriptEngineBuilder implements ScriptEngineBuilder
 		registerMethodParameterRule();
 		registerConstructorParameterRule();
 		registerObjectItemProcessor();
+		registerSqlProcessor();
 	}
 
 	/**
@@ -135,4 +136,10 @@ public abstract class AbstractScriptEngineBuilder implements ScriptEngineBuilder
 	 * @throws ScriptException
 	 */
 	protected abstract void registerObjectItemProcessor() throws ScriptException;
+	
+	/**
+	 * 注册SQL处理器
+	 * @throws ScriptException
+	 */
+	protected abstract void registerSqlProcessor() throws ScriptException;
 }

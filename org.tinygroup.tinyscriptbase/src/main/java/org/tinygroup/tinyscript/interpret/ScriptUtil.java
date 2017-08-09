@@ -98,6 +98,7 @@ public final class ScriptUtil {
 		defaultInterpret.addContextProcessor(new MathLogicalConnectProcessor());
 		defaultInterpret.addContextProcessor(new InstanceofContextProcessor());
 		defaultInterpret.addContextProcessor(new LambdaExpressionContextProcessor());
+		defaultInterpret.addContextProcessor(new SqlScriptExpressionContextProcessor());
 
 	}
 

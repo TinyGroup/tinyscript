@@ -209,8 +209,7 @@ lambdaBody
 	  ;
 	
 expression
-    :   Identifier '@' SqlString '@'                       #sqlExpression
-    |   primary                                                     #primaryExpression
+    :   primary                                                     #primaryExpression
     |   lambdaParameters '->' lambdaBody                            #lambdaExpression                               
     |   expression ('.') Identifier '(' expressionList? ')'         #functionCallExpression
     |   expression ('.') Identifier                                 #fieldAccessExpression
@@ -233,8 +232,9 @@ expression
     |   expression '|' expression                                   #mathBinaryBitwise
     |   expression '&&' expression                                  #logicalConnectExpression
     |   expression '||' expression                                  #logicalConnectExpression
-    |   expression 'instanceof' expression                                  #instanceofExpression
+    |   expression 'instanceof' expression                          #instanceofExpression
     |   expression '?' expression ':' expression                    #conditionalTernaryExpression
+    |   expression CUSTOM_SCRIPT                                    #sqlScriptExpression
     |   <assoc=right> expression
         (   '='
         |   '+='
@@ -556,15 +556,11 @@ StringCharacters
     :   StringCharacter+
     ;
 
+
 fragment
 StringCharacter
     :   ~["\\]
     |   EscapeSequence
-    ;
-
-fragment
-SqlString
-    :   .*
     ;
 
 // §3.10.6 Escape Sequences for Character and String Literals
@@ -607,8 +603,6 @@ LBRACE          : '{';
 RBRACE          : '}';
 LBRACK          : '[';
 RBRACK          : ']';
-LLBRACK          : '[*';
-RRBRACK          : '*]';
 SEMI            : ';';
 COMMA           : ',';
 DOT             : '.';
@@ -651,6 +645,8 @@ MOD_ASSIGN      : '%=';
 LSHIFT_ASSIGN   : '<<=';
 RSHIFT_ASSIGN   : '>>=';
 URSHIFT_ASSIGN  : '>>>=';
+CUSTOM_SCRIPT_START  : '[[';
+CUSTOM_SCRIPT_END  : ']]';
 
 // §3.8 Identifiers (must appear after all keywords in the grammar)
 
@@ -693,6 +689,10 @@ ELLIPSIS : '...';
 //
 
 WS  :  [ \t\r\n\u000C]+ -> skip
+    ;
+
+CUSTOM_SCRIPT
+    :   ('[[') .*? (']]')
     ;
 
 COMMENT
