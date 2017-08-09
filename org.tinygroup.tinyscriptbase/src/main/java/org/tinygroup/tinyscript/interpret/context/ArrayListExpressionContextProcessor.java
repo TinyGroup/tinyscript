@@ -6,6 +6,7 @@ import java.util.List;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
+import org.tinygroup.tinyscript.expression.ExpressionUtil;
 import org.tinygroup.tinyscript.interpret.ParserRuleContextProcessor;
 import org.tinygroup.tinyscript.interpret.ScriptInterpret;
 import org.tinygroup.tinyscript.interpret.ScriptResult;
@@ -29,6 +30,13 @@ public class ArrayListExpressionContextProcessor implements ParserRuleContextPro
 		    		if(expressionContext!=null){
 		    			paraList.add(interpret.interpretParseTreeValue(expressionContext, segment, context));
 		    		}
+		    	}
+		    }else if(parseTree.expressionRange()!=null){
+		    	Object left = interpret.interpretParseTreeValue(parseTree.expressionRange().getChild(0), segment, context);
+		    	Object right = interpret.interpretParseTreeValue(parseTree.expressionRange().getChild(2), segment, context);
+		    	List<Object> result = ExpressionUtil.createRange(left, right);
+		    	if(result!=null){
+		    	   paraList.addAll(result);
 		    	}
 		    }
 		}catch(Exception e){

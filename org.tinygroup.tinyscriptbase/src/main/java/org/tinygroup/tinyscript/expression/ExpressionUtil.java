@@ -16,6 +16,7 @@ import org.tinygroup.tinyscript.expression.calculator.*;
 import org.tinygroup.tinyscript.expression.convert.*;
 import org.tinygroup.tinyscript.expression.iteratorconvert.*;
 import org.tinygroup.tinyscript.expression.operator.*;
+import org.tinygroup.tinyscript.expression.range.*;
 
 /**
  * 表达式工具类
@@ -38,6 +39,7 @@ public final class ExpressionUtil {
 	private static List<BooleanConverter> booleanConverters = new ArrayList<BooleanConverter>();
 	private static List<IteratorConverter> iteratorConverters = new ArrayList<IteratorConverter>();
 	private static Map<String,NumberCalculator> numberCalculatorMap = new HashMap<String,NumberCalculator>();
+	private static List<RangeOperator> rangeOperators = new ArrayList<RangeOperator>();
     
 	static {
         typeMap.put(Byte.class, 0);
@@ -147,6 +149,11 @@ public final class ExpressionUtil {
         addNumberCalculator(new VarianceCalculator());
         addNumberCalculator(new CountCalculator());
         addNumberCalculator(new DistinctCalculator());
+        
+        //添加range处理器
+        addRangeOperator(new IntegerRangeOperator());
+        addRangeOperator(new LongRangeOperator());
+        addRangeOperator(new CharRangeOperator());
     }
 	
 	@SuppressWarnings("unchecked")
@@ -432,5 +439,26 @@ public final class ExpressionUtil {
     	   result.add(tempList);
     	}
     	return result;
+    }
+    
+    public static void addRangeOperator(RangeOperator operator){
+    	for(RangeOperator rangeOperator:rangeOperators){
+    	    if(rangeOperator.equals(operator) || rangeOperator.getClass().isInstance(operator)){
+    	       return;
+    	    }
+    	}
+    	rangeOperators.add(operator);
+    }
+    
+    public static List<Object> createRange(Object start,Object end) throws ScriptException{
+    	if(start==null || end==null || !start.getClass().equals(end.getClass())){
+    	   throw new ScriptException("创建range失败:元素为null或者类型不一致!");
+    	}
+    	for(RangeOperator rangeOperator:rangeOperators){
+    	    if(rangeOperator.isMatch(start)){
+    	       return rangeOperator.createRange(start, end);
+    	    }
+    	}
+    	return null;
     }
 }

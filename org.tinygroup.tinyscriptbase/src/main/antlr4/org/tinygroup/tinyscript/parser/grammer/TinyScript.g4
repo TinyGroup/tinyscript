@@ -185,6 +185,10 @@ parExpression
 expressionList
     :   expression (',' expression)*
     ;
+    
+expressionRange
+    :   expression '..' expression 
+    ;
 
 statementExpression
     :   expression
@@ -193,9 +197,7 @@ statementExpression
 constantExpression
     :   expression
     ;
-rangeExpression
-    :   IntegerLiteral '..' IntegerLiteral
-    ;
+
 
 lambdaParameters
 	  :	Identifier '(' expressionList? ')'
@@ -217,7 +219,7 @@ expression
     |   expression '[' expression ']'                               #arrayItemExpression
     |   '{' expressionList? '}'                                     #arrayExpression
     |   '{' mapEntryList? '}'                                       #mapExpression
-    |   '[' expressionList? ']'                                     #arrayListExpression
+    |   '[' (expressionList|expressionRange)? ']'                   #arrayListExpression
     |   creator                                                     #newExpression
     |   expression ('++' | '--')                                    #singleRightExpression
     |   ('++'|'--') expression                                      #singleLeftExpression
