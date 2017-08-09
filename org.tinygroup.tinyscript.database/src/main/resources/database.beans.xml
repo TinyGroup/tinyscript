@@ -12,5 +12,9 @@
           class="org.tinygroup.tinyscript.database.function.QuerySqlFunction"> 
     </bean>
     
+    <bean id="jDBCNamedSqlProcessor" scope="singleton"
+          class="org.tinygroup.tinyscript.database.sql.JDBCNamedSqlProcessor"> 
+    </bean>
+    
     
 </beans>

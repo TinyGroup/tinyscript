@@ -12,5 +12,10 @@
             <artifactId>org.tinygroup.tinyscript.dataset</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.tinygroup</groupId>
+            <artifactId>org.tinygroup.parsedsql</artifactId>
+            <version>${tiny_version}</version>
+        </dependency>
     </dependencies>
 </project>
