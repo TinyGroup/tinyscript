@@ -9,6 +9,7 @@ import org.tinygroup.tinyscript.collection.function.math.*;
 import org.tinygroup.tinyscript.collection.function.set.*;
 import org.tinygroup.tinyscript.collection.objectitem.*;
 import org.tinygroup.tinyscript.database.function.*;
+import org.tinygroup.tinyscript.database.sql.*;
 import org.tinygroup.tinyscript.dataset.attribute.*;
 import org.tinygroup.tinyscript.dataset.function.*;
 import org.tinygroup.tinyscript.dataset.objectitem.*;
@@ -27,6 +28,8 @@ import org.tinygroup.tinyscript.impl.DefaultScriptEngine;
 import org.tinygroup.tinyscript.interpret.AttributeProcessor;
 import org.tinygroup.tinyscript.interpret.AttributeUtil;
 import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
+import org.tinygroup.tinyscript.interpret.sql.SqlProcessor;
+import org.tinygroup.tinyscript.interpret.sql.SqlUtil;
 import org.tinygroup.tinyscript.objectitem.ObjectItemProcessor;
 import org.tinygroup.tinyscript.objectitem.ObjectItemUtil;
 
@@ -52,6 +55,8 @@ public class DefaultComputeEngine extends DefaultScriptEngine implements Compute
 	private static Operator subtractOperator = new SubtractOperator();
 	private static Operator intersectionOperator = new IntersectionOperator();
 	private static Operator xorOperator = new XorOperator();
+	
+	private static SqlProcessor jDBCNamedSqlProcessor = new JDBCNamedSqlProcessor();
 	
 	public DefaultComputeEngine() throws ScriptException {
 		super();
@@ -151,6 +156,9 @@ public class DefaultComputeEngine extends DefaultScriptEngine implements Compute
 		ExpressionUtil.addOperator(subtractOperator);
 		ExpressionUtil.addOperator(intersectionOperator);
 		ExpressionUtil.addOperator(xorOperator);
+		
+		//注册sql处理器
+		SqlUtil.addSqlProcessor(jDBCNamedSqlProcessor);
 	}
 	
 }
