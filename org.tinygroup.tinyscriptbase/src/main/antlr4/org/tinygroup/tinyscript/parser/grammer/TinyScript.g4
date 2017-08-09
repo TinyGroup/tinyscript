@@ -209,7 +209,8 @@ lambdaBody
 	  ;
 	
 expression
-    :   primary                                                     #primaryExpression
+    :   Identifier '@' SqlString '@'                       #sqlExpression
+    |   primary                                                     #primaryExpression
     |   lambdaParameters '->' lambdaBody                            #lambdaExpression                               
     |   expression ('.') Identifier '(' expressionList? ')'         #functionCallExpression
     |   expression ('.') Identifier                                 #fieldAccessExpression
@@ -561,6 +562,11 @@ StringCharacter
     |   EscapeSequence
     ;
 
+fragment
+SqlString
+    :   .*
+    ;
+
 // §3.10.6 Escape Sequences for Character and String Literals
 
 fragment
@@ -601,6 +607,8 @@ LBRACE          : '{';
 RBRACE          : '}';
 LBRACK          : '[';
 RBRACK          : ']';
+LLBRACK          : '[*';
+RRBRACK          : '*]';
 SEMI            : ';';
 COMMA           : ',';
 DOT             : '.';
