@@ -70,10 +70,13 @@ public class DataSetUpdateFunction extends AbstractScriptFunction {
 			expression = DataSetUtil.convertExpression(expression);
 
 			Object function = null;
-			if (expression.startsWith("("))
-				function = ((FunctionCallExpressionParameter) (parameter)).eval();
-			else
+			if (expression.indexOf("->")>0){
+			    function = ((FunctionCallExpressionParameter) (parameter)).eval();
+			}
+			else{
 				function = expression;
+			}
+				
 
 			if (dataSet instanceof GroupDataSet) {
 				GroupDataSet groupDataSet = (GroupDataSet) dataSet;

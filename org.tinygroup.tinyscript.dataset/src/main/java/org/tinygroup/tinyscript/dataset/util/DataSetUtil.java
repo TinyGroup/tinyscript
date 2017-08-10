@@ -375,8 +375,9 @@ public final class DataSetUtil {
 	 * @return
 	 */
 	public static String convertExpression(String expression) {
-		if (expression.startsWith("("))
+		if (expression.indexOf("->")>0){
 			return expression;
+		}
 		if (!expression.startsWith("return")) {
 			expression = "return " + expression;
 		}
