@@ -6,24 +6,24 @@ import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.interpret.ParserRuleContextProcessor;
 import org.tinygroup.tinyscript.interpret.ScriptInterpret;
 import org.tinygroup.tinyscript.interpret.ScriptResult;
-import org.tinygroup.tinyscript.interpret.sql.SqlUtil;
+import org.tinygroup.tinyscript.interpret.custom.CustomUtil;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser;
-import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.SqlScriptExpressionContext;
+import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.CustomScriptExpressionContext;
 
-public class SqlScriptExpressionContextProcessor implements ParserRuleContextProcessor<TinyScriptParser.SqlScriptExpressionContext>{
+public class CustomScriptExpressionContextProcessor implements ParserRuleContextProcessor<TinyScriptParser.CustomScriptExpressionContext>{
 
-	public Class<SqlScriptExpressionContext> getType() {
-		return SqlScriptExpressionContext.class;
+	public Class<CustomScriptExpressionContext> getType() {
+		return CustomScriptExpressionContext.class;
 	}
 
-	public ScriptResult process(SqlScriptExpressionContext parseTree,
+	public ScriptResult process(CustomScriptExpressionContext parseTree,
 			ScriptInterpret interpret, ScriptSegment segment,
 			ScriptContext context) throws Exception {
 		try{
 			 Object sqlObj = interpret.interpretParseTreeValue(parseTree.getChild(0), segment, context);
 			 String sql = parseTree.getChild(1).getText();
 			 sql = sql.substring(2, sql.length()-2); //去掉[[ ]]
-			 Object value = SqlUtil.executeSql(sqlObj, sql, context);
+			 Object value = CustomUtil.executeRule(sqlObj, sql, context);
 			 if(value!=null && value instanceof ScriptResult){
 			    return (ScriptResult) value;
 			 }
