@@ -12,10 +12,10 @@ import org.tinygroup.parsedsql.impl.SimpleJDBCNamedSqlExecutor;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.database.SqlRowSetDataSet;
-import org.tinygroup.tinyscript.interpret.sql.SqlProcessor;
+import org.tinygroup.tinyscript.interpret.custom.CustomProcessor;
 
 
-public abstract class AbstractParsedSqlProcessor implements SqlProcessor{
+public abstract class AbstractParsedSqlProcessor implements CustomProcessor{
 
 	private static final  String DB_TYPE = "defaultDB";
 	

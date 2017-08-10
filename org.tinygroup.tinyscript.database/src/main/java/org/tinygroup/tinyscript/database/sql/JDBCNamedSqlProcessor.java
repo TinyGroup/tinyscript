@@ -11,7 +11,7 @@ public class JDBCNamedSqlProcessor extends AbstractParsedSqlProcessor{
 		return sqlObj instanceof DataSource;
 	}
 
-	public Object executeSql(Object sqlObj, String sql, ScriptContext context)
+	public Object executeRule(Object sqlObj, String sql, ScriptContext context)
 			throws ScriptException {
 		DataSource dataSource = (DataSource) sqlObj;
 		return executeByDataSource(dataSource, sql, context);
