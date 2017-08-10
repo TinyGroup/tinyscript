@@ -54,4 +54,19 @@ public class SetModel extends AbstractScriptCollectionModel{
 	}
 
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public Object getAttribute(Object object, Object name)
+			throws ScriptException {
+		//遍历集合
+		Set set  = (Set) object;
+		Set result = new HashSet();
+		Iterator it = set.iterator();
+		while(it.hasNext()){
+			Object item = it.next();
+			result.add(findAttribute(item,name));
+		}
+	    return result;
+	}
+
+
 }

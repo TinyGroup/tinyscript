@@ -1,13 +1,14 @@
 package org.tinygroup.tinyscript;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.tinygroup.tinyscript.ScriptEngine;
+import junit.framework.TestCase;
+
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 import org.tinygroup.tinyscript.impl.DefaultScriptEngine;
-
-import junit.framework.TestCase;
 
 /**
  * 测试脚本引擎的集合功能
@@ -51,8 +52,21 @@ public class CollectionTest extends TestCase {
 		List girls = (List) list.get(1);
 		assertEquals("TOM", boys.get(0));
 		assertEquals("MEIMEI", girls.get(0));
+		
+		//测试集合的递归子元素属性
+		List<User> users = new ArrayList<User>();
+		users.add(new User("hello"));
+		users.add(new User("tom"));
+		users.add(new User("none"));
+		ScriptContext context = new DefaultScriptContext();
+		context.put("users", users);
+		list = (List) scriptEngine.execute("return users.name;",context);
+		assertEquals("hello", list.get(0));
+		assertEquals("tom", list.get(1));
+		assertEquals("none", list.get(2));
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void testMap() throws Exception {
 		Map map = (Map) scriptEngine
 				.execute("map = new java.util.HashMap(); return map;");
@@ -70,6 +84,20 @@ public class CollectionTest extends TestCase {
 				.execute("map = {\"key1\":\"english\",\"key2\":\"china\"}; return map.substring(2);");
 		assertEquals("glish", map.get("key1"));
 		assertEquals("ina", map.get("key2"));
+		
+		//测试集合key优先于子元素属性
+		assertEquals(15, scriptEngine.execute("map = {\"key1\":12+3,\"key2\":\"china\"}; return map.key1;"));
+		
+		//测试遍历子元素属性
+		ScriptContext context = new DefaultScriptContext();
+		Map smap = new HashMap();
+		smap.put("user1", new User("hello"));
+		smap.put("user2", new User("world"));
+		context.put("smap", smap);
+		map = (Map) scriptEngine
+				.execute(" return smap.name;",context);
+		assertEquals("hello", map.get("user1"));
+		assertEquals("world", map.get("user2"));
 
 	}
 	
@@ -84,6 +112,18 @@ public class CollectionTest extends TestCase {
 		//测试空数组
 		array = (Object[]) scriptEngine.execute("array = {}; return array;");
 		assertEquals(0, array.length);
+		
+		//测试数组的遍历子属性
+		ScriptContext context = new DefaultScriptContext();
+		User[] users = new User[3];
+		users[0] = new User("hello");
+		users[1] = new User("tom");
+		users[2] = new User("none");
+		context.put("users", users);
+		array = (Object[]) scriptEngine.execute(" return users.name;",context);
+		assertEquals("hello", array[0]);
+		assertEquals("tom", array[1]);
+		assertEquals("none",array[2]);
 	}
 
 	public void testUser() throws Exception {

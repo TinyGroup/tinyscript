@@ -37,4 +37,13 @@ public interface ScriptCollectionModel {
 	 Object executeFunction(ScriptSegment segment,
 				ScriptContext context, Object object, String methodName,
 				Object... parameters) throws ScriptException;
+	 
+	 /**
+	  * 获取对象属性
+	  * @param object
+	  * @param name
+	  * @return
+	  * @throws ScriptException
+	  */
+	 Object getAttribute(Object object, Object name) throws ScriptException;
 }

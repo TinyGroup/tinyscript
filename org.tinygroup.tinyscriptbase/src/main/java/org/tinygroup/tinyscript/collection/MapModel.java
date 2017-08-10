@@ -50,5 +50,18 @@ public class MapModel extends AbstractScriptCollectionModel{
 		return result;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public Object getAttribute(Object object, Object name)
+			throws ScriptException {
+		//遍历集合
+		Map map= (Map) object;
+		Map result = new HashMap();
+		for(Object key:map.keySet()){
+			Object item = map.get(key); //集合元素作为第一个参数
+		    result.put(key, findAttribute(item,name));
+		}
+		return result;
+	}
+
 
 }

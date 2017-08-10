@@ -51,5 +51,18 @@ public class ListModel extends AbstractScriptCollectionModel{
 		return result;
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public Object getAttribute(Object object, Object name)
+			throws ScriptException {
+		List list  = (List) object;
+		List result = new ArrayList();
+		Iterator it = list.iterator();
+		while(it.hasNext()){
+			Object item = it.next(); //集合元素作为第一个参数
+			result.add(findAttribute(item,name));
+		}
+		return result;
+	}
+
 
 }

@@ -4,6 +4,7 @@ import org.tinygroup.tinyscript.ScriptCollectionModel;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
+import org.tinygroup.tinyscript.interpret.AttributeUtil;
 import org.tinygroup.tinyscript.interpret.FunctionCallUtil;
 
 /**
@@ -18,6 +19,16 @@ public abstract class AbstractScriptCollectionModel implements ScriptCollectionM
 			Object... parameters) throws ScriptException{
 		try {
 			return FunctionCallUtil.operate(segment, context, object, methodName, parameters);
+		} catch (ScriptException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new ScriptException(e);
+		}
+	}
+	
+	protected Object findAttribute(Object object, Object name) throws ScriptException{
+		try {
+			return AttributeUtil.getAttribute(object, name);
 		} catch (ScriptException e) {
 			throw e;
 		} catch (Exception e) {

@@ -2,6 +2,8 @@ package org.tinygroup.tinyscript.interpret.attribute;
 
 import java.util.Map;
 
+import org.tinygroup.tinyscript.ScriptCollectionModel;
+import org.tinygroup.tinyscript.collection.CollectionModelUtil;
 import org.tinygroup.tinyscript.interpret.AttributeProcessor;
 
 /**
@@ -15,9 +17,17 @@ public class MapAttributeProcessor implements AttributeProcessor{
 		return object instanceof Map;
 	}
 
+	@SuppressWarnings("rawtypes")
 	public Object getAttribute(Object object, Object name) throws Exception {
 		Map map = (Map) object;
-		return map.get(name);
+		if(map.containsKey(name)){
+		   //优先走map键值逻辑
+		   return map.get(name);
+		}else{
+		   //调用子元素的调用逻辑
+		   ScriptCollectionModel model = CollectionModelUtil.getScriptCollectionModel(object);
+		   return model.getAttribute(object, name);
+		}
 	}
 
 }

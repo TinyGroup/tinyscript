@@ -44,4 +44,14 @@ public class ArrayModel extends AbstractScriptCollectionModel{
 		return result;
 	}
 
+	public Object getAttribute(Object object, Object name)
+			throws ScriptException {
+		Object[] result = new Object[Array.getLength(object)];
+		for(int i=0;i<result.length;i++){
+			Object item = Array.get(object, i);
+			result[i] = findAttribute(item,name);
+		}
+		return result;
+	}
+
 }

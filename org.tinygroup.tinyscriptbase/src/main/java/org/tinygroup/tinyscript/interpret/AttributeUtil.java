@@ -23,6 +23,7 @@ public final class AttributeUtil {
 	static{
 		addAttributeProcessor(new MapAttributeProcessor());
 		addAttributeProcessor(new ArrayLengthProcessor());
+		addAttributeProcessor(new ScriptCollectionModelAttributeProcessor());
 		addAttributeProcessor(new ScriptClassInstanceAttributeProcessor());
 		addAttributeProcessor(new MethodAttributeProcessor());
 		addAttributeProcessor(new FieldAttributeProcessor());
