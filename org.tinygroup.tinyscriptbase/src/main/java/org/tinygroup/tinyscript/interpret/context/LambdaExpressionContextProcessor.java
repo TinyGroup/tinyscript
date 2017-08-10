@@ -1,11 +1,12 @@
 package org.tinygroup.tinyscript.interpret.context;
 
 import java.util.List;
+import java.util.Map;
 
+import org.tinygroup.context.Context;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
-import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 import org.tinygroup.tinyscript.interpret.LambdaFunction;
 import org.tinygroup.tinyscript.interpret.ParserRuleContextProcessor;
 import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
@@ -104,6 +105,7 @@ public class LambdaExpressionContextProcessor implements ParserRuleContextProces
 				try{
 					return executeLambda(context);
 				}finally{
+					synValue(context);
 					for(int i=0;i<parameterNames.length;i++){
 						context.getItemMap().remove(parameterNames[i]);
 					}
@@ -113,6 +115,49 @@ public class LambdaExpressionContextProcessor implements ParserRuleContextProces
 				throw new ScriptException("执行lambda函数发生异常:参数列表与定义不一致");
 			}
 			
+		}
+		
+		/**
+		 * 同步当前上下文的值到外层上下文(严格来说破坏了lambda闭包特性)
+		 * @param context
+		 */
+		private void synValue(ScriptContext context){
+			Map<String, Object> map = context.getItemMap();
+			
+			for(String key:map.keySet()){
+		        if(checkKey(key)){
+		        	Map<String, Object> parentMap = findItemMap(context.getParent(), key);
+					if(parentMap!=null){
+					   parentMap.put(key, map.get(key));
+					}
+		        }
+			}
+		}
+		
+		/**
+		 * 非用户定义的key需要排除
+		 * @param key
+		 * @return
+		 */
+		private boolean checkKey(String key){
+			return !key.startsWith("$");
+		}
+		
+		/**
+		 * 自下往上递归查询包含key值的itemMap
+		 * @param context
+		 * @param key
+		 * @return
+		 */
+		private Map<String, Object> findItemMap(Context context,String key){
+			if(context!= null){
+			   if(context.getItemMap().containsKey(key)){
+				  return context.getItemMap();
+			   }else{
+				  return findItemMap(context.getParent(),key);
+			   }
+			}
+			return null;
 		}
 		
 		private ScriptResult executeLambda(ScriptContext context) throws Exception{
