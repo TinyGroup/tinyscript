@@ -33,10 +33,21 @@ public class CombinationFunction extends AbstractScriptFunction {
         	if(parameters == null || parameters.length == 0){
 			   throw new ScriptException(String.format("%s函数的参数为空!", getNames()));
 			}else if(checkParameters(parameters, 2)){
+				//默认实现Cmm(m=n)
 				Collection c = (Collection) parameters[0];
 				LambdaFunction function = (LambdaFunction) parameters[1];
 				Object[] source = new ArrayList(c).toArray();
 			    return getCombinations(source,function,context);
+			}else if(checkParameters(parameters, 3)){
+				//实现Cmn(用户需要指定n)
+				Collection c = (Collection) parameters[0];
+				Integer length = (Integer) parameters[1];
+				if(length<1 || length>c.size()){
+					throw new ScriptException(String.format("%s函数的参数格式不正确:length超出正常范围", getNames(),length));
+				}
+				LambdaFunction function = (LambdaFunction) parameters[2];
+				Object[] source = new ArrayList(c).toArray();
+			    return getCombinations(source,function,context,length);
 			}
         	throw new ScriptException(String.format("%s函数的参数格式不正确!", getNames()));
         }catch(ScriptException e){
@@ -44,6 +55,12 @@ public class CombinationFunction extends AbstractScriptFunction {
 		}catch(Exception e){
 			throw new ScriptException(String.format("%s函数执行发生异常:", getNames()),e);
 		}
+	}
+	
+	protected ScriptResult getCombinations(Object[] source,LambdaFunction function,ScriptContext context,int len) throws Exception{
+		List<Object> temp = new ArrayList<Object>();
+		getCombinations(function,context,source,temp,0,len);
+		return ScriptResult.VOID_RESULT;
 	}
 	
 	protected ScriptResult getCombinations(Object[] source,LambdaFunction function,ScriptContext context) throws Exception{

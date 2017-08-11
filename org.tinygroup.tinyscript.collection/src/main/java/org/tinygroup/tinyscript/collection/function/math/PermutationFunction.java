@@ -32,9 +32,17 @@ public class PermutationFunction extends AbstractScriptFunction {
 		try{
         	if(parameters == null || parameters.length == 0){
 			   throw new ScriptException(String.format("%s函数的参数为空!", getNames()));
+			}else if(checkParameters(parameters, 2)){
+				Collection c = (Collection) parameters[0];
+				LambdaFunction function = (LambdaFunction) parameters[1];
+				Object[] source = new ArrayList(c).toArray();
+				return getPermutations(function,context,source,source.length);
 			}else if(checkParameters(parameters, 3)){
 				Collection c = (Collection) parameters[0];
 				Integer length = (Integer) parameters[1];
+				if(length<1){
+					throw new ScriptException(String.format("%s函数的参数格式不正确:length超出正常范围", getNames(),length));
+				}
 				LambdaFunction function = (LambdaFunction) parameters[2];
 				Object[] source = new ArrayList(c).toArray();
 				return getPermutations(function,context,source,length);
