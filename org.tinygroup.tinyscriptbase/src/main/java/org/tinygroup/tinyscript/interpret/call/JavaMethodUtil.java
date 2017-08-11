@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.MethodUtils;
 import org.tinygroup.tinyscript.ScriptContext;
 
 /**
@@ -133,6 +134,30 @@ public class JavaMethodUtil {
 		   return type.isInstance(value);
 		}
 	}
+	
+	/**
+	 * 调用克隆方法
+	 * @param object
+	 * @return
+	 * @throws Exception
+	 */
+	public static Object clone(Object object) throws Exception{
+		return MethodUtils.invokeMethod(object, "clone", null);
+	}
+	
+	/**
+	 * 安全调用克隆方法
+	 * @param object
+	 * @return
+	 */
+	public static Object safeClone(Object object) {
+		try {
+			return clone(object);
+		} catch (Exception e) {
+			return object;
+		}
+	}
+	
 	
 	 /**
 	  * 判断是否匹配当前java方法

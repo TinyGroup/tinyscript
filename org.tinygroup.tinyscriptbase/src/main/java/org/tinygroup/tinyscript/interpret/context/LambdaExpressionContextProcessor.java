@@ -12,6 +12,7 @@ import org.tinygroup.tinyscript.interpret.ParserRuleContextProcessor;
 import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
 import org.tinygroup.tinyscript.interpret.ScriptInterpret;
 import org.tinygroup.tinyscript.interpret.ScriptResult;
+import org.tinygroup.tinyscript.interpret.call.JavaMethodUtil;
 import org.tinygroup.tinyscript.interpret.exception.ReturnException;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.ExpressionContext;
@@ -100,15 +101,12 @@ public class LambdaExpressionContextProcessor implements ParserRuleContextProces
 				return executeLambda(context);
 			}else if(parameterNames!=null && parameters!=null && parameterNames.length==parameters.length){
 				for(int i=0;i<parameterNames.length;i++){
-					context.getItemMap().put(parameterNames[i], parameters[i]);
+					context.getItemMap().put(parameterNames[i], JavaMethodUtil.safeClone(parameters[i]));
 				}
 				try{
 					return executeLambda(context);
 				}finally{
 					synValue(context);
-					for(int i=0;i<parameterNames.length;i++){
-						context.getItemMap().remove(parameterNames[i]);
-					}
 				}
 				
 			}else{
@@ -116,6 +114,7 @@ public class LambdaExpressionContextProcessor implements ParserRuleContextProces
 			}
 			
 		}
+		
 		
 		/**
 		 * 同步当前上下文的值到外层上下文(严格来说破坏了lambda闭包特性)
