@@ -123,6 +123,10 @@
           class="org.tinygroup.tinyscript.dataset.function.PreviewRowFunction"> 
     </bean>
     
+    <bean id="dataSetLimitFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.dataset.function.DataSetLimitFunction"> 
+    </bean>
+    
     <bean id="dataSetColumnItemProcessor" scope="singleton"
           class="org.tinygroup.tinyscript.dataset.objectitem.DataSetColumnItemProcessor"> 
     </bean>
