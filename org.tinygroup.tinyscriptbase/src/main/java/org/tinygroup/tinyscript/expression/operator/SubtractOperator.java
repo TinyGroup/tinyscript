@@ -33,6 +33,9 @@ public class SubtractOperator extends TwoConvertOperator {
         if (isType(left,Integer.class)) {
             return (Integer) left - (Integer) right;
         }
+        if (isType(left,Long.class)) {
+            return (Long) left - (Long) right;
+        }
         if (isType(left,Float.class)) {
             return (Float) left - (Float) right;
         }

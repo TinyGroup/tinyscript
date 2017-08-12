@@ -40,6 +40,13 @@ public class ExpressionTest extends TestCase {
 		assertEquals(0, scriptEngine.execute("return -1/2;"));
 		assertEquals(5, scriptEngine.execute("return 3*(2+2)-7;"));
 		assertEquals(7, scriptEngine.execute("return (2+5)*(6-3)-7*2;"));
+		
+		//测试Long的加减乘除取模
+		assertEquals(52L,scriptEngine.execute("return 50L+2L;"));
+		assertEquals(48L,scriptEngine.execute("return 50L-2L;"));
+		assertEquals(100L,scriptEngine.execute("return 50L*2L;"));
+		assertEquals(25L,scriptEngine.execute("return 50L/2L;"));
+		assertEquals(0L,scriptEngine.execute("return 50L%2L;"));
 	}
 
 	public void testNumberOperator2() throws Exception {

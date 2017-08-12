@@ -33,6 +33,9 @@ public class AddOperator extends TwoConvertOperator {
         if (isType(left, Integer.class) && isType(right, Integer.class)) {
             return (Integer) left + (Integer) right;
         }
+        if (isType(left, Long.class) && isType(right, Long.class)) {
+            return (Long) left + (Long) right;
+        }
         if (isType(left, Float.class) && isType(right, Float.class)) {
             return (Float) left + (Float) right;
         }
