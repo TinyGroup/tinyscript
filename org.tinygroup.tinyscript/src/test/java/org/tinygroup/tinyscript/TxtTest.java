@@ -7,7 +7,7 @@ import org.tinygroup.tinyscript.impl.DefaultComputeEngine;
 import junit.framework.TestCase;
 
 /**
- * 增加对集算器文本的读取函数
+ * 增加对tinyscript文本的读取函数
  * @author yancheng11334
  *
  */

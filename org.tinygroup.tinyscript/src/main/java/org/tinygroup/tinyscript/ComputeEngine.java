@@ -3,7 +3,7 @@ package org.tinygroup.tinyscript;
 import org.tinygroup.tinyscript.ScriptEngine;
 
 /**
- * 集算器引擎
+ * tinyscript引擎
  * @author yancheng11334
  *
  */

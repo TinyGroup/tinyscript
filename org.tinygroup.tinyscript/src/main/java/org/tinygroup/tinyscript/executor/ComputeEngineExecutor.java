@@ -5,7 +5,7 @@ import org.tinygroup.tinyscript.executor.TinyScriptOperator;
 
 
 /**
- * 集算器的模拟器执行
+ * tinyscript的模拟器执行
  * @author yancheng11334
  *
  */
