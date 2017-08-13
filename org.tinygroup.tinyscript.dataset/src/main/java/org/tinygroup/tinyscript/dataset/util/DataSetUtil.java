@@ -399,7 +399,7 @@ public final class DataSetUtil {
 		Set<Integer> columns = new HashSet<Integer>();
 		for (int i = 0; i < dataSet.getFields().size(); i++) {
 			Field field = dataSet.getFields().get(i);
-			Pattern FIELD_ARRAY_RULE = Pattern.compile(field.getName() + "\\[(-)?[_a-zA-Z0-9\u4E00-\u9FA5]*\\]");
+			Pattern FIELD_ARRAY_RULE = Pattern.compile(field.getName() + "\\[.*\\]");
 			if (FIELD_ARRAY_RULE.matcher(expression).find()) {
 				columns.add(i);
 			}
