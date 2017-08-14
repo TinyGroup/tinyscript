@@ -13,6 +13,7 @@ import org.tinygroup.tinyscript.dataset.DynamicDataSet;
 import org.tinygroup.tinyscript.dataset.util.DataSetUtil;
 import org.tinygroup.tinyscript.function.AbstractSortFunction;
 
+@SuppressWarnings("rawtypes")
 public class DataSetSortFunction extends AbstractSortFunction{
 	
 	public String getBindingTypes() {
@@ -37,6 +38,7 @@ public class DataSetSortFunction extends AbstractSortFunction{
 		}
 	}
 
+	@SuppressWarnings({ "unchecked" })
 	protected Comparator createComparator(String rule, ScriptSegment segment,
 			Object source) throws Exception {
 		List<FieldSortRule> rules = new ArrayList<FieldSortRule>();
@@ -102,6 +104,12 @@ public class DataSetSortFunction extends AbstractSortFunction{
 		sb.append("[").append(rule.getIndex()).append("]");
 		sb.append(";");
 		return sb.toString();
+	}
+
+	protected Object sortByLambda(Object sortObject, Comparator c)
+			throws Exception {
+		DynamicDataSet dataSet = (DynamicDataSet) sortObject;
+		return dataSet.sort(c);
 	}
 
 }

@@ -41,6 +41,7 @@ public class SortFunction extends AbstractSortFunction{
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	protected Comparator createComparator(String rule, ScriptSegment segment,
 			Object source) throws Exception {
 		List<FieldSortRule> rules = new ArrayList<FieldSortRule>();
@@ -101,5 +102,14 @@ public class SortFunction extends AbstractSortFunction{
 		sb.append(";");
 		return sb.toString();
 	}
+
+	@SuppressWarnings("unchecked")
+	protected Object sortByLambda(Object sortObject, Comparator c)
+			throws Exception {
+		List list = (List) sortObject;
+		Collections.sort(list, c);
+		return list;
+	}
+
 
 }

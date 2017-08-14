@@ -8,13 +8,16 @@ import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
+import org.tinygroup.tinyscript.interpret.ClassInstanceUtil;
+import org.tinygroup.tinyscript.interpret.LambdaFunction;
+import org.tinygroup.tinyscript.interpret.anonymous.SingleMethodProcessor;
 
 /**
  * 排序入口函数
  * @author yancheng11334
  *
  */
-@SuppressWarnings("rawtypes")
+@SuppressWarnings({"rawtypes","unchecked"})
 public abstract class AbstractSortFunction extends AbstractScriptFunction {
 
 	private static final Pattern ORDER_SIMPLE = Pattern.compile("\\s*(asc|desc)\\s*", Pattern.CASE_INSENSITIVE);
@@ -36,11 +39,23 @@ public abstract class AbstractSortFunction extends AbstractScriptFunction {
 			Object... parameters) throws ScriptException {
 		if(parameters==null || parameters.length==0){
 			throw new ScriptException("sort函数的参数为空!"); 
-		}else if(parameters.length==2 && parameters[0]!=null && parameters[1]!=null){
-			return sort(segment,context,parameters[0],(String)parameters[1]);
-		}else{
-			throw new ScriptException("sort函数的参数格式不正确!"); 
+		}else if(checkParameters(parameters, 2)){
+			try{
+				if(parameters[1] instanceof String){
+					return sort(segment,context,parameters[0],(String)parameters[1]);
+				}else if(parameters[1] instanceof LambdaFunction){
+	                //通过lambda表达式进行排序
+					LambdaFunction lambdaFunction = (LambdaFunction) parameters[1];
+					SingleMethodProcessor processor = ClassInstanceUtil.findSingleMethodProcessor(Comparator.class);
+					Comparator c = (Comparator) processor.build(lambdaFunction, context);
+					return sortByLambda(parameters[0],c);
+				}
+			}catch(Exception e){
+				throw new ScriptException("sort函数执行发生异常:",e);
+			}
+			
 		}
+		throw new ScriptException("sort函数的参数格式不正确!"); 
 	}
 	
 	protected boolean matchSimpleRule(String rule){
@@ -85,6 +100,15 @@ public abstract class AbstractSortFunction extends AbstractScriptFunction {
 	}
 	
 	/**
+	 * 通过lambda函数进行排序
+	 * @param sortObject
+	 * @param c
+	 * @return
+	 * @throws Exception
+	 */
+	protected abstract Object  sortByLambda(Object sortObject,Comparator c) throws Exception;
+	
+	/**
 	 * 创建比较器
 	 * @param rule
 	 * @param segment
@@ -94,6 +118,7 @@ public abstract class AbstractSortFunction extends AbstractScriptFunction {
 	 */
 	protected abstract Comparator createComparator(String rule,ScriptSegment segment,Object source) throws Exception;
 	
+	@SuppressWarnings("hiding")
 	class SimpleTypeComparator<Object> implements Comparator<Object>{
 
 		private boolean asc;
@@ -155,7 +180,8 @@ public abstract class AbstractSortFunction extends AbstractScriptFunction {
 		}
 	}
 	
-    public class FieldSortComparator <Object> implements Comparator<Object>{
+    @SuppressWarnings("hiding")
+	public class FieldSortComparator <Object> implements Comparator<Object>{
 
 		private List<FieldSortRule> fieldSortRuleList;
 		private ScriptContext context = new DefaultScriptContext();
