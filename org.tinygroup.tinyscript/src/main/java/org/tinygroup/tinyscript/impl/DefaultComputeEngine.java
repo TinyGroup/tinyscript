@@ -84,7 +84,7 @@ import org.tinygroup.tinyscript.text.function.ReadTxtFunction;
 import org.tinygroup.tinyscript.tree.function.CreateDataTreeFunction;
 
 /**
- * 默认的集算器实现
+ * 默认的tinyscript实现
  * @author yancheng11334
  *
  */

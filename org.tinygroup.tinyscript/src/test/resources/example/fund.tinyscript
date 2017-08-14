@@ -9,6 +9,7 @@ groupds.update("UP",(e)->{
 });//求一月的净值
 
 groupds.update("rate",(e)->{
+	println(value);
 	minvalue = value[0];	
 	for(i = 1;i<=31-e;i++){
 		if(value[i]<minvalue){
@@ -18,22 +19,11 @@ groupds.update("rate",(e)->{
 	return (value[0]-minvalue)/value[0];
 });
 
-groupds.update("rate",(e)->{
-	last = 31-e;
-	first = 1-e;
-	maxvalue = 0;
-	for(i = first;i<=last;i++){
-		maxvalue = max(maxvalue,rate[i]);
-		
-	}
-	
-	return maxvalue;
-});//对每一个净值的回撤率进行比较求出最大回撤率
+groupds = groupds.sortGroup("rate desc");
 
 //过滤回撤率大于50%的数据
 groupds = groupds.sort("UP desc");
 groupds = groupds.limit(1,5);
-
 groupds = groupds.filterGroup(rate[0]<=0.5);
 
 dataset2 = readTxt("/example/history.txt");
