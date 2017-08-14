@@ -54,12 +54,12 @@ public class FilterFunction extends ExpressionFunction {
 	private List filter(ScriptContext context,List list,String expression) throws Exception{
 		ScriptContext subContext = new DefaultScriptContext();
 		subContext.setParent(context);
-		expression = checkExpression(expression);
+		String newExpression = checkExpression(expression);
 
 		List result = new ArrayList();
 	   	for(Object obj:list){
 	   		subContext.put(ELEMENT_NAME, obj);
-	   		if(executeDynamicBoolean(expression,subContext)){
+	   		if(executeDynamicBoolean(newExpression,subContext)){
 	   			result.add(obj);
 	   		}
 	   	}

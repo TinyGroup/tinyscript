@@ -53,12 +53,12 @@ public class RemoveFunction extends ExpressionFunction {
 	private List remove(ScriptContext context,List list,String expression) throws Exception{
 		ScriptContext subContext = new DefaultScriptContext();
 		subContext.setParent(context);
-		expression = checkExpression(expression);
+		String newExpression = checkExpression(expression);
 		Iterator it = list.iterator();
 		while(it.hasNext()){
 			Object obj = it.next();
 			subContext.put(ELEMENT_NAME, obj);
-			if(!executeDynamicBoolean(expression,subContext)){
+			if(!executeDynamicBoolean(newExpression,subContext)){
 			   it.remove();
 			}
 		}
