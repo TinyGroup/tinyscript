@@ -1,0 +1,38 @@
+/*小王有一笔钱m，在t时间内，想做理财投资，有如下几只理财产品，请给出最佳方案*/
+class Fund{
+	name,minMoney,maxMoney,days,interestRate;//name：产品名，minMoney:最小起投金额，maxMoney：最大投资金额，interestRate：利率
+	Fund(name,minMoney,maxMoney,days,interestRate){
+		this.name = name;
+		this.minMoney = minMoney;
+		this.maxMoney = maxMoney;
+		this.days = days;
+		this.interestRate = interestRate;
+	}
+}
+sumIncome(e,str)->{//对e中对象进行求和,统计收益
+	value = 0;
+	for(i = 0;i<e.size();i++){
+		money = min(e.get(i).maxMoney,(e.size()<=1||i==0)?m:(m-sum(e.subList(0,i).maxMoney)));	
+		value += e.get(i).interestRate*money*t+money;
+		str += e.get(i).name+" "+money+" ";
+	}
+	return value;	
+};
+list=[new Fund("鹏华国防",100,1000,30,0.00045),new Fund("鹏华中证",100,2000,100,0.00035),new Fund("国投瑞银",100,2000,60,0.00055),new Fund("华商主题精选",100,1000,50,0.00040),new Fund("金鹰智慧",100,500,80,0.00030)];
+investmentprogram = "";//投资方案结果
+result = 0;//最大收益
+caculate(m,t)->{
+	result = 0;
+	list.combine((e)->{
+		e = e.sort("interestRate desc");//按利率进行排序
+		str = "";
+		if(sumIncome(e,str) > result){
+			investmentprogram = str;
+			result = sumIncome(e,str);			
+		}					
+	});
+};
+caculate(5000,80);println("投资方案: "+investmentprogram);println("最大收益: "+result);
+caculate(3000,30);println("投资方案: "+investmentprogram);println("最大收益: "+result);
+caculate(3000,60);println("投资方案: "+investmentprogram);println("最大收益: "+result);
+caculate(2000,20);println("投资方案: "+investmentprogram);println("最大收益: "+result);
