@@ -352,6 +352,9 @@ public final class ExpressionUtil {
     	if(numberCalculator==null){
     	   throw new ScriptException(String.format("找不到对应于%s的计算器.", name));
     	}
+    	if(numbers==null || numbers.isEmpty()){
+    	   return numberCalculator.getEmptyValue();
+    	}
     	return numberCalculator.compute(numbers);
     }
     

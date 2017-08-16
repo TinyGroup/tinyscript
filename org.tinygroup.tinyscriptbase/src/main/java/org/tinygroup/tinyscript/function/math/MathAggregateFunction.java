@@ -35,9 +35,6 @@ public class MathAggregateFunction extends DynamicNameScriptFunction{
 				}else{
 				   parameterList.add(p);
 				}
-				if(parameterList.isEmpty()){
-				   return null;
-				}
 				return ExpressionUtil.compute(functionName, parameterList);
 			}else {
 				List<Object> parameterList = new ArrayList<Object>();
@@ -46,9 +43,6 @@ public class MathAggregateFunction extends DynamicNameScriptFunction{
 					if(v!=null){
 					   parameterList.add(v); 
 					}
-				}
-				if(parameterList.isEmpty()){
-				   return null;
 				}
 				return ExpressionUtil.compute(functionName, parameterList);
 			}

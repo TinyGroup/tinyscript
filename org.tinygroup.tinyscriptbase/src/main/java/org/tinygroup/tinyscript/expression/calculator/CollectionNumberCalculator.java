@@ -43,4 +43,11 @@ public abstract class CollectionNumberCalculator implements NumberCalculator{
 	 * @throws ScriptException
 	 */
 	public abstract Object computeItem(List<Object> numbers) throws ScriptException ;
+	
+	/**
+	 * 默认返回null,如果有需要覆盖具体实现
+	 */
+	public Object getEmptyValue(){
+		return null;
+	}
 }

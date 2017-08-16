@@ -28,5 +28,9 @@ public class SumCalculator extends CollectionNumberCalculator {
 			return total;
 		}
 	}
+	
+	public Object getEmptyValue(){
+		return 0;
+	}
 
 }

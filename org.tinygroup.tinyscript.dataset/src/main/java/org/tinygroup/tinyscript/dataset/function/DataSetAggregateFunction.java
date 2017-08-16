@@ -60,9 +60,6 @@ public class DataSetAggregateFunction extends DynamicNameScriptFunction{
 			Object v = dataSet.getData(dataSet.getShowIndex(i), dataSet.getShowIndex(col));
 			parameterList.add(v);
 		}
-		if(parameterList.isEmpty()){
-		   return null;
-		}
 		return ExpressionUtil.compute(functionName, parameterList);
 	}
 	
