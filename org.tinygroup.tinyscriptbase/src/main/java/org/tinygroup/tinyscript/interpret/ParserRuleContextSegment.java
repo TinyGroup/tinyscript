@@ -410,6 +410,10 @@ public class ParserRuleContextSegment implements ScriptSegment{
 				if(parameterNames!=null){
 				   for(int i=0;i<parameterNames.length;i++){
 					  context.getItemMap().put(parameterNames[i], parameters[i]);
+					  //如果构造参数名和属性字段一致，执行默认赋值操作
+					  if(instance.existField(parameterNames[i])){
+						 instance.setField(parameterNames[i], parameters[i]);
+					  }
 				   }
 				}
 				ScriptContextUtil.setScriptClassInstance(context, instance);
