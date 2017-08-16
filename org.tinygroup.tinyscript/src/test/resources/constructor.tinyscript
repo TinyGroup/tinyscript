@@ -2,13 +2,16 @@ class NewUser {
     
     name,age;
     
+    NewUser(name,age,abc){
+       this.age = abc*2;
+    }
+    
     NewUser(name,age){
-      this.name = name;
-      this.age =age;
+      
     }
     
     NewUser(name){
-      this.name = name;
+      
     }
     
     //用户自定义的get/set方法
@@ -20,9 +23,11 @@ class NewUser {
 user = new NewUser("yancheng",35);
 user2 = new NewUser("tom");
 user3 = new NewUser();  //无参构造函数
+user4 = new NewUser("yancheng",35,10);
 println(user);
 println(user2);
 println(user3);
+println(user4);
 
 println(user.getName()); //脚本类支持缺省get/set方法
 user.setName("dog");

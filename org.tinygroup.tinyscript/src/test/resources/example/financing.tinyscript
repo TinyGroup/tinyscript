@@ -2,11 +2,7 @@
 class Fund{
 	name,minMoney,maxMoney,days,interestRate;//name：产品名，minMoney:最小起投金额，maxMoney：最大投资金额，interestRate：利率
 	Fund(name,minMoney,maxMoney,days,interestRate){
-		this.name = name;
-		this.minMoney = minMoney;
-		this.maxMoney = maxMoney;
-		this.days = days;
-		this.interestRate = interestRate;
+		//自动执行参数給同名属性赋值
 	}
 }
 sumIncome(ele,money,days)->{//对ele中对象进行求和,统计收益
