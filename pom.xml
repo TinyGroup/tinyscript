@@ -44,6 +44,7 @@
 		<module>org.tinygroup.tinyscript.excel</module>
 		<module>org.tinygroup.tinyscript.text</module>
 		<module>org.tinygroup.tinyscript.datasetwithtree</module>
+		<module>org.tinygroup.tinyscript.template</module>
 		<module>org.tinygroup.tinyscript</module>
 	</modules>
 	<dependencyManagement>
