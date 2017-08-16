@@ -1,7 +1,9 @@
 package org.tinygroup.tinyscript.database;
 
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.jdbc.support.rowset.SqlRowSetMetaData;
 import org.tinygroup.tinyscript.dataset.AbstractDataSet;
+import org.tinygroup.tinyscript.dataset.Field;
 
 /**
  * 包装Spring记录集原生类型
@@ -10,9 +12,24 @@ import org.tinygroup.tinyscript.dataset.AbstractDataSet;
  */
 public class SqlRowSetDataSet extends AbstractDataSet{
     private SqlRowSet sqlRowSet;
+    private int columnCount;
     
 	public SqlRowSetDataSet(SqlRowSet sqlRowSet){
 		this.sqlRowSet = sqlRowSet;
+		try {
+			SqlRowSetMetaData metaData= sqlRowSet.getMetaData();
+			columnCount=metaData.getColumnCount();
+			for (int i = 1; i <= columnCount; i++) {
+				Field field=new Field();
+				field.setName(metaData.getColumnName(i));
+				field.setTitle(metaData.getColumnLabel(i));
+				field.setType(metaData.getColumnClassName(i));
+				fields.add(field);
+			}
+			setFields(fields);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 	
 	public SqlRowSetDataSet(SqlRowSet sqlRowSet,boolean tag){

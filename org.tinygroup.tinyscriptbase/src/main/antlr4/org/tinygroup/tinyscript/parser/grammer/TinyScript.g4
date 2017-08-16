@@ -236,7 +236,7 @@ expression
     |   expression '||' expression                                  #logicalConnectExpression
     |   expression 'instanceof' expression                          #instanceofExpression
     |   expression '?' expression ':' expression                    #conditionalTernaryExpression
-    |   expression CUSTOM_SCRIPT                                    #customScriptExpression
+    |   Identifier? CUSTOM_SCRIPT                                    #customScriptExpression
     |   <assoc=right> expression
         (   '='
         |   '+='
