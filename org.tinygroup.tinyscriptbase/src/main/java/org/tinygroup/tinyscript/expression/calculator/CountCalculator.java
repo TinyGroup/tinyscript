@@ -24,5 +24,9 @@ public class CountCalculator extends CollectionNumberCalculator {
 		}
 		return num;
 	}
+	
+	public Object getEmptyValue(){
+		return 0;
+	}
 
 }

@@ -25,4 +25,10 @@ public interface NumberCalculator {
 	 */
 	Object compute(List<Object> numbers) throws ScriptException;
 	
+	/**
+	 * 返回empty的处理值
+	 * @return
+	 */
+	Object getEmptyValue();
+	
 }
