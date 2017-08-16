@@ -1,0 +1,14 @@
+//测试集成模板引擎渲染
+
+list = [1..9];
+
+//指定模板引擎
+str = templateEngine [[#for(i:list)${i}#end]]; 
+
+
+//采用缺省方式
+customBean="templateEngine";
+str = [[#for(i:list)${i}#end]]; 
+
+//输出模板渲染结果
+println(str);
