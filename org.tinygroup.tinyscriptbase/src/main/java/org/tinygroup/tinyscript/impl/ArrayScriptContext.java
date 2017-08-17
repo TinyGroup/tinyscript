@@ -65,7 +65,7 @@ public class ArrayScriptContext extends ContextImpl implements
 
 	private void dealDimList(List<Integer> dimList,
 			ArrayScriptContext context) {
-		dimList.add(getLength());
+		dimList.add(context.getLength());
 		Map<String, Context> subContexts = context.getSubContextMap();
 		
 		if(!subContexts.isEmpty()){

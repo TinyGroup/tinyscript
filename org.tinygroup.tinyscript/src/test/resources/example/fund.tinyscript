@@ -9,7 +9,6 @@ groupds.update("UP",(e)->{
 });//求一月的净值
 
 groupds.update("rate",(e)->{
-	println(value);
 	minvalue = value[0];	
 	for(i = 1;i<=31-e;i++){
 		if(value[i]<minvalue){
