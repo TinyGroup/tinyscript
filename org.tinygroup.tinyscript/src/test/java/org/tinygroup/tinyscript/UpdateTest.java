@@ -15,7 +15,7 @@ public class UpdateTest extends TestCase {
 		ComputeEngine engine = new DefaultComputeEngine();
 		ScriptContext context = new DefaultScriptContext();
 		
-		DataSet orderDs  = (DataSet) engine.execute("a = \"WEIGHT\"; return readTxt(\"src/test/resources/testOrder.txt\").insertColumn(1,\"price\").convert(a,\"int\");");
+		DataSet orderDs  = (DataSet) engine.execute("a = \"WEIGHT\"; return readTxt(\"src/test/resources/testOrder.txt\").insertColumn(1,\"price\").int(a);");
 		context.put("orderDs", orderDs);
 		
 		engine.execute("return orderDs.update(\"price\",\"WEIGHT*150\");",context);

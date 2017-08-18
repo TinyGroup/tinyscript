@@ -9,7 +9,7 @@ class Example6 {
     countStock(path) {
        ratio = 0.095d;
        ds = readTxt(path);
-       groupds =ds.insertColumn(3,"UP").convert("CL","double").group("CODE").sortGroup("DT ASC");
+       groupds =ds.insertColumn(3,"UP").double("CL").group("CODE").sortGroup("DT ASC");
        groupds.subGroup(1,1).update("UP",0d);  //每月的第一天涨停率为0
        groupds.update("UP",(CL[0]-CL[-1])/CL[-1]);  //之后的每天统计当天的涨停率。
        resultds = groupds.filterGroup(UP[0]>ratio && UP[1]>ratio && UP[2]>ratio);
@@ -18,8 +18,8 @@ class Example6 {
     
     /* 根据规则统计不同订单的邮费 */
     countMailCharge(path1,path2){
-       ruleDs = readTxt(path1).convert("MINVAL","int").convert("MAXVAL","int").convert("CHARGE","int");
-       orderDs = readTxt(path2).convert("COST","int").convert("WEIGHT","int").insertColumn(4,"POSTAGE");
+       ruleDs = readTxt(path1).int("MINVAL","MAXVAL","CHARGE");
+       orderDs = readTxt(path2).int("COST","WEIGHT").insertColumn(4,"POSTAGE");
        costRuleDs = ruleDs.filter(()->{return FIELD == "COST";}).sort("MINVAL");   //cost维度规则集
        weightRuleDs = ruleDs.filter(()->{return FIELD == "WEIGHT";}).sort("MINVAL");  //weight维度规则集
        orderDs.match(costRuleDs,COST > MINVAL).update("POSTAGE","CHARGE");   //通过match函数匹配COST规则
@@ -29,7 +29,7 @@ class Example6 {
     
      /* 统计订购产品的客户账户余额  */
     countBalance(){
-       customerDs = readTxt("src/test/resources/Customers.txt").convert("acct_balance","double");
+       customerDs = readTxt("src/test/resources/Customers.txt").double("acct_balance");
        orderDs = readTxt("src/test/resources/Orders.txt");
        orderDetailDs = readTxt("src/test/resources/OrderDetails.txt");
        productDs = readTxt("src/test/resources/Products2.txt");
@@ -47,7 +47,7 @@ class Example6 {
     
      /* 统计某年的大客户  */
     countVip(){
-       contractDs = readTxt("src/test/resources/Contract.txt").convert("Amount","double");
+       contractDs = readTxt("src/test/resources/Contract.txt").double("Amount");
        clientDs = readTxt("src/test/resources/Client.txt");
        firstDs  = contractDs.filter(()->{return SellDate.startsWith("1998");}).join(clientDs,Client = ID); //过滤1998年的数据，并关联client表
        groupDs  = firstDs.select("Name","Amount").group("Name");  //保留计算字段,并按用户分组
