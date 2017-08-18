@@ -17,6 +17,8 @@ import org.tinygroup.tinyscript.expression.IteratorConverter;
 import org.tinygroup.tinyscript.expression.NumberCalculator;
 import org.tinygroup.tinyscript.expression.Operator;
 import org.tinygroup.tinyscript.expression.OperatorWithContext;
+import org.tinygroup.tinyscript.expression.TypeConvertProcessor;
+import org.tinygroup.tinyscript.expression.TypeConvertUtil;
 import org.tinygroup.tinyscript.interpret.AttributeProcessor;
 import org.tinygroup.tinyscript.interpret.AttributeUtil;
 import org.tinygroup.tinyscript.interpret.ClassInstanceUtil;
@@ -211,6 +213,16 @@ public class DefaultScriptEngineBuilder extends AbstractScriptEngineBuilder{
 		   Iterator<CustomProcessor> it = c.iterator();
 		   while(it.hasNext()){
 			   CustomUtil.addCustomProcessor(it.next());
+		   }
+		}
+	}
+
+	protected void registerTypeConvertProcessor() throws ScriptException {
+		Collection<TypeConvertProcessor> c = BeanContainerFactory.getBeanContainer(getClass().getClassLoader()).getBeans(TypeConvertProcessor.class);
+		if(c!=null && !c.isEmpty()){
+		   Iterator<TypeConvertProcessor> it = c.iterator();
+		   while(it.hasNext()){
+			   TypeConvertUtil.addTypeConvertProcessor(it.next());
 		   }
 		}
 	}

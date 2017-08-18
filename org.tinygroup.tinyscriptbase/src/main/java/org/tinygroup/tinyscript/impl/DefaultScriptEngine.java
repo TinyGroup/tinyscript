@@ -61,11 +61,12 @@ public class DefaultScriptEngine extends AbstractScriptEngine {
 				
 		addScriptFunction(new MathAggregateFunction());
 				
-		addScriptFunction(new ToIntFunction());
-		addScriptFunction(new ToDoubleFunction());
-		addScriptFunction(new ToLongFunction());
-		addScriptFunction(new ToFloatFunction());
-		addScriptFunction(new ToDateFunction());
+//		addScriptFunction(new ToIntFunction());
+//		addScriptFunction(new ToDoubleFunction());
+//		addScriptFunction(new ToLongFunction());
+//		addScriptFunction(new ToFloatFunction());
+//		addScriptFunction(new ToDateFunction());
+		addScriptFunction(new TypeConvertFunction());
 				
 		addScriptFunction(new DoubleRandFunction());
 		addScriptFunction(new FloatRandFunction());
