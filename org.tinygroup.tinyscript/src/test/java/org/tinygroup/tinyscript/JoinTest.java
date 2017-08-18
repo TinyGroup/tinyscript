@@ -54,7 +54,7 @@ public class JoinTest  extends TestCase {
 		assertEquals(1001, joinResult.getRows());
 		
 	    //结合filter函数，实现条件组合
-	    joinResult = (DataSet) engine.execute("return orders.join(details, order_id = order_id ).filter(int(order_id) > 20005 && int(order_id) < 20015);",context);
+	    joinResult = (DataSet) engine.execute("return orders.join(details, order_id = order_id ).filter(()->{return int(order_id) > 20005 && int(order_id) < 20015;});",context);
 	    assertEquals(9, joinResult.getRows());
 	}
 }

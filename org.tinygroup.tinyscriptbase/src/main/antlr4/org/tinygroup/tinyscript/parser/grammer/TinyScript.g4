@@ -259,7 +259,6 @@ primary
     |   THIS
     |   literal
     |   Identifier
-    |   POUND
     ;
     
 
@@ -681,7 +680,6 @@ JavaLetterOrDigit
 //
 // Additional symbols not defined in the lexical specification
 //
-POUND : '#';
 AT : '@';
 RANGE : '..';
 ELLIPSIS : '...';

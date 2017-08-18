@@ -8,10 +8,11 @@ import org.tinygroup.tinyscript.dataset.DataSetRow;
 import org.tinygroup.tinyscript.dataset.DynamicDataSet;
 import org.tinygroup.tinyscript.dataset.Field;
 import org.tinygroup.tinyscript.dataset.util.DataSetUtil;
-import org.tinygroup.tinyscript.function.ExpressionFunction;
+import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
+import org.tinygroup.tinyscript.interpret.LambdaFunction;
 
-public class DataSetRemoveFunction extends ExpressionFunction {
+public class DataSetRemoveFunction extends AbstractScriptFunction {
 
 	public String getNames() {
 		return "remove";
@@ -19,10 +20,6 @@ public class DataSetRemoveFunction extends ExpressionFunction {
 
 	public String getBindingTypes() {
 		return DataSet.class.getName();
-	}
-	
-	public boolean  enableExpressionParameter(){
-		return true;
 	}
 
 	public Object execute(ScriptSegment segment, ScriptContext context,
@@ -32,8 +29,8 @@ public class DataSetRemoveFunction extends ExpressionFunction {
         		throw new ScriptException(String.format("%s函数的参数为空!", getNames()));
 			} else if(checkParameters(parameters, 2)){
 				 DataSet dataSet = (DataSet) getValue(parameters[0]);
-				 String  expression = getExpression(parameters[1]);
-				 return remove(context,dataSet,expression);
+				 LambdaFunction function = (LambdaFunction) parameters[1];
+				 return remove(context,dataSet,function);
 			} else {
 				throw new ScriptException(String.format("%s函数的参数格式不正确!", getNames()));
 			}
@@ -45,10 +42,10 @@ public class DataSetRemoveFunction extends ExpressionFunction {
 		}
 	}
 	
-	private DataSet remove(ScriptContext context,DataSet dataSet,String expression) throws Exception{
+	private DataSet remove(ScriptContext context,DataSet dataSet,LambdaFunction function) throws Exception{
 		ScriptContext subContext = new DefaultScriptContext();
 		subContext.setParent(context);
-		expression = checkExpression(expression);
+		
 		if(dataSet instanceof DynamicDataSet==false){
 			  throw new ScriptException("本数据集不是动态数据集,无法过滤记录!");
 		   }
@@ -62,7 +59,7 @@ public class DataSetRemoveFunction extends ExpressionFunction {
 				   Field field = dataSet.getFields().get(j);
 				   subContext.put(field.getName(), dataSetRow.getData(dynamicDataSet.getShowIndex(j))); 
 			   }
-			   if(!executeDynamicBoolean(expression,subContext)){
+			   if(!(Boolean)function.execute(subContext).getResult()){
 				   dynamicDataSet.deleteRow(dynamicDataSet.getShowIndex(p));
 			   }
 		   }

@@ -20,8 +20,8 @@ class Example6 {
     countMailCharge(path1,path2){
        ruleDs = readTxt(path1).convert("MINVAL","int").convert("MAXVAL","int").convert("CHARGE","int");
        orderDs = readTxt(path2).convert("COST","int").convert("WEIGHT","int").insertColumn(4,"POSTAGE");
-       costRuleDs = ruleDs.filter("FIELD=="+"\"COST\"").sort("MINVAL");   //cost维度规则集
-       weightRuleDs = ruleDs.filter(FIELD=="WEIGHT").sort("MINVAL");  //weight维度规则集
+       costRuleDs = ruleDs.filter(()->{return FIELD == "COST";}).sort("MINVAL");   //cost维度规则集
+       weightRuleDs = ruleDs.filter(()->{return FIELD == "WEIGHT";}).sort("MINVAL");  //weight维度规则集
        orderDs.match(costRuleDs,COST > MINVAL).update("POSTAGE","CHARGE");   //通过match函数匹配COST规则
        orderDs.match(weightRuleDs,POSTAGE ==null && WEIGHT > MINVAL && WEIGHT <=MAXVAL).update("POSTAGE","CHARGE");  //通过match函数匹配WEIGHT规则   
        return orderDs;
@@ -49,7 +49,7 @@ class Example6 {
     countVip(){
        contractDs = readTxt("src/test/resources/Contract.txt").convert("Amount","double");
        clientDs = readTxt("src/test/resources/Client.txt");
-       firstDs  = contractDs.filter(SellDate.startsWith("1998")).join(clientDs,Client = ID); //过滤1998年的数据，并关联client表
+       firstDs  = contractDs.filter(()->{return SellDate.startsWith("1998");}).join(clientDs,Client = ID); //过滤1998年的数据，并关联client表
        groupDs  = firstDs.select("Name","Amount").group("Name");  //保留计算字段,并按用户分组
        groupDs.sumGroup("Amount"); //统计每个用户的金额
        halfAmount = groupDs.sort("sumGroup_Amount desc").sum("sumGroup_Amount")/2;

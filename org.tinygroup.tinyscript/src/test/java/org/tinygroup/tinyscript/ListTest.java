@@ -21,6 +21,7 @@ public class ListTest extends TestCase {
 	 * 测试序列基本操作
 	 * @throws Exception 
 	 */
+	@SuppressWarnings("rawtypes")
 	public void testBase() throws Exception{
 		ComputeEngine  engine = new DefaultComputeEngine();
 		List list = null;  
@@ -52,14 +53,14 @@ public class ListTest extends TestCase {
 		assertEquals(true,engine.execute("newlist = list.clone(); list[1]=8; return newlist[1]==1;",context));
 		
 		//过滤
-		assertEquals(false,engine.execute("list = [1,2,3,5,8,13]; result = list.filter(#>=10); list.add(0); return result==list;",context));  //返回原list
-		assertEquals(true,engine.execute("list = [1,2,3,5,8,13]; result = list.remove(#>=10); list.add(0); return result==list;",context)); //返回新list
+		assertEquals(false,engine.execute("list = [1,2,3,5,8,13]; result = list.filter((e)->{ return e>=10;}); list.add(0); return result==list;",context));  //返回原list
+		assertEquals(true,engine.execute("list = [1,2,3,5,8,13]; result = list.remove((e)->{ return e>=10;}); list.add(0); return result==list;",context)); //返回新list
 		//assertEquals(4,engine.execute("list.filter(\"~<10\"); return list.size();",context));
 		
-		assertEquals(5,engine.execute("list = [1,2,3,5,8,13]; newlist = list.filter(#<10); return newlist.size();",context));
-		assertEquals(1,engine.execute("list = [1,2,3,5,8,13]; list.remove(#>=10); return list.size();",context));
-		assertEquals(6,engine.execute("list = [1,2,3,5,8,13]; newlist = list.filter(1==1); return newlist.size();",context));
-		assertEquals(0,engine.execute("list = [1,2,3,5,8,13]; list.remove(1==0); return list.size();",context));
+		assertEquals(5,engine.execute("list = [1,2,3,5,8,13]; newlist = list.filter((e)->{ return e<10;}); return newlist.size();",context));
+		assertEquals(1,engine.execute("list = [1,2,3,5,8,13]; list.remove((e)->{ return e>=10;}); return list.size();",context));
+		assertEquals(6,engine.execute("list = [1,2,3,5,8,13]; newlist = list.filter((e)->{return 1==1;}); return newlist.size();",context));
+		assertEquals(0,engine.execute("list = [1,2,3,5,8,13]; list.remove((e)->{return 1==0;}); return list.size();",context));
 	}
 	
 	/**

@@ -11,15 +11,16 @@ import org.tinygroup.tinyscript.dataset.DataSet;
 import org.tinygroup.tinyscript.dataset.DataSetRow;
 import org.tinygroup.tinyscript.dataset.Field;
 import org.tinygroup.tinyscript.dataset.util.DataSetUtil;
-import org.tinygroup.tinyscript.function.ExpressionFunction;
+import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
+import org.tinygroup.tinyscript.interpret.LambdaFunction;
 
 /**
  * 序表的过滤函数
  * @author yancheng11334
  *
  */
-public class DataSetFilterFunction extends ExpressionFunction {
+public class DataSetFilterFunction extends AbstractScriptFunction {
 
 	public String getNames() {
 		return "filter";
@@ -27,10 +28,6 @@ public class DataSetFilterFunction extends ExpressionFunction {
 
 	public String getBindingTypes() {
 		return DataSet.class.getName();
-	}
-	
-	public boolean  enableExpressionParameter(){
-		return true;
 	}
 
 	public Object execute(ScriptSegment segment, ScriptContext context,
@@ -40,8 +37,8 @@ public class DataSetFilterFunction extends ExpressionFunction {
         		throw new ScriptException(String.format("%s函数的参数为空!", getNames()));
 			} else if(checkParameters(parameters, 2)){
 				AbstractDataSet dataSet = (AbstractDataSet) getValue(parameters[0]);
-				 String  expression = getExpression(parameters[1]);
-				 return filter(context,dataSet,expression);
+				 LambdaFunction function = (LambdaFunction) parameters[1];
+				 return filter(context,dataSet,function);
 			} else {
 				throw new ScriptException(String.format("%s函数的参数格式不正确!", getNames()));
 			}
@@ -53,10 +50,9 @@ public class DataSetFilterFunction extends ExpressionFunction {
 		}
 	}
 	
-	private DataSet filter(ScriptContext context,AbstractDataSet dataSet,String expression) throws Exception{
+	private DataSet filter(ScriptContext context,AbstractDataSet dataSet,LambdaFunction function) throws Exception{
 		ScriptContext subContext = new DefaultScriptContext();
 		subContext.setParent(context);
-		expression = checkExpression(expression);
 		
 		List<DataSetRow> result = new ArrayList<DataSetRow>();
 		   int rowNum = dataSet.getRows();
@@ -66,7 +62,7 @@ public class DataSetFilterFunction extends ExpressionFunction {
 				   Field field = dataSet.getFields().get(j);
 				   subContext.put(field.getName(), dataSetRow.getData(dataSet.getShowIndex(j))); 
 			   }
-			   if(executeDynamicBoolean(expression,subContext)){
+			   if((Boolean)function.execute(subContext).getResult()){
 				  result.add(dataSetRow);
 			   }
 		   }

@@ -134,11 +134,11 @@ public class JDBCTest {
 	public void testDataSet2() throws Exception {
 		ComputeEngine engine = new DefaultComputeEngine();
 		ScriptContext context = new DefaultScriptContext();
+		
 		//测试过滤
-		Assert.assertEquals(2,engine.execute("nd = dynamicDataSource.query(\"select * from test1\"); return nd.filter(STATE==\"New York\" || FULLNAME==\"Tom Smith\").getRows();", context));
-		Assert.assertEquals(2,engine.execute("nd = dynamicDataSource.query(\"select * from test1\"); nd.remove(STATE==\"New York\" || FULLNAME==\"Tom Smith\"); return nd.getRows();", context));
-	    
-		Assert.assertEquals(false,engine.execute("nd = dynamicDataSource.query(\"select * from test1\"); nd2 = nd.filter(STATE==\"New York\" || FULLNAME==\"Tom Smith\"); return nd2.getRows() == nd.getRows();", context));
+		Assert.assertEquals(2,engine.execute("nd = dynamicDataSource.query(\"select * from test1\"); return nd.filter(()->{return STATE==\"New York\" || FULLNAME==\"Tom Smith\";}).getRows();", context));
+		Assert.assertEquals(2,engine.execute("nd = dynamicDataSource.query(\"select * from test1\"); nd.remove(()->{return STATE==\"New York\" || FULLNAME==\"Tom Smith\";}); return nd.getRows();", context));
+		Assert.assertEquals(false,engine.execute("nd = dynamicDataSource.query(\"select * from test1\"); nd2 = nd.filter(()->{return STATE==\"New York\" || FULLNAME==\"Tom Smith\";}); return nd2.getRows() == nd.getRows();", context));
 	}
 	
 	//测试基于excel单元格下标方式访问数据集

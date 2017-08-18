@@ -6,15 +6,16 @@ import java.util.List;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
-import org.tinygroup.tinyscript.function.ExpressionFunction;
+import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
+import org.tinygroup.tinyscript.interpret.LambdaFunction;
 
 /**
  * 序列过滤函数
  * @author yancheng11334
  *
  */
-public class FilterFunction extends ExpressionFunction {
+public class FilterFunction extends AbstractScriptFunction {
 
 	
 	public String getNames() {
@@ -25,10 +26,6 @@ public class FilterFunction extends ExpressionFunction {
 		return "java.util.List";
 	}
 	
-	public boolean  enableExpressionParameter(){
-		return true;
-	}
-
 	@SuppressWarnings("rawtypes")
 	public Object execute(ScriptSegment segment, ScriptContext context,
 			Object... parameters) throws ScriptException {
@@ -37,8 +34,8 @@ public class FilterFunction extends ExpressionFunction {
         		throw new ScriptException(String.format("%s函数的参数为空!", getNames()));
 			} else if(checkParameters(parameters, 2)){
 				 List list = (List) getValue(parameters[0]);
-				 String  expression = getExpression(parameters[1]);
-				 return filter(context,list,expression);
+				 LambdaFunction function = (LambdaFunction) parameters[1];
+				 return filter(context,list,function);
 			} else {
 				throw new ScriptException(String.format("%s函数的参数格式不正确!", getNames()));
 			}
@@ -51,15 +48,13 @@ public class FilterFunction extends ExpressionFunction {
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	private List filter(ScriptContext context,List list,String expression) throws Exception{
+	private List filter(ScriptContext context,List list,LambdaFunction function) throws Exception{
 		ScriptContext subContext = new DefaultScriptContext();
 		subContext.setParent(context);
-		String newExpression = checkExpression(expression);
-
+		
 		List result = new ArrayList();
 	   	for(Object obj:list){
-	   		subContext.put(ELEMENT_NAME, obj);
-	   		if(executeDynamicBoolean(newExpression,subContext)){
+	   		if((Boolean)function.execute(subContext, obj).getResult()){
 	   			result.add(obj);
 	   		}
 	   	}
