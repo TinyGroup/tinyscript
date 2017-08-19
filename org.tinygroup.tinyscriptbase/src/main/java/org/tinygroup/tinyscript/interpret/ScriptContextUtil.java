@@ -3,6 +3,7 @@ package org.tinygroup.tinyscript.interpret;
 import org.tinygroup.tinyscript.ScriptClassInstance;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptEngine;
+import org.tinygroup.tinyscript.ScriptException;
 
 /**
  * 脚本上下文工具类
@@ -78,4 +79,51 @@ public class ScriptContextUtil {
 		}
 	}
 	
+	/**
+	 * 转换一般表达式为可执行脚本
+	 * 
+	 * @param expression
+	 * @return
+	 */
+	public static String convertExpression(String expression) {
+		if (expression.indexOf("->")>0){
+			return expression;
+		}
+		if (!expression.startsWith("return")) {
+			expression = "return " + expression;
+		}
+		if (!expression.endsWith(";")) {
+			expression = expression + ";";
+		}
+		return expression;
+	}
+	
+	/**
+	 * 执行脚本
+	 * @param context
+	 * @param expression
+	 * @return
+	 * @throws ScriptException
+	 */
+	public static Object executeExpression(ScriptContext context,String expression) throws ScriptException {
+		String newExpression = convertExpression(expression);
+		ScriptEngine engine = getScriptEngine(context);
+		return engine.execute(newExpression, context);
+	}
+	
+	/**
+	 * 批量执行脚本
+	 * @param context
+	 * @param expressions
+	 * @return
+	 * @throws ScriptException
+	 */
+	public static Object[] executeExpression(ScriptContext context,String... expressions) throws ScriptException {
+		Object[] result = new Object[expressions.length];
+		ScriptEngine engine = getScriptEngine(context);
+		for(int i=0;i<result.length;i++){
+			result[i] = engine.execute(convertExpression(expressions[i]), context);
+		}
+		return result;
+	}
 }

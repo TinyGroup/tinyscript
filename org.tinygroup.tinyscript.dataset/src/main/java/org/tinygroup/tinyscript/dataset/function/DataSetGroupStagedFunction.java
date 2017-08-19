@@ -17,6 +17,7 @@ import org.tinygroup.tinyscript.dataset.impl.DefaultGroupDataSet;
 import org.tinygroup.tinyscript.dataset.util.DataSetUtil;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
+import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
 
 /**
  * 数据集按条件分组
@@ -46,7 +47,7 @@ public class DataSetGroupStagedFunction extends AbstractScriptFunction {
 				AbstractDataSet dataSet = (AbstractDataSet) getValue(parameters[0]);
 				String[] expressions = new String[parameters.length-1];
 				for(int i=0;i<expressions.length;i++){
-					expressions[i] = DataSetUtil.convertExpression(getExpression(parameters[i+1]));
+					expressions[i] = ScriptContextUtil.convertExpression(getExpression(parameters[i+1]));
 				}
 				return groupStaged(dataSet,expressions,context);
 			}else{

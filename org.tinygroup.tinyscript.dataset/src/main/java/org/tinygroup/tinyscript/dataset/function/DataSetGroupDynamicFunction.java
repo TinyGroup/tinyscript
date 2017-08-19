@@ -17,6 +17,7 @@ import org.tinygroup.tinyscript.dataset.impl.DefaultGroupDataSet;
 import org.tinygroup.tinyscript.dataset.util.DataSetUtil;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
+import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
 
 /**
  * 数据集动态分组
@@ -44,7 +45,7 @@ public class DataSetGroupDynamicFunction extends AbstractScriptFunction {
 				throw new ScriptException(String.format("%s函数的参数为空!", getNames()));
 			}else if(checkParameters(parameters, 2)){
 				AbstractDataSet dataSet = (AbstractDataSet) getValue(parameters[0]);
-				String expression = DataSetUtil.convertExpression(getExpression(parameters[1]));
+				String expression = ScriptContextUtil.convertExpression(getExpression(parameters[1]));
 				return groupDynamic(dataSet,expression,context);
 			}else{
 				throw new ScriptException(String.format("%s函数的参数格式不正确!", getNames()));

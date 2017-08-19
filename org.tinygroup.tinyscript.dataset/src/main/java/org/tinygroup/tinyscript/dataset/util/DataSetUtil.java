@@ -369,25 +369,6 @@ public final class DataSetUtil {
 	}
 
 	/**
-	 * 转换一般表达式为可执行脚本
-	 * 
-	 * @param expression
-	 * @return
-	 */
-	public static String convertExpression(String expression) {
-		if (expression.indexOf("->")>0){
-			return expression;
-		}
-		if (!expression.startsWith("return")) {
-			expression = "return " + expression;
-		}
-		if (!expression.endsWith(";")) {
-			expression = expression + ";";
-		}
-		return expression;
-	}
-
-	/**
 	 * 取得需要进行数组处理的字段
 	 * 
 	 * @param dataSet

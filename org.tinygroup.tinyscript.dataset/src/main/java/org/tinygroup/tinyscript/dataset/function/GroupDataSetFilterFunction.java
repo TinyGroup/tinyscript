@@ -16,6 +16,7 @@ import org.tinygroup.tinyscript.dataset.impl.DefaultGroupDataSet;
 import org.tinygroup.tinyscript.dataset.util.DataSetUtil;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
+import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
 
 public class GroupDataSetFilterFunction extends AbstractScriptFunction {
 
@@ -54,7 +55,7 @@ public class GroupDataSetFilterFunction extends AbstractScriptFunction {
 	private GroupDataSet filterGroup(ScriptContext context,GroupDataSet groupDataSet,String expression) throws Exception{
 		
 		Set<Integer> columns = DataSetUtil.getFieldArray(groupDataSet, expression);
-		expression = DataSetUtil.convertExpression(expression);
+		expression = ScriptContextUtil.convertExpression(expression);
 		
 		List<DynamicDataSet> newList = new ArrayList<DynamicDataSet>();
 		

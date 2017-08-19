@@ -14,6 +14,7 @@ import org.tinygroup.tinyscript.dataset.util.DataSetUtil;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 import org.tinygroup.tinyscript.interpret.LambdaFunction;
+import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
 import org.tinygroup.tinyscript.interpret.ScriptResult;
 import org.tinygroup.tinyscript.interpret.call.FunctionCallExpressionParameter;
 
@@ -67,7 +68,7 @@ public class DataSetUpdateFunction extends AbstractScriptFunction {
 			columns = DataSetUtil.getFieldArray(dataSet, expression);
 
 			// 转换表达式为脚本可以执行的语法片段
-			expression = DataSetUtil.convertExpression(expression);
+			expression = ScriptContextUtil.convertExpression(expression);
 
 			Object function = null;
 			if (expression.indexOf("->")>0){

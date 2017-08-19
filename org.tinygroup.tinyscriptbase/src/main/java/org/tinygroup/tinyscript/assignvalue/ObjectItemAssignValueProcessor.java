@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.tinygroup.tinyscript.ScriptContext;
+import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
 import org.tinygroup.tinyscript.objectitem.ObjectItemUtil;
 
 public class ObjectItemAssignValueProcessor implements AssignValueProcessor{
@@ -16,42 +17,35 @@ public class ObjectItemAssignValueProcessor implements AssignValueProcessor{
 
 	public void process(String name, Object value, ScriptContext context)
 			throws Exception {	
-		String objName = parseObjectName(name);
-		Object[] items = parseItems(name);
-		Object obj = context.get(objName);
+		
+		ArrayStruct array = new ArrayStruct(name);
+	    Object obj = ScriptContextUtil.executeExpression(context, array.arrayName);
+	    Object[] items = ScriptContextUtil.executeExpression(context, array.arrayItems);
 		ObjectItemUtil.assignValue(context, value, obj, items);
 	}
 	
-	private Object[] parseItems(String name){
-		int s = 0,e = 0;
-		List<String> items = new ArrayList<String>();
-		while(s!=-1 && e!=-1){
-		   s = name.indexOf("[", e);
-		   if(s<0){
-			 break;
-		   }
-		   e = name.indexOf("]", s);
-		   if(e<0){
-			  break;
-		   }
-		   items.add(filter(name.substring(s+1, e)));
-		}
-		return items.toArray();
-	}
-	
-	private String filter(String s){
-		if(s.startsWith("\"") && s.endsWith("\"")){
-		   return s.substring(1, s.length()-1);
-		}else if(s.startsWith("'") && s.endsWith("'")){
-		   return s.substring(1, s.length()-1);
-		}
-		return s;
-	}
-	
-	private String parseObjectName(String name){
-		int s = name.indexOf("[");
-		return name.substring(0, s);
-	}
-     
-
+    class  ArrayStruct {
+    	String arrayName;
+    	String[] arrayItems;
+    	
+    	public ArrayStruct(String name){
+    		arrayName = name.substring(0, name.indexOf("["));
+    		
+    		int s = 0,e = 0;
+    		List<String> items = new ArrayList<String>();
+    		while(s!=-1 && e!=-1){
+    		   s = name.indexOf("[", e);
+    		   if(s<0){
+    			 break;
+    		   }
+    		   e = name.indexOf("]", s);
+    		   if(e<0){
+    			  break;
+    		   }
+    		   items.add(name.substring(s+1, e));
+    		}
+    		arrayItems = new String[items.size()];
+    		arrayItems = items.toArray(arrayItems);
+    	}
+    }
 }
