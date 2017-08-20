@@ -99,6 +99,8 @@ public final class ScriptUtil {
 		defaultInterpret.addContextProcessor(new InstanceofContextProcessor());
 		defaultInterpret.addContextProcessor(new LambdaExpressionContextProcessor());
 		defaultInterpret.addContextProcessor(new CustomScriptExpressionContextProcessor());
+		defaultInterpret.addContextProcessor(new InContextProcessor());
+		defaultInterpret.addContextProcessor(new NotInContextProcessor());
 
 	}
 

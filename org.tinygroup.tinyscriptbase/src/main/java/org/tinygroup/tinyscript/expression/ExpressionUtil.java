@@ -464,4 +464,30 @@ public final class ExpressionUtil {
     	}
     	return null;
     }
+    
+    /**
+     * 判断是否包含某元素
+     * @param collection
+     * @param item
+     * @return
+     */
+    public static boolean in(Object collection,Object item){
+    	boolean tag = false;
+		if(collection.getClass().isArray()){
+	    	int length = Array.getLength(collection);
+	    	for(int i=0;i<length;i++){
+	    	   if(item.equals(Array.get(collection, i))){
+	    		  tag = true;
+	    		  break;
+	    	   }
+	    	}
+	    }else if(collection instanceof Collection){
+	    	Collection c = (Collection) collection;
+	    	tag = c.contains(item);
+	    }else if(collection instanceof Map){
+	    	Map map = (Map) collection;
+	    	tag = map.containsKey(item);
+	    }
+		return tag;
+    }
 }

@@ -64,6 +64,11 @@ public class CollectionTest extends TestCase {
 		assertEquals("hello", list.get(0));
 		assertEquals("tom", list.get(1));
 		assertEquals("none", list.get(2));
+		
+		//测试in和not in指令
+		assertEquals(true, scriptEngine.execute("list=[\"Tom\",\"John\"]; return \"John\" in list;",context));
+		assertEquals(true, scriptEngine.execute("list=[\"Tom\",\"John\"]; return !(\"None\" in list);",context));
+		assertEquals(true, scriptEngine.execute("list=[\"Tom\",\"John\"]; return \"None\" not  in list;",context));
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
@@ -98,6 +103,11 @@ public class CollectionTest extends TestCase {
 				.execute(" return smap.name;",context);
 		assertEquals("hello", map.get("user1"));
 		assertEquals("world", map.get("user2"));
+		
+		//测试in和not in指令
+		assertEquals(true, scriptEngine.execute("map = {\"key1\":\"english\",\"key2\":\"china\"}; return \"key1\" in map;",context));
+		assertEquals(true, scriptEngine.execute("map = {\"key1\":\"english\",\"key2\":\"china\"}; return !(\"key3\" in map);",context));
+		assertEquals(true, scriptEngine.execute("map = {\"key1\":\"english\",\"key2\":\"china\"}; return \"key3\" not in map;",context));
 
 	}
 	
@@ -124,6 +134,11 @@ public class CollectionTest extends TestCase {
 		assertEquals("hello", array[0]);
 		assertEquals("tom", array[1]);
 		assertEquals("none",array[2]);
+		
+		//测试in和not in指令
+		assertEquals(true, scriptEngine.execute("array={\"Tom\",\"John\"}; return \"John\" in array;",context));
+		assertEquals(true, scriptEngine.execute("array={\"Tom\",\"John\"}; return !(\"None\"  in array);",context));
+		assertEquals(true, scriptEngine.execute("array={\"Tom\",\"John\"}; return \"None\" not  in array;",context));
 	}
 
 	public void testUser() throws Exception {

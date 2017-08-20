@@ -235,6 +235,8 @@ expression
     |   expression '&&' expression                                  #logicalConnectExpression
     |   expression '||' expression                                  #logicalConnectExpression
     |   expression 'instanceof' expression                          #instanceofExpression
+    |   expression 'in' expression                                  #inExpression
+    |   expression 'not' 'in' expression                            #notInExpression
     |   expression '?' expression ':' expression                    #conditionalTernaryExpression
     |   Identifier? CUSTOM_SCRIPT                                    #customScriptExpression
     |   <assoc=right> expression
