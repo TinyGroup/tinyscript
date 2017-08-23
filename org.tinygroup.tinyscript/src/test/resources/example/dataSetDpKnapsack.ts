@@ -23,22 +23,22 @@ dataSet = dataSet.double("value").int("weight").int("count");
 println(dataSet.dpKnapsack(15,dataSet.weight,dataSet.count,dataSet.value));
 
 
+//基金问题
 dataSet = readTxt("/example/knapsack4.txt");
 dataSet = dataSet.int("minmoney").int("maxmoney").double("interestRate");
 dataSet.insertColumn(1,"value").insertColumn(2,"count").double("value").int("count");
 dataSet.update("value",interestRate[0]*minmoney[0]*80);
 dataSet.update("count",maxmoney[0]/minmoney[0]);
 //================================================================================
-//基金问题
 println(dataSet.dpKnapsack(5000,dataSet.minmoney,dataSet.count,dataSet.value));
 
 
+//购物单问题
 dataSet = readTxt("/example/knapsack5.txt");
 dataSet = dataSet.int("price").int("importance").int("rule");
 dataSet.insertColumn(1,"value").double("value");
 dataSet.update("value",price[0]*importance[0]);
 //================================================================================
-//基金问题
 println(dataSet.dpKnapsack(1000,dataSet.price,1,dataSet.value,(i,money)->{
 	if(rule[i] == 0){
 		if( price[i] <= money){
