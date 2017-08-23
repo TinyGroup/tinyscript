@@ -25,7 +25,7 @@ public abstract class AbstractDpKnapsackFunction extends DynamicNameScriptFuncti
 		dpKnapsackResult(result, weight.length - 1, bagSize, weight, maxCount, value, parameters);
 		// 根据最优解查找最优方案
 		Integer[] items = new Integer[weight.length];
-		FindResult(weight.length - 1, bagSize, result, weight, value, maxCount, items);
+		findResult(weight.length - 1, bagSize, result, weight, value, maxCount, items);
 
 		List<Object> list = new ArrayList<Object>();
 		Collections.addAll(list, items);
@@ -95,11 +95,11 @@ public abstract class AbstractDpKnapsackFunction extends DynamicNameScriptFuncti
 	 * @param items
 	 *            标记每个物品的数量状态
 	 */
-	protected void FindResult(int i, int j, double[][] f, int[] w, double[] v, int count[], Integer[] items) {
+	protected void findResult(int i, int j, double[][] f, int[] w, double[] v, int count[], Integer[] items) {
 		if (i > 0) {
 			if (f[i][j] == f[i - 1][j]) {
 				items[i] = 0;// 全局变量，标记未被选中
-				FindResult(i - 1, j, f, w, v, count, items);
+				findResult(i - 1, j, f, w, v, count, items);
 			} else if (j - w[i] >= 0) {
 				int min = Math.min(j / w[i], count[i]);
 				int temp = 0;
@@ -110,7 +110,7 @@ public abstract class AbstractDpKnapsackFunction extends DynamicNameScriptFuncti
 					}
 				}
 				items[i] = temp;// 标记已被选中
-				FindResult(i - 1, j - temp * w[i], f, w, v, count, items);// 回到装包之前的位置
+				findResult(i - 1, j - temp * w[i], f, w, v, count, items);// 回到装包之前的位置
 			}
 		}
 	}
