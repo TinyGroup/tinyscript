@@ -36,7 +36,7 @@ public class DataSetKnapsackFunction extends AbstractDpKnapsackFunction {
 		SimpleDataSet dataSet = (SimpleDataSet) parameters[0];
 
 		int bagSize = (Integer) parameters[1];
-		int[] weight = (int[]) ConvertToArray(parameters[2], int.class);
+		int[] weight = (int[]) convertToArray(parameters[2], int.class);
 
 		List<Object> result = null;
 
@@ -45,7 +45,7 @@ public class DataSetKnapsackFunction extends AbstractDpKnapsackFunction {
 			try {
 				int[] maxCount = getCount(null, weight, bagSize);
 
-				result = dpKnapsackResult(weight, (double[]) ConvertToArray(parameters[3], double.class), bagSize,
+				result = dpKnapsackResult(weight, (double[]) convertToArray(parameters[3], double.class), bagSize,
 						maxCount);
 			} catch (Exception e) {
 				throw new ScriptException("执行dpKnapsack出错", e);
@@ -55,11 +55,11 @@ public class DataSetKnapsackFunction extends AbstractDpKnapsackFunction {
 				int[] maxCount;
 				if (parameters[4] instanceof LambdaFunction) {
 					maxCount = getCount(null, weight, bagSize);
-					result = dpKnapsackResult(weight, (double[]) ConvertToArray(parameters[3], double.class), bagSize,
+					result = dpKnapsackResult(weight, (double[]) convertToArray(parameters[3], double.class), bagSize,
 							maxCount, dataSet, context, parameters[4]);
 				} else {
 					maxCount = getCount(parameters[3], weight, bagSize);
-					result = dpKnapsackResult(weight, (double[]) ConvertToArray(parameters[4], double.class), bagSize,
+					result = dpKnapsackResult(weight, (double[]) convertToArray(parameters[4], double.class), bagSize,
 							maxCount);
 				}
 
@@ -71,7 +71,7 @@ public class DataSetKnapsackFunction extends AbstractDpKnapsackFunction {
 				int[] maxCount = getCount(parameters[3], weight, bagSize);
 				LambdaFunction lambdaFunction = (LambdaFunction) parameters[5];
 
-				result = dpKnapsackResult(weight, (double[]) ConvertToArray(parameters[4], double.class), bagSize,
+				result = dpKnapsackResult(weight, (double[]) convertToArray(parameters[4], double.class), bagSize,
 						maxCount, dataSet, context, lambdaFunction);
 			} catch (Exception e) {
 				throw new ScriptException("执行dpKnapsack出错", e);
@@ -85,7 +85,7 @@ public class DataSetKnapsackFunction extends AbstractDpKnapsackFunction {
 	}
 
 	@Override
-	protected Object ConvertToArray(Object array, Class<?> clazz) throws ScriptException {
+	protected Object convertToArray(Object array, Class<?> clazz) throws ScriptException {
 		int length;
 		DefaultDataSetColumn setColumn = (DefaultDataSetColumn) array;
 		Object obj = null;

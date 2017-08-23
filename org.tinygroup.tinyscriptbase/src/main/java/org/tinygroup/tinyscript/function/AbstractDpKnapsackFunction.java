@@ -138,7 +138,7 @@ public abstract class AbstractDpKnapsackFunction extends DynamicNameScriptFuncti
 			Arrays.fill((int[]) maxCount, temp);
 			((int[]) maxCount)[0] = 0;
 		} else {
-			maxCount = (int[]) ConvertToArray(obj, int.class);
+			maxCount = (int[]) convertToArray(obj, int.class);
 			for (int i = 1; i < ((int[]) maxCount).length; i++) {
 				if (((int[]) maxCount)[i] == -1)
 					((int[]) maxCount)[i] = size / weight[i];
@@ -149,7 +149,7 @@ public abstract class AbstractDpKnapsackFunction extends DynamicNameScriptFuncti
 
 	abstract protected List<Object> getLastResult(List<?> result, Object obj) throws ScriptException;
 
-	abstract protected Object ConvertToArray(Object array, Class<?> clazz) throws ScriptException;
+	abstract protected Object convertToArray(Object array, Class<?> clazz) throws ScriptException;
 
 	abstract protected boolean executePrune(LambdaFunction pruneFunction, ScriptContext context, Object... parameters)
 			throws ScriptException;

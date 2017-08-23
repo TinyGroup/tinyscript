@@ -30,7 +30,7 @@ public class DpKnapsackFunction extends AbstractDpKnapsackFunction {
 
 		List<?> list = (List<?>) parameters[0];
 		int bagSize = (Integer) parameters[1];
-		int[] weight = (int[]) ConvertToArray(parameters[2], int.class);
+		int[] weight = (int[]) convertToArray(parameters[2], int.class);
 
 		if (checkParameters(parameters, 4)) {// 无限背包
 			try {
@@ -41,7 +41,7 @@ public class DpKnapsackFunction extends AbstractDpKnapsackFunction {
 					value = ((LambdaFunction) parameters[3]).execute(context).getResult();
 				}
 
-				result = dpKnapsackResult(weight, (double[]) ConvertToArray(value, double.class), bagSize, maxCount);
+				result = dpKnapsackResult(weight, (double[]) convertToArray(value, double.class), bagSize, maxCount);
 
 			} catch (Exception e) {
 				throw new ScriptException("dpKnapsack函数执行发生异常:", e);
@@ -55,7 +55,7 @@ public class DpKnapsackFunction extends AbstractDpKnapsackFunction {
 					value = ((LambdaFunction) parameters[4]).execute(context).getResult();
 				}
 
-				result = dpKnapsackResult(weight, (double[]) ConvertToArray(value, double.class), bagSize, maxCount);
+				result = dpKnapsackResult(weight, (double[]) convertToArray(value, double.class), bagSize, maxCount);
 			} catch (Exception e) {
 				throw new ScriptException("dpKnapsack函数执行发生异常:", e);
 			}
@@ -70,7 +70,7 @@ public class DpKnapsackFunction extends AbstractDpKnapsackFunction {
 
 				LambdaFunction lambdaFunction = (LambdaFunction) parameters[5];
 
-				result = dpKnapsackResult(weight, (double[]) ConvertToArray(value, double.class), bagSize, maxCount,
+				result = dpKnapsackResult(weight, (double[]) convertToArray(value, double.class), bagSize, maxCount,
 						list, context, lambdaFunction);
 			} catch (Exception e) {
 				throw new ScriptException("dpKnapsack函数执行发生异常:", e);
@@ -116,7 +116,7 @@ public class DpKnapsackFunction extends AbstractDpKnapsackFunction {
 	 * @throws ScriptException
 	 */
 	@Override
-	public Object ConvertToArray(Object array, Class<?> clazz) throws ScriptException {
+	public Object convertToArray(Object array, Class<?> clazz) throws ScriptException {
 		Object obj = null;
 		if (array instanceof List) {
 			obj = Array.newInstance(clazz, ((List<?>) array).size() + 1);
