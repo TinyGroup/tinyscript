@@ -139,4 +139,8 @@
           class="org.tinygroup.tinyscript.dataset.objectitem.DataSetRowItemProcessor"> 
     </bean>
     
+    <bean id="dataSetKnapsackFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.dataset.function.DataSetKnapsackFunction"> 
+    </bean>
+    
 </beans>

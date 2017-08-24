@@ -2,27 +2,18 @@ package org.tinygroup.tinyscript.collection.function.list;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
-import org.tinygroup.tinyscript.function.AbstractScriptFunction;
+import org.tinygroup.tinyscript.function.AbstractDpKnapsackFunction;
 import org.tinygroup.tinyscript.interpret.LambdaFunction;
-import org.tinygroup.tinyscript.interpret.ScriptResult;
 
-public class DpKnapsackFunction extends AbstractScriptFunction {
-
-	private Integer[] items;// 存放每种物品的数量
-
-	@Override
-	public String getNames() {
-		// TODO Auto-generated method stub
-		return "DPknapsack";
-	}
+public class DpKnapsackFunction extends AbstractDpKnapsackFunction {
 
 	@Override
 	public String getBindingTypes() {
@@ -31,128 +22,101 @@ public class DpKnapsackFunction extends AbstractScriptFunction {
 
 	@Override
 	public Object execute(ScriptSegment segment, ScriptContext context, Object... parameters) throws ScriptException {
-		// TODO Auto-generated method stub
 		if (parameters == null || parameters.length <= 3) {
-			throw new ScriptException("sort函数的参数 错误!");
+			throw new ScriptException("dpKnapsack参数 错误!");
 		}
-		List<?> list = (List<?>) parameters[0];
-		int size = (Integer) parameters[1];
-		Map<Object, Object> lastresult = new HashMap<Object, Object>();
+
 		List<Object> result = null;
+
+		List<?> list = (List<?>) parameters[0];
+		int bagSize = (Integer) parameters[1];
+		int[] weight = (int[]) convertToArray(parameters[2], int.class);
 
 		if (checkParameters(parameters, 4)) {// 无限背包
 			try {
-				LambdaFunction lambdaFunction = (LambdaFunction) parameters[3];
-				Object v = lambdaFunction.execute(context, null).getResult();
-				int[] count = new int[list.size() + 1];
-				int[] w = (int[]) ConvertToArray(parameters[2], int.class);
-				for (int i = 1; i < count.length; i++) {
-					count[i] = size / w[i];
+				int[] maxCount = getCount(null, weight, bagSize);
+
+				Object value = parameters[3];
+				if (value instanceof LambdaFunction) {
+					value = ((LambdaFunction) parameters[3]).execute(context).getResult();
 				}
-				result = DpKnapsackResult(w, (double[]) ConvertToArray(v, double.class), size, count);
+
+				result = dpKnapsackResult(weight, (double[]) convertToArray(value, double.class), bagSize, maxCount);
 
 			} catch (Exception e) {
-				throw new ScriptException("sort函数执行发生异常:", e);
+				throw new ScriptException("dpKnapsack函数执行发生异常:", e);
 			}
 		} else if (checkParameters(parameters, 5)) {// 混合背包和多重背包
 			try {
-				LambdaFunction lambdaFunction = (LambdaFunction) parameters[4];
-				Object v = lambdaFunction.execute(context, null).getResult();
-				int[] count = (int[]) ConvertToArray(parameters[3], int.class);
-				int[] w = (int[]) ConvertToArray(parameters[2], int.class);
-				for (int i = 1; i < count.length; i++) {
-					if (count[i] == -1)
-						count[i] = size / w[i];
+				int[] maxCount = getCount(parameters[3], weight, bagSize);
+
+				Object value = parameters[4];
+				if (value instanceof LambdaFunction) {
+					value = ((LambdaFunction) parameters[4]).execute(context).getResult();
 				}
-				result = DpKnapsackResult(w, (double[]) ConvertToArray(v, double.class), size, count);
+
+				result = dpKnapsackResult(weight, (double[]) convertToArray(value, double.class), bagSize, maxCount);
 			} catch (Exception e) {
-				throw new ScriptException("sort函数执行发生异常:", e);
+				throw new ScriptException("dpKnapsack函数执行发生异常:", e);
 			}
-		} else if (checkParameters(parameters, 6)) {// 用户定义规则（目前是主件和附件）
+		} else if (checkParameters(parameters, 6)) {// 用户定义规则
 			try {
-				int[] rule = (int[]) ConvertToArray(parameters[4], int.class);// 主件和附件规则
-				LambdaFunction lambdaFunction = (LambdaFunction) parameters[5];
-				Object v = lambdaFunction.execute(context, null).getResult();
-				result = DpKnapsackResult((int[]) ConvertToArray(parameters[2], int.class),
-						(double[]) ConvertToArray(v, double.class), size,
-						(int[]) ConvertToArray(parameters[3], int.class), rule);
-			} catch (Exception e) {
-				throw new ScriptException("sort函数执行发生异常:", e);
-			}
-		}
-		lastresult.put("result", result.get(0));
-		for (int i = 1; i < result.size(); i++) {
-			lastresult.put(list.get(i - 1), result.get(i));
-		}
-		return lastresult;
-	}
+				int[] maxCount = getCount(parameters[3], weight, bagSize);
 
-	private List<Object> DpKnapsackResult(int[] w, double[] v, int bagSize, int[] count, Object... rules) {
-		double result[][] = new double[w.length][bagSize + 1];
-		// 计算最优解
-		DpKnapsackResult(result, w.length - 1, bagSize, w, count, v, rules);
-		// 根据最优解查找最优方案
-		items = new Integer[w.length];
-		FindResult(w.length - 1, bagSize, result, w, v, count);
-
-		List<Object> list = new ArrayList<Object>();
-		Collections.addAll(list, items);
-		list.set(0, result[w.length - 1][bagSize]);
-		return list;
-	}
-
-	/**
-	 * 解决背包问题
-	 * @param f 最优值二维表
-	 * @param N 物品件数
-	 * @param V 最大容量
-	 * @param w 重量
-	 * @param count 物品限制件数
-	 * @param value 物品价值
-	 * @param rules 自定义规则(主件和附件)
-	 */
-	private void DpKnapsackResult(double f[][], int N, int V, int[] w, int[] count, double value[],
-			Object... rules) {
-		int nCount = 0;
-		for (int i = 0; i <= N; i++) {
-			f[i][0] = 0;
-		}
-		for (int v = 0; v <= V; v++) {
-			f[0][v] = 0;
-		}
-		for (int i = 1; i <= N; i++) {
-			for (int v = w[i]; v <= V; v++) {
-				f[i][v] = 0;
-				nCount = Math.min(count[i], v / w[i]);
-				for (int k = 0; k <= nCount; k++) {
-					if (rules != null && rules.length > 0) {
-						int[] rule = (int[]) rules[0];
-						if (rule[i] == 0) {//考虑到主件和附件的情况
-							if (w[i] <= v) {
-								f[i][v] = Math.max(f[i][v], f[i - 1][v - k * w[i]] + k * value[i]);
-							}
-						} else {
-							if (w[i] + w[rule[i]] <= v) {
-								f[i][v] = Math.max(f[i][v], f[i - 1][v - k * w[i]] + k * value[i]);
-							}
-						}
-					} else {
-						f[i][v] = Math.max(f[i][v], f[i - 1][v - k * w[i]] + k * value[i]);
-					}
+				Object value = parameters[4];
+				if (value instanceof LambdaFunction) {
+					value = ((LambdaFunction) parameters[4]).execute(context).getResult();
 				}
+
+				LambdaFunction lambdaFunction = (LambdaFunction) parameters[5];
+
+				result = dpKnapsackResult(weight, (double[]) convertToArray(value, double.class), bagSize, maxCount,
+						list, context, lambdaFunction);
+			} catch (Exception e) {
+				throw new ScriptException("dpKnapsack函数执行发生异常:", e);
 			}
 		}
+		return getLastResult(result, list);
+
 	}
 
-	
+	@Override
+	protected List<Object> getLastResult(List<?> result, Object list) {
+		List<Object> lastResult = new ArrayList<Object>();// 需要打印的结果
+		Map<String, Object> resultValue = new HashMap<String, Object>();
+		resultValue.put("result", result.get(0));
+		int index = 0;
+		for (int i = 1; i < result.size(); i++) {
+			if ((Integer) result.get(i) == 0) {
+				((List<?>) list).remove(i - 1 - index);
+				index++;
+			}
+		}
+		Iterator<?> it = result.subList(1, result.size()).iterator();
+		while (it.hasNext()) {
+			if ((Integer) it.next() == 0) {
+				it.remove();
+			}
+		}
+		lastResult.add(resultValue);
+		lastResult.add(list);
+		lastResult.add(result.subList(1, result.size()));
+		return lastResult;
+
+	}
+
 	/**
 	 * 将数组或列表转为背包问题需要的数组
-	 * @param array  需要转化的对象有可能是数组也有可能是list
-	 * @param clazz  需要转化的数组类型
+	 * 
+	 * @param array
+	 *            需要转化的对象有可能是数组也有可能是list
+	 * @param clazz
+	 *            需要转化的数组类型
 	 * @return
 	 * @throws ScriptException
 	 */
-	private Object ConvertToArray(Object array, Class<?> clazz) throws ScriptException {
+	@Override
+	public Object convertToArray(Object array, Class<?> clazz) throws ScriptException {
 		Object obj = null;
 		if (array instanceof List) {
 			obj = Array.newInstance(clazz, ((List<?>) array).size() + 1);
@@ -172,31 +136,13 @@ public class DpKnapsackFunction extends AbstractScriptFunction {
 		return obj;
 	}
 
-	/**
-	 * @param i 
-	 * @param j 供递归调用的下标
-	 * @param f 存贮最佳结果的二维表
-	 * @param w 重量
-	 * @param v 价值
-	 * @param count 限制数量
-	 */
-	private void FindResult(int i, int j, double[][] f, int[] w, double[] v, int count[]) {
-		if (i > 0) {
-			if (f[i][j] == f[i - 1][j]) {
-				items[i] = 0;// 全局变量，标记未被选中
-				FindResult(i - 1, j, f, w, v, count);
-			} else if (j - w[i] >= 0) {
-				int min = Math.min(j / w[i], count[i]);
-				int temp = 0;
-				for (int k = 1; k <= min; k++) {
-					if (f[i - 1][j - k * w[i]] == f[i][j] - k * v[i]) {
-						temp = k;
-						break;
-					}
-				}
-				items[i] = temp;// 标记已被选中
-				FindResult(i - 1, j - temp * w[i], f, w, v, count);// 回到装包之前的位置
-			}
+	@Override
+	protected boolean executePrune(LambdaFunction pruneFunction, ScriptContext context, Object... parameters)
+			throws ScriptException {
+		try {
+			return (Boolean) (pruneFunction.execute(context, parameters).getResult());
+		} catch (Exception e) {
+			throw new ScriptException("剪枝函数执行异常", e);
 		}
 	}
 
