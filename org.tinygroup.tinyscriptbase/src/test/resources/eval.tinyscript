@@ -1,0 +1,9 @@
+a=40;
+b=8;
+
+//执行表达式
+c= eval("a/b");
+println(c);
+
+//执行lambda函数
+println(eval("pow2(a,b)->{return pow(a,b);}; return pow2(3,3);"));

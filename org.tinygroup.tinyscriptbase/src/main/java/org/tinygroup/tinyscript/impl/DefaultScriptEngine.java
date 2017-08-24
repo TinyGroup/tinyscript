@@ -67,6 +67,7 @@ public class DefaultScriptEngine extends AbstractScriptEngine {
 //		addScriptFunction(new ToFloatFunction());
 //		addScriptFunction(new ToDateFunction());
 		addScriptFunction(new TypeConvertFunction());
+		addScriptFunction(new EvalScriptFunction());
 				
 		addScriptFunction(new DoubleRandFunction());
 		addScriptFunction(new FloatRandFunction());
