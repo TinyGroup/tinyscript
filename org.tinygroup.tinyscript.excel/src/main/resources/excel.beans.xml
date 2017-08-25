@@ -6,5 +6,9 @@
     <bean id="readExcelFunction" scope="singleton"
           class="org.tinygroup.tinyscript.excel.function.ReadExcelFunction"> 
     </bean>
+    
+    <bean id="readCsvFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.csv.function.ReadCsvFunction"> 
+    </bean>
   
 </beans>

@@ -13,7 +13,6 @@ import org.tinygroup.tinyscript.excel.util.ExcelUtil;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.interpret.FileObjectUtil;
 import org.tinygroup.vfs.FileObject;
-import org.tinygroup.vfs.VFS;
 
 /**
  * 读取excel的函数
@@ -31,18 +30,18 @@ public class ReadExcelFunction extends AbstractScriptFunction {
 			Object... parameters) throws ScriptException {
 		try{
 			if (parameters == null || parameters.length == 0) {
-				throw new ScriptException("readExcel函数的参数为空!");
+				throw new ScriptException(String.format("%s函数的参数为空!",getNames()));
 			}else if(parameters.length == 1 && parameters[0]!=null){
 				return readExcel((String)parameters[0],null,context);
 			}else if(parameters.length == 2 && parameters[0]!=null && parameters[1]!=null){
 				return readExcel((String)parameters[0],(String)parameters[1],context);
 			}else{
-				throw new ScriptException("readExcel函数的参数格式不正确!");
+				throw new ScriptException(String.format("%s函数的参数格式不正确!",getNames()));
 			}
 		}catch (ScriptException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new ScriptException("readExcel函数的参数格式不正确!", e);
+			throw new ScriptException(String.format("%s函数的参数格式不正确!",getNames()),e);
 		}
 	}
 	
