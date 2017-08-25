@@ -68,15 +68,18 @@ public class DataSetConvertFunction extends DynamicNameScriptFunction {
 			for(int col:cols){
 				Object v = dataSet.getData(dataSet.getShowIndex(i), dataSet.getShowIndex(col));
 				if(v!=null){
-				   if(rules!=null){
-					   dataSet.setData(dataSet.getShowIndex(i), dataSet.getShowIndex(col), TypeConvertUtil.convert(type, v,rules));
-				   }else{
-					   dataSet.setData(dataSet.getShowIndex(i), dataSet.getShowIndex(col), TypeConvertUtil.convert(type, v)); 
+				   try{
+					   if(rules!=null){
+						   dataSet.setData(dataSet.getShowIndex(i), dataSet.getShowIndex(col), TypeConvertUtil.convert(type, v,rules));
+					   }else{
+						   dataSet.setData(dataSet.getShowIndex(i), dataSet.getShowIndex(col), TypeConvertUtil.convert(type, v)); 
+					   }
+				   }catch(Exception e){
+					  throw new ScriptException(String.format("处理第[%d]行,第[%d]列,值[%s]的记录发生移除", i,col,v));
 				   }
-				   
+				  
 				}
 			}
-			
 		}
 		return dataSet;
 	}

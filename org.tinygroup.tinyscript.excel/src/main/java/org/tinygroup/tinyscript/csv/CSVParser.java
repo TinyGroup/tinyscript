@@ -7,7 +7,6 @@ import java.io.Reader;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.tinygroup.commons.tools.CollectionUtil;
 import org.tinygroup.tinyscript.dataset.Field;
 import org.tinygroup.tinyscript.dataset.FieldType;
 import org.tinygroup.tinyscript.dataset.impl.SimpleDataSet;
@@ -84,7 +83,14 @@ public final class CSVParser {
 	private Object[][] lstToArray(List<List<String>> lstData){
 		Object[][] arrayData = new Object[lstData.size()][];
 		for(int i=0;i<lstData.size();i++){
-			arrayData[i] = CollectionUtil.toNoNullStringArray(lstData.get(i));
+			List<String> list = lstData.get(i);
+			if(list==null||list.isEmpty()){
+				arrayData[i] = new Object[0];
+			}else{
+				arrayData[i] = new Object[list.size()];
+				arrayData[i] = list.toArray(arrayData[i]);
+			}
+			
 		}
 		return arrayData;
 	}
