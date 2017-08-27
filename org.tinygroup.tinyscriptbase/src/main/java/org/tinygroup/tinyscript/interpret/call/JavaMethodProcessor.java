@@ -40,7 +40,7 @@ public class JavaMethodProcessor extends AbstractMethodProcessor{
 		try{
 			List<Method> methods = JavaMethodUtil.getClassMethod(object.getClass(),methodName);
 			if(methods==null){
-			   throw new Exception(String.format("类[%s]不存在方法[%s]", object.getClass().getName(),methodName));
+			   throw new NoSuchMethodException(String.format("类[%s]不存在方法[%s]", object.getClass().getName(),methodName));
 			}
 			//遍历同名方法,匹配参数
 			for(Method method:methods){
@@ -50,12 +50,12 @@ public class JavaMethodProcessor extends AbstractMethodProcessor{
 				   return method.invoke(object, newArgs);
 				}
 			}
-			throw new Exception(String.format("类[%s]不存在与参数列表一致的方法[%s]", object.getClass().getName(),methodName));
+			throw new NoSuchMethodException(String.format("类[%s]不存在与参数列表一致的方法[%s]", object.getClass().getName(),methodName));
 		}catch(InvocationTargetException e){
 		    throw new ScriptException(String.format("类[%s]执行方法[%s]发生异常.", object.getClass().getName(),methodName),e.getTargetException()); 
 		}catch(Exception e){
 			//抛出不匹配信息
-		    throw new NotMatchException(); 
+		    throw new NotMatchException(e); 
 		}
 	}
 	
@@ -118,7 +118,7 @@ public class JavaMethodProcessor extends AbstractMethodProcessor{
 		try{
 			List<Method> methods = JavaMethodUtil.getClassMethod(object.getClass(),methodName);
 			if(methods==null){
-			   throw new Exception(String.format("类[%s]不存在方法[%s]", object.getClass().getName(),methodName));
+			   throw new NoSuchMethodException(String.format("类[%s]不存在方法[%s]", object.getClass().getName(),methodName));
 			}
 			//遍历同名方法,匹配参数
 			for(Method method:methods){
@@ -128,7 +128,7 @@ public class JavaMethodProcessor extends AbstractMethodProcessor{
 				   return method.invoke(object, newArgs);
 				}
 			}
-			throw new Exception(String.format("类[%s]不存在与参数列表一致的方法[%s]", object.getClass().getName(),methodName));
+			throw new NoSuchMethodException(String.format("类[%s]不存在与参数列表一致的方法[%s]", object.getClass().getName(),methodName));
 		}catch(InvocationTargetException e){
 		    throw new ScriptException(String.format("类[%s]执行方法[%s]发生异常.", object.getClass().getName(),methodName),e.getTargetException()); 
 		}catch(Exception e){

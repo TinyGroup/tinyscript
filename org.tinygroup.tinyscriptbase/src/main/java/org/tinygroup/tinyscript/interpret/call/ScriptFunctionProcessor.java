@@ -52,9 +52,12 @@ public class ScriptFunctionProcessor extends AbstractMethodProcessor{
 					   return function.execute(segment, context, convertParameters(newParameters)); 
 				   }
 			   }  
+		   }catch(NotMatchException e){
+			   //抛出不匹配信息
+			   throw e;
 		   }catch(ScriptException e){
 			   //抛出不匹配信息
-			   throw new NotMatchException();
+			   throw e;
 		   }finally{
                if(function instanceof DynamicNameScriptFunction){
 				  //删除函数名

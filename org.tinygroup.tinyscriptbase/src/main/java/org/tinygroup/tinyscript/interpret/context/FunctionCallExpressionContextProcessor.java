@@ -13,6 +13,7 @@ import org.tinygroup.tinyscript.interpret.ParserRuleContextProcessor;
 import org.tinygroup.tinyscript.interpret.ScriptInterpret;
 import org.tinygroup.tinyscript.interpret.ScriptResult;
 import org.tinygroup.tinyscript.interpret.call.FunctionCallExpressionParameter;
+import org.tinygroup.tinyscript.interpret.exception.ParserRuleContextException;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.ExpressionContext;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.FunctionCallExpressionContext;
@@ -53,6 +54,8 @@ public class FunctionCallExpressionContextProcessor implements ParserRuleContext
 			    }
 			    return new ScriptResult(value);
 			    
+		}catch(ScriptException e){
+			throw new ParserRuleContextException(e,parseTree);
 		}catch(Exception e){
 			throw new ScriptException(String.format("[%s]类型的ParserRuleContext处理发生异常", getType()),e);
 		}

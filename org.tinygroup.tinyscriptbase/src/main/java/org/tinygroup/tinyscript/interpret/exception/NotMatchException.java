@@ -9,4 +9,24 @@ import org.tinygroup.tinyscript.ScriptException;
  */
 public class NotMatchException extends ScriptException{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4674614890213450608L;
+
+	public NotMatchException() {
+		super();
+	}
+
+	public NotMatchException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
+	public NotMatchException(String message) {
+		super(message);
+	}
+
+	public NotMatchException(Throwable cause) {
+		super(cause);
+	}
 }

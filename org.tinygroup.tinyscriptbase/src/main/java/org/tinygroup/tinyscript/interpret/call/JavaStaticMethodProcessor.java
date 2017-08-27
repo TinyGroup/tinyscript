@@ -41,26 +41,34 @@ public class JavaStaticMethodProcessor extends AbstractMethodProcessor{
 		    throw new ScriptException(String.format("类[%s]执行方法[%s]发生异常.", clazz.getName(),methodName),e.getTargetException()); 
 		}catch(Exception e){
 			//抛出不匹配信息
-		    throw new NotMatchException(); 
+		    throw new NotMatchException(e); 
 		}
 	}
 	
 	private Object invokeMethodWithWrapper(ScriptContext context,Class<?> clazz, String methodName,
 			Object... parameters) throws Exception {
-		Method[] methods = clazz.getMethods();
-		if(methods!=null){
-			for(Method method:methods){
-				//方法名称匹配
-				//方法是静态方法
-				//方法参数个数一致
-			    if(checkName(method,methodName) && checkStatic(method) && checkParameter(method,parameters)){
-			       if(JavaMethodUtil.checkMethod(method, parameters)){
-			    	  Object[] newParameters = JavaMethodUtil.wrapper(context,method, parameters);
-			    	  return method.invoke(null, newParameters);
-			       }
-			    }
+		try{
+			Method[] methods = clazz.getMethods();
+			if(methods!=null){
+				for(Method method:methods){
+					//方法名称匹配
+					//方法是静态方法
+					//方法参数个数一致
+				    if(checkName(method,methodName) && checkStatic(method) && checkParameter(method,parameters)){
+				       if(JavaMethodUtil.checkMethod(method, parameters)){
+				    	  Object[] newParameters = JavaMethodUtil.wrapper(context,method, parameters);
+				    	  return method.invoke(null, newParameters);
+				       }
+				    }
+				}
 			}
+		}catch(InvocationTargetException e){
+		    throw new ScriptException(String.format("类[%s]执行静态方法[%s]发生异常.", clazz.getName(),methodName),e.getTargetException()); 
+		}catch(Exception e){
+			//抛出不匹配信息
+		    throw new NotMatchException(e); 
 		}
+		
 		//抛出不匹配信息
 	    throw new NotMatchException(); 
 	}
