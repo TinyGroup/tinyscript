@@ -2,10 +2,12 @@ dataSet = readTxt("/example/knapsack1.txt");
 dataSet = dataSet.double("value").int("weight").int("count");
 //================================================================================
 //01背包
-println(dataSet.dpKnapsack(10,dataSet.weight,1,dataSet.value));
+bagSize = 10;
+println(dataSet.dpKnapsack(bagSize,dataSet.weight,1,dataSet.value));//1表示所有物品的最大份数都为1
 
 //完全背包
-println(dataSet.dpKnapsack(10,dataSet.weight,dataSet.value));
+bagSize = 10;
+println(dataSet.dpKnapsack(bagSize,dataSet.weight,dataSet.value));
 //================================================================================
 
 
@@ -13,22 +15,24 @@ dataSet = readTxt("/example/knapsack2.txt");
 dataSet = dataSet.double("value").int("weight","count");
 //================================================================================
 //多重背包
-println(dataSet.dpKnapsack(15,dataSet.weight,dataSet.count,dataSet.value));
+bagSize = 15;
+println(dataSet.dpKnapsack(bagSize,dataSet.weight,dataSet.count,dataSet.value));
 
 
 dataSet = readTxt("/example/knapsack3.txt");
 dataSet = dataSet.double("value").int("weight","count");
 //================================================================================
 //混合背包
-println(dataSet.dpKnapsack(15,dataSet.weight,dataSet.count,dataSet.value));
+bagSize = 15;
+println(dataSet.dpKnapsack(bagSize,dataSet.weight,dataSet.count,dataSet.value));
 
 
 //基金问题
 dataSet = readTxt("/example/knapsack4.txt");
 dataSet = dataSet.int("minmoney","maxmoney").double("interestRate");
 dataSet.insertColumn(1,"value").insertColumn(2,"count").double("value").int("count");
-dataSet.update("value",interestRate[0]*minmoney[0]*80);
-dataSet.update("count",maxmoney[0]/minmoney[0]);
+dataSet.update("value",interestRate[0]*minmoney[0]*80);//计算基金实际收益
+dataSet.update("count",maxmoney[0]/minmoney[0]);//根据基金的可购买的最大份额和最小份额算出最大的份数
 //================================================================================
 println(dataSet.dpKnapsack(5000,dataSet.minmoney,dataSet.count,dataSet.value));
 
@@ -37,9 +41,10 @@ println(dataSet.dpKnapsack(5000,dataSet.minmoney,dataSet.count,dataSet.value));
 dataSet = readTxt("/example/knapsack5.txt");
 dataSet = dataSet.int("price","importance","rule");
 dataSet.insertColumn(1,"value").double("value");
-dataSet.update("value",price[0]*importance[0]);
+dataSet.update("value",price[0]*importance[0]);//计算每件物品的实际价值（重要度*价格）
 //================================================================================
-println(dataSet.dpKnapsack(1000,dataSet.price,1,dataSet.value,(i,money)->{
+money = 1000;
+println(dataSet.dpKnapsack(money,dataSet.price,1,dataSet.value,()->{
 	if(rule[i] == 0){
 		if( price[i] <= money){
 			return true;

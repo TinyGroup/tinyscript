@@ -136,14 +136,4 @@ public class DpKnapsackFunction extends AbstractDpKnapsackFunction {
 		return obj;
 	}
 
-	@Override
-	protected boolean executePrune(LambdaFunction pruneFunction, ScriptContext context, Object... parameters)
-			throws ScriptException {
-		try {
-			return (Boolean) (pruneFunction.execute(context, parameters).getResult());
-		} catch (Exception e) {
-			throw new ScriptException("剪枝函数执行异常", e);
-		}
-	}
-
 }
