@@ -9,6 +9,7 @@ import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 import org.tinygroup.tinyscript.interpret.LambdaFunction;
+import org.tinygroup.tinyscript.interpret.exception.NotMatchException;
 
 /**
  * 过滤自身数据
@@ -41,6 +42,8 @@ public class RemoveFunction extends AbstractScriptFunction {
 				
         }catch (ScriptException e) {
 			throw e;
+		} catch (ClassCastException e) {
+			throw new NotMatchException(e);
 		} catch (Exception e) {
 			throw new ScriptException(String.format("%s函数执行发生异常:", getNames()),e);
 		}
