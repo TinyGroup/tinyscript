@@ -3,7 +3,7 @@
 */
 
 dataset = readTxt("/example/dayinfo.txt");
-groupds =dataset.insertColumn(3,"UP").insertColumn(4,"rate").convert("value","double").group("code1");
+groupds =dataset.insertColumn(3,"UP").insertColumn(4,"rate").double("value").group("code1");
 groupds.update("UP",(e)->{
 	return (value[31-e]-value[1-e])/value[1-e];
 });//求一月的净值
@@ -28,7 +28,7 @@ groupds = groupds.filterGroup(rate[0]<=0.5);
 dataset2 = readTxt("/example/history.txt");
 dataset3 = readTxt("/example/score.txt");
 result = dataset2.match(dataset3,code3==code2&&manager3==manager2);
-result = result.convert("lastdt","int").convert("firstdt","int").convert("rank","double").filter(lastdt==2017&&lastdt-firstdt>=3).filter(rank<=0.2);
+result = result.int("lastdt","firstdt").double("rank").filter(()->{return lastdt==2017 && lastdt-firstdt>=3 && rank<=0.2;});
 result = result.match(groupds,code3==code1);
 
 for(i = 1;i<=result.getRows();i++){
