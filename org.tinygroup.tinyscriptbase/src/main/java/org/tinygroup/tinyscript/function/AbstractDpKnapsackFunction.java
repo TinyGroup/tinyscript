@@ -10,7 +10,7 @@ import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.interpret.LambdaFunction;
 
 public abstract class AbstractDpKnapsackFunction extends DynamicNameScriptFunction {
-
+	
 	@Override
 	public boolean exsitFunctionName(String name) {
 		if (name.equals("dpKnapsack"))
@@ -30,6 +30,7 @@ public abstract class AbstractDpKnapsackFunction extends DynamicNameScriptFuncti
 		List<Object> list = new ArrayList<Object>();
 		Collections.addAll(list, items);
 		list.set(0, result[weight.length - 1][bagSize]);
+		
 		return list;
 	}
 
@@ -52,10 +53,12 @@ public abstract class AbstractDpKnapsackFunction extends DynamicNameScriptFuncti
 	 */
 	private void dpKnapsackResult(double result[][], int types, int bagSize, int[] weight, int[] maxCount,
 			double value[], Object... parameters) throws Exception {
+
 		ScriptContext context = null;
 		LambdaFunction pruneFunction = null;
 		if (parameters.length > 0) {
 			context = (ScriptContext) parameters[1];
+			context.getParent().put("resultArray", result);
 			pruneFunction = (LambdaFunction) parameters[2];
 		}
 
@@ -70,8 +73,13 @@ public abstract class AbstractDpKnapsackFunction extends DynamicNameScriptFuncti
 				result[i][v] = 0;
 				int nCount = Math.min(maxCount[i], v / weight[i]);
 				for (int k = 0; k <= nCount; k++) {
+					if (context != null) {
+						context.put("i", i);
+						context.put("v", v);
+						context.put("k", k);
+					}
 					if (parameters.length > 0) {
-						if (executePrune(pruneFunction, context, parameters[0], i - 1, bagSize))// 用户自定义剪枝的情况
+						if (executePrune(pruneFunction, context))// 用户自定义剪枝的情况
 							result[i][v] = Math.max(result[i][v], result[i - 1][v - k * weight[i]] + k * value[i]);
 					} else
 						result[i][v] = Math.max(result[i][v], result[i - 1][v - k * weight[i]] + k * value[i]);
@@ -146,12 +154,20 @@ public abstract class AbstractDpKnapsackFunction extends DynamicNameScriptFuncti
 		}
 		return (int[]) maxCount;
 	}
+	
+	protected boolean executePrune(LambdaFunction pruneFunction, ScriptContext context)
+			throws ScriptException {
+		try {
+			return (Boolean) (pruneFunction.execute(context).getResult());
+		} catch (Exception e) {
+			throw new ScriptException("剪枝函数执行异常", e);
+		}
+	}
 
 	abstract protected List<Object> getLastResult(List<?> result, Object obj) throws ScriptException;
 
 	abstract protected Object convertToArray(Object array, Class<?> clazz) throws ScriptException;
 
-	abstract protected boolean executePrune(LambdaFunction pruneFunction, ScriptContext context, Object... parameters)
-			throws ScriptException;
+	
 
 }

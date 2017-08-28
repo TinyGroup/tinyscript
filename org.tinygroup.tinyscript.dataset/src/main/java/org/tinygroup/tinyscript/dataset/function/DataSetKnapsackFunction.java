@@ -153,16 +153,4 @@ public class DataSetKnapsackFunction extends AbstractDpKnapsackFunction {
 		return lastResult;
 	}
 
-	@Override
-	protected boolean executePrune(LambdaFunction pruneFunction, ScriptContext context, Object... parameters)
-			throws ScriptException {
-		try {
-			int i = (Integer) parameters[1] + 1;
-			int bagSize = (Integer) parameters[2];
-			return (Boolean) (pruneFunction.execute(context, i, bagSize).getResult());
-		} catch (Exception e) {
-			throw new ScriptException("剪枝函数执行异常", e);
-		}
-	}
-
 }

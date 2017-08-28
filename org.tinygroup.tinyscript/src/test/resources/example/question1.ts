@@ -1,0 +1,15 @@
+/*在n个物品中挑选若干物品装入背包，最多能装多满？假设背包的大小为bagSize，每个物品的大小为weight[i]*/
+class Obj{
+	name,weight,value;
+	Obj(name,weight,value){
+	}
+}
+//根据题目，本题的最大价值实际上就是最大容量，所以value和weight是相等的。
+list=[new Obj("a",2,2),new Obj("b",3,3),new Obj("c",5,5),new Obj("d",7,7)];
+bagSize = 12;
+println("装满背包问题:\n"+list.dpKnapsack(bagSize,list.weight,1,list.value,()->{
+	if(resultArray[i][v]<=bagSize){//判断是否超出容量
+		return true;
+	}
+	return false;
+}));
