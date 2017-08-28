@@ -27,7 +27,7 @@ bagSize = 15;
 println(dataSet.dpKnapsack(bagSize,dataSet.weight,dataSet.count,dataSet.value));
 
 
-//基金问题
+//理财问题
 dataSet = readTxt("/example/knapsack4.txt");
 dataSet = dataSet.int("minmoney","maxmoney").double("interestRate");
 dataSet.insertColumn(1,"value").insertColumn(2,"count").double("value").int("count");
