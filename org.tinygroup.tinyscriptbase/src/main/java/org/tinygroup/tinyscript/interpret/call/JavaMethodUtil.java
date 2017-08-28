@@ -125,12 +125,15 @@ public class JavaMethodUtil {
 	 * @return
 	 */
 	public static boolean isInstance(Class<?> type,Object value){
-		if(value==null){
-		   return true;
-		}
 		if(simpleClassTypes.containsKey(type)){
+		   if(value==null){
+			  return false;
+		   }
 		   return simpleClassTypes.get(type).isInstance(value);
 		}else{
+		   if(value==null){
+			  return true;
+		   }
 		   return type.isInstance(value);
 		}
 	}

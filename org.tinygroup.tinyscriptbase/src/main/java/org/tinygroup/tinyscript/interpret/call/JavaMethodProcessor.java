@@ -73,7 +73,7 @@ public class JavaMethodProcessor extends AbstractMethodProcessor{
 			  Object[] newArgs = new Object[m];
 			  //检查定长参数的匹配情况
 			  for(int i=0;i<m-1;i++){
-				 if(parameters[i]!=null && !JavaMethodUtil.isInstance(types[i], parameters[i])){
+				 if( !JavaMethodUtil.isInstance(types[i], parameters[i])){
 					//某个参数类型不一致
 					return null;
 				 }else{ 
@@ -101,7 +101,7 @@ public class JavaMethodProcessor extends AbstractMethodProcessor{
 			   return EMPTY_ARGS;
 			}else if(m==n){
 			   for(int i=0;i<n;i++){
-				   if(parameters[i]!=null && !JavaMethodUtil.isInstance(types[i], parameters[i])){
+				   if( !JavaMethodUtil.isInstance(types[i], parameters[i])){
 					  //某个参数类型不一致
 					  return null;
 				   }
