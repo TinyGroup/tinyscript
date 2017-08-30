@@ -66,6 +66,7 @@ import org.tinygroup.tinyscript.dataset.function.GroupDataSetSortFunction;
 import org.tinygroup.tinyscript.dataset.function.LastRowFunction;
 import org.tinygroup.tinyscript.dataset.function.NextRowFunction;
 import org.tinygroup.tinyscript.dataset.function.PreviewRowFunction;
+import org.tinygroup.tinyscript.dataset.function.ToDynamicDataSetFunction;
 import org.tinygroup.tinyscript.dataset.objectitem.DataSetColumnItemProcessor;
 import org.tinygroup.tinyscript.dataset.objectitem.DataSetItemProcessor;
 import org.tinygroup.tinyscript.dataset.objectitem.DataSetRowItemProcessor;
@@ -174,6 +175,7 @@ public class DefaultComputeEngine extends DefaultScriptEngine implements Compute
 		addScriptFunction(new DataSetReplaceFunction());
 		addScriptFunction(new DataSetGroupStagedFunction());
 		addScriptFunction(new DataSetGroupDynamicFunction());
+		addScriptFunction(new ToDynamicDataSetFunction());
 
 		addScriptFunction(new GroupDataSetFilterFunction());
 		addScriptFunction(new GroupDataSetSortFunction());
