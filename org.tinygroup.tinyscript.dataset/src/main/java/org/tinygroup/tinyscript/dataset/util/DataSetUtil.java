@@ -238,6 +238,23 @@ public final class DataSetUtil {
 		}
 		return -1;
 	}
+	
+	/**
+	 * 返回索引字段对应的列
+	 * @param fields
+	 * @param colName
+	 * @return
+	 * @throws Exception
+	 */
+	public static int getFieldIndex(List<Field> fields, String colName) throws Exception {
+		for (int i = 0; i < fields.size(); i++) {
+			Field field = fields.get(i);
+			if (field.getName().equalsIgnoreCase(colName)) {
+				return i;
+			}
+		}
+		return -1;
+	}
 
 	/**
 	 * 设置行上下文参数

@@ -20,8 +20,13 @@ public class DataSetRowItemProcessor extends ObjectSingleItemProcessor{
 			throws Exception {
 		DataSetRow dataSetRow = (DataSetRow) obj;
 		if(DataSetUtil.isField(item,context)){
-			String colName = (String)DataSetUtil.getValue(item,context);
-			return dataSetRow.getData(colName);
+			if(item instanceof String && DataSetUtil.getFieldIndex(dataSetRow.getFields(), (String)item)>-1){
+				String colName = (String)item;
+				return dataSetRow.getData(colName);
+			}else{
+				String colName = (String)DataSetUtil.getValue(item,context);
+				return dataSetRow.getData(colName);
+			}
 		}else{
 			int col = (Integer)DataSetUtil.getValue(item,context);
 			return dataSetRow.getData(col);
