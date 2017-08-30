@@ -143,4 +143,8 @@
           class="org.tinygroup.tinyscript.dataset.function.DataSetKnapsackFunction"> 
     </bean>
     
+    <bean id="toDynamicDataSetFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.dataset.function.ToDynamicDataSetFunction"> 
+    </bean>
+    
 </beans>
