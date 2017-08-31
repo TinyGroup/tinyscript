@@ -55,6 +55,18 @@ public abstract class DynamicDataSet extends AbstractDataSet{
 		return insertColumn(col,field);
 	}
 	
+	/**
+	 * 新建某列
+	 * @param fieldName
+	 * @return
+	 * @throws Exception
+	 */
+	public DynamicDataSet  insertColumn(String fieldName) throws Exception{
+		int colNum = getColumns();
+		int col = isIndexFromOne()?colNum:colNum-1;
+		return insertColumn(col,fieldName);
+	}
+	
 	
 	/**
 	 * 新建某行

@@ -198,11 +198,11 @@ public class SimpleDataSet extends DynamicDataSet implements Cloneable {
 		int colNum = getColumns();
 		if(isIndexFromOne()){
 		   if(col<1 || col>= colNum+1){
-			  throw new  Exception(String.format("删除第%s列数据越界.", col));
+			  throw new  Exception(String.format("插入第%s列数据越界.", col));
 		   }
 		}else{
 		   if(col<0 || col>= colNum){
-		      throw new  Exception(String.format("删除第%s列数据越界.", col));
+		      throw new  Exception(String.format("插入第%s列数据越界.", col));
 		   }
 		}
 			
