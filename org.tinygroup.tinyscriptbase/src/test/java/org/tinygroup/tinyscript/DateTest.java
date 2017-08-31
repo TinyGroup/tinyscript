@@ -25,6 +25,19 @@ public class DateTest extends TestCase {
 		
 		assertEquals(14L, scriptEngine.execute("return datediff(t1,t2);", context));
 	}
+	
+	public void testEqualsDate() throws Exception{
+		Timestamp t1 = Timestamp.valueOf("2017-04-28 00:00:13.0");
+		Timestamp t2 = Timestamp.valueOf("2017-04-27 23:59:59.0");
+		Timestamp t3 = Timestamp.valueOf("2017-04-28 23:59:59.0");
+		ScriptContext context = new DefaultScriptContext();
+		context.put("t1", t1);
+		context.put("t2", t2);
+		context.put("t3", t3);
+		
+		assertEquals(false, scriptEngine.execute("return t1.equalsDate(t2);", context));
+		assertEquals(true, scriptEngine.execute("return t1.equalsDate(t3);", context));
+	}
 
 	
 }

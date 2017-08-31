@@ -62,7 +62,7 @@ public class DefaultScriptEngine extends AbstractScriptEngine {
 				
 		addScriptFunction(new MathAggregateFunction());
 				
-
+		addScriptFunction(new EqualsDateFunction());
 		addScriptFunction(new DateDifferentFunction());
 		addScriptFunction(new TypeConvertFunction());
 		addScriptFunction(new EvalScriptFunction());
