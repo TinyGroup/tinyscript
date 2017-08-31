@@ -21,7 +21,7 @@ public class SqlRowSetDataSet extends AbstractDataSet{
 			columnCount=metaData.getColumnCount();
 			for (int i = 1; i <= columnCount; i++) {
 				Field field=new Field();
-				field.setName(metaData.getColumnName(i));
+				field.setName(metaData.getColumnLabel(i)); //需要支持as场景
 				field.setTitle(metaData.getColumnLabel(i));
 				field.setType(metaData.getColumnClassName(i));
 				fields.add(field);
