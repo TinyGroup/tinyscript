@@ -31,9 +31,9 @@
 		</profile>
 	</profiles>
 	<scm>
-		<connection>scm:git:https://git.oschina.net/tinyframework/TinyEtl.git</connection>
-		<developerConnection>scm:git:https://git.oschina.net/tinyframework/TinyEtl.git</developerConnection>
-		<url>https://git.oschina.net/tinyframework/TinyEtl.git</url>
+		<connection>scm:git:https://git.oschina.net/tinyframework/tinyscript.git</connection>
+		<developerConnection>scm:git:https://git.oschina.net/tinyframework/tinyscript.git</developerConnection>
+		<url>https://git.oschina.net/tinyframework/tinyscript.git</url>
 	</scm>
 	<modules>
 		<module>org.tinygroup.tinyscriptbase</module>
