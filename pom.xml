@@ -12,23 +12,6 @@
 		<tiny_version>3.4.6</tiny_version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	<profiles>
-		<profile>
-			<id>nexus-release</id>
-			<distributionManagement>
-				<snapshotRepository>
-					<id>tiny-nexus-snapshots</id>
-					<name>tiny Nexus Snapshots</name>
-					<url>http://nexus.tinygroup.org/repository/tinyext-snapshots/</url>
-				</snapshotRepository>
-				<repository>
-					<id>tiny-nexus-releases</id>
-					<name>tiny Release Repository</name>
-					<url>http://nexus.tinygroup.org/repository/tinyext-releases/</url>
-				</repository>
-			</distributionManagement>
-		</profile>
-	</profiles>
 	<scm>
 		<connection>scm:git:https://git.oschina.net/tinyframework/tinyscript.git</connection>
 		<developerConnection>scm:git:https://git.oschina.net/tinyframework/tinyscript.git</developerConnection>
