@@ -12,6 +12,7 @@ import org.tinygroup.parsedsql.impl.SimpleJDBCNamedSqlExecutor;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.database.SqlRowSetDataSet;
+import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
 import org.tinygroup.tinyscript.interpret.custom.CustomProcessor;
 
 
@@ -74,7 +75,7 @@ public abstract class AbstractParsedSqlProcessor implements CustomProcessor{
 			if(isSelect(newSql)){
 				//处理查询语句
 				SqlRowSet sqlRowSet = sqlExecutor.queryForSqlRowSet(newSql, dataSource, context);
-				return new SqlRowSetDataSet(sqlRowSet);
+				return new SqlRowSetDataSet(sqlRowSet,ScriptContextUtil.getScriptEngine(context).isIndexFromOne());
 			}else{
 				//处理操作语句
 				return sqlExecutor.execute(newSql, dataSource, context);
