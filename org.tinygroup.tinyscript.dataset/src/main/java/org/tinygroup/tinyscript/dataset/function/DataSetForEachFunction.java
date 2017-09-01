@@ -49,7 +49,7 @@ public class DataSetForEachFunction extends AbstractScriptFunction {
 		for(int i=0;i<dataSet.getRows();i++){
 			
 			DataSetUtil.setRowContext(dataSet, context, i);
-			function.execute(context,i);
+			function.execute(context,dataSet.getShowIndex(i));
 		}
 		DataSetUtil.clearRowContext(dataSet, context);
 		return ScriptResult.VOID_RESULT;
