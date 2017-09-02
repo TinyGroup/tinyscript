@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -86,10 +87,14 @@ public final class ScriptInterpret {
 		ANTLRInputStream is = new ANTLRInputStream(script);
 		is.name = sourceName;
 
+		Lexer lexer = new TinyScriptLexer(is);
 		TinyScriptParser parser = new TinyScriptParser(
-				new CommonTokenStream(new TinyScriptLexer(is)));
+				new CommonTokenStream(lexer));
 		ScriptParserErrorListener listener = new ScriptParserErrorListener(
 				sourceName);
+		lexer.removeErrorListeners();
+		lexer.addErrorListener(listener);
+		parser.removeErrorListeners();
 		parser.addErrorListener(listener);
 
 		TinyScriptParser.CompilationUnitContext context = parser.compilationUnit();
