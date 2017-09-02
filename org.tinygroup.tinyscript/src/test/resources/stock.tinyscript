@@ -12,7 +12,7 @@ class Example6 {
        groupds =ds.insertColumn(3,"UP").double("CL").group("CODE").sortGroup("DT ASC");
        groupds.subGroup(1,1).update("UP",0d);  //每月的第一天涨停率为0
        groupds.update("UP",(CL[0]-CL[-1])/CL[-1]);  //之后的每天统计当天的涨停率。
-       resultds = groupds.filterGroup(UP[0]>ratio && UP[1]>ratio && UP[2]>ratio);
+       resultds = groupds.filterGroup(()->{return UP[0]>ratio && UP[1]>ratio && UP[2]>ratio;});
        return resultds;
     }
     
@@ -29,17 +29,17 @@ class Example6 {
     
      /* 统计订购产品的客户账户余额  */
     countBalance(){
-       customerDs = readTxt("src/test/resources/Customers.txt").double("acct_balance");
-       orderDs = readTxt("src/test/resources/Orders.txt");
-       orderDetailDs = readTxt("src/test/resources/OrderDetails.txt");
-       productDs = readTxt("src/test/resources/Products2.txt");
+       customerDs = readTxt("/Customers.txt").double("acct_balance");
+       orderDs = readTxt("/Orders.txt");
+       orderDetailDs = readTxt("/OrderDetails.txt");
+       productDs = readTxt("/Products2.txt");
        
        tempDs =  orderDetailDs.join(orderDs,order_id=order_id).join(customerDs ,customer_id=customer_id).copy().select("customer_id","order_id","item_id","acct_balance");   //关联前三张表
        groupDs = tempDs.group("customer_id"); //按客户分组
        groupDs.distinctGroup("item_id"); //统计分组客户消费的产品
        num = productDs.getRows(); //统计全部产品数目
-       allProductDs = groupDs.filterGroup(distinctGroup_item_id.size()==num);  //购买全部产品的客户分组集
-       otherDs =  groupDs.filterGroup("distinctGroup_item_id.size() < num"); //购买部分产品的客户分组集
+       allProductDs = groupDs.filterGroup(()->{return distinctGroup_item_id.size()==num;});  //购买全部产品的客户分组集
+       otherDs =  groupDs.filterGroup(()->{return (distinctGroup_item_id.size() < num);}); //购买部分产品的客户分组集
        balance1 =  allProductDs.avg("acct_balance");
        balance2 =  otherDs.avg("acct_balance");
        System.out.println("balance1="+balance1+" balance2="+balance2);
@@ -47,8 +47,8 @@ class Example6 {
     
      /* 统计某年的大客户  */
     countVip(){
-       contractDs = readTxt("src/test/resources/Contract.txt").double("Amount");
-       clientDs = readTxt("src/test/resources/Client.txt");
+       contractDs = readTxt("/Contract.txt").double("Amount");
+       clientDs = readTxt("/Client.txt");
        firstDs  = contractDs.filter(()->{return SellDate.startsWith("1998");}).join(clientDs,Client = ID); //过滤1998年的数据，并关联client表
        groupDs  = firstDs.select("Name","Amount").group("Name");  //保留计算字段,并按用户分组
        groupDs.sumGroup("Amount"); //统计每个用户的金额
