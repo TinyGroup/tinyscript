@@ -3,13 +3,14 @@ package org.tinygroup.tinyscript.interpret.exception;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
 import org.tinygroup.tinyscript.ScriptException;
+import org.tinygroup.tinyscript.interpret.InterpretExceptionInfo;
 
 /**
  * 语法规则上下文异常
  * @author yancheng11334
  *
  */
-public class ParserRuleContextException extends ScriptException{
+public class ParserRuleContextException extends ScriptException implements InterpretExceptionInfo{
 
 	/**
 	 * 
@@ -34,20 +35,36 @@ public class ParserRuleContextException extends ScriptException{
 	public String getText(){
 		return context.getText();
 	}
-	
-	public String getMessage() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("\n位置[");
-		sb.append(context.getStart().getLine());
-		sb.append(",");
-		sb.append(context.getStart().getCharPositionInLine());
-		sb.append("]-[");
-		sb.append(context.getStop().getLine());
-		sb.append(",");
-		sb.append(context.getStop().getCharPositionInLine());
-		sb.append("]\n");
-		sb.append(context.getText());
-		sb.append("\n");
-		return sb.toString();
+
+	public int getExceptionType() {
+		return 2;
+	}
+
+	public String getExceptionScript() {
+		return context.getText();
+	}
+
+	public int getStartLine() {
+		return context.getStart().getLine();
+	}
+
+	public int getStartCharPositionInLine() {
+		return context.getStart().getCharPositionInLine();
+	}
+
+	public int getStopLine() {
+		return context.getStop().getLine();
+	}
+
+	public int getStopCharPositionInLine() {
+		return context.getStop().getCharPositionInLine();
+	}
+
+	public String getMsg() {
+		return null;
+	}
+
+	public Exception getSource() {
+		return this;
 	}
 }

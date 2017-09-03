@@ -12,6 +12,7 @@ import org.antlr.v4.runtime.RuleContext;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
 import org.tinygroup.tinyscript.ScriptException;
+import org.tinygroup.tinyscript.interpret.exception.InterpretFormatException;
 import org.tinygroup.tinyscript.interpret.exception.ParserRuleContextException;
 import org.tinygroup.tinyscript.interpret.exception.RecognizerException;
 
@@ -45,9 +46,11 @@ public class ScriptParserErrorListener implements org.antlr.v4.runtime.ANTLRErro
     	}
     	
     	if(parserRuleContext!=null){
-    		exceptionList.add(new ParserRuleContextException(e,parserRuleContext));
+    		ParserRuleContextException pe = new ParserRuleContextException(e,parserRuleContext);
+    		exceptionList.add(new InterpretFormatException(pe));
     	}else{
-    		exceptionList.add(new RecognizerException(recognizer,line,charPositionInLine,msg));
+    		RecognizerException re = new RecognizerException(recognizer,line,charPositionInLine,msg);
+    		exceptionList.add(new InterpretFormatException(re));
     	}
 	}
 

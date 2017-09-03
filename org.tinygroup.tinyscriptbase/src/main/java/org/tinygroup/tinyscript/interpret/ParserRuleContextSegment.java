@@ -20,7 +20,9 @@ import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.impl.AbstractScriptEngine;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
+import org.tinygroup.tinyscript.interpret.exception.InterpretFormatException;
 import org.tinygroup.tinyscript.interpret.exception.ReturnException;
+import org.tinygroup.tinyscript.interpret.exception.RunScriptException;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.ClassDeclarationContext;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.CompilationUnitContext;
@@ -116,6 +118,9 @@ public class ParserRuleContextSegment implements ScriptSegment{
 		}catch(ReturnException e){
 			//中断异常不用管异常信息,只需要处理返回值
 			return e.getValue();
+		}catch(RunScriptException e){
+			//对运行时异常进行包装
+			throw new InterpretFormatException(e);
 		}catch(ScriptException e){
 			throw e;
 		}catch(Exception e){

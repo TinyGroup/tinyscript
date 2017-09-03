@@ -1,14 +1,16 @@
 package org.tinygroup.tinyscript.interpret.exception;
 
+import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.Recognizer;
 import org.tinygroup.tinyscript.ScriptException;
+import org.tinygroup.tinyscript.interpret.InterpretExceptionInfo;
 
 /**
  * Recognizer解析异常
  * @author yancheng11334
  *
  */
-public class RecognizerException extends ScriptException{
+public class RecognizerException extends ScriptException implements InterpretExceptionInfo{
     
 	/**
 	 * 
@@ -23,20 +25,17 @@ public class RecognizerException extends ScriptException{
 	
 	private String sourceName;
 	
+	private Parser parser;
+	
 	public RecognizerException(Recognizer<?, ?> recognizer,int codeLine,int codeCharPositionInLine,String errorMsg){
 		super();
+		if(recognizer instanceof Parser){
+		   parser = (Parser) recognizer;
+		}
 		this.sourceName = recognizer.getInputStream().getSourceName();
 		this.line = codeLine;
 		this.charPositionInLine = codeCharPositionInLine;
 		this.msg = errorMsg;
-	}
-
-	public int getLine() {
-		return line;
-	}
-
-	public int getCharPositionInLine() {
-		return charPositionInLine;
 	}
 
 	public String getMsg() {
@@ -47,18 +46,32 @@ public class RecognizerException extends ScriptException{
 		return sourceName;
 	}
 	
-	public String getMessage() {
-		StringBuilder sb = new StringBuilder();
-		 sb.append("TinyScript parse failed.\n");
-         sb.append(sourceName);
-         sb.append(':');
-         sb.append(line);
-         sb.append(':');
-         sb.append(charPositionInLine);
-         sb.append("\nmessage: ");
-         sb.append(msg);
-         sb.append('\n');
-		return sb.toString();
+	public int getExceptionType() {
+		return 1;
+	}
+
+	public String getExceptionScript() {
+		return parser==null?null:parser.getCurrentToken().getText();
+	}
+
+	public int getStartLine() {
+		return line;
+	}
+
+	public int getStartCharPositionInLine() {
+		return charPositionInLine;
+	}
+
+	public int getStopLine() {
+		return -1;
+	}
+
+	public int getStopCharPositionInLine() {
+		return -1;
+	}
+
+	public Exception getSource() {
+		return this;
 	}
 	
 }
