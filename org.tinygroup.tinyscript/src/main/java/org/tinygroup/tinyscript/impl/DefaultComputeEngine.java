@@ -34,6 +34,7 @@ import org.tinygroup.tinyscript.collection.objectitem.ListToListProcessor;
 import org.tinygroup.tinyscript.collection.objectitem.MapItemProcessor;
 import org.tinygroup.tinyscript.database.function.ExecuteSqlFunction;
 import org.tinygroup.tinyscript.database.function.QuerySqlFunction;
+import org.tinygroup.tinyscript.database.function.WriteSqlFunction;
 import org.tinygroup.tinyscript.database.sql.JDBCNamedSqlProcessor;
 import org.tinygroup.tinyscript.dataset.attribute.DataSetColumnAttributeProcessor;
 import org.tinygroup.tinyscript.dataset.attribute.ExcelAssignValueProcessor;
@@ -151,6 +152,7 @@ public class DefaultComputeEngine extends DefaultScriptEngine implements Compute
 
 		addScriptFunction(new ExecuteSqlFunction());
 		addScriptFunction(new QuerySqlFunction());
+		addScriptFunction(new WriteSqlFunction());
 
 		addScriptFunction(new CombinationFunction());
 		addScriptFunction(new PermutationFunction());
