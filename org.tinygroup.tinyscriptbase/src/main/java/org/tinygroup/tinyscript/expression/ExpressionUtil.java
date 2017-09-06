@@ -153,6 +153,7 @@ public final class ExpressionUtil {
         //添加range处理器
         addRangeOperator(new IntegerRangeOperator());
         addRangeOperator(new LongRangeOperator());
+        addRangeOperator(new NumberRangeOperator());
         addRangeOperator(new CharRangeOperator());
     }
 	
@@ -454,11 +455,11 @@ public final class ExpressionUtil {
     }
     
     public static List<Object> createRange(Object start,Object end) throws ScriptException{
-    	if(start==null || end==null || !start.getClass().equals(end.getClass())){
-    	   throw new ScriptException("创建range失败:元素为null或者类型不一致!");
+    	if(start==null || end==null ){
+    	   throw new ScriptException("创建range失败:元素为null!");
     	}
     	for(RangeOperator rangeOperator:rangeOperators){
-    	    if(rangeOperator.isMatch(start)){
+    	    if(rangeOperator.isMatch(start,end)){
     	       return rangeOperator.createRange(start, end);
     	    }
     	}

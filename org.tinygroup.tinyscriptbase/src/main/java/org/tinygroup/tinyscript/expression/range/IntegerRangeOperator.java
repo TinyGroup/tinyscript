@@ -7,8 +7,8 @@ import org.tinygroup.tinyscript.expression.RangeOperator;
 
 public class IntegerRangeOperator implements RangeOperator{
 
-	public boolean isMatch(Object c) {
-		return c instanceof Integer;
+	public boolean isMatch(Object start,Object end) {
+		return start instanceof Integer && end instanceof Integer;
 	}
 
 	public List<Object> createRange(Object start, Object end) {

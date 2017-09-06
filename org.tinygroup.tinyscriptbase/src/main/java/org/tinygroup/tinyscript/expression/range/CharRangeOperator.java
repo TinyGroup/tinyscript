@@ -7,8 +7,8 @@ import org.tinygroup.tinyscript.expression.RangeOperator;
 
 public class CharRangeOperator implements RangeOperator{
 
-	public boolean isMatch(Object c) {
-		return c instanceof Character;
+	public boolean isMatch(Object start, Object end) {
+		return start instanceof Character && end instanceof Character;
 	}
 
 	public List<Object> createRange(Object start, Object end) {
