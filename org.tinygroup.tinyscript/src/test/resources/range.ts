@@ -21,3 +21,11 @@ list = [ 'z' .. 'a'];
 println(list);
 list = [ 'm' .. 'm'];
 println(list);
+
+//测试浮点类强制转换
+list = [2.0f..8];
+println(list);
+list = [2..6.0d];
+println(list);
+list = [3.0d..3f];
+println(list);
