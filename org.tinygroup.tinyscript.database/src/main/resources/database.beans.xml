@@ -16,8 +16,8 @@
           class="org.tinygroup.tinyscript.database.sql.JDBCNamedSqlProcessor"> 
     </bean>
     
-     <bean id="writeSqlFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.database.function.WriteSqlFunction"> 
+     <bean id="writeDBFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.database.function.WriteDBFunction"> 
     </bean>
     
     

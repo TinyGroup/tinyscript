@@ -26,12 +26,12 @@ import org.tinygroup.tinyscript.interpret.ScriptUtil;
  * @author yancheng11334
  *
  */
-public class WriteSqlFunction extends AbstractScriptFunction {
+public class WriteDBFunction extends AbstractScriptFunction {
 
 	private static final int MAX_RECORDS = 200;
 	
 	public String getNames() {
-		return "writeSql";
+		return "writeDB";
 	}
 	
 	public String getBindingTypes() {
