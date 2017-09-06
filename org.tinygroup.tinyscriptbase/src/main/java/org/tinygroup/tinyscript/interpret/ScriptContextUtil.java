@@ -1,5 +1,6 @@
 package org.tinygroup.tinyscript.interpret;
 
+import org.tinygroup.config.util.ConfigurationUtil;
 import org.tinygroup.tinyscript.ScriptClassInstance;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptEngine;
@@ -19,6 +20,8 @@ public class ScriptContextUtil {
 	private static final String ENGINE_NAME = "$scriptEngine";
 	
 	private static final String DYNAMIC_FUNCTION_NAME = "$dynamicFunctionName";
+	
+	private static final String CUSTOM_BEAN_NAME = "customBean";
 	
 	public static void setLambdaFunction(ScriptContext context,LambdaFunction function){
 		if(context!=null && function!=null){
@@ -125,5 +128,37 @@ public class ScriptContextUtil {
 			result[i] = engine.execute(convertExpression(expressions[i]), context);
 		}
 		return result;
+	}
+	
+	/**
+	 * 查询bean配置名
+	 * @param context
+	 * @param parameterName
+	 * @return
+	 * @throws ScriptException
+	 */
+	public static String getBeanName(ScriptContext context,String parameterName) throws ScriptException{
+		//首先从上下文查询用户自定义的bean名称
+		String beanName = context.get(parameterName);
+		if(beanName==null){
+		   //再从全局配置查询用户定义的bean名称
+		   beanName = ConfigurationUtil.getConfigurationManager().getConfiguration(parameterName);
+		}
+		
+		if(beanName!=null){
+		   return beanName;
+		}else{
+		   throw new ScriptException(String.format("从上下文环境和全局配置项没有找到[%s],获取用户自定义bean名称失败", parameterName));
+		}
+	}
+	
+	/**
+	 * 获取customBean配置项
+	 * @param context
+	 * @return
+	 * @throws ScriptException
+	 */
+	public static String getCustomBeanName(ScriptContext context) throws ScriptException{
+		return getBeanName(context,CUSTOM_BEAN_NAME);
 	}
 }
