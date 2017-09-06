@@ -86,22 +86,29 @@ public class WriteDBFunction extends AbstractScriptFunction {
 			
 			int count=0;
 			int[] result = new int[ds.getRows()];
-			for(int i=0;i<ds.getRows();i++){
-			   for(int j=0;j<ds.getColumns();j++){
-				   int targetSqlType = rsmd.getColumnType(maps.get(j));
-				   ps.setObject(j+1, ds.getData(ds.getShowIndex(i), ds.getShowIndex(j)), targetSqlType);
-			   }
-			   count++;
-			   ps.addBatch();
-			   if(count%MAX_RECORDS==0){
-				  int[] temp = ps.executeBatch(); //批量提交
-				  System.arraycopy(temp, 0, result, count-MAX_RECORDS, MAX_RECORDS);  //合并结果
-			   }
+			int i=0,j=0;
+			try{
+				for(i=0;i<ds.getRows();i++){
+				   for(j=0;j<ds.getColumns();j++){
+					   int targetSqlType = rsmd.getColumnType(maps.get(j));
+					   ps.setObject(j+1, ds.getData(ds.getShowIndex(i), ds.getShowIndex(j)), targetSqlType);
+				   }
+				   count++;
+				   ps.addBatch();
+				   if(count%MAX_RECORDS==0){
+					  int[] temp = ps.executeBatch(); //批量提交
+					  System.arraycopy(temp, 0, result, count-MAX_RECORDS, MAX_RECORDS);  //合并结果
+				   }
+			    }
+				//提交剩余记录
+				int[] temp = ps.executeBatch();
+				System.arraycopy(temp, 0, result, result.length-temp.length, temp.length); //合并结果
+				conn.commit();
+			}catch(Exception e){
+				throw new ScriptException(String.format("%s函数执行SQL[%s]发生异常:记录位置[%d]行,[%d]列", 
+						getNames(),insertSql,ds.getShowIndex(i), ds.getShowIndex(j)), e);
 			}
-			//提交剩余记录
-			int[] temp = ps.executeBatch();
-			System.arraycopy(temp, 0, result, result.length-temp.length, temp.length); //合并结果
-			conn.commit();
+			
 			
 			return result;
 		   
