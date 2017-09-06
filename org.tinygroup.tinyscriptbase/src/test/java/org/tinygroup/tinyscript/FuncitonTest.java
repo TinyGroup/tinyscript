@@ -114,6 +114,26 @@ public class FuncitonTest extends TestCase {
 		assertEquals(27d,result.get(2));
 		assertEquals(64d,result.get(3));
 	}
+	
+	//测试四舍五入
+	public void testRound() throws Exception {
+		//浮点数按位四舍五入
+		assertEquals(3.47f,scriptEngine.execute("return round(3.46583284f,2);"));
+		assertEquals(3.46f,scriptEngine.execute("return round(3.46483284f,2);"));
+		assertEquals(8.094d,scriptEngine.execute("return round(8.0944d,3);"));
+		assertEquals(8.095d,scriptEngine.execute("return round(8.0945d,3);"));
+		//整数原样返回
+		assertEquals(1,scriptEngine.execute("return round(2-1,2);"));
+		assertEquals(10L,scriptEngine.execute("return round(10L,5);"));
+		
+		//集合方式处理浮点数
+		List result = (List) scriptEngine.execute("return round([3.467f,-56.009d],1);");  //保留相同小数位
+		assertEquals(3.5f,result.get(0));
+		assertEquals(-56.0d,result.get(1));
+		result = (List) scriptEngine.execute("return round([3.467f,-56.009d],[1,2]);");   //保留不同小数位
+		assertEquals(3.5f,result.get(0));
+		assertEquals(-56.01d,result.get(1));
+	}
 
 	public void testTrigonometric() throws Exception {
 		// 测试三角函数
