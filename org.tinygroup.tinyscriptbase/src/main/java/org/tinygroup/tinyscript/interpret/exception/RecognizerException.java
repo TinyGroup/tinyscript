@@ -47,7 +47,7 @@ public class RecognizerException extends ScriptException implements InterpretExc
 	}
 	
 	public int getExceptionType() {
-		return 1;
+		return ERROR_TYPE_RECOGNIZER;
 	}
 
 	public String getExceptionScript() {

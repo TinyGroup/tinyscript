@@ -3,11 +3,13 @@ package org.tinygroup.tinyscript.interpret.context;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.SingleLeftExpressionContext;
 import org.tinygroup.tinyscript.ScriptContext;
+import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.expression.ExpressionUtil;
 import org.tinygroup.tinyscript.interpret.ScriptInterpret;
 import org.tinygroup.tinyscript.interpret.ParserRuleContextProcessor;
 import org.tinygroup.tinyscript.interpret.ScriptResult;
+import org.tinygroup.tinyscript.interpret.exception.RunScriptException;
 
 public class MathSingleLeftProcessor implements ParserRuleContextProcessor<TinyScriptParser.SingleLeftExpressionContext>{
 
@@ -20,9 +22,14 @@ public class MathSingleLeftProcessor implements ParserRuleContextProcessor<TinyS
 			ScriptContext context) throws Exception {
 		String name = parseTree.getChild(1).getText();
 		String op = parseTree.getChild(0).getText();
-		Object value = interpret.interpretParseTreeValue(parseTree.getChild(1), segment, context);
-		Object newValue = ExpressionUtil.executeOperationWithContext(context, "l"+op, name, value);
-		return new ScriptResult(newValue);
+        try{
+        	Object value = interpret.interpretParseTreeValue(parseTree.getChild(1), segment, context);
+    		Object newValue = ExpressionUtil.executeOperationWithContext(context, "l"+op, name, value);
+    		return new ScriptResult(newValue);
+		}catch(Exception e){
+			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_RUNNING,String.format("%s进行%s操作发生异常", name,op));
+		}
+		
 	}
 
 }

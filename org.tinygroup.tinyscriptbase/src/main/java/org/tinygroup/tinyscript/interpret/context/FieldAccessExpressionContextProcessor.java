@@ -7,6 +7,7 @@ import org.tinygroup.tinyscript.interpret.AttributeUtil;
 import org.tinygroup.tinyscript.interpret.ParserRuleContextProcessor;
 import org.tinygroup.tinyscript.interpret.ScriptInterpret;
 import org.tinygroup.tinyscript.interpret.ScriptResult;
+import org.tinygroup.tinyscript.interpret.exception.RunScriptException;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.FieldAccessExpressionContext;
 
@@ -27,7 +28,7 @@ public class FieldAccessExpressionContextProcessor implements ParserRuleContextP
 		    Object fieldValue = AttributeUtil.getAttribute(object, fieldName);
 			return new ScriptResult(fieldValue);
 		}catch(Exception e){
-			throw new ScriptException(String.format("[%s]类型的ParserRuleContext处理发生异常:对象[%s],字段[%s]", getType(),object,fieldName),e);
+			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_FIELD,String.format("对象[%s]访问属性[%s]发生异常", object,fieldName));
 		}
 	}
 

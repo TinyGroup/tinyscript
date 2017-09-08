@@ -4,6 +4,7 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.tinygroup.tinyscript.ScriptException;
+import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.interpret.InterpretExceptionInfo;
 
 /**
@@ -20,25 +21,39 @@ public class RunScriptException extends ScriptException implements InterpretExce
 	private static final long serialVersionUID = 8470435201340782572L;
 	
 	private ParseTree tree;
+	
+	private int exceptionType = ERROR_TYPE_RUNNING;
+	
+	private ScriptSegment segment;
+	
+	private String msg;
 
-	public RunScriptException(Exception e,ParseTree tree){
+	public RunScriptException(Exception e,ParseTree tree,ScriptSegment segment){
+		this(e,tree,segment,ERROR_TYPE_RUNNING,null);
+	}
+	
+	public RunScriptException(Exception e,ParseTree tree,ScriptSegment segment,int exceptionType){
+		this(e,tree,segment,exceptionType,null);
+	}
+	
+	public RunScriptException(Exception e,ParseTree tree,ScriptSegment segment,int exceptionType,String msg){
 		super(e);
 		this.tree = tree;
+		this.segment = segment;
+		this.exceptionType = exceptionType;
+		this.msg = msg;
 	}
+	
 	public int getExceptionType() {
-		return 3;
+		return exceptionType;
 	}
-
 
 	public String getExceptionScript() {
-		if(tree instanceof TerminalNode){
-			TerminalNode terminalNode = (TerminalNode) tree;
-			return terminalNode.getSymbol().getText();
-		}else if(tree instanceof ParserRuleContext){
-			ParserRuleContext parserRuleContext = (ParserRuleContext) tree;
-			return parserRuleContext.getText();
+		try {
+			return segment.getScript(getStartLine(), getStartCharPositionInLine(), getStopLine(), getStopCharPositionInLine());
+		} catch (ScriptException e) {
+			return tree.getText();
 		}
-		return null;
 	}
 
 	public int getStartLine() {
@@ -80,13 +95,7 @@ public class RunScriptException extends ScriptException implements InterpretExce
 	}
 
 	public String getMsg() {
-		Throwable cause = getCause();
-		StringBuilder sb = new StringBuilder();
-		while(cause!=null){
-			sb.append(cause.getMessage()).append("\n");
-			cause = cause.getCause();
-		}
-		return sb.toString();
+		return msg;
 	}
 
 	public Exception getSource() {

@@ -37,7 +37,7 @@ public class ParserRuleContextException extends ScriptException implements Inter
 	}
 
 	public int getExceptionType() {
-		return 2;
+		return ERROR_TYPE_PARSER;
 	}
 
 	public String getExceptionScript() {

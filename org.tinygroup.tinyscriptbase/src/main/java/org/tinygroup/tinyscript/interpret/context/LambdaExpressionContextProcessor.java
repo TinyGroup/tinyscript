@@ -14,6 +14,7 @@ import org.tinygroup.tinyscript.interpret.ScriptInterpret;
 import org.tinygroup.tinyscript.interpret.ScriptResult;
 import org.tinygroup.tinyscript.interpret.call.JavaMethodUtil;
 import org.tinygroup.tinyscript.interpret.exception.ReturnException;
+import org.tinygroup.tinyscript.interpret.exception.RunScriptException;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.ExpressionContext;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.LambdaBodyContext;
@@ -165,6 +166,8 @@ public class LambdaExpressionContextProcessor implements ParserRuleContextProces
 				return interpret.interpretParseTree(lambdaBodyContext, segment, context);
 			}catch(ReturnException e){
 				return new ScriptResult(e.getValue());
+			}catch(Exception e){
+				throw new RunScriptException(e,lambdaBodyContext,segment,ScriptException.ERROR_TYPE_FUNCTION,String.format("执行lambda函数[%s]的方法体发生异常", functionName));
 			}
 		}
 		

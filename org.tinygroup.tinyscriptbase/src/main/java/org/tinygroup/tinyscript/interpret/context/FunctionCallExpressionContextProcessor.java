@@ -54,10 +54,8 @@ public class FunctionCallExpressionContextProcessor implements ParserRuleContext
 			    }
 			    return new ScriptResult(value);
 			    
-		}catch(ScriptException e){
-			throw new RunScriptException(e,parseTree);
 		}catch(Exception e){
-			throw new ScriptException(String.format("[%s]类型的ParserRuleContext处理发生异常", getType()),e);
+			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_FUNCTION,String.format("执行函数[%s]发生异常", name));
 		}
 	    
 	}

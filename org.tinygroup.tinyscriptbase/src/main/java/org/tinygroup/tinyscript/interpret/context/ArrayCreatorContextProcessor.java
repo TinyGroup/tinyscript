@@ -14,6 +14,7 @@ import org.tinygroup.tinyscript.interpret.ParserRuleContextProcessor;
 import org.tinygroup.tinyscript.interpret.ScriptInterpret;
 import org.tinygroup.tinyscript.interpret.ScriptResult;
 import org.tinygroup.tinyscript.interpret.ScriptUtil;
+import org.tinygroup.tinyscript.interpret.exception.RunScriptException;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.ArrayCreatorContext;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.DimContext;
@@ -100,7 +101,7 @@ public class ArrayCreatorContextProcessor implements ParserRuleContextProcessor<
 			
 			return new ScriptResult(array);
 		}catch (Exception e) {
-			throw new ScriptException(String.format("[%s]类型的ParserRuleContext处理发生异常:创建对象[%s]", getType(),className),e);
+			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_RUNNING,String.format("创建对象[%s]数组发生异常", className));
 		}
 	}
 	
