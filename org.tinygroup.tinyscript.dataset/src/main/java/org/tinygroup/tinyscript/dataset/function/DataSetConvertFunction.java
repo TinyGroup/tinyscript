@@ -75,7 +75,7 @@ public class DataSetConvertFunction extends DynamicNameScriptFunction {
 						   dataSet.setData(dataSet.getShowIndex(i), dataSet.getShowIndex(col), TypeConvertUtil.convert(type, v)); 
 					   }
 				   }catch(Exception e){
-					  throw new ScriptException(String.format("处理第[%d]行,第[%d]列,值[%s]的记录发生错误:", i,col,v),e);
+					  throw new ScriptException(String.format("[%s]函数处理第[%d]行,第[%d]列,值[%s]的记录发生错误:", type,dataSet.getShowIndex(i), dataSet.getShowIndex(col),v),e);
 				   }
 				  
 				}
