@@ -1,150 +1,166 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns="http://www.springframework.org/schema/beans"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns="http://www.springframework.org/schema/beans"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="dataSetColumnAttributeProcessor" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.attribute.DataSetColumnAttributeProcessor"> 
-    </bean>
-    
-    <bean id="excelAssignValueProcessor" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.attribute.ExcelAssignValueProcessor"> 
-    </bean>
-    
-    <bean id="excelAttributeProcessor" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.attribute.ExcelAttributeProcessor"> 
-    </bean>
-    
-    <bean id="cursorRowFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.CursorRowFunction"> 
-    </bean>
-    
-    <bean id="dataSetAggregateFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.DataSetAggregateFunction"> 
-    </bean>
-    
-    <bean id="dataSetConvertFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.DataSetConvertFunction"> 
-    </bean>
-    
-    <bean id="dataSetCopyFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.DataSetCopyFunction"> 
-    </bean>
-    
-    <bean id="dataSetFieldFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.DataSetFieldFunction"> 
-    </bean>
-    
-    <bean id="dataSetFillFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.DataSetFillFunction"> 
-    </bean>
-    
-    <bean id="dataSetFilterFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.DataSetFilterFunction"> 
-    </bean>
-    
-    <bean id="dataSetForEachFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.DataSetForEachFunction"> 
-    </bean>
-    
-    <bean id="dataSetGroupDynamicFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.DataSetGroupDynamicFunction"> 
-    </bean>
-    
-    <bean id="dataSetGroupFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.DataSetGroupFunction"> 
-    </bean>
-    
-    <bean id="dataSetGroupStagedFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.DataSetGroupStagedFunction"> 
-    </bean>
-    
-    <bean id="dataSetJoinFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.DataSetJoinFunction"> 
-    </bean>
-    
-    <bean id="dataSetMatchFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.DataSetMatchFunction"> 
-    </bean>
-    
-    <bean id="dataSetRemoveFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.DataSetRemoveFunction"> 
-    </bean>
-    
-    <bean id="dataSetRenameFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.DataSetRenameFunction"> 
-    </bean>
-    
-    <bean id="dataSetReplaceFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.DataSetReplaceFunction"> 
-    </bean>
-    
-    <bean id="dataSetSelectFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.DataSetSelectFunction"> 
-    </bean>
-    
-    <bean id="dataSetSortFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.DataSetSortFunction"> 
-    </bean>
-    
-    <bean id="dataSetSubFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.DataSetSubFunction"> 
-    </bean>
-    
-    <bean id="dataSetUpdateFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.DataSetUpdateFunction"> 
-    </bean>
-    
-     <bean id="firstRowFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.FirstRowFunction"> 
-    </bean>
-    
-     <bean id="groupDataSetAggregateFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.GroupDataSetAggregateFunction"> 
-    </bean>
-    
-     <bean id="groupDataSetFilterFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.GroupDataSetFilterFunction"> 
-    </bean>
-    
-     <bean id="groupDataSetSortFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.GroupDataSetSortFunction"> 
-    </bean>
-    
-    <bean id="lastRowFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.LastRowFunction"> 
-    </bean>
-    
-     <bean id="nextRowFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.NextRowFunction"> 
-    </bean>
-    
-     <bean id="previewRowFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.PreviewRowFunction"> 
-    </bean>
-    
-    <bean id="dataSetLimitFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.DataSetLimitFunction"> 
-    </bean>
-    
-    <bean id="dataSetColumnItemProcessor" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.objectitem.DataSetColumnItemProcessor"> 
-    </bean>
-    
-    <bean id="dataSetItemProcessor" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.objectitem.DataSetItemProcessor"> 
-    </bean>
-    
-    <bean id="dataSetRowItemProcessor" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.objectitem.DataSetRowItemProcessor"> 
-    </bean>
-    
-    <bean id="dataSetKnapsackFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.DataSetKnapsackFunction"> 
-    </bean>
-    
-    <bean id="toDynamicDataSetFunction" scope="singleton"
-          class="org.tinygroup.tinyscript.dataset.function.ToDynamicDataSetFunction"> 
-    </bean>
-    
+	<bean id="dataSetColumnAttributeProcessor" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.attribute.DataSetColumnAttributeProcessor">
+	</bean>
+
+	<bean id="excelAssignValueProcessor" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.attribute.ExcelAssignValueProcessor">
+	</bean>
+
+	<bean id="excelAttributeProcessor" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.attribute.ExcelAttributeProcessor">
+	</bean>
+
+	<bean id="cursorRowFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.CursorRowFunction">
+	</bean>
+
+	<bean id="dataSetAggregateFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetAggregateFunction">
+	</bean>
+
+	<bean id="dataSetConvertFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetConvertFunction">
+	</bean>
+
+	<bean id="dataSetCopyFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetCopyFunction">
+	</bean>
+
+	<bean id="dataSetFieldFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetFieldFunction">
+	</bean>
+
+	<bean id="dataSetFillFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetFillFunction">
+	</bean>
+
+	<bean id="dataSetFilterFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetFilterFunction">
+	</bean>
+
+	<bean id="dataSetForEachFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetForEachFunction">
+	</bean>
+
+	<bean id="dataSetGroupDynamicFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetGroupDynamicFunction">
+	</bean>
+
+	<bean id="dataSetGroupFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetGroupFunction">
+	</bean>
+
+	<bean id="dataSetGroupStagedFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetGroupStagedFunction">
+	</bean>
+
+	<bean id="dataSetJoinFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetJoinFunction">
+	</bean>
+
+	<bean id="dataSetMatchFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetMatchFunction">
+	</bean>
+
+	<bean id="dataSetRemoveFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetRemoveFunction">
+	</bean>
+
+	<bean id="dataSetRenameFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetRenameFunction">
+	</bean>
+
+	<bean id="dataSetReplaceFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetReplaceFunction">
+	</bean>
+
+	<bean id="dataSetSelectFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetSelectFunction">
+	</bean>
+
+	<bean id="dataSetSortFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetSortFunction">
+	</bean>
+
+	<bean id="dataSetSubFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetSubFunction">
+	</bean>
+
+	<bean id="dataSetUpdateFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetUpdateFunction">
+	</bean>
+
+	<bean id="firstRowFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.FirstRowFunction">
+	</bean>
+
+	<bean id="groupDataSetAggregateFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.GroupDataSetAggregateFunction">
+	</bean>
+
+	<bean id="groupDataSetFilterFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.GroupDataSetFilterFunction">
+	</bean>
+
+	<bean id="groupDataSetSortFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.GroupDataSetSortFunction">
+	</bean>
+
+	<bean id="lastRowFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.LastRowFunction">
+	</bean>
+
+	<bean id="nextRowFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.NextRowFunction">
+	</bean>
+
+	<bean id="previewRowFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.PreviewRowFunction">
+	</bean>
+
+	<bean id="dataSetLimitFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetLimitFunction">
+	</bean>
+
+	<bean id="dataSetColumnItemProcessor" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.objectitem.DataSetColumnItemProcessor">
+	</bean>
+
+	<bean id="dataSetItemProcessor" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.objectitem.DataSetItemProcessor">
+	</bean>
+
+	<bean id="dataSetRowItemProcessor" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.objectitem.DataSetRowItemProcessor">
+	</bean>
+
+	<bean id="dataSetKnapsackFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetKnapsackFunction">
+	</bean>
+
+	<bean id="toDynamicDataSetFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.ToDynamicDataSetFunction">
+	</bean>
+
+	<bean id="dataSetIntersectionFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetIntersectionFunction">
+	</bean>
+	
+	<bean id="dataSetSubtractFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetSubtractFunction">
+	</bean>
+	
+	<bean id="dataSetUnionFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetUnionFunction">
+	</bean>
+	
+	<bean id="dataSetXorFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetXorFunction">
+	</bean>
+
 </beans>
