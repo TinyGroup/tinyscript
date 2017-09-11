@@ -27,7 +27,7 @@ public class MathSingleLeftProcessor implements ParserRuleContextProcessor<TinyS
     		Object newValue = ExpressionUtil.executeOperationWithContext(context, "l"+op, name, value);
     		return new ScriptResult(newValue);
 		}catch(Exception e){
-			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_RUNNING,String.format("%s进行%s操作发生异常", name,op));
+			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_EXPRESSION,String.format("%s进行%s操作发生异常", name,op));
 		}
 		
 	}

@@ -37,7 +37,7 @@ public class MathBinaryRightProcessor implements ParserRuleContextProcessor<Tiny
 				return new ScriptResult(newValue);
 			}
 		}catch(Exception e){
-			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_RUNNING,String.format("%s进行赋值%s操作发生异常", name,op));
+			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_EXPRESSION,String.format("%s进行赋值%s操作发生异常", name,op));
 		}
 		
 		

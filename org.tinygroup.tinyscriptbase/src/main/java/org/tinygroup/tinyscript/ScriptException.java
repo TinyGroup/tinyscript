@@ -22,6 +22,12 @@ public class ScriptException extends Exception {
 	
 	public static final int ERROR_TYPE_FIELD = 32;
 	
+	public static final int ERROR_TYPE_EXPRESSION = 33;
+	
+	public static final int ERROR_TYPE_DIRECTIVE = 34;
+	
+	public static final int ERROR_TYPE_SCRIPTCLASS = 35;
+	
 	public static final int ERROR_TYPE_OTHER = 4;
 	
 	public ScriptException() {

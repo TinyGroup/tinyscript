@@ -81,7 +81,11 @@ public class InterpretFormatException extends ScriptException{
 	 * @param interpretExceptionInfo
 	 */
 	private void printTextMessage(StringBuilder sb,InterpretExceptionInfo interpretExceptionInfo){
-		sb.append("错误文本:").append(interpretExceptionInfo.getExceptionScript()).append("\n");
+		sb.append("错误文本:");
+		if(interpretExceptionInfo.getStartLine()!=interpretExceptionInfo.getStopLine()){
+		   sb.append("\n"); //直接换行
+		}
+		sb.append(interpretExceptionInfo.getExceptionScript()).append("\n");
 	}
 	
 	/**
@@ -97,6 +101,9 @@ public class InterpretFormatException extends ScriptException{
 		  case ScriptException.ERROR_TYPE_RUNNING: { sb.append("运行时异常\n");break;}
 		  case ScriptException.ERROR_TYPE_FUNCTION: { sb.append("函数异常\n");break;}
 		  case ScriptException.ERROR_TYPE_FIELD: { sb.append("属性异常\n");break;}
+		  case ScriptException.ERROR_TYPE_EXPRESSION: { sb.append("表达式异常\n");break;}
+		  case ScriptException.ERROR_TYPE_DIRECTIVE: { sb.append("指令异常\n");break;}
+		  case ScriptException.ERROR_TYPE_SCRIPTCLASS: { sb.append("脚本类异常\n");break;}
 		  case ScriptException.ERROR_TYPE_OTHER: { sb.append("第三方异常\n");break;}
 		  default:{ sb.append("未知异常\n");}
 		}

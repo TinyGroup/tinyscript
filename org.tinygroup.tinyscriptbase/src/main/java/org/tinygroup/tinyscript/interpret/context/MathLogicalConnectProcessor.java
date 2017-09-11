@@ -1,12 +1,14 @@
 package org.tinygroup.tinyscript.interpret.context;
 
 import org.tinygroup.tinyscript.ScriptContext;
+import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.expression.ExpressionUtil;
 import org.tinygroup.tinyscript.interpret.ParserRuleContextProcessor;
 import org.tinygroup.tinyscript.interpret.ScriptInterpret;
 import org.tinygroup.tinyscript.interpret.ScriptResult;
 import org.tinygroup.tinyscript.interpret.exception.LogicalConnectException;
+import org.tinygroup.tinyscript.interpret.exception.RunScriptException;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.LogicalConnectExpressionContext;
 
@@ -19,10 +21,13 @@ public class MathLogicalConnectProcessor implements ParserRuleContextProcessor<T
 	public ScriptResult process(LogicalConnectExpressionContext parseTree,
 			ScriptInterpret interpret, ScriptSegment segment,
 			ScriptContext context) throws Exception {
+		String name = null;
+		String op = null;
 		try{
 			
 			Object a = interpret.interpretParseTreeValue(parseTree.expression().get(0), segment, context);
-			String op = parseTree.getChild(1).getText();
+			name = parseTree.expression().get(0).getText();
+			op = parseTree.getChild(1).getText();
 			
 			if(checkShortAnd(a,op)){
 				//执行短路与中断
@@ -44,6 +49,8 @@ public class MathLogicalConnectProcessor implements ParserRuleContextProcessor<T
 				//继续往上抛
 				throw e;
 			}
+		}catch(Exception e){
+			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_EXPRESSION,String.format("%s进行逻辑%s操作发生异常", name,op));
 		}
 		
 	}

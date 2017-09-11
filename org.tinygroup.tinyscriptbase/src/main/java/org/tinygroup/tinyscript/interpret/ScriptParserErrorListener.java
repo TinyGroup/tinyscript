@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.List;
 
+import org.antlr.v4.runtime.CommonToken;
 import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.RecognitionException;
@@ -15,6 +16,7 @@ import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.interpret.exception.InterpretFormatException;
 import org.tinygroup.tinyscript.interpret.exception.ParserRuleContextException;
 import org.tinygroup.tinyscript.interpret.exception.RecognizerException;
+
 
 /**
  * tiny脚本解释器的异常侦听器
@@ -45,8 +47,14 @@ public class ScriptParserErrorListener implements org.antlr.v4.runtime.ANTLRErro
         	}
     	}
     	
+    	String text = null;
+    	if(offendingSymbol instanceof CommonToken){
+    		CommonToken token = (CommonToken) offendingSymbol;
+    		text = token.getInputStream().toString();
+    	}
+    	
     	if(parserRuleContext!=null){
-    		ParserRuleContextException pe = new ParserRuleContextException(e,parserRuleContext);
+    		ParserRuleContextException pe = new ParserRuleContextException(e,parserRuleContext,text);
     		exceptionList.add(new InterpretFormatException(pe));
     	}else{
     		RecognizerException re = new RecognizerException(recognizer,line,charPositionInLine,msg);
@@ -70,4 +78,10 @@ public class ScriptParserErrorListener implements org.antlr.v4.runtime.ANTLRErro
 		//ingore
 	}
 
+	public String toString() {
+		return "ScriptParserErrorListener [sourceName=" + sourceName
+				+ ", exceptionList=" + exceptionList + "]";
+	}
+
+	
 }

@@ -9,6 +9,7 @@ import org.tinygroup.tinyscript.interpret.ScriptInterpret;
 import org.tinygroup.tinyscript.interpret.ScriptResult;
 import org.tinygroup.tinyscript.interpret.ScriptUtil;
 import org.tinygroup.tinyscript.interpret.custom.CustomUtil;
+import org.tinygroup.tinyscript.interpret.exception.RunScriptException;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.CustomScriptExpressionContext;
 
@@ -21,6 +22,7 @@ public class CustomScriptExpressionContextProcessor implements ParserRuleContext
 	public ScriptResult process(CustomScriptExpressionContext parseTree,
 			ScriptInterpret interpret, ScriptSegment segment,
 			ScriptContext context) throws Exception {
+		String rule = null;
 		try{
 			 Object customObj = null;
 			 if(parseTree.Identifier()!=null){
@@ -30,7 +32,7 @@ public class CustomScriptExpressionContextProcessor implements ParserRuleContext
 				//通过上下文和全局配置查询用户自定义bean
 				customObj = ScriptUtil.getVariableValue(context, ScriptContextUtil.getCustomBeanName(context));
 			 }
-			 String rule = parseTree.CUSTOM_SCRIPT().getText();
+			 rule = parseTree.CUSTOM_SCRIPT().getText();
 			 rule = rule.substring(2, rule.length()-2); //去掉[[ ]]
 			 Object value = CustomUtil.executeRule(customObj, rule, context);
 			 if(value!=null && value instanceof ScriptResult){
@@ -38,7 +40,7 @@ public class CustomScriptExpressionContextProcessor implements ParserRuleContext
 			 }
 			 return new ScriptResult(value);
 		}catch(Exception e){
-			throw new ScriptException(String.format("[%s]类型的ParserRuleContext处理发生异常", getType()),e);
+			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_RUNNING,String.format("执行%s用户自定义规则发生异常", rule));
 		}
 	}
 	

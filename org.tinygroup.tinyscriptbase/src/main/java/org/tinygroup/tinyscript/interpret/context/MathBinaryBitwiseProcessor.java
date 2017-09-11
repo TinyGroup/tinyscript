@@ -32,7 +32,7 @@ public class MathBinaryBitwiseProcessor implements ParserRuleContextProcessor<Ti
 			Object value = ExpressionUtil.executeOperation(parseTree.getChild(1).getText(), a,b);
 			return new ScriptResult(value);
 		}catch(Exception e){
-			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_RUNNING,String.format("%s=%s,%s=%s进行运算发生异常", aName,a,bName,b));
+			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_EXPRESSION,String.format("%s=%s,%s=%s进行运算发生异常", aName,a,bName,b));
 		}
 	}
 

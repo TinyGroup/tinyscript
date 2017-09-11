@@ -1,8 +1,8 @@
 package org.tinygroup.tinyscript.interpret.exception;
 
-import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.Recognizer;
 import org.tinygroup.tinyscript.ScriptException;
+import org.tinygroup.tinyscript.interpret.InnerScriptReader;
 import org.tinygroup.tinyscript.interpret.InterpretExceptionInfo;
 
 /**
@@ -23,27 +23,27 @@ public class RecognizerException extends ScriptException implements InterpretExc
 	
 	private String msg;
 	
-	private String sourceName;
-	
-	private Parser parser;
+	private InnerScriptReader reader = null;
 	
 	public RecognizerException(Recognizer<?, ?> recognizer,int codeLine,int codeCharPositionInLine,String errorMsg){
 		super();
-		if(recognizer instanceof Parser){
-		   parser = (Parser) recognizer;
-		}
-		this.sourceName = recognizer.getInputStream().getSourceName();
 		this.line = codeLine;
 		this.charPositionInLine = codeCharPositionInLine;
 		this.msg = errorMsg;
+		
+		String text = recognizer.getInputStream().toString();
+		if (text != null) {
+			try {
+				reader = new InnerScriptReader(text);
+			} catch (Exception ex) {
+				// 忽略异常
+				reader = null;
+			}
+		}
 	}
 
 	public String getMsg() {
 		return msg;
-	}
-
-	public String getSourceName() {
-		return sourceName;
 	}
 	
 	public int getExceptionType() {
@@ -51,7 +51,12 @@ public class RecognizerException extends ScriptException implements InterpretExc
 	}
 
 	public String getExceptionScript() {
-		return parser==null?null:parser.getCurrentToken().getText();
+		try {
+			return reader==null?null:reader.getScriptToStop(line, charPositionInLine);
+		} catch (Exception e) {
+			// 忽略异常
+			return null;
+		}
 	}
 
 	public int getStartLine() {
