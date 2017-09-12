@@ -6,7 +6,7 @@
 
     
     <bean id="bean1" scope="prototype"
-          class="org.tinygroup.tinyscript.impl.DefaultComputeEngine"> 
+          class="org.tinygroup.tinyscript.impl.DefaultTinyScriptEngine"> 
          <property name="indexFromOne" value="false" />
     </bean>
     
@@ -16,7 +16,7 @@
     </bean>
     
     <bean id="bean3" scope="prototype"
-          class="org.tinygroup.tinyscript.impl.DefaultComputeEngine"> 
+          class="org.tinygroup.tinyscript.impl.DefaultTinyScriptEngine"> 
          <property name="indexFromOne" value="true" />
          <constructor-arg>
            <map>

@@ -16,13 +16,13 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.tinygroup.commons.tools.FileUtil;
-import org.tinygroup.tinyscript.ComputeEngine;
+import org.tinygroup.tinyscript.ScriptEngine;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.dataset.DataSet;
 import org.tinygroup.tinyscript.dataset.GroupDataSet;
-import org.tinygroup.tinyscript.impl.DefaultComputeEngine;
+import org.tinygroup.tinyscript.impl.DefaultTinyScriptEngine;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 import org.tinygroup.tinyscript.interpret.ScriptUtil;
 
@@ -33,11 +33,11 @@ import org.tinygroup.tinyscript.interpret.ScriptUtil;
  */
 public class Example6Test extends TestCase{
 
-	private ComputeEngine engine ;
+	private ScriptEngine engine ;
 	private ScriptContext context ;
 	
 	protected void setUp() throws Exception {
-		engine = new DefaultComputeEngine();
+		engine = new DefaultTinyScriptEngine();
 		context = new DefaultScriptContext();
 		
 		String content = FileUtil.readFileContent(new File("src/test/resources/stock.tinyscript"), "utf-8");

@@ -2,14 +2,13 @@ package org.tinygroup.tinyscript;
 
 import junit.framework.TestCase;
 
-import org.tinygroup.tinyscript.ComputeEngine;
 import org.tinygroup.tinyscript.dataset.DataSet;
-import org.tinygroup.tinyscript.impl.DefaultComputeEngine;
+import org.tinygroup.tinyscript.impl.DefaultTinyScriptEngine;
 
 public class ExcelTest extends TestCase {
 
 	public void testXls() throws Exception{
-		ComputeEngine engine = new DefaultComputeEngine();
+		ScriptEngine engine = new DefaultTinyScriptEngine();
 		
 		DataSet dataSet = (DataSet) engine.execute("return readExcel(\"src/test/resources/hello.xls\");");
 		assertNotNull(dataSet);
@@ -27,7 +26,7 @@ public class ExcelTest extends TestCase {
 	}
 	
 	public void testXlsx() throws Exception{
-		ComputeEngine engine = new DefaultComputeEngine();
+		ScriptEngine engine = new DefaultTinyScriptEngine();
 		
 		DataSet dataSet = (DataSet) engine.execute("return readExcel(\"src/test/resources/hello.xlsx\");");
 		assertNotNull(dataSet);

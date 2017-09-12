@@ -1,8 +1,8 @@
 package org.tinygroup.tinyscript;
 
-import org.tinygroup.tinyscript.ComputeEngine;
+import org.tinygroup.tinyscript.ScriptEngine;
 import org.tinygroup.tinyscript.dataset.DataSet;
-import org.tinygroup.tinyscript.impl.DefaultComputeEngine;
+import org.tinygroup.tinyscript.impl.DefaultTinyScriptEngine;
 
 import junit.framework.TestCase;
 
@@ -14,7 +14,7 @@ import junit.framework.TestCase;
 public class TxtTest extends TestCase {
 
 	public void testTxt() throws Exception{
-		ComputeEngine engine = new DefaultComputeEngine();
+		ScriptEngine engine = new DefaultTinyScriptEngine();
 		DataSet dataSet = (DataSet) engine.execute("return readTxt(\"src/test/resources/StockRecords.txt\");");
 		assertNotNull(dataSet);
 		

@@ -2,8 +2,8 @@ package org.tinygroup.tinyscript;
 
 import java.util.List;
 
-import org.tinygroup.tinyscript.ComputeEngine;
-import org.tinygroup.tinyscript.impl.DefaultComputeEngine;
+import org.tinygroup.tinyscript.ScriptEngine;
+import org.tinygroup.tinyscript.impl.DefaultTinyScriptEngine;
 
 import junit.framework.TestCase;
 
@@ -15,7 +15,7 @@ import junit.framework.TestCase;
 public class MathTest extends TestCase {
 
 	public void testCombination() throws Exception{
-		ComputeEngine  engine = new DefaultComputeEngine();
+		ScriptEngine  engine = new DefaultTinyScriptEngine();
 		
 		//列出全部数据
 		List<Object[]> result = (List<Object[]>) engine.execute("elements = [1,2,3,4]; list = new java.util.ArrayList(); elements.combine((record) -> {list.add(record.toArray());}); return list;");
@@ -30,7 +30,7 @@ public class MathTest extends TestCase {
 	}
 	
 	public void testPermutation() throws Exception{
-		ComputeEngine  engine = new DefaultComputeEngine();
+		ScriptEngine  engine = new DefaultTinyScriptEngine();
 		
 		//列出全部数据
 		List<Object[]> result = (List<Object[]>) engine.execute("elements = [\"R\",\"G\",\"B\"]; list = new java.util.ArrayList();  elements.permute(4,(record)->{list.add(record.toArray());}); return list;");
@@ -45,7 +45,7 @@ public class MathTest extends TestCase {
 	}
 	
 	public void testAllPermutation() throws Exception{
-		ComputeEngine  engine = new DefaultComputeEngine();
+		ScriptEngine  engine = new DefaultTinyScriptEngine();
 		
 		//列出全部记录
 		List<Object[]> result = (List<Object[]>) engine.execute("elements = [\"R\",\"G\",\"B\"]; list = new java.util.ArrayList();  elements.permuteAll((record)->{list.add(record.toArray());}); return list;");

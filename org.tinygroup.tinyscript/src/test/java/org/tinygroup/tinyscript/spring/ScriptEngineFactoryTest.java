@@ -7,7 +7,7 @@ import org.junit.Test;
 import org.tinygroup.tinyrunner.Runner;
 import org.tinygroup.tinyscript.ScriptEngine;
 import org.tinygroup.tinyscript.ScriptEngineFactory;
-import org.tinygroup.tinyscript.impl.DefaultComputeEngine;
+import org.tinygroup.tinyscript.impl.DefaultTinyScriptEngine;
 import org.tinygroup.tinyscript.impl.DefaultScriptEngine;
 
 /**
@@ -31,14 +31,14 @@ public class ScriptEngineFactoryTest {
 		
 		//测试不同bean实例
 		engine = ScriptEngineFactory.createByBean("bean1");
-		Assert.assertEquals(DefaultComputeEngine.class, engine.getClass());
+		Assert.assertEquals(DefaultTinyScriptEngine.class, engine.getClass());
 		Assert.assertEquals(false, engine.isIndexFromOne());
 		
 		Assert.assertFalse(engine.getScriptContext().exist("os"));
 		Assert.assertFalse(engine.getScriptContext().exist("user"));
 		
 		engine = ScriptEngineFactory.createByBean("bean3");
-		Assert.assertEquals(DefaultComputeEngine.class, engine.getClass());
+		Assert.assertEquals(DefaultTinyScriptEngine.class, engine.getClass());
 		Assert.assertEquals(true, engine.isIndexFromOne());
 		
 		Assert.assertTrue(engine.getScriptContext().exist("os"));

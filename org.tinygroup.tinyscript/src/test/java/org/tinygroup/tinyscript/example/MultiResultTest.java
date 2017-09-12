@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.tinygroup.commons.tools.FileUtil;
-import org.tinygroup.tinyscript.ComputeEngine;
+import org.tinygroup.tinyscript.ScriptEngine;
 import org.tinygroup.tinyscript.ScriptClassInstance;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptSegment;
-import org.tinygroup.tinyscript.impl.DefaultComputeEngine;
+import org.tinygroup.tinyscript.impl.DefaultTinyScriptEngine;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 import org.tinygroup.tinyscript.interpret.ScriptUtil;
 
@@ -22,11 +22,11 @@ import junit.framework.TestCase;
  */
 public class MultiResultTest extends TestCase{
 
-	private ComputeEngine engine ;
+	private ScriptEngine engine ;
 	private ScriptContext context ;
 	
 	protected void setUp() throws Exception {
-		engine = new DefaultComputeEngine();
+		engine = new DefaultTinyScriptEngine();
 		context = new DefaultScriptContext();
 		
 		String content = FileUtil.readFileContent(new File("src/test/resources/multiresult.tinyscript"), "utf-8");

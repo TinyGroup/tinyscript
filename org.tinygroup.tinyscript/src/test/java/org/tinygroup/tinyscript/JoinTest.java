@@ -2,17 +2,17 @@ package org.tinygroup.tinyscript;
 
 import junit.framework.TestCase;
 
-import org.tinygroup.tinyscript.ComputeEngine;
+import org.tinygroup.tinyscript.ScriptEngine;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.dataset.DataSet;
-import org.tinygroup.tinyscript.impl.DefaultComputeEngine;
+import org.tinygroup.tinyscript.impl.DefaultTinyScriptEngine;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 
 public class JoinTest  extends TestCase {
 
 	
 	public void testJoin() throws Exception {
-		ComputeEngine engine = new DefaultComputeEngine();
+		ScriptEngine engine = new DefaultTinyScriptEngine();
 		DataSet orders = (DataSet) engine.execute("return readTxt(\"src/test/resources/Orders.txt\");");
 		DataSet details = (DataSet) engine.execute("return readTxt(\"src/test/resources/OrderDetails.txt\");");
 		

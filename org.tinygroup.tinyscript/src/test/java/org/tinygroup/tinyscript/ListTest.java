@@ -5,9 +5,9 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.tinygroup.tinyscript.ComputeEngine;
+import org.tinygroup.tinyscript.ScriptEngine;
 import org.tinygroup.tinyscript.ScriptContext;
-import org.tinygroup.tinyscript.impl.DefaultComputeEngine;
+import org.tinygroup.tinyscript.impl.DefaultTinyScriptEngine;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 
 /**
@@ -23,7 +23,7 @@ public class ListTest extends TestCase {
 	 */
 	@SuppressWarnings("rawtypes")
 	public void testBase() throws Exception{
-		ComputeEngine  engine = new DefaultComputeEngine();
+		ScriptEngine  engine = new DefaultTinyScriptEngine();
 		List list = null;  
 		list = (List) engine.execute("list = [1,2,3,5,8,13]; return list;");
 		assertEquals(6, list.size());
@@ -68,7 +68,7 @@ public class ListTest extends TestCase {
 	 * @throws Exception
 	 */
 	public void testListOperator() throws Exception{
-		ComputeEngine  engine = new DefaultComputeEngine();
+		ScriptEngine  engine = new DefaultTinyScriptEngine();
 		assertEquals(1,engine.execute("a=[1,2,3,4]; b=[4,5,6]; c = a.intersect(b); return c.size();"));
 		assertEquals(4,engine.execute("a=[1,2,3,4]; b=[4,5,6]; c = a.intersect(b); return c[1];"));
 		assertEquals(0,engine.execute("a=[1,2,3,4]; b=[5,6,20]; c = a.intersect(b); return c.size();"));
@@ -88,7 +88,7 @@ public class ListTest extends TestCase {
 	 * @throws Exception
 	 */
 	public void testSort() throws Exception{
-		ComputeEngine  engine = new DefaultComputeEngine();
+		ScriptEngine  engine = new DefaultTinyScriptEngine();
 		ScriptContext context = new DefaultScriptContext();
 		//自然排序
 		assertEquals("[-1, 4, 5, 6, 12, 20]",engine.execute("a=[6,20,-1,12,5,4]; a.sort(\"asc\");return a.toString();"));  //升序
@@ -115,7 +115,7 @@ public class ListTest extends TestCase {
 	
 	@SuppressWarnings({ "rawtypes" })
 	public void testOperator() throws Exception{
-		ComputeEngine  engine = new DefaultComputeEngine();
+		ScriptEngine  engine = new DefaultTinyScriptEngine();
 		ScriptContext context = new DefaultScriptContext();
 		List result = null;
 		//测试通过+操作符执行并集操作
@@ -147,7 +147,7 @@ public class ListTest extends TestCase {
 	
 	@SuppressWarnings({"rawtypes" })
 	public void testOperator2() throws Exception{
-		ComputeEngine  engine = new DefaultComputeEngine();
+		ScriptEngine  engine = new DefaultTinyScriptEngine();
 		List result = null;
 		result = (List) engine.execute("list=[2,4,6,9,10]; number = 20; return list + number;");
 		assertEquals(22, result.get(0));

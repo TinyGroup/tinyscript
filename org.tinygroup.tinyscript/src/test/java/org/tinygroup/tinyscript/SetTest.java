@@ -5,9 +5,9 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
-import org.tinygroup.tinyscript.ComputeEngine;
+import org.tinygroup.tinyscript.ScriptEngine;
 import org.tinygroup.tinyscript.ScriptContext;
-import org.tinygroup.tinyscript.impl.DefaultComputeEngine;
+import org.tinygroup.tinyscript.impl.DefaultTinyScriptEngine;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 
 /**
@@ -18,7 +18,7 @@ import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 public class SetTest  extends TestCase {
 
 	public void testUnion() throws Exception{
-		ComputeEngine  engine = new DefaultComputeEngine();
+		ScriptEngine  engine = new DefaultTinyScriptEngine();
 		ScriptContext context = new DefaultScriptContext();
 		Set<String> m1 = new HashSet<String>();
 		m1.add("aaa");
@@ -48,7 +48,7 @@ public class SetTest  extends TestCase {
 	}
 	
 	public void testIntersection() throws Exception{
-		ComputeEngine  engine = new DefaultComputeEngine();
+		ScriptEngine  engine = new DefaultTinyScriptEngine();
 		ScriptContext context = new DefaultScriptContext();
 		Set<String> m1 = new HashSet<String>();
 		m1.add("aaa");
@@ -74,7 +74,7 @@ public class SetTest  extends TestCase {
 	}
 	
 	public void testSubtract() throws Exception{
-		ComputeEngine  engine = new DefaultComputeEngine();
+		ScriptEngine  engine = new DefaultTinyScriptEngine();
 		ScriptContext context = new DefaultScriptContext();
 		Set<String> m1 = new HashSet<String>();
 		m1.add("aaa");
@@ -103,7 +103,7 @@ public class SetTest  extends TestCase {
 	}
 	
 	public void testXor() throws Exception{
-		ComputeEngine  engine = new DefaultComputeEngine();
+		ScriptEngine  engine = new DefaultTinyScriptEngine();
 		ScriptContext context = new DefaultScriptContext();
 		Set<String> m1 = new HashSet<String>();
 		m1.add("aaa");
@@ -132,7 +132,7 @@ public class SetTest  extends TestCase {
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void testOperator2() throws Exception{
-		ComputeEngine  engine = new DefaultComputeEngine();
+		ScriptEngine  engine = new DefaultTinyScriptEngine();
 		ScriptContext context = new DefaultScriptContext();
 		Set m1 = new HashSet();
 		m1.add(2);

@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 import org.tinygroup.beancontainer.BeanContainerFactory;
 import org.tinygroup.tinyrunner.Runner;
 import org.tinygroup.tinyscript.dataset.DataSet;
-import org.tinygroup.tinyscript.impl.DefaultComputeEngine;
+import org.tinygroup.tinyscript.impl.DefaultTinyScriptEngine;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 import org.tinygroup.tinyscript.tree.DataNode;
 
@@ -26,7 +26,7 @@ public class TreeTest extends TestCase {
 	}
 	
 	public void testBase() throws Exception{
-		ComputeEngine  engine = new DefaultComputeEngine();
+		ScriptEngine  engine = new DefaultTinyScriptEngine();
 		ScriptContext context = new DefaultScriptContext();
 		
 		DataNode node = (DataNode) engine.execute(" node = createTree(\"0\",\"root\").addNode(\"10\",\"自然科学\").addNode(\"20\",\"社会科学\"); node.getChild(\"10\").addNode(\"11\",\"物理\"); return node;", context);
@@ -57,7 +57,7 @@ public class TreeTest extends TestCase {
 	 * @throws Exception
 	 */
 	public void testConvert() throws Exception{
-		ComputeEngine engine = new DefaultComputeEngine();
+		ScriptEngine engine = new DefaultTinyScriptEngine();
 		DataSet dataSet = (DataSet) engine.execute("return dynamicDataSource.query(\"select * from menu\");",baseContext);
 		assertNotNull(dataSet);
 		

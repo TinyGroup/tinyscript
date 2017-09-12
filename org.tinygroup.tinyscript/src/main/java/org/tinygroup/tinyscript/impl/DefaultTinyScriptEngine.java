@@ -2,7 +2,7 @@ package org.tinygroup.tinyscript.impl;
 
 import java.util.Map;
 
-import org.tinygroup.tinyscript.ComputeEngine;
+import org.tinygroup.tinyscript.ScriptEngine;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.assignvalue.AssignValueProcessor;
 import org.tinygroup.tinyscript.assignvalue.AssignValueUtil;
@@ -86,11 +86,11 @@ import org.tinygroup.tinyscript.text.function.ReadTxtFunction;
 import org.tinygroup.tinyscript.tree.function.CreateDataTreeFunction;
 
 /**
- * 默认的tinyscript实现
+ * 默认的tinyscript实现(非动态版本)
  * @author yancheng11334
  *
  */
-public class DefaultComputeEngine extends DefaultScriptEngine implements ComputeEngine{
+public class DefaultTinyScriptEngine extends DefaultScriptEngine implements ScriptEngine{
 	
 	private static ObjectItemProcessor listToListProcessor = new ListToListProcessor();
 	private static ObjectItemProcessor dataSetItemProcessor = new DataSetItemProcessor();
@@ -110,12 +110,12 @@ public class DefaultComputeEngine extends DefaultScriptEngine implements Compute
 	
 	private static CustomProcessor jDBCNamedSqlProcessor = new JDBCNamedSqlProcessor();
 	
-	public DefaultComputeEngine() throws ScriptException {
+	public DefaultTinyScriptEngine() throws ScriptException {
 		super();
 		initComputeEngine();
 	}
 	
-	public DefaultComputeEngine(Map<?,?> map) throws ScriptException {
+	public DefaultTinyScriptEngine(Map<?,?> map) throws ScriptException {
 		super(map);
 		initComputeEngine();
 	}

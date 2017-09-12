@@ -12,7 +12,7 @@ import org.tinygroup.tinyrunner.Runner;
 import org.tinygroup.tinyscript.dataset.DataSet;
 import org.tinygroup.tinyscript.dataset.DataSetRow;
 import org.tinygroup.tinyscript.dataset.Field;
-import org.tinygroup.tinyscript.impl.DefaultComputeEngine;
+import org.tinygroup.tinyscript.impl.DefaultTinyScriptEngine;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 
 /**
@@ -30,7 +30,7 @@ public class JDBCTest {
 
 	@Test
 	public void testBase() throws Exception {
-		ComputeEngine engine = new DefaultComputeEngine();
+		ScriptEngine engine = new DefaultTinyScriptEngine();
 		DataSource source = (DataSource) engine
 				.execute("return dynamicDataSource;");
 		Assert.assertNotNull(source);
@@ -47,7 +47,7 @@ public class JDBCTest {
 	// 测试原生写法
 	@Test
 	public void testSource() throws Exception {
-		ComputeEngine engine = new DefaultComputeEngine();
+		ScriptEngine engine = new DefaultTinyScriptEngine();
 
 		engine.execute("conn = dynamicDataSource.getConnection(); statement = conn.createStatement(); statement.executeUpdate(\"DELETE FROM test1 WHERE  id=4\"); if(statement!=null){statement.close();}; if(conn!=null){conn.close();};");
 		engine.execute("conn = dynamicDataSource.getConnection(); statement = conn.createStatement(); statement.executeUpdate(\"INSERT INTO test1 (id,fullname,state) VALUES (4,'Violet Torlay','Montala')\"); if(statement!=null){statement.close();}; if(conn!=null){conn.close();};");
@@ -56,7 +56,7 @@ public class JDBCTest {
 	//测试数据集
 	@Test
 	public void testDataSet() throws Exception {
-		ComputeEngine engine = new DefaultComputeEngine();
+		ScriptEngine engine = new DefaultTinyScriptEngine();
 		DataSet dataSet = (DataSet) engine.execute("return dynamicDataSource.query(\"select * from test1\");");
 		Assert.assertNotNull(dataSet);
 		
@@ -132,7 +132,7 @@ public class JDBCTest {
 
 	@Test
 	public void testDataSet2() throws Exception {
-		ComputeEngine engine = new DefaultComputeEngine();
+		ScriptEngine engine = new DefaultTinyScriptEngine();
 		ScriptContext context = new DefaultScriptContext();
 		
 		//测试过滤
@@ -144,7 +144,7 @@ public class JDBCTest {
 	//测试基于excel单元格下标方式访问数据集
 	@Test
 	public void testDataSet3() throws Exception {
-		ComputeEngine engine = new DefaultComputeEngine();
+		ScriptEngine engine = new DefaultTinyScriptEngine();
 		ScriptContext context = new DefaultScriptContext();
 		
 		DataSet dataSet = (DataSet) engine.execute("return dynamicDataSource.query(\"select * from test1\");");
@@ -163,7 +163,7 @@ public class JDBCTest {
 	//测试基于excel单元格下标方式访问数据集
 	@Test
 	public void testDataSet4() throws Exception {
-		ComputeEngine engine = new DefaultComputeEngine();
+		ScriptEngine engine = new DefaultTinyScriptEngine();
 		ScriptContext context = new DefaultScriptContext();
 		
 		DataSet dataSet = (DataSet) engine.execute("return dynamicDataSource.query(\"select * from test1\");");
@@ -184,7 +184,7 @@ public class JDBCTest {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void testCopy() throws Exception {
 		
-		ComputeEngine engine = new DefaultComputeEngine();
+		ScriptEngine engine = new DefaultTinyScriptEngine();
 		ScriptContext context = new DefaultScriptContext();
 		
 		//测试序列
@@ -213,7 +213,7 @@ public class JDBCTest {
 	
 	@Test
 	public void testSelect() throws Exception {
-		ComputeEngine engine = new DefaultComputeEngine();
+		ScriptEngine engine = new DefaultTinyScriptEngine();
 		
 		DataSet dataSet = (DataSet) engine.execute("return dynamicDataSource.query(\"select * from test2\");");
 		Assert.assertNotNull(dataSet);
@@ -241,7 +241,7 @@ public class JDBCTest {
 	public void testSort() throws Exception {
 		//测试序表排序
 		
-		ComputeEngine engine = new DefaultComputeEngine();
+		ScriptEngine engine = new DefaultTinyScriptEngine();
 		ScriptContext context = new DefaultScriptContext();
 		
 		DataSet dataSet = (DataSet) engine.execute("return dynamicDataSource.query(\"select * from test2\");");

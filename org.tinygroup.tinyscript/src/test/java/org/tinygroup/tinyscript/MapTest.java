@@ -3,9 +3,9 @@ package org.tinygroup.tinyscript;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.tinygroup.tinyscript.ComputeEngine;
+import org.tinygroup.tinyscript.ScriptEngine;
 import org.tinygroup.tinyscript.ScriptContext;
-import org.tinygroup.tinyscript.impl.DefaultComputeEngine;
+import org.tinygroup.tinyscript.impl.DefaultTinyScriptEngine;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 
 import junit.framework.TestCase;
@@ -19,7 +19,7 @@ public class MapTest extends TestCase {
 
 	public void testBase() throws Exception{
 		
-		ComputeEngine  engine = new DefaultComputeEngine();
+		ScriptEngine  engine = new DefaultTinyScriptEngine();
 		
 		assertEquals("John", engine.execute(" map={\"name\":\"John\",\"age\":20}; return map[\"name\"];"));
 		assertEquals(50, engine.execute(" map={\"name\":\"John\",\"age\":20};  map[\"age\"] =50; return map[\"age\"];"));
@@ -29,7 +29,7 @@ public class MapTest extends TestCase {
 	}
 	
 	public void testUnion() throws Exception{
-		ComputeEngine  engine = new DefaultComputeEngine();
+		ScriptEngine  engine = new DefaultTinyScriptEngine();
 		ScriptContext context = new DefaultScriptContext();
 		Map<String,String> m1 = new HashMap<String,String>();
 		m1.put("1", "aaa");
@@ -59,7 +59,7 @@ public class MapTest extends TestCase {
 	}
 	
 	public void testIntersection() throws Exception{
-		ComputeEngine  engine = new DefaultComputeEngine();
+		ScriptEngine  engine = new DefaultTinyScriptEngine();
 		ScriptContext context = new DefaultScriptContext();
 		
 		Map<String,String> m1 = new HashMap<String,String>();
@@ -83,7 +83,7 @@ public class MapTest extends TestCase {
 	}
 	
 	public void testSubtract() throws Exception{
-		ComputeEngine  engine = new DefaultComputeEngine();
+		ScriptEngine  engine = new DefaultTinyScriptEngine();
 		ScriptContext context = new DefaultScriptContext();
 		
 		Map<String,String> m1 = new HashMap<String,String>();
@@ -108,7 +108,7 @@ public class MapTest extends TestCase {
 	}
 	
 	public void testXor() throws Exception{
-		ComputeEngine  engine = new DefaultComputeEngine();
+		ScriptEngine  engine = new DefaultTinyScriptEngine();
 		ScriptContext context = new DefaultScriptContext();
 		
 		Map<String,String> m1 = new HashMap<String,String>();
@@ -136,7 +136,7 @@ public class MapTest extends TestCase {
 	}
 	
 	public void testOperator2() throws Exception{
-		ComputeEngine  engine = new DefaultComputeEngine();
+		ScriptEngine  engine = new DefaultTinyScriptEngine();
 		ScriptContext context = new DefaultScriptContext();
 		
 		Map result = null;

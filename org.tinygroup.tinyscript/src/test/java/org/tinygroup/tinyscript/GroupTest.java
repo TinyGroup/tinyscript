@@ -9,7 +9,7 @@ import org.tinygroup.tinyrunner.Runner;
 import org.tinygroup.tinyscript.dataset.DataSet;
 import org.tinygroup.tinyscript.dataset.DynamicDataSet;
 import org.tinygroup.tinyscript.dataset.GroupDataSet;
-import org.tinygroup.tinyscript.impl.DefaultComputeEngine;
+import org.tinygroup.tinyscript.impl.DefaultTinyScriptEngine;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 
 public class GroupTest  {
@@ -23,7 +23,7 @@ public class GroupTest  {
 	@SuppressWarnings("unchecked")
 	public void testGroups() throws Exception {
 		//测试分组
-		ComputeEngine engine = new DefaultComputeEngine();
+		ScriptEngine engine = new DefaultTinyScriptEngine();
 		ScriptContext context = new DefaultScriptContext();
 		
 		DataSet dataSet = (DataSet) engine.execute("return dynamicDataSource.query(\"select * from test2\");");
@@ -69,7 +69,7 @@ public class GroupTest  {
 	
 	@Test
 	public void testGroup() throws Exception{
-		ComputeEngine engine = new DefaultComputeEngine();
+		ScriptEngine engine = new DefaultTinyScriptEngine();
 		ScriptContext context = new DefaultScriptContext();
 		
 		DataSet dataSet = (DataSet) engine.execute("return dynamicDataSource.query(\"select * from test2\");");
@@ -141,7 +141,7 @@ public class GroupTest  {
 	
 	@Test
 	public void testGroupStaged() throws Exception{
-		ComputeEngine engine = new DefaultComputeEngine();
+		ScriptEngine engine = new DefaultTinyScriptEngine();
 		ScriptContext context = new DefaultScriptContext();
 		
 		DataSet dataSet = (DataSet) engine.execute("return dynamicDataSource.query(\"select * from test2\");");
@@ -163,7 +163,7 @@ public class GroupTest  {
 	
 	@Test
 	public void testGroupDynamic() throws Exception{
-		ComputeEngine engine = new DefaultComputeEngine();
+		ScriptEngine engine = new DefaultTinyScriptEngine();
 		ScriptContext context = new DefaultScriptContext();
 		
 		DataSet dataSet = (DataSet) engine.execute("return dynamicDataSource.query(\"select * from test2\");");
