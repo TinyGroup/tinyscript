@@ -45,11 +45,14 @@ public class InterpretFormatException extends ScriptException{
 		   return ;
 		}
 		if(causes.size()>0){
-			Throwable old = causes.get(causes.size()-1);
-			//排除重复的相同异常
-			if(old.equals(cause)){
-			   return;
+			//通过遍历,解决递归环的问题
+			for(Throwable old:causes){
+			   //排除重复的相同异常
+			   if(old.equals(cause)){
+				  return;
+			   }
 			}
+			
 		}
 		causes.add(cause);
 	}
