@@ -102,4 +102,43 @@ public class RunScriptException extends ScriptException implements InterpretExce
 		return this;
 	}
 
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + exceptionType;
+		result = prime * result + ((msg == null) ? 0 : msg.hashCode());
+		result = prime * result + ((segment == null) ? 0 : segment.hashCode());
+		result = prime * result + ((tree == null) ? 0 : tree.hashCode());
+		return result;
+	}
+
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		RunScriptException other = (RunScriptException) obj;
+		if (exceptionType != other.exceptionType)
+			return false;
+		if (msg == null) {
+			if (other.msg != null)
+				return false;
+		} else if (!msg.equals(other.msg))
+			return false;
+		if (segment == null) {
+			if (other.segment != null)
+				return false;
+		} else if (!segment.equals(other.segment))
+			return false;
+		if (tree == null) {
+			if (other.tree != null)
+				return false;
+		} else if (!tree.equals(other.tree))
+			return false;
+		return true;
+	}
+
+	
 }

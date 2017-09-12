@@ -1,6 +1,8 @@
 package org.tinygroup.tinyscript.interpret.exception;
 
-import org.tinygroup.commons.tools.StringUtil;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.interpret.InterpretExceptionInfo;
 
@@ -23,13 +25,33 @@ public class InterpretFormatException extends ScriptException{
 	
 	public String getMessage() {
 		StringBuilder sb = new StringBuilder();
+        //优化异常信息显示顺序，由最内层到最外层
+		List<Throwable> causes = new ArrayList<Throwable>();
 		Throwable cause = info.getSource();
 		while(cause!=null){
-			//递归处理异常信息
-			formatExceptionMessage(sb,cause);
+			checkCause(causes,cause);
 			cause = cause.getCause();
 		}
+		for(int i=causes.size()-1;i>=0;i--){
+			formatExceptionMessage(sb,causes.get(i));
+		}
 		return sb.toString();
+	}
+	
+	//过滤异常
+	private void  checkCause(List<Throwable> causes,Throwable cause){
+		if(cause.getClass().equals(ScriptException.class) && cause.getMessage()==null){
+		   //排除无意义的ScriptException
+		   return ;
+		}
+		if(causes.size()>0){
+			Throwable old = causes.get(causes.size()-1);
+			//排除重复的相同异常
+			if(old.equals(cause)){
+			   return;
+			}
+		}
+		causes.add(cause);
 	}
 	
 	/**
@@ -42,19 +64,16 @@ public class InterpretFormatException extends ScriptException{
         if(cause instanceof InterpretExceptionInfo){
            //带位置信息的脚本异常
         	InterpretExceptionInfo interpretExceptionInfo = (InterpretExceptionInfo) cause;
-        	printTypeMessage(sb,interpretExceptionInfo.getExceptionType());
-        	printDetailMessage(sb,interpretExceptionInfo.getMsg());
+        	printTypeMessage(sb,interpretExceptionInfo.getExceptionType(),interpretExceptionInfo.getMsg());
         	printPlaceMessage(sb,interpretExceptionInfo);
         	printTextMessage(sb,interpretExceptionInfo);
         }else if(cause instanceof ScriptException){
            //无位置信息的脚本异常
         	ScriptException scriptException = (ScriptException) cause;
-        	printTypeMessage(sb,ScriptException.ERROR_TYPE_RUNNING);
-        	printDetailMessage(sb,scriptException.getMessage());
+        	printTypeMessage(sb,ScriptException.ERROR_TYPE_RUNNING,scriptException.getMessage());
         }else{
            //第三方异常
-        	printTypeMessage(sb,ScriptException.ERROR_TYPE_OTHER);
-        	printDetailMessage(sb,cause.getMessage());
+        	printTypeMessage(sb,ScriptException.ERROR_TYPE_OTHER,cause.getMessage());
         	printClassMessage(sb,cause);
         }
 	}
@@ -91,32 +110,31 @@ public class InterpretFormatException extends ScriptException{
 	/**
 	 * 输出错误文本信息
 	 * @param sb
-	 * @param interpretExceptionInfo
+	 * @param exceptionType
+	 * @param msg
 	 */
-	private void printTypeMessage(StringBuilder sb,int exceptionType){
-		sb.append("错误类型:");
+	private void printTypeMessage(StringBuilder sb,int exceptionType,String msg){
 		switch(exceptionType){
-		  case ScriptException.ERROR_TYPE_RECOGNIZER: { sb.append("解释异常\n"); break;}
-		  case ScriptException.ERROR_TYPE_PARSER: { sb.append("词法异常\n"); break;}
-		  case ScriptException.ERROR_TYPE_RUNNING: { sb.append("运行时异常\n");break;}
-		  case ScriptException.ERROR_TYPE_FUNCTION: { sb.append("函数异常\n");break;}
-		  case ScriptException.ERROR_TYPE_FIELD: { sb.append("属性异常\n");break;}
-		  case ScriptException.ERROR_TYPE_EXPRESSION: { sb.append("表达式异常\n");break;}
-		  case ScriptException.ERROR_TYPE_DIRECTIVE: { sb.append("指令异常\n");break;}
-		  case ScriptException.ERROR_TYPE_SCRIPTCLASS: { sb.append("脚本类异常\n");break;}
-		  case ScriptException.ERROR_TYPE_OTHER: { sb.append("第三方异常\n");break;}
-		  default:{ sb.append("未知异常\n");}
+		  case ScriptException.ERROR_TYPE_RECOGNIZER: { sb.append("解释异常:"); break;}
+		  case ScriptException.ERROR_TYPE_PARSER: { sb.append("词法异常:"); break;}
+		  case ScriptException.ERROR_TYPE_RUNNING: { sb.append("运行时异常:");break;}
+		  case ScriptException.ERROR_TYPE_FUNCTION: { sb.append("函数异常:");break;}
+		  case ScriptException.ERROR_TYPE_FIELD: { sb.append("属性异常:");break;}
+		  case ScriptException.ERROR_TYPE_EXPRESSION: { sb.append("表达式异常:");break;}
+		  case ScriptException.ERROR_TYPE_DIRECTIVE: { sb.append("指令异常:");break;}
+		  case ScriptException.ERROR_TYPE_SCRIPTCLASS: { sb.append("脚本类异常:");break;}
+		  case ScriptException.ERROR_TYPE_OTHER: { sb.append("第三方异常:");break;}
+		  default:{ sb.append("未知异常:");}
+		}
+		if(msg!=null){
+			sb.append(msg).append("\n");
+		}else{
+			sb.append("暂无详细原因\n");
 		}
 	}
 	
 	private void printClassMessage(StringBuilder sb,Object obj){
 		sb.append("异常类:").append(obj.getClass().getName()).append("\n");
-	}
-	
-	private void printDetailMessage(StringBuilder sb,String msg){
-	    if(!StringUtil.isEmpty(msg)){
-	    	sb.append("详细原因:").append(msg).append("\n");
-	    }
 	}
 	
 	private void printLine(StringBuilder sb){

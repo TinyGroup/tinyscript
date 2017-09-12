@@ -167,7 +167,7 @@ public class LambdaExpressionContextProcessor implements ParserRuleContextProces
 			}catch(ReturnException e){
 				return new ScriptResult(e.getValue());
 			}catch(Exception e){
-				throw new RunScriptException(e,lambdaBodyContext,segment,ScriptException.ERROR_TYPE_FUNCTION,String.format("执行lambda函数[%s]的方法体发生异常", functionName));
+				throw new ScriptException(null,e);
 			}
 		}
 		
