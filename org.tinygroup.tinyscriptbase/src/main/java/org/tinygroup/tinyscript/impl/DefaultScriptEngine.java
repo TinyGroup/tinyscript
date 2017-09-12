@@ -13,6 +13,7 @@ import org.tinygroup.tinyscript.ScriptFunction;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.function.*;
 import org.tinygroup.tinyscript.function.date.*;
+import org.tinygroup.tinyscript.function.locale.*;
 import org.tinygroup.tinyscript.function.math.*;
 import org.tinygroup.tinyscript.function.random.*;
 import org.tinygroup.tinyscript.function.output.*;
@@ -78,6 +79,8 @@ public class DefaultScriptEngine extends AbstractScriptEngine {
 		addScriptFunction(new ConsolePrintFunction());
 		addScriptFunction(new ConsolePrintfFunction());
 		addScriptFunction(new ConsolePrintlnFunction());
+		
+		addScriptFunction(new SetLocaleFunction());
 				
 		//注册数学常量
 		getScriptContext().put("PI", Math.PI);
