@@ -33,6 +33,7 @@ public class InterpretFormatException extends ScriptException{
 			checkCause(causes,cause);
 			cause = cause.getCause();
 		}
+		
 		for(int i=causes.size()-1;i>=0;i--){
 			formatExceptionMessage(sb,causes.get(i));
 		}
@@ -107,7 +108,7 @@ public class InterpretFormatException extends ScriptException{
 		if(interpretExceptionInfo.getStartLine()!=interpretExceptionInfo.getStopLine()){
 		   sb.append("\n"); //直接换行
 		}
-		sb.append(interpretExceptionInfo.getExceptionScript()).append("\n");
+		sb.append(interpretExceptionInfo.getExceptionScript());
 	}
 	
 	/**

@@ -44,7 +44,7 @@ public class ObjectCreatorContextProcessor implements ParserRuleContextProcessor
 			Object obj = ClassInstanceUtil.newInstance(segment, context, className, paramList);
 			return new ScriptResult(obj);
 		}catch (Exception e) {
-			throw new ScriptException(String.format("[%s]类型的ParserRuleContext处理发生异常:创建对象[%s]", getType(),className),e);
+			throw new ScriptException(null,e); //忽略的异常层次
 		}
 		
 	}
