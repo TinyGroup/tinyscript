@@ -5,7 +5,6 @@ import org.tinygroup.context.impl.ContextImpl;
 import org.tinygroup.tinyscript.ScriptClassInstance;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
-import org.tinygroup.tinyscript.interpret.ScriptUtil;
 
 /**
  * 运行时方法的上下文(类似栈)
@@ -14,6 +13,11 @@ import org.tinygroup.tinyscript.interpret.ScriptUtil;
  */
 public class ScriptMethodContext extends ContextImpl implements ScriptContext{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1551503251224539659L;
+
 	public ScriptClassInstance getScriptClassInstance() {
 		return ScriptContextUtil.getScriptClassInstance(this);
 	}
@@ -44,7 +48,8 @@ public class ScriptMethodContext extends ContextImpl implements ScriptContext{
         return false;
     }
 
-    public <T> T get(String name) {
+    @SuppressWarnings("unchecked")
+	public <T> T get(String name) {
         T result = super.get(name);
         if (result != null) {
             return (T) result;

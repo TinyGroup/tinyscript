@@ -17,6 +17,7 @@ import org.tinygroup.tinyscript.function.locale.*;
 import org.tinygroup.tinyscript.function.math.*;
 import org.tinygroup.tinyscript.function.random.*;
 import org.tinygroup.tinyscript.function.output.*;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
 
 /**
@@ -114,8 +115,7 @@ public class DefaultScriptEngine extends AbstractScriptEngine {
 							dynamicNameList.add(dynamicNameScriptFunction);
 						}
 					}catch (ClassNotFoundException e) {
-						throw new ScriptException(String.format("添加脚本函数时,没有找到%s类型的类.",
-								type), e);
+						throw new ScriptException(ResourceBundleUtil.getMessage("engine.notfind.class1", type),e);
 					}
 				}
 			}
@@ -141,8 +141,7 @@ public class DefaultScriptEngine extends AbstractScriptEngine {
 							nameMap.put(name, function);
 						}
 					} catch (ClassNotFoundException e) {
-						throw new ScriptException(String.format("添加脚本函数时,没有找到%s类型的类.",
-								type), e);
+						throw new ScriptException(ResourceBundleUtil.getMessage("engine.notfind.class1", type),e);
 					}
 				}
 			}
@@ -171,8 +170,7 @@ public class DefaultScriptEngine extends AbstractScriptEngine {
 				           }
 				        }
 					}catch (ClassNotFoundException e) {
-						throw new ScriptException(String.format("卸载脚本函数时,没有找到%s类型的类.",
-								type), e);
+						throw new ScriptException(ResourceBundleUtil.getMessage("engine.notfind.class2", type),e);
 					}
 				}
 			}
@@ -200,8 +198,7 @@ public class DefaultScriptEngine extends AbstractScriptEngine {
 						}
 						
 					} catch (ClassNotFoundException e) {
-						throw new ScriptException(String.format("卸载脚本函数时,没有找到%s类型的类.",
-								type), e);
+						throw new ScriptException(ResourceBundleUtil.getMessage("engine.notfind.class2", type),e);
 					}
 				}
 			}
@@ -280,14 +277,13 @@ public class DefaultScriptEngine extends AbstractScriptEngine {
 		try{
 			segment = getScriptInterpret().createScriptSegment(this, sourceName,(String)queryRule);
 		}catch(Exception e){
-			throw new ScriptException(String.format("根据查询内容[%s]解析脚本段失败,异常信息:%s",
-					queryRule,e.getMessage()));
+			throw new ScriptException(ResourceBundleUtil.getMessage("engine.parser.error", queryRule,e.getMessage()));
 		}
 		return segment;		
 	}
 
 	public void start() throws ScriptException {
-		LOGGER.logMessage(LogLevel.INFO, "tiny脚本引擎启动完成!");
+		LOGGER.logMessage(LogLevel.INFO, ResourceBundleUtil.getMessage("engine.start.finish"));
 	}
 	
 	public void stop() throws ScriptException {
@@ -296,7 +292,7 @@ public class DefaultScriptEngine extends AbstractScriptEngine {
 		typeFunctionMap.clear();
 		dynamicList.clear();
 		typeDynamicMap.clear();
-		LOGGER.logMessage(LogLevel.INFO, "tiny脚本引擎关闭完成!");
+		LOGGER.logMessage(LogLevel.INFO, ResourceBundleUtil.getMessage("engine.stop.finish"));
 	}
 
 }

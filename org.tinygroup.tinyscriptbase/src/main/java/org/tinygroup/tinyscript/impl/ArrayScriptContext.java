@@ -19,6 +19,12 @@ import org.tinygroup.tinyscript.ScriptContext;
 public class ArrayScriptContext extends ContextImpl implements
 		ScriptContext {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8021808644510481934L;
+	
+	
 	private int length = -1;
     private int order = -1;
 	public ArrayScriptContext(Context context,int length){
@@ -152,6 +158,7 @@ public class ArrayScriptContext extends ContextImpl implements
 		return getItemMap().containsKey(name);
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T> T get(String name) {
 		return (T) getItemMap().get(name);
 	}
