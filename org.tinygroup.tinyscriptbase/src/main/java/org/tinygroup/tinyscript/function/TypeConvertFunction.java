@@ -4,6 +4,7 @@ import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.expression.TypeConvertUtil;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
 
 /**
@@ -18,13 +19,13 @@ public class TypeConvertFunction extends DynamicNameScriptFunction{
 		String functionName = ScriptContextUtil.getDynamicFunctionName(context);
 		try{
 			if (parameters == null || parameters.length == 0) {
-				throw new ScriptException(String.format("%转换函数的参数为空!", functionName));
+				throw new ScriptException(ResourceBundleUtil.getMessage("function.parameter.empty", functionName)); 
 			}
 			return TypeConvertUtil.convert(functionName, parameters);
 		}catch (ScriptException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new ScriptException(String.format("%s转换函数的参数格式不正确!", functionName),e);
+			throw new ScriptException(ResourceBundleUtil.getMessage("function.run.error", functionName),e); 
 		}
 	}
 

@@ -5,6 +5,7 @@ import org.tinygroup.tinyscript.ScriptEngine;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptFunction;
 import org.tinygroup.tinyscript.interpret.ExpressionParameter;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 /**
  * 抽象脚本函数
@@ -75,7 +76,7 @@ public abstract class AbstractScriptFunction implements ScriptFunction{
 		   newExpression  = convertExpression(newExpression);
 		   return (Boolean)getScriptEngine().execute(newExpression,context);
 		}else{
-		   throw new ScriptException(String.format("无法识别的逻辑表达式类型%s", result.getClass().getName()));
+		   throw new ScriptException(ResourceBundleUtil.getMessage("function.unrecognized.class", result.getClass().getName()));
 		}
 	}
 	

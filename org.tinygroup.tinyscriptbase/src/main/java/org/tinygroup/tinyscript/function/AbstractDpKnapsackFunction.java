@@ -8,6 +8,7 @@ import java.util.List;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.interpret.LambdaFunction;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 public abstract class AbstractDpKnapsackFunction extends DynamicNameScriptFunction {
 	
@@ -160,7 +161,7 @@ public abstract class AbstractDpKnapsackFunction extends DynamicNameScriptFuncti
 		try {
 			return (Boolean) (pruneFunction.execute(context).getResult());
 		} catch (Exception e) {
-			throw new ScriptException("剪枝函数执行异常", e);
+			throw new ScriptException(ResourceBundleUtil.getMessage("function.run.error", getNames()),e);
 		}
 	}
 

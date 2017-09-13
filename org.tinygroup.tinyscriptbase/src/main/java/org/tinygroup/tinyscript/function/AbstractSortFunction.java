@@ -10,6 +10,7 @@ import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 import org.tinygroup.tinyscript.interpret.ClassInstanceUtil;
 import org.tinygroup.tinyscript.interpret.LambdaFunction;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.anonymous.SingleMethodProcessor;
 
 /**
@@ -38,7 +39,7 @@ public abstract class AbstractSortFunction extends AbstractScriptFunction {
 	public Object execute(ScriptSegment segment, ScriptContext context,
 			Object... parameters) throws ScriptException {
 		if(parameters==null || parameters.length==0){
-			throw new ScriptException("sort函数的参数为空!"); 
+			throw new ScriptException(ResourceBundleUtil.getMessage("function.parameter.empty", getNames())); 
 		}else if(checkParameters(parameters, 2)){
 			try{
 				if(parameters[1] instanceof String){
@@ -51,11 +52,11 @@ public abstract class AbstractSortFunction extends AbstractScriptFunction {
 					return sortByLambda(parameters[0],c);
 				}
 			}catch(Exception e){
-				throw new ScriptException("sort函数执行发生异常:",e);
+				throw new ScriptException(ResourceBundleUtil.getMessage("function.run.error", getNames()),e); 
 			}
 			
 		}
-		throw new ScriptException("sort函数的参数格式不正确!"); 
+		throw new ScriptException(ResourceBundleUtil.getMessage("function.parameter.error", getNames())); 
 	}
 	
 	protected boolean matchSimpleRule(String rule){
@@ -215,7 +216,7 @@ public abstract class AbstractSortFunction extends AbstractScriptFunction {
 		    }catch(RuntimeException e){
 		    	throw e;
 		    }catch(Exception e){
-		    	throw new RuntimeException("排序发生异常:",e);
+		    	throw new RuntimeException(ResourceBundleUtil.getMessage("function.run.error", getNames()),e);
 		    }
 			
 			return compareValue;
@@ -226,7 +227,7 @@ public abstract class AbstractSortFunction extends AbstractScriptFunction {
 			try {
 				return (Object)AbstractSortFunction.this.getScriptEngine().execute(rule.getSegment(), context);
 			} catch (ScriptException e) {
-				throw new RuntimeException(String.format("排序执行脚本[%s]发生异常", rule.getSegment()),e);
+				throw new RuntimeException(ResourceBundleUtil.getMessage("function.scirpt.error", getNames(),rule.getSegment()),e);
 			}
 		}
 		

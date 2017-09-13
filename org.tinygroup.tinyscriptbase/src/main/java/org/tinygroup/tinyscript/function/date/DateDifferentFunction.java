@@ -6,6 +6,7 @@ import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.exception.NotMatchException;
 
 /**
@@ -23,18 +24,18 @@ public class DateDifferentFunction extends AbstractScriptFunction{
 			Object... parameters) throws ScriptException {
 		try{
 			if (parameters == null || parameters.length == 0) {
-				throw new ScriptException(String.format("%s函数的参数为空!",getNames()));
+				throw new ScriptException(ResourceBundleUtil.getMessage("function.parameter.empty", getNames()));
 			}else if(checkParameters(parameters, 2) && parameters[0] instanceof Date && parameters[1] instanceof Date){
 				Date d1 = (Date) parameters[0];
 				Date d2 = (Date) parameters[1];
 				return (d1.getTime()-d2.getTime())/1000;
 			}else{
-				throw new NotMatchException(String.format("%s函数的参数格式不正确!",getNames()));
+				throw new NotMatchException(ResourceBundleUtil.getMessage("function.parameter.error", getNames())); 
 			}
 		}catch(ScriptException e){
 			throw e;
 		}catch(Exception e){
-			throw new ScriptException(String.format("%s函数的参数格式不正确!",getNames()), e);
+			throw new ScriptException(ResourceBundleUtil.getMessage("function.parameter.error", getNames()),e); 
 		}
 	}
 

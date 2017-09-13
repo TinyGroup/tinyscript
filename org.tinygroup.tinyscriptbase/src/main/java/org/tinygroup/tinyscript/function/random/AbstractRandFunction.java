@@ -4,6 +4,7 @@ import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 /**
  * 随机数函数抽象类
@@ -24,12 +25,12 @@ public abstract class AbstractRandFunction<T> extends AbstractScriptFunction{
 			}else if(this.checkParameters(parameters, 1)){
 			   return rand(getValue(parameters[0]));
 			}else{
-			  throw new ScriptException(String.format("%s函数的参数格式不正确!", getNames()));
+			   throw new ScriptException(ResourceBundleUtil.getMessage("function.parameter.error", getNames()));
 			}
 		}catch(ScriptException e){
 			throw e;
 		}catch(Exception e){
-			throw new ScriptException(String.format("%s函数执行发生异常:", getNames()),e);
+			throw new ScriptException(ResourceBundleUtil.getMessage("function.run.error", getNames()),e);
 		}
 	}
 	

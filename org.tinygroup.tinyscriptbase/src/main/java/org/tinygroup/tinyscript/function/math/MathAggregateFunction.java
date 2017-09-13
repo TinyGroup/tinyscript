@@ -8,6 +8,7 @@ import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.expression.ExpressionUtil;
 import org.tinygroup.tinyscript.function.DynamicNameScriptFunction;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
 
 /**
@@ -26,7 +27,7 @@ public class MathAggregateFunction extends DynamicNameScriptFunction{
 		String functionName = ScriptContextUtil.getDynamicFunctionName(context);
 		try{
 			if (parameters == null || parameters.length == 0) {
-				throw new ScriptException(String.format("%s聚合函数的参数为空!", functionName));
+				throw new ScriptException(ResourceBundleUtil.getMessage("function.parameter.empty", functionName)); 
 			}else if(checkParameters(parameters, 1)){
 				Object p = getValue(parameters[0]);
 				List<Object> parameterList = new ArrayList<Object>();
@@ -49,7 +50,7 @@ public class MathAggregateFunction extends DynamicNameScriptFunction{
 		}catch (ScriptException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new ScriptException(String.format("%s聚合函数的参数格式不正确!", functionName),e);
+			throw new ScriptException(ResourceBundleUtil.getMessage("function.parameter.error", functionName),e); 
 		}
 	}
 

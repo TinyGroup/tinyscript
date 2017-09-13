@@ -5,6 +5,7 @@ import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.interpret.FunctionCallUtil;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 /**
  * 控制台输出函数基类
@@ -20,7 +21,7 @@ public abstract class ConsoleOutputFunction extends AbstractScriptFunction {
 		} catch (ScriptException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new ScriptException(String.format("执行控制台输出函数%s发生异常:",  getNames()),e);
+			throw new ScriptException(ResourceBundleUtil.getMessage("function.run.error", getNames()),e);
 		}
 	}
 

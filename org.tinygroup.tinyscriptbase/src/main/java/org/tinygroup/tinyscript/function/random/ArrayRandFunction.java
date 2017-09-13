@@ -10,6 +10,7 @@ import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 /**
  * 从集合选择元素作为随机结果
@@ -31,7 +32,7 @@ public class ArrayRandFunction extends AbstractScriptFunction{
 			Object... parameters) throws ScriptException {
         try{
         	if(parameters == null || parameters.length == 0){
-			   throw new ScriptException(String.format("%s函数的参数为空!", getNames()));
+        	   throw new ScriptException(ResourceBundleUtil.getMessage("function.parameter.empty", getNames()));
 			}else if(checkParameters(parameters, 1)){
 			   Object obj = getValue(parameters[0]);
 			   if(obj.getClass().isArray()){
@@ -40,12 +41,11 @@ public class ArrayRandFunction extends AbstractScriptFunction{
 				  return randCollection((Collection)obj);
 			   }
 			}
-
-        	throw new ScriptException(String.format("%s函数的参数格式不正确!", getNames()));
+        	throw new ScriptException(ResourceBundleUtil.getMessage("function.parameter.error", getNames()));
         }catch(ScriptException e){
 			throw e;
 		}catch(Exception e){
-			throw new ScriptException(String.format("%s函数执行发生异常:", getNames()),e);
+			throw new ScriptException(ResourceBundleUtil.getMessage("function.run.error", getNames()),e);
 		}
 	}
 	

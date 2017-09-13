@@ -1,6 +1,7 @@
 package org.tinygroup.tinyscript.function.math;
 
 import org.tinygroup.tinyscript.ScriptException;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 public class MathAbsFunction extends AbstractMathCollectionFunction{
 
@@ -23,7 +24,7 @@ public class MathAbsFunction extends AbstractMathCollectionFunction{
 		}else if(value instanceof Long){
 			return Math.abs((Long) value);
 		}else {
-			throw new ScriptException(String.format("%s函数不支持%s类型的参数",getNames() ,value.getClass().getName()));
+			throw new ScriptException(ResourceBundleUtil.getMessage("function.parameter.unsupport", getNames(),value.getClass().getName()));
 		}
 	}
 
