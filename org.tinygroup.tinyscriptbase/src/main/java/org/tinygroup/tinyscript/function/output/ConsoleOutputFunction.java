@@ -21,7 +21,7 @@ public abstract class ConsoleOutputFunction extends AbstractScriptFunction {
 		} catch (ScriptException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new ScriptException(ResourceBundleUtil.getMessage("function.run.error", getNames()),e);
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()),e);
 		}
 	}
 

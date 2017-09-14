@@ -39,7 +39,7 @@ public abstract class AbstractSortFunction extends AbstractScriptFunction {
 	public Object execute(ScriptSegment segment, ScriptContext context,
 			Object... parameters) throws ScriptException {
 		if(parameters==null || parameters.length==0){
-			throw new ScriptException(ResourceBundleUtil.getMessage("function.parameter.empty", getNames())); 
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames())); 
 		}else if(checkParameters(parameters, 2)){
 			try{
 				if(parameters[1] instanceof String){
@@ -52,11 +52,11 @@ public abstract class AbstractSortFunction extends AbstractScriptFunction {
 					return sortByLambda(parameters[0],c);
 				}
 			}catch(Exception e){
-				throw new ScriptException(ResourceBundleUtil.getMessage("function.run.error", getNames()),e); 
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()),e); 
 			}
 			
 		}
-		throw new ScriptException(ResourceBundleUtil.getMessage("function.parameter.error", getNames())); 
+		throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames())); 
 	}
 	
 	protected boolean matchSimpleRule(String rule){
@@ -216,7 +216,7 @@ public abstract class AbstractSortFunction extends AbstractScriptFunction {
 		    }catch(RuntimeException e){
 		    	throw e;
 		    }catch(Exception e){
-		    	throw new RuntimeException(ResourceBundleUtil.getMessage("function.run.error", getNames()),e);
+		    	throw new RuntimeException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()),e);
 		    }
 			
 			return compareValue;
@@ -227,7 +227,7 @@ public abstract class AbstractSortFunction extends AbstractScriptFunction {
 			try {
 				return (Object)AbstractSortFunction.this.getScriptEngine().execute(rule.getSegment(), context);
 			} catch (ScriptException e) {
-				throw new RuntimeException(ResourceBundleUtil.getMessage("function.scirpt.error", getNames(),rule.getSegment()),e);
+				throw new RuntimeException(ResourceBundleUtil.getDefaultMessage("function.scirpt.error", getNames(),rule.getSegment()),e);
 			}
 		}
 		

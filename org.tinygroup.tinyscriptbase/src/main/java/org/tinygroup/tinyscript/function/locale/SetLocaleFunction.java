@@ -23,7 +23,7 @@ public class SetLocaleFunction extends AbstractScriptFunction{
 			Object... parameters) throws ScriptException {
 		try {
 			if (parameters == null || parameters.length == 0) {
-				throw new ScriptException(ResourceBundleUtil.getMessage("function.parameter.empty", getNames()));
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
 			} else if (checkParameters(parameters, 1)) {
 				 String language = (String) parameters[0];
 				 Locale locale = new Locale(language);
@@ -43,12 +43,12 @@ public class SetLocaleFunction extends AbstractScriptFunction{
 				 Locale.setDefault(locale);
 				 return locale;
 			} else {
-				throw new ScriptException(ResourceBundleUtil.getMessage("function.parameter.error", getNames()));
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
 			}
 		} catch (ScriptException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new ScriptException(ResourceBundleUtil.getMessage("function.run.error", getNames()),e);
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()),e);
 		}
 	}
 

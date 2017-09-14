@@ -25,12 +25,12 @@ public abstract class AbstractRandFunction<T> extends AbstractScriptFunction{
 			}else if(this.checkParameters(parameters, 1)){
 			   return rand(getValue(parameters[0]));
 			}else{
-			   throw new ScriptException(ResourceBundleUtil.getMessage("function.parameter.error", getNames()));
+			   throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
 			}
 		}catch(ScriptException e){
 			throw e;
 		}catch(Exception e){
-			throw new ScriptException(ResourceBundleUtil.getMessage("function.run.error", getNames()),e);
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()),e);
 		}
 	}
 	

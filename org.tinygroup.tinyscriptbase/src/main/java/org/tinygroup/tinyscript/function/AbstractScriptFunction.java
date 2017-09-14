@@ -76,7 +76,7 @@ public abstract class AbstractScriptFunction implements ScriptFunction{
 		   newExpression  = convertExpression(newExpression);
 		   return (Boolean)getScriptEngine().execute(newExpression,context);
 		}else{
-		   throw new ScriptException(ResourceBundleUtil.getMessage("function.unrecognized.class", result.getClass().getName()));
+		   throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.unrecognized.class", result.getClass().getName()));
 		}
 	}
 	

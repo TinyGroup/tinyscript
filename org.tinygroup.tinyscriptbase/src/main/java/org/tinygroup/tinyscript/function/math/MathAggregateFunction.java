@@ -27,7 +27,7 @@ public class MathAggregateFunction extends DynamicNameScriptFunction{
 		String functionName = ScriptContextUtil.getDynamicFunctionName(context);
 		try{
 			if (parameters == null || parameters.length == 0) {
-				throw new ScriptException(ResourceBundleUtil.getMessage("function.parameter.empty", functionName)); 
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", functionName)); 
 			}else if(checkParameters(parameters, 1)){
 				Object p = getValue(parameters[0]);
 				List<Object> parameterList = new ArrayList<Object>();
@@ -50,7 +50,7 @@ public class MathAggregateFunction extends DynamicNameScriptFunction{
 		}catch (ScriptException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new ScriptException(ResourceBundleUtil.getMessage("function.parameter.error", functionName),e); 
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", functionName),e); 
 		}
 	}
 

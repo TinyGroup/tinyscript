@@ -115,7 +115,7 @@ public class DefaultScriptEngine extends AbstractScriptEngine {
 							dynamicNameList.add(dynamicNameScriptFunction);
 						}
 					}catch (ClassNotFoundException e) {
-						throw new ScriptException(ResourceBundleUtil.getMessage("engine.notfind.class1", type),e);
+						throw new ScriptException(ResourceBundleUtil.getDefaultMessage("engine.notfind.class1", type),e);
 					}
 				}
 			}
@@ -141,7 +141,7 @@ public class DefaultScriptEngine extends AbstractScriptEngine {
 							nameMap.put(name, function);
 						}
 					} catch (ClassNotFoundException e) {
-						throw new ScriptException(ResourceBundleUtil.getMessage("engine.notfind.class1", type),e);
+						throw new ScriptException(ResourceBundleUtil.getDefaultMessage("engine.notfind.class1", type),e);
 					}
 				}
 			}
@@ -170,7 +170,7 @@ public class DefaultScriptEngine extends AbstractScriptEngine {
 				           }
 				        }
 					}catch (ClassNotFoundException e) {
-						throw new ScriptException(ResourceBundleUtil.getMessage("engine.notfind.class2", type),e);
+						throw new ScriptException(ResourceBundleUtil.getDefaultMessage("engine.notfind.class2", type),e);
 					}
 				}
 			}
@@ -198,7 +198,7 @@ public class DefaultScriptEngine extends AbstractScriptEngine {
 						}
 						
 					} catch (ClassNotFoundException e) {
-						throw new ScriptException(ResourceBundleUtil.getMessage("engine.notfind.class2", type),e);
+						throw new ScriptException(ResourceBundleUtil.getDefaultMessage("engine.notfind.class2", type),e);
 					}
 				}
 			}
@@ -277,13 +277,13 @@ public class DefaultScriptEngine extends AbstractScriptEngine {
 		try{
 			segment = getScriptInterpret().createScriptSegment(this, sourceName,(String)queryRule);
 		}catch(Exception e){
-			throw new ScriptException(ResourceBundleUtil.getMessage("engine.parser.error", queryRule,e.getMessage()));
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("engine.parser.error", queryRule,e.getMessage()));
 		}
 		return segment;		
 	}
 
 	public void start() throws ScriptException {
-		LOGGER.logMessage(LogLevel.INFO, ResourceBundleUtil.getMessage("engine.start.finish"));
+		LOGGER.logMessage(LogLevel.INFO, ResourceBundleUtil.getDefaultMessage("engine.start.finish"));
 	}
 	
 	public void stop() throws ScriptException {
@@ -292,7 +292,7 @@ public class DefaultScriptEngine extends AbstractScriptEngine {
 		typeFunctionMap.clear();
 		dynamicList.clear();
 		typeDynamicMap.clear();
-		LOGGER.logMessage(LogLevel.INFO, ResourceBundleUtil.getMessage("engine.stop.finish"));
+		LOGGER.logMessage(LogLevel.INFO, ResourceBundleUtil.getDefaultMessage("engine.stop.finish"));
 	}
 
 }

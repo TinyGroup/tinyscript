@@ -24,18 +24,18 @@ public class DateDifferentFunction extends AbstractScriptFunction{
 			Object... parameters) throws ScriptException {
 		try{
 			if (parameters == null || parameters.length == 0) {
-				throw new ScriptException(ResourceBundleUtil.getMessage("function.parameter.empty", getNames()));
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
 			}else if(checkParameters(parameters, 2) && parameters[0] instanceof Date && parameters[1] instanceof Date){
 				Date d1 = (Date) parameters[0];
 				Date d2 = (Date) parameters[1];
 				return (d1.getTime()-d2.getTime())/1000;
 			}else{
-				throw new NotMatchException(ResourceBundleUtil.getMessage("function.parameter.error", getNames())); 
+				throw new NotMatchException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames())); 
 			}
 		}catch(ScriptException e){
 			throw e;
 		}catch(Exception e){
-			throw new ScriptException(ResourceBundleUtil.getMessage("function.parameter.error", getNames()),e); 
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()),e); 
 		}
 	}
 

@@ -32,7 +32,7 @@ public class ArrayRandFunction extends AbstractScriptFunction{
 			Object... parameters) throws ScriptException {
         try{
         	if(parameters == null || parameters.length == 0){
-        	   throw new ScriptException(ResourceBundleUtil.getMessage("function.parameter.empty", getNames()));
+        	   throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
 			}else if(checkParameters(parameters, 1)){
 			   Object obj = getValue(parameters[0]);
 			   if(obj.getClass().isArray()){
@@ -41,11 +41,11 @@ public class ArrayRandFunction extends AbstractScriptFunction{
 				  return randCollection((Collection)obj);
 			   }
 			}
-        	throw new ScriptException(ResourceBundleUtil.getMessage("function.parameter.error", getNames()));
+        	throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
         }catch(ScriptException e){
 			throw e;
 		}catch(Exception e){
-			throw new ScriptException(ResourceBundleUtil.getMessage("function.run.error", getNames()),e);
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()),e);
 		}
 	}
 	

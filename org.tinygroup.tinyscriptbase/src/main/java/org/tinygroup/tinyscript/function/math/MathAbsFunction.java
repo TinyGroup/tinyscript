@@ -24,7 +24,7 @@ public class MathAbsFunction extends AbstractMathCollectionFunction{
 		}else if(value instanceof Long){
 			return Math.abs((Long) value);
 		}else {
-			throw new ScriptException(ResourceBundleUtil.getMessage("function.parameter.unsupport", getNames(),value.getClass().getName()));
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.unsupport", getNames(),value.getClass().getName()));
 		}
 	}
 

@@ -161,7 +161,7 @@ public abstract class AbstractDpKnapsackFunction extends DynamicNameScriptFuncti
 		try {
 			return (Boolean) (pruneFunction.execute(context).getResult());
 		} catch (Exception e) {
-			throw new ScriptException(ResourceBundleUtil.getMessage("function.run.error", getNames()),e);
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()),e);
 		}
 	}
 

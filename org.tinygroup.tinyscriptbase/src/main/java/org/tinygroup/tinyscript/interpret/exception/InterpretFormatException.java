@@ -89,11 +89,11 @@ public class InterpretFormatException extends ScriptException{
 	 * @param interpretExceptionInfo
 	 */
 	private void printPlaceMessage(StringBuilder sb,InterpretExceptionInfo interpretExceptionInfo){
-		sb.append(ResourceBundleUtil.getMessage("error.place"));
+		sb.append(ResourceBundleUtil.getDefaultMessage("error.place"));
 		if(interpretExceptionInfo.getStopLine()<0 && interpretExceptionInfo.getStopCharPositionInLine()<0){
-		   sb.append(ResourceBundleUtil.getMessage("error.two.info",interpretExceptionInfo.getStartLine(),interpretExceptionInfo.getStartCharPositionInLine()));
+		   sb.append(ResourceBundleUtil.getDefaultMessage("error.two.info",interpretExceptionInfo.getStartLine(),interpretExceptionInfo.getStartCharPositionInLine()));
 		}else{
-		   sb.append(ResourceBundleUtil.getMessage("error.four.info",interpretExceptionInfo.getStartLine(),interpretExceptionInfo.getStartCharPositionInLine(),interpretExceptionInfo.getStopLine(),interpretExceptionInfo.getStopCharPositionInLine()));
+		   sb.append(ResourceBundleUtil.getDefaultMessage("error.four.info",interpretExceptionInfo.getStartLine(),interpretExceptionInfo.getStartCharPositionInLine(),interpretExceptionInfo.getStopLine(),interpretExceptionInfo.getStopCharPositionInLine()));
 		}
 		sb.append("\n");
 	}
@@ -104,7 +104,7 @@ public class InterpretFormatException extends ScriptException{
 	 * @param interpretExceptionInfo
 	 */
 	private void printTextMessage(StringBuilder sb,InterpretExceptionInfo interpretExceptionInfo){
-		sb.append(ResourceBundleUtil.getMessage("error.text"));
+		sb.append(ResourceBundleUtil.getDefaultMessage("error.text"));
 		if(interpretExceptionInfo.getStartLine()!=interpretExceptionInfo.getStopLine()){
 		   sb.append("\n"); //直接换行
 		}
@@ -119,27 +119,27 @@ public class InterpretFormatException extends ScriptException{
 	 */
 	private void printTypeMessage(StringBuilder sb,int exceptionType,String msg){
 		switch(exceptionType){
-		  case ScriptException.ERROR_TYPE_RECOGNIZER: { sb.append(ResourceBundleUtil.getMessage("error.type.recognizer")); break;}
-		  case ScriptException.ERROR_TYPE_PARSER: { sb.append(ResourceBundleUtil.getMessage("error.type.parser")); break;}
-		  case ScriptException.ERROR_TYPE_RUNNING: { sb.append(ResourceBundleUtil.getMessage("error.type.running"));break;}
-		  case ScriptException.ERROR_TYPE_FUNCTION: { sb.append(ResourceBundleUtil.getMessage("error.type.function"));break;}
-		  case ScriptException.ERROR_TYPE_FIELD: { sb.append(ResourceBundleUtil.getMessage("error.type.field"));break;}
-		  case ScriptException.ERROR_TYPE_EXPRESSION: { sb.append(ResourceBundleUtil.getMessage("error.type.expression"));break;}
-		  case ScriptException.ERROR_TYPE_DIRECTIVE: { sb.append(ResourceBundleUtil.getMessage("error.type.directive"));break;}
-		  case ScriptException.ERROR_TYPE_SCRIPTCLASS: { sb.append(ResourceBundleUtil.getMessage("error.type.scriptclass"));break;}
-		  case ScriptException.ERROR_TYPE_OTHER: { sb.append(ResourceBundleUtil.getMessage("error.type.other"));break;}
-		  default:{ sb.append(ResourceBundleUtil.getMessage("error.type.unknown"));}
+		  case ScriptException.ERROR_TYPE_RECOGNIZER: { sb.append(ResourceBundleUtil.getDefaultMessage("error.type.recognizer")); break;}
+		  case ScriptException.ERROR_TYPE_PARSER: { sb.append(ResourceBundleUtil.getDefaultMessage("error.type.parser")); break;}
+		  case ScriptException.ERROR_TYPE_RUNNING: { sb.append(ResourceBundleUtil.getDefaultMessage("error.type.running"));break;}
+		  case ScriptException.ERROR_TYPE_FUNCTION: { sb.append(ResourceBundleUtil.getDefaultMessage("error.type.function"));break;}
+		  case ScriptException.ERROR_TYPE_FIELD: { sb.append(ResourceBundleUtil.getDefaultMessage("error.type.field"));break;}
+		  case ScriptException.ERROR_TYPE_EXPRESSION: { sb.append(ResourceBundleUtil.getDefaultMessage("error.type.expression"));break;}
+		  case ScriptException.ERROR_TYPE_DIRECTIVE: { sb.append(ResourceBundleUtil.getDefaultMessage("error.type.directive"));break;}
+		  case ScriptException.ERROR_TYPE_SCRIPTCLASS: { sb.append(ResourceBundleUtil.getDefaultMessage("error.type.scriptclass"));break;}
+		  case ScriptException.ERROR_TYPE_OTHER: { sb.append(ResourceBundleUtil.getDefaultMessage("error.type.other"));break;}
+		  default:{ sb.append(ResourceBundleUtil.getDefaultMessage("error.type.unknown"));}
 		}
 		if(msg!=null){
 			sb.append(msg);
 		}else{
-			sb.append(ResourceBundleUtil.getMessage("error.no.detail"));
+			sb.append(ResourceBundleUtil.getDefaultMessage("error.no.detail"));
 		}
 		sb.append("\n");
 	}
 	
 	private void printClassMessage(StringBuilder sb,Object obj){
-		sb.append(ResourceBundleUtil.getMessage("error.class")).append(obj.getClass().getName()).append("\n");
+		sb.append(ResourceBundleUtil.getDefaultMessage("error.class")).append(obj.getClass().getName()).append("\n");
 	}
 	
 	private void printLine(StringBuilder sb){

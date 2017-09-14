@@ -19,13 +19,13 @@ public class TypeConvertFunction extends DynamicNameScriptFunction{
 		String functionName = ScriptContextUtil.getDynamicFunctionName(context);
 		try{
 			if (parameters == null || parameters.length == 0) {
-				throw new ScriptException(ResourceBundleUtil.getMessage("function.parameter.empty", functionName)); 
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", functionName)); 
 			}
 			return TypeConvertUtil.convert(functionName, parameters);
 		}catch (ScriptException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new ScriptException(ResourceBundleUtil.getMessage("function.run.error", functionName),e); 
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", functionName),e); 
 		}
 	}
 

@@ -116,8 +116,8 @@ public final class ResourceBundleUtil {
 	 * @param key
 	 * @return
 	 */
-	public static String getMessage(String key){
-		return getMessage(DEFAULT_RESOURCE_NAME,key);
+	public static String getDefaultMessage(String key){
+		return getResourceMessage(DEFAULT_RESOURCE_NAME,key);
 	}
 	
 	/**
@@ -126,7 +126,7 @@ public final class ResourceBundleUtil {
 	 * @param key
 	 * @return
 	 */
-	public static String getMessage(String resourceName,String key){
+	public static String getResourceMessage(String resourceName,String key){
 		ResourceBundle bundle = getBundle(resourceName);
 		return getMessage(bundle,key);
 	}
@@ -137,8 +137,8 @@ public final class ResourceBundleUtil {
 	 * @param parameters
 	 * @return
 	 */
-	public static String getMessage(String key,Object... parameters){
-		return getMessage(DEFAULT_RESOURCE_NAME,key,parameters);
+	public static String getDefaultMessage(String key,Object... parameters){
+		return getResourceMessage(DEFAULT_RESOURCE_NAME,key,parameters);
 	}
 	
 	/**
@@ -148,7 +148,7 @@ public final class ResourceBundleUtil {
 	 * @param parameters
 	 * @return
 	 */
-	public static String getMessage(String resourceName,String key,Object... parameters){
+	public static String getResourceMessage(String resourceName,String key,Object... parameters){
 		ResourceBundle bundle = getBundle(resourceName);
 		return getMessage(bundle,key,parameters);
 	}
