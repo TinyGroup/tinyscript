@@ -33,7 +33,7 @@ public abstract class AbstractDataSet implements DataSet {
         throw new Exception("本数据集为只读数据集，不可以修改数据！");
     }
 
-    protected int getColumn(String fieldName) {
+    protected Integer getColumn(String fieldName) {
         return columnIndex.get(fieldName.toUpperCase());
     }
 
