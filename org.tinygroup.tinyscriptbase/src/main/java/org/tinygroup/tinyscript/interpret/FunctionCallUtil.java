@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.tinygroup.tinyscript.ScriptContext;
-import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.interpret.call.*;
 import org.tinygroup.tinyscript.interpret.exception.NotMatchException;
@@ -67,9 +66,9 @@ public class FunctionCallUtil {
 		    }
 		}
 		if(object!=null){
-			throw new ScriptException(String.format("没有找到合适的FunctionCallProcessor进行处理,对象类型[%s],方法名[%s]",object.getClass().getName(),methodName));
+			throw new NoSuchMethodException(String.format("没有找到合适的FunctionCallProcessor进行处理,对象类型[%s],方法名[%s]",object.getClass().getName(),methodName));
 		}else{
-			throw new ScriptException(String.format("没有找到合适的FunctionCallProcessor进行处理,对象为null,方法名[%s]",methodName));
+			throw new NoSuchMethodException(String.format("没有找到合适的FunctionCallProcessor进行处理,对象为null,方法名[%s]",methodName));
 		}
 	}
 }
