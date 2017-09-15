@@ -47,17 +47,16 @@ public class ScriptParserErrorListener implements org.antlr.v4.runtime.ANTLRErro
         	}
     	}
     	
-    	String text = null;
+    	CommonToken commonToken = null;
     	if(offendingSymbol instanceof CommonToken){
-    		CommonToken token = (CommonToken) offendingSymbol;
-    		text = token.getInputStream().toString();
+    		commonToken = (CommonToken) offendingSymbol;
     	}
     	
     	if(parserRuleContext!=null){
-    		ParserRuleContextException pe = new ParserRuleContextException(e,parserRuleContext,text);
+    		ParserRuleContextException pe = new ParserRuleContextException(e,parserRuleContext,commonToken==null?null:commonToken.getInputStream().toString());
     		exceptionList.add(new InterpretFormatException(pe));
     	}else{
-    		RecognizerException re = new RecognizerException(recognizer,line,charPositionInLine,msg);
+    		RecognizerException re = new RecognizerException(recognizer,commonToken,line,charPositionInLine,msg);
     		exceptionList.add(new InterpretFormatException(re));
     	}
 	}

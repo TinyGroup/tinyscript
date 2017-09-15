@@ -43,7 +43,7 @@ public class InnerScriptReader {
 					sb.append(line.substring(startCharPositionInLine, line.length())).append("\n");
 				}else if(i==stopLine-1){
 					line = lines.get(i);
-					sb.append(line.substring(0, stopCharPositionInLine==0?1:stopCharPositionInLine)).append("\n");
+					sb.append(line.substring(0, stopCharPositionInLine)).append("\n");
 				}else{
 					sb.append(lines.get(i)).append("\n");
 				}
@@ -62,7 +62,7 @@ public class InnerScriptReader {
 			for(int i=0;i<line;i++){
 			    if(i==line-1){
 			      str = lines.get(i);
-			      sb.append(str.substring(0, charPositionInLine==0?1:charPositionInLine)).append("\n");
+			      sb.append(str.substring(0, charPositionInLine)).append("\n");
 			    }else{
 			      sb.append(lines.get(i)).append("\n");
 			    }
