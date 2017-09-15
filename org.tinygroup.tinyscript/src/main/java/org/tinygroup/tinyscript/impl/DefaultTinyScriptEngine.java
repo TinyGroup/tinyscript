@@ -32,6 +32,8 @@ import org.tinygroup.tinyscript.collection.function.set.SetUnionFunction;
 import org.tinygroup.tinyscript.collection.function.set.SetXorFunction;
 import org.tinygroup.tinyscript.collection.objectitem.ListToListProcessor;
 import org.tinygroup.tinyscript.collection.objectitem.MapItemProcessor;
+import org.tinygroup.tinyscript.csv.function.ReadCsvFunction;
+import org.tinygroup.tinyscript.csv.function.WriteCsvFunction;
 import org.tinygroup.tinyscript.database.function.ExecuteSqlFunction;
 import org.tinygroup.tinyscript.database.function.QuerySqlFunction;
 import org.tinygroup.tinyscript.database.function.WriteDBFunction;
@@ -73,6 +75,7 @@ import org.tinygroup.tinyscript.dataset.objectitem.DataSetItemProcessor;
 import org.tinygroup.tinyscript.dataset.objectitem.DataSetRowItemProcessor;
 import org.tinygroup.tinyscript.datasetwithtree.function.DataSetToTreeFunction;
 import org.tinygroup.tinyscript.excel.function.ReadExcelFunction;
+import org.tinygroup.tinyscript.excel.function.WriteExcelFunction;
 import org.tinygroup.tinyscript.expression.ExpressionUtil;
 import org.tinygroup.tinyscript.expression.Operator;
 import org.tinygroup.tinyscript.interpret.AttributeProcessor;
@@ -192,6 +195,9 @@ public class DefaultTinyScriptEngine extends DefaultScriptEngine implements Scri
 		addScriptFunction(new PreviewRowFunction());
 
 		addScriptFunction(new ReadExcelFunction());
+		addScriptFunction(new WriteExcelFunction());
+		addScriptFunction(new ReadCsvFunction());
+		addScriptFunction(new WriteCsvFunction());
 
 		addScriptFunction(new ReadTxtFunction());
 

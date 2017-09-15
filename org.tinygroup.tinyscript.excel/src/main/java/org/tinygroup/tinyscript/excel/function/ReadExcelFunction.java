@@ -1,6 +1,8 @@
 package org.tinygroup.tinyscript.excel.function;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -12,10 +14,12 @@ import org.tinygroup.tinyscript.excel.SheetDataSet;
 import org.tinygroup.tinyscript.excel.util.ExcelUtil;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.interpret.FileObjectUtil;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.vfs.FileObject;
 
 /**
  * 读取excel的函数
+ * 
  * @author yancheng11334
  *
  */
@@ -25,59 +29,60 @@ public class ReadExcelFunction extends AbstractScriptFunction {
 		return "readExcel";
 	}
 
-
-	public Object execute(ScriptSegment segment, ScriptContext context,
-			Object... parameters) throws ScriptException {
-		try{
+	public Object execute(ScriptSegment segment, ScriptContext context, Object... parameters) throws ScriptException {
+		try {
 			if (parameters == null || parameters.length == 0) {
-				throw new ScriptException(String.format("%s函数的参数为空!",getNames()));
-			}else if(parameters.length == 1 && parameters[0]!=null){
-				return readExcel((String)parameters[0],null,context);
-			}else if(parameters.length == 2 && parameters[0]!=null && parameters[1]!=null){
-				return readExcel((String)parameters[0],(String)parameters[1],context);
-			}else{
-				throw new ScriptException(String.format("%s函数的参数格式不正确!",getNames()));
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
+			} else if (checkParameters(parameters, 1)) {
+				return readExcel((String) parameters[0], null);
+			} else if (checkParameters(parameters, 2)) {
+				return readExcel((String) parameters[0], (String) parameters[1]);
+			} else {
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
 			}
-		}catch (ScriptException e) {
-			throw e;
 		} catch (Exception e) {
-			throw new ScriptException(String.format("%s函数的参数格式不正确!",getNames()),e);
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 		}
 	}
-	
-	private DataSet readExcel(String file,String name,ScriptContext context) throws Exception{
-		DataSet dataSet = extractDataSet(file,name);
-		dataSet.setIndexFromOne(getScriptEngine().isIndexFromOne());
+
+	private Object readExcel(String file, String name) throws Exception {
+		Object dataSet = extractDataSet(file, name);
 		return dataSet;
 	}
-	
-	public DataSet extractDataSet(String file,String name)
-			throws Exception {
+
+	public Object extractDataSet(String file, String name) throws Exception {
 		Workbook wb = null;
 		FileObject fileObject = null;
 		try {
 			fileObject = FileObjectUtil.findFileObject(file, false);
-            wb = ExcelUtil.readWorkbook(fileObject);
-        
-            if(name!=null){
-            	for (int i = 0; i < wb.getNumberOfSheets(); i++) {
-    				Sheet sheet = wb.getSheetAt(i);
-    				if(name.equals(sheet.getSheetName())){
-    				   DataSet dataSet = createDataSet(sheet);
-    				   return dataSet; 
-    				}
-    			}	
-            	return null;
-            }else{
-            	Sheet sheet = wb.getSheetAt(0);
-            	DataSet dataSet = createDataSet(sheet);
-				return dataSet; 
-            }
-			
+			wb = ExcelUtil.readWorkbook(fileObject);
+
+			if (name != null) {
+				for (int i = 0; i < wb.getNumberOfSheets(); i++) {
+					Sheet sheet = wb.getSheetAt(i);
+					if (name.equals(sheet.getSheetName())) {
+						DataSet dataSet = createDataSet(sheet);
+						dataSet.setIndexFromOne(getScriptEngine().isIndexFromOne());
+						return dataSet;
+					}
+				}
+				return null;
+			} else {
+				List<DataSet> dataSets = new ArrayList<DataSet>();
+				for (int i = 0; i < wb.getNumberOfSheets(); i++) {
+					Sheet sheet = wb.getSheetAt(i);
+					if (sheet.getPhysicalNumberOfRows() != 0) {
+						DataSet dataSet = createDataSet(sheet);
+						dataSet.setIndexFromOne(getScriptEngine().isIndexFromOne());
+						dataSets.add(dataSet);
+					}
+				}
+
+				return dataSets;
+			}
 
 		} catch (Exception e) {
-			throw new Exception(
-					String.format("抽取excel文件%s，发生异常:", file ), e);
+			throw new ScriptException(ResourceBundleUtil.getResourceMessage("excel", "file.find.error", file), e);
 		} finally {
 			if (fileObject != null) {
 				fileObject.clean();
@@ -100,10 +105,9 @@ public class ReadExcelFunction extends AbstractScriptFunction {
 	 * @throws Exception
 	 */
 	private DataSet createDataSet(Sheet sheet) throws Exception {
-		SheetDataSet dataSet = new SheetDataSet(sheet,null);
+		SheetDataSet dataSet = new SheetDataSet(sheet, null);
 		dataSet.setName(sheet.getSheetName());
 		return dataSet;
 	}
-	
 
 }

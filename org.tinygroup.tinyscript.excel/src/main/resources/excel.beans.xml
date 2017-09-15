@@ -10,5 +10,13 @@
     <bean id="readCsvFunction" scope="singleton"
           class="org.tinygroup.tinyscript.csv.function.ReadCsvFunction"> 
     </bean>
+    
+    <bean id="writeExcelFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.excel.function.WriteExcelFunction"> 
+    </bean>
+    
+    <bean id="writeCsvFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.csv.function.WriteCsvFunction"> 
+    </bean>
   
 </beans>

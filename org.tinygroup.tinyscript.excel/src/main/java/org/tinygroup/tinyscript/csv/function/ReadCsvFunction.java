@@ -11,10 +11,12 @@ import org.tinygroup.tinyscript.csv.CSVParser;
 import org.tinygroup.tinyscript.dataset.DataSet;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.interpret.FileObjectUtil;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.vfs.FileObject;
 
 /**
  * 读取csv格式文件
+ * 
  * @author yancheng11334
  *
  */
@@ -24,49 +26,44 @@ public class ReadCsvFunction extends AbstractScriptFunction {
 		return "readCsv";
 	}
 
-	public Object execute(ScriptSegment segment, ScriptContext context,
-			Object... parameters) throws ScriptException {
-		try{
+	public Object execute(ScriptSegment segment, ScriptContext context, Object... parameters) throws ScriptException {
+		try {
 			if (parameters == null || parameters.length == 0) {
-				throw new ScriptException(String.format("%s函数的参数为空!",getNames()));
-			}else if(parameters.length == 1 && parameters[0]!=null){
-				return readCsv((String)parameters[0],"utf-8",context);
-			}else if(parameters.length == 2 && parameters[0]!=null && parameters[1]!=null){
-				return readCsv((String)parameters[0],(String)parameters[1],context);
-			}else{
-				throw new ScriptException(String.format("%s函数的参数格式不正确!",getNames()));
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
+			} else if (checkParameters(parameters, 1)) {
+				return readCsv((String) parameters[0], "utf-8", context);
+			} else if (checkParameters(parameters, 2)) {
+				return readCsv((String) parameters[0], (String) parameters[1], context);
+			} else {
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
 			}
-		}catch (ScriptException e) {
-			throw e;
 		} catch (Exception e) {
-			throw new ScriptException(String.format("%s函数的参数格式不正确!",getNames()),e);
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 		}
 	}
-	
-	private DataSet readCsv(String file,String encode,ScriptContext context) throws Exception{
-		DataSet dataSet = extractDataSet(file,encode);
+
+	private DataSet readCsv(String file, String encode, ScriptContext context) throws Exception {
+		DataSet dataSet = extractDataSet(file, encode);
 		dataSet.setIndexFromOne(getScriptEngine().isIndexFromOne());
 		return dataSet;
 	}
-	
-	public DataSet extractDataSet(String file,String encode)
-			throws Exception {
+
+	public DataSet extractDataSet(String file, String encode) throws Exception {
 		FileObject fileObject = null;
 		BufferedReader reader = null;
-		try{
+		try {
 			fileObject = FileObjectUtil.findFileObject(file, false);
-			reader = new BufferedReader(new InputStreamReader(fileObject.getInputStream(),encode));
-			CSVParser parser = new CSVParser(reader,CSVFormat.DEFAULT);
+			reader = new BufferedReader(new InputStreamReader(fileObject.getInputStream(), encode));
+			CSVParser parser = new CSVParser(reader, CSVFormat.DEFAULT);
 			return parser.extractDataSet();
-		}catch (Exception e) {
-			throw new Exception(
-					String.format("抽取csv文件%s，发生异常:", file ), e);
+		} catch (Exception e) {
+			throw new ScriptException(ResourceBundleUtil.getResourceMessage("excel", "file.find.error", file), e);
 		} finally {
-			if(reader!=null){
-			   reader.close();	
+			if (reader != null) {
+				reader.close();
 			}
-			if(fileObject!=null){
-			   fileObject.clean();
+			if (fileObject != null) {
+				fileObject.clean();
 			}
 		}
 	}
