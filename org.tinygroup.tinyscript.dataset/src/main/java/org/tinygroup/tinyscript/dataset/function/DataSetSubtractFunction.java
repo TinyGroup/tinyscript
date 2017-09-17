@@ -1,15 +1,16 @@
 package org.tinygroup.tinyscript.dataset.function;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
+import org.tinygroup.tinyscript.dataset.AbstractDataSet;
 import org.tinygroup.tinyscript.dataset.DataSet;
-import org.tinygroup.tinyscript.dataset.impl.SimpleDataSet;
+import org.tinygroup.tinyscript.dataset.DataSetRow;
+import org.tinygroup.tinyscript.dataset.impl.DefaultDataSetRow;
 import org.tinygroup.tinyscript.dataset.util.DataSetUtil;
-import org.tinygroup.tinyscript.interpret.LambdaFunction;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 public class DataSetSubtractFunction extends AbstractDataSetOperateFunction {
 	@Override
@@ -26,54 +27,37 @@ public class DataSetSubtractFunction extends AbstractDataSetOperateFunction {
 	public Object execute(ScriptSegment segment, ScriptContext context, Object... parameters) throws ScriptException {
 		try {
 			if (parameters == null || parameters.length == 0) {
-				throw new ScriptException("union函数的参数为空!");
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
 			} else if (checkParameters(parameters, 3)) {
-				if (parameters[0].getClass() != parameters[1].getClass()) {
-					throw new ScriptException("参数类型类型不一致不支持集合运算");
-				}
 
-				DataSet dataSet1 = (DataSet) parameters[0];
-				DataSet dataSet2 = (DataSet) parameters[1];
+				AbstractDataSet dataSet1 = (AbstractDataSet) parameters[0];
+				AbstractDataSet dataSet2 = (AbstractDataSet) parameters[1];
 
 				if (!checkField(dataSet1, dataSet2)) {
-					throw new ScriptException("序表参数不一致");
+					throw new ScriptException(
+							ResourceBundleUtil.getResourceMessage("dataset", "dataset.fields.inconsistent"));
 				}
 
-				if (dataSet1 instanceof SimpleDataSet) {
-					return operate((SimpleDataSet) dataSet1, (SimpleDataSet) dataSet2, parameters[2], context);
-				} else {
-					throw new ScriptException("不支持的序表类型");
-				}
+				return operate(dataSet1, dataSet2, parameters[2], context);
+
 			} else {
-				throw new ScriptException("union函数的参数格式不正确!");
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
 			}
-		} catch (ScriptException e) {
-			throw e;
 		} catch (Exception e) {
-			throw new ScriptException("union函数执行错误!", e);
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 		}
 	}
 
-	protected DataSet operate(SimpleDataSet dataSet1, SimpleDataSet dataSet2, Object pks, ScriptContext context)
+	protected DataSet operate(AbstractDataSet dataSet1, AbstractDataSet dataSet2, Object pks, ScriptContext context)
 			throws Exception {
-		List<Integer> result = new ArrayList<Integer>();
-
-		if (pks instanceof List || pks instanceof String) {
-			List<Integer> pksIndex = showPkIndex(dataSet1, pks);
-			for (int i = 1; i <= dataSet1.getRows(); i++) {
-				if (checkRowData(dataSet1.getDataArray()[i - 1], dataSet2.getDataArray(), pksIndex) == -1) {
-					result.add(i - 1);
-				}
-			}
-		} else if (pks instanceof LambdaFunction) {
-			for (int i = 1; i <= dataSet1.getRows(); i++) {
-				if (checkRowData(dataSet1, dataSet2, i, (LambdaFunction) pks, context) == -1) {
-					result.add(i - 1);
-				}
+		Set<DataSetRow> set = createDataSetRows(dataSet1, pks, context);
+		for (int i = 1; i <= dataSet2.getRows(); i++) {
+			DataSetRow row = new DefaultDataSetRow(dataSet2, i, createRowComparator(dataSet2, pks, context));
+			if (set.contains(row)) {
+				set.remove(row);
 			}
 		}
-
-		return DataSetUtil.createDynamicDataSet(dataSet1, result);
+		return DataSetUtil.createDynamicDataSet(set);
 	}
 
 }

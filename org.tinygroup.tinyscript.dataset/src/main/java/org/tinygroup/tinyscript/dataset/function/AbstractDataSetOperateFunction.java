@@ -1,13 +1,19 @@
 package org.tinygroup.tinyscript.dataset.function;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.tinygroup.tinyscript.ScriptContext;
+import org.tinygroup.tinyscript.dataset.AbstractDataSet;
 import org.tinygroup.tinyscript.dataset.DataSet;
+import org.tinygroup.tinyscript.dataset.DataSetRow;
 import org.tinygroup.tinyscript.dataset.Field;
-import org.tinygroup.tinyscript.dataset.impl.SimpleDataSet;
+import org.tinygroup.tinyscript.dataset.RowComparator;
+import org.tinygroup.tinyscript.dataset.impl.DefaultDataSetRow;
+import org.tinygroup.tinyscript.dataset.impl.LambdaRowComparator;
+import org.tinygroup.tinyscript.dataset.impl.ListRowComparator;
 import org.tinygroup.tinyscript.dataset.util.DataSetUtil;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.interpret.LambdaFunction;
@@ -19,6 +25,12 @@ public abstract class AbstractDataSetOperateFunction extends AbstractScriptFunct
 		return DataSet.class.getName();
 	}
 
+	/**批量转换主键（string→int）
+	 * @param dataSet
+	 * @param pks
+	 * @return
+	 * @throws Exception
+	 */
 	@SuppressWarnings("unchecked")
 	protected List<Integer> showPkIndex(DataSet dataSet, Object pks) throws Exception {
 		List<Integer> pksIndex = new ArrayList<Integer>();
@@ -26,51 +38,50 @@ public abstract class AbstractDataSetOperateFunction extends AbstractScriptFunct
 			for (String pk : (List<String>) pks) {
 				int pkIndex = DataSetUtil.getFieldIndex(dataSet, pk);
 				if (pkIndex != -1) {
-					pksIndex.add(pkIndex);
+					pksIndex.add(dataSet.isIndexFromOne() ? pkIndex + 1 : pkIndex);
 				}
 			}
 		} else if (pks instanceof String) {
 			int pkIndex = DataSetUtil.getFieldIndex(dataSet, (String) pks);
 			if (pkIndex != -1) {
-				pksIndex.add(pkIndex);
+				pksIndex.add(dataSet.isIndexFromOne() ? pkIndex + 1 : pkIndex);
 			}
 		}
 		return pksIndex;
 	}
 
-	protected int checkRowData(Object[] rowData, Object[][] dataArray, List<Integer> pks) {
-		for (int i = 0; i < dataArray.length; i++) {
-			boolean flag = true;
-			for (int pk : pks) {
-				if (!rowData[pk].equals(dataArray[i][pk])) {
-					flag = false;
-					break;
-				}
-			}
-			if (flag) {
-				return i;
-			}
+	/**创建行集合
+	 * @param dataSet
+	 * @param pks
+	 * @param context
+	 * @return
+	 * @throws Exception
+	 */
+	protected Set<DataSetRow> createDataSetRows(AbstractDataSet dataSet, Object pks, ScriptContext context)
+			throws Exception {
+		Set<DataSetRow> rows = new HashSet<DataSetRow>();
+		for (int i = 1; i <= dataSet.getRows(); i++) {
+			rows.add(new DefaultDataSetRow(dataSet, i, createRowComparator(dataSet, pks, context)));
 		}
-		return -1;
+		return rows;
 	}
 
-	protected int checkRowData(SimpleDataSet dataSet1, SimpleDataSet dataSet2, int row, LambdaFunction pks,
-			ScriptContext context) throws Exception {
-		int flag = -1;
-		for (int j = 1; j <= dataSet2.getRows(); j++) {
-			HashMap<String, Object> map1 = new HashMap<String, Object>();
-			HashMap<String, Object> map2 = new HashMap<String, Object>();
-			for (Field field : dataSet1.getFields()) {
-				int col = DataSetUtil.getFieldIndex(dataSet1, field.getName());
-				map1.put(field.getName(), dataSet1.getData(row, dataSet1.getShowIndex(col)));
-				map2.put(field.getName(), dataSet2.getData(j, dataSet2.getShowIndex(col)));
-			}
-			if ((Boolean) (((LambdaFunction) pks).execute(context, map1, map2).getResult())) {
-				flag = j;
-				break;
-			}
+	/**
+	 * 创建行比较器
+	 * @param dataSet
+	 * @param pks
+	 * @param context
+	 * @return
+	 * @throws Exception
+	 */
+	protected RowComparator createRowComparator(DataSet dataSet, Object pks, ScriptContext context) throws Exception {
+		if (pks instanceof List || pks instanceof String) {
+			List<Integer> pksIndex = showPkIndex(dataSet, pks);
+			return new ListRowComparator(pksIndex);
+		} else if (pks instanceof LambdaFunction) {
+			return new LambdaRowComparator((LambdaFunction) pks, context);
 		}
-		return flag;
+		return null;
 	}
 
 	/**
@@ -96,7 +107,7 @@ public abstract class AbstractDataSetOperateFunction extends AbstractScriptFunct
 		return true;
 	}
 
-	protected abstract DataSet operate(SimpleDataSet dataArray1, SimpleDataSet dataArray2, Object pks,
+	protected abstract DataSet operate(AbstractDataSet dataArray1, AbstractDataSet dataArray2, Object pks,
 			ScriptContext context) throws Exception;
 
 }
