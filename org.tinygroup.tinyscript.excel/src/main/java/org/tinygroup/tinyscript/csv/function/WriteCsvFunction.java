@@ -1,5 +1,6 @@
 package org.tinygroup.tinyscript.csv.function;
 
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +88,13 @@ public class WriteCsvFunction extends AbstractScriptFunction {
 
 	private void writeCsv(DataSet dataSet, String filePath, String encode, int start, int end, String type)
 			throws Exception {
-		FileObject csvFile = FileObjectUtil.getOrCreateFile(filePath, false);
+		FileObject csvFile = null;
+		try {
+			csvFile = FileObjectUtil.getOrCreateFile(filePath, false);
+		} catch (IOException e) {
+			throw new ScriptException(ResourceBundleUtil.getResourceMessage("excel", "file.create.error", filePath), e);
+		}
+
 		CSVPrinter printer = null;
 		try {
 			printer = new CSVPrinter(new OutputStreamWriter(csvFile.getOutputStream(), encode),
@@ -101,12 +108,24 @@ public class WriteCsvFunction extends AbstractScriptFunction {
 		for (Field field : dataSet.getFields()) {
 			records.add(field.getName());
 		}
-		printer.printRecord(records);
+
+		try {
+			printer.printRecord(records);
+		} catch (IOException e) {
+			printer.close();
+			throw new ScriptException(ResourceBundleUtil.getResourceMessage("excel", "csv.write.title.error"), e);
+		}
 
 		for (int i = start; i <= end; i++) {
 			records = new ArrayList<Object>();
 			for (int j = 1; j <= dataSet.getColumns(); j++) {
-				records.add(dataSet.getData(i, j));
+				try {
+					records.add(dataSet.getData(i, j));
+				} catch (Exception e) {
+					printer.close();
+					throw new ScriptException(ResourceBundleUtil.getResourceMessage("excel", "write.cell.error", i, j),
+							e);
+				}
 			}
 			printer.printRecord(records);
 		}
