@@ -1,5 +1,6 @@
 package org.tinygroup.tinyscript.excel.function;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -76,20 +77,29 @@ public class WriteExcelFunction extends AbstractScriptFunction {
 	private void writeExcel(String fileUrl, Object dataSet, List<String> sheetNames, int start, int end)
 			throws Exception {
 		Workbook wb = null;
-		FileObject excelFile = FileObjectUtil.getOrCreateFile(fileUrl, false);
+		FileObject excelFile;
+
+		try {
+			excelFile = FileObjectUtil.getOrCreateFile(fileUrl, false);
+		} catch (IOException e) {
+			throw new ScriptException(ResourceBundleUtil.getResourceMessage("excel", "file.create.error", fileUrl));
+		}
 
 		if (fileUrl.endsWith("xls")) {
 			wb = new HSSFWorkbook();
 		} else if (fileUrl.endsWith("xlsx")) {
 			wb = new XSSFWorkbook();
+		} else {
+			throw new ScriptException(ResourceBundleUtil.getResourceMessage("excel", "file.type.nonsupport"));
 		}
 
 		if (dataSet instanceof DataSet) {
 			writeSheet(wb, (DataSet) dataSet,
 					(sheetNames == null || sheetNames.size() == 0) ? "sheet1" : sheetNames.get(0), start,
 					checkEnd((DataSet) dataSet, end));
-		} else {
+		} else if (dataSet instanceof List && ((List<DataSet>) dataSet).get(0) instanceof DataSet) {
 			List<DataSet> dataSets = ((List<DataSet>) dataSet);
+
 			for (int i = 0; i < dataSets.size(); i++) {
 
 				String sheetName = null;
@@ -101,6 +111,9 @@ public class WriteExcelFunction extends AbstractScriptFunction {
 
 				writeSheet(wb, dataSets.get(i), sheetName, start, checkEnd(dataSets.get(i), end));
 			}
+		} else {
+			wb.close();
+			throw new ScriptException(ResourceBundleUtil.getResourceMessage("excel", "dataset.type.nonsupport"));
 		}
 
 		wb.write(excelFile.getOutputStream());
@@ -127,7 +140,11 @@ public class WriteExcelFunction extends AbstractScriptFunction {
 			row = sheet.createRow(i - start);
 			for (int j = 1; j <= dataSet.getFields().size(); j++) {
 				cell = row.createCell(j - 1);
-				cell.setCellValue(dataSet.getData(i, j).toString());
+				try {
+					cell.setCellValue(dataSet.getData(i, j).toString());
+				} catch (Exception e) {
+					throw new ScriptException(ResourceBundleUtil.getResourceMessage("excel", "write.cell.error", i, j));
+				}
 				cell.setCellStyle(style);
 			}
 		}
