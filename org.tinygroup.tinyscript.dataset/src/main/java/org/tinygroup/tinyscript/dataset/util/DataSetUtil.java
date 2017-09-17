@@ -49,6 +49,26 @@ public final class DataSetUtil {
 	/**
 	 * 构建动态数据集
 	 * 
+	 * @param set
+	 * @return
+	 * @throws Exception
+	 */
+	public static DynamicDataSet createDynamicDataSet(Set<DataSetRow> set) throws Exception {
+		List<Field> fields = set.iterator().next().getFields();
+		Object[][] data = new Object[set.size()][fields.size()];
+		int rowId = 0;
+		for (DataSetRow row : set) {
+			for (int i = 0; i < fields.size(); i++) {
+				data[rowId][i] = row.getData(i + 1);
+			}
+			rowId++;
+		}
+		return new SimpleDataSet(fields, data, set.iterator().next().isIndexFromOne());
+	}
+
+	/**
+	 * 构建动态数据集
+	 * 
 	 * @param fields
 	 * @param dataArray
 	 * @param tag
@@ -238,9 +258,10 @@ public final class DataSetUtil {
 		}
 		return -1;
 	}
-	
+
 	/**
 	 * 返回索引字段对应的列
+	 * 
 	 * @param fields
 	 * @param colName
 	 * @return
@@ -403,6 +424,12 @@ public final class DataSetUtil {
 			}
 		}
 		return columns;
+	}
+
+	public static Set<DataSetRow> createDataSetRows(DataSet dataSet) {
+		Set<DataSetRow> result = new HashSet<DataSetRow>();
+
+		return result;
 	}
 
 }

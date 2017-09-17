@@ -5,22 +5,47 @@ import java.util.List;
 import org.tinygroup.tinyscript.dataset.DataSet;
 import org.tinygroup.tinyscript.dataset.DataSetRow;
 import org.tinygroup.tinyscript.dataset.Field;
+import org.tinygroup.tinyscript.dataset.RowComparator;
 
 /**
  * 默认的数据集行对象实现
+ * 
  * @author yancheng11334
  *
  */
-public class DefaultDataSetRow implements DataSetRow{
+public class DefaultDataSetRow implements DataSetRow {
 
-	private DataSet  dataSet;
-	private int row; //显示值
-	
-	public DefaultDataSetRow(DataSet dataSet,int row) throws Exception{
+	private DataSet dataSet;
+	private int row; // 显示值
+	private RowComparator comparator;
+
+	@Override
+	public boolean equals(Object o) {
+		if (comparator == null) {
+			return super.equals(o);
+		}
+		return comparator.isEqual(this, (DataSetRow) o);
+	}
+
+	@Override
+	public int hashCode() {
+		if (comparator == null) {
+			return super.hashCode();
+		}
+		return comparator.countHash(this);
+	}
+
+	public DefaultDataSetRow(DataSet dataSet, int row) throws Exception {
 		this.dataSet = dataSet;
 		this.row = row;
 	}
-	
+
+	public DefaultDataSetRow(DataSet dataSet, int row, RowComparator comparator) throws Exception {
+		this.dataSet = dataSet;
+		this.row = row;
+		this.comparator = comparator;
+	}
+
 	public List<Field> getFields() {
 		return dataSet.getFields();
 	}

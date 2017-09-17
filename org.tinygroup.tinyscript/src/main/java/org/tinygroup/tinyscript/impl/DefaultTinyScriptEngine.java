@@ -32,6 +32,8 @@ import org.tinygroup.tinyscript.collection.function.set.SetUnionFunction;
 import org.tinygroup.tinyscript.collection.function.set.SetXorFunction;
 import org.tinygroup.tinyscript.collection.objectitem.ListToListProcessor;
 import org.tinygroup.tinyscript.collection.objectitem.MapItemProcessor;
+import org.tinygroup.tinyscript.csv.function.ReadCsvFunction;
+import org.tinygroup.tinyscript.csv.function.WriteCsvFunction;
 import org.tinygroup.tinyscript.database.function.ExecuteSqlFunction;
 import org.tinygroup.tinyscript.database.function.QuerySqlFunction;
 import org.tinygroup.tinyscript.database.function.WriteDBFunction;
@@ -50,6 +52,7 @@ import org.tinygroup.tinyscript.dataset.function.DataSetForEachFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetGroupDynamicFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetGroupFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetGroupStagedFunction;
+import org.tinygroup.tinyscript.dataset.function.DataSetIntersectionFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetJoinFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetLimitFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetMatchFunction;
@@ -59,7 +62,10 @@ import org.tinygroup.tinyscript.dataset.function.DataSetReplaceFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetSelectFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetSortFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetSubFunction;
+import org.tinygroup.tinyscript.dataset.function.DataSetSubtractFunction;
+import org.tinygroup.tinyscript.dataset.function.DataSetUnionFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetUpdateFunction;
+import org.tinygroup.tinyscript.dataset.function.DataSetXorFunction;
 import org.tinygroup.tinyscript.dataset.function.FirstRowFunction;
 import org.tinygroup.tinyscript.dataset.function.GroupDataSetAggregateFunction;
 import org.tinygroup.tinyscript.dataset.function.GroupDataSetFilterFunction;
@@ -73,6 +79,7 @@ import org.tinygroup.tinyscript.dataset.objectitem.DataSetItemProcessor;
 import org.tinygroup.tinyscript.dataset.objectitem.DataSetRowItemProcessor;
 import org.tinygroup.tinyscript.datasetwithtree.function.DataSetToTreeFunction;
 import org.tinygroup.tinyscript.excel.function.ReadExcelFunction;
+import org.tinygroup.tinyscript.excel.function.WriteExcelFunction;
 import org.tinygroup.tinyscript.expression.ExpressionUtil;
 import org.tinygroup.tinyscript.expression.Operator;
 import org.tinygroup.tinyscript.interpret.AttributeProcessor;
@@ -158,6 +165,10 @@ public class DefaultTinyScriptEngine extends DefaultScriptEngine implements Scri
 		addScriptFunction(new PermutationFunction());
 		addScriptFunction(new AllPermutationFunction());
 
+		addScriptFunction(new DataSetIntersectionFunction());
+		addScriptFunction(new DataSetSubtractFunction());
+		addScriptFunction(new DataSetUnionFunction());
+		addScriptFunction(new DataSetXorFunction());
 		addScriptFunction(new DataSetLimitFunction());
 		addScriptFunction(new DataSetCopyFunction());
 		addScriptFunction(new DataSetRemoveFunction());
@@ -192,6 +203,9 @@ public class DefaultTinyScriptEngine extends DefaultScriptEngine implements Scri
 		addScriptFunction(new PreviewRowFunction());
 
 		addScriptFunction(new ReadExcelFunction());
+		addScriptFunction(new WriteExcelFunction());
+		addScriptFunction(new ReadCsvFunction());
+		addScriptFunction(new WriteCsvFunction());
 
 		addScriptFunction(new ReadTxtFunction());
 
