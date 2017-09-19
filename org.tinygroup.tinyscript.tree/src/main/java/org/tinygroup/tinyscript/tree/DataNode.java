@@ -22,6 +22,18 @@ public interface DataNode {
 	Object getValue();
 	
 	/**
+	 * 设置节点值
+	 * @param value
+	 */
+	void setValue(Object value);
+	
+	/**
+	 * 获取原始类型
+	 * @return
+	 */
+	<T> T getSource();
+	
+	/**
 	 * 获取节点名
 	 * @return
 	 */

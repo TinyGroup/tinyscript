@@ -83,4 +83,9 @@ public class DefaultDataNode extends AbstractDataNode{
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
+	public <T> T getSource() {
+		return (T) this;
+	}
+
 }
