@@ -12,5 +12,10 @@
             <artifactId>org.tinygroup.tinyscriptbase</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.tinygroup</groupId>
+            <artifactId>org.tinygroup.xmlparser</artifactId>
+            <version>${tiny_version}</version>
+        </dependency>
     </dependencies>
 </project>
