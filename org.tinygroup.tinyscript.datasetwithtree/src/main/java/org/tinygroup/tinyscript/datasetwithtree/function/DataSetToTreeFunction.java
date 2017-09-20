@@ -12,6 +12,7 @@ import org.tinygroup.tinyscript.dataset.AbstractDataSet;
 import org.tinygroup.tinyscript.dataset.DataSet;
 import org.tinygroup.tinyscript.dataset.util.DataSetUtil;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.tree.DataNode;
 import org.tinygroup.tinyscript.tree.impl.AbstractDataNode;
 import org.tinygroup.tinyscript.tree.impl.DefaultDataNode;
@@ -39,22 +40,23 @@ public class DataSetToTreeFunction extends AbstractScriptFunction {
 			Object... parameters) throws ScriptException {
 		try{
 			if(parameters == null || parameters.length == 0){
-				throw new ScriptException(String.format("%s函数的参数为空!", getNames()));
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
 			}else if(checkParameters(parameters, 3)){
 				AbstractDataSet dataSet = (AbstractDataSet) getValue(parameters[0]);
 				String  id =  (String) getValue(parameters[1]);
 				String  parentId = (String) getValue(parameters[2]);
 				return toTree(dataSet,id,parentId);
 			}else{
-				throw new ScriptException(String.format("%s函数的参数格式不正确!", getNames()));
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
 			}
 		}catch(ScriptException e){
 			throw e;
 		}catch(Exception e){
-			throw new ScriptException(String.format("%s函数执行发生异常:", getNames()),e);
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()),e);
 		}
 	}
 	
+	@SuppressWarnings("rawtypes")
 	private DataNode toTree(AbstractDataSet dataSet,String id,String parentId) throws Exception{
 		
 		int idCol = DataSetUtil.getFieldIndex(dataSet, id);
@@ -89,7 +91,7 @@ public class DataSetToTreeFunction extends AbstractScriptFunction {
 		//创建树
 		NodeInfo rootInfo = maps.get("");
 		if(rootInfo==null || rootId == null){
-		   throw new ScriptException("数据集转换树型结构失败:没有找到根节点信息");	
+		   throw new ScriptException(ResourceBundleUtil.getResourceMessage("datasetwithtree", "tree.convert.error"));	
 		}
 		
 		DataNode root = new DefaultDataNode();
@@ -98,6 +100,7 @@ public class DataSetToTreeFunction extends AbstractScriptFunction {
 	}
 	
 	//递归执行树型节点的添加
+	@SuppressWarnings("rawtypes")
 	private void dealDataNode(DataNode node,Map<String,NodeInfo> maps,Map<String,Map> resultMaps,List<String> ids,String rootId){
 		if(node.getName()==null){
 		   AbstractDataNode abstractDataNode = (AbstractDataNode) node;
