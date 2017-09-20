@@ -78,9 +78,16 @@ public class InterpretFormatException extends ScriptException{
         	printTypeMessage(sb,ScriptException.ERROR_TYPE_RUNNING,scriptException.getMessage());
         }else{
            //第三方异常
-        	printTypeMessage(sb,ScriptException.ERROR_TYPE_OTHER,cause.getMessage());
+        	printTypeMessage(sb,getExceptionType(cause),cause.getMessage());
         	printClassMessage(sb,cause);
         }
+	}
+	
+	private int getExceptionType(Throwable cause){
+		if(cause.getClass().getName().startsWith("org.antlr.")){
+		   return ScriptException.ERROR_TYPE_PARSER;
+		}
+		return ScriptException.ERROR_TYPE_OTHER;
 	}
 	
 	/**
@@ -132,8 +139,6 @@ public class InterpretFormatException extends ScriptException{
 		}
 		if(msg!=null){
 			sb.append(msg);
-		}else{
-			sb.append(ResourceBundleUtil.getDefaultMessage("error.no.detail"));
 		}
 		sb.append("\n");
 	}
