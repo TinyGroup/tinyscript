@@ -23,6 +23,13 @@ public class DefaultDataNode extends AbstractDataNode{
 		setName(name);
 		setValue(value);
 	}
+	
+	public DefaultDataNode(String name,Object value,DataNode parent) {
+		super();
+		setName(name);
+		setValue(value);
+		setParent(parent);
+	}
 
 	public boolean isLeaf() {
 		return children.isEmpty();
