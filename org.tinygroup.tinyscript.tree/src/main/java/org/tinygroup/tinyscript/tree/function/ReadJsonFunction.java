@@ -6,17 +6,17 @@ import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.tree.DataNode;
-import org.tinygroup.tinyscript.tree.impl.DefaultDataNode;
+import org.tinygroup.tinyscript.tree.json.FastJsonNode;
 
 /**
- * 创建树型结构
+ * 读取json树
  * @author yancheng11334
  *
  */
-public class CreateDataTreeFunction extends AbstractScriptFunction {
+public class ReadJsonFunction extends AbstractScriptFunction {
 
 	public String getNames() {
-		return "createTree";
+		return "readJson";
 	}
 
 	public Object execute(ScriptSegment segment, ScriptContext context,
@@ -24,8 +24,8 @@ public class CreateDataTreeFunction extends AbstractScriptFunction {
 		try{
 			if(parameters == null || parameters.length == 0){
 				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
-			}else if(checkParameters(parameters, 2)){
-				return createTree((String)parameters[0],parameters[1]);
+			}else if(checkParameters(parameters, 1)){
+				return readJson((String)parameters[0]);
 			}else{
 				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
 			}
@@ -36,8 +36,8 @@ public class CreateDataTreeFunction extends AbstractScriptFunction {
 		}
 	}
 	
-	private DataNode createTree(String name,Object value){
-		return new DefaultDataNode(name,value);
+	private DataNode readJson(String json){
+		return new FastJsonNode(json);
 	}
 
 }

@@ -8,5 +8,13 @@
           class="org.tinygroup.tinyscript.tree.function.CreateDataTreeFunction"> 
     </bean>
     
+    <bean id="readJsonFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.tree.function.ReadJsonFunction"> 
+    </bean>
+    
+    <bean id="readXmlFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.tree.function.ReadXmlFunction"> 
+    </bean>
+    
     
 </beans>
