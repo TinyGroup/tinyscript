@@ -91,6 +91,8 @@ import org.tinygroup.tinyscript.objectitem.ObjectItemProcessor;
 import org.tinygroup.tinyscript.objectitem.ObjectItemUtil;
 import org.tinygroup.tinyscript.text.function.ReadTxtFunction;
 import org.tinygroup.tinyscript.tree.function.CreateDataTreeFunction;
+import org.tinygroup.tinyscript.tree.function.ReadJsonFunction;
+import org.tinygroup.tinyscript.tree.function.ReadXmlFunction;
 
 /**
  * 默认的tinyscript实现(非动态版本)
@@ -156,6 +158,8 @@ public class DefaultTinyScriptEngine extends DefaultScriptEngine implements Scri
 
 		addScriptFunction(new CreateDataTreeFunction());
 		addScriptFunction(new DataSetToTreeFunction());
+		addScriptFunction(new ReadJsonFunction());
+		addScriptFunction(new ReadXmlFunction());
 
 		addScriptFunction(new ExecuteSqlFunction());
 		addScriptFunction(new QuerySqlFunction());
