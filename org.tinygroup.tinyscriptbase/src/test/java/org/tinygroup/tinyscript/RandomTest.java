@@ -56,17 +56,42 @@ public class RandomTest  extends TestCase{
 		List<String> list = new ArrayList<String>();
 		context.put("list", list);
 		
+		//单个元素
 		assertEquals(null,scriptEngine.execute("return randArray(list);", context));
 		list.add("Ham");
 		assertEquals("Ham",scriptEngine.execute("return randArray(list);", context));
 		list.add("Ham2");
 		System.out.println(scriptEngine.execute("return randArray(list);", context));
+		list.add("Ham3");
 		
-		String[] ss = new String[2];
+		//多个元素
+		List<String> newList = (List<String>) scriptEngine.execute("return randArray(list,2);", context);
+		assertEquals(2,newList.size());
+		assertEquals(3,list.size());
+		
+		//改变原来结果集
+		newList = (List<String>) scriptEngine.execute("return randArray(list,2,true);", context);
+		assertEquals(2,newList.size());
+		assertEquals(1,list.size());
+		
+		String[] ss = new String[3];
 		ss[0] = "ttt";
 		ss[1] = "fff";
+		ss[2] = "kkk";
 		context.put("ss", ss);
+		
+		//单个元素
 		System.out.println(scriptEngine.execute("return randArray(ss);", context));
+		
+		//多个元素
+		Object[] array = (Object[]) scriptEngine.execute("return randArray(ss,2);", context);
+		assertEquals(2,array.length);
+		assertEquals(3,ss.length);
+		
+		//数组不支持改变原来数组
+		array = (Object[]) scriptEngine.execute("return randArray(ss,2,true);", context);
+		assertEquals(2,array.length);
+		assertEquals(3,ss.length);
 		
 	}
 }
