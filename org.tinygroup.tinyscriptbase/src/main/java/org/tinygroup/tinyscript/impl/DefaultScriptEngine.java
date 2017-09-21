@@ -80,6 +80,7 @@ public class DefaultScriptEngine extends AbstractScriptEngine {
 		addScriptFunction(new ConsolePrintFunction());
 		addScriptFunction(new ConsolePrintfFunction());
 		addScriptFunction(new ConsolePrintlnFunction());
+		addScriptFunction(new LoggerFunction());
 		
 		addScriptFunction(new SetLocaleFunction());
 				
