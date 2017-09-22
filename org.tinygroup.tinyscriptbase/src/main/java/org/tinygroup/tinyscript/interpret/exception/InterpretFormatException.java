@@ -24,6 +24,14 @@ public class InterpretFormatException extends ScriptException{
 		this.info = info;
 	}
 	
+	/**
+	 * 返回InterpretExceptionInfo接口信息
+	 * @return
+	 */
+	public InterpretExceptionInfo getInterpretExceptionInfo(){
+		return info;
+	}
+	
 	public String getMessage() {
 		StringBuilder sb = new StringBuilder();
         //优化异常信息显示顺序，由最内层到最外层
