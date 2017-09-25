@@ -3,6 +3,7 @@ package org.tinygroup.tinyscript.dataset.util;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -22,6 +23,7 @@ import org.tinygroup.tinyscript.dataset.impl.DefaultDataSetRow;
 import org.tinygroup.tinyscript.dataset.impl.SimpleDataSet;
 import org.tinygroup.tinyscript.dataset.impl.VariableDataSet;
 import org.tinygroup.tinyscript.expression.ExpressionUtil;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 /**
  * 结果集工具类
@@ -53,17 +55,27 @@ public final class DataSetUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public static DynamicDataSet createDynamicDataSet(Set<DataSetRow> set) throws Exception {
-		List<Field> fields = set.iterator().next().getFields();
-		Object[][] data = new Object[set.size()][fields.size()];
+	public static DynamicDataSet createDynamicDataSet(Map<String, DataSetRow> map) throws Exception {
+		List<Field> fields = null;
+		Object[][] data = new Object[map.keySet().size()][];
 		int rowId = 0;
-		for (DataSetRow row : set) {
+		boolean isIndexFromOne = false;
+
+		for (String key : map.keySet()) {
+			DataSetRow row = map.get(key);
+			isIndexFromOne = row.isIndexFromOne();
+			if (fields == null) {
+				fields = row.getFields();
+			}
+
+			data[rowId] = new Object[fields.size()];
 			for (int i = 0; i < fields.size(); i++) {
+
 				data[rowId][i] = row.getData(i + 1);
 			}
 			rowId++;
 		}
-		return new SimpleDataSet(fields, data, set.iterator().next().isIndexFromOne());
+		return new SimpleDataSet(fields, data, isIndexFromOne);
 	}
 
 	/**
@@ -138,8 +150,8 @@ public final class DataSetUtil {
 		SimpleDataSet localDataSet = getSimpleDataSet(dataSet);
 
 		if (localDataSet == null) {
-			throw new ScriptException(
-					String.format("%s类型的数据集无法保持副本,建议转换成SimpleDataSet类型", dataSet.getClass().getName()));
+			throw new ScriptException(ResourceBundleUtil.getResourceMessage("dataset", "dataset.convertdataset.error",
+					dataSet.getClass().getSimpleName()));
 		}
 
 		Object[][] fatherArray = localDataSet.getDataArray();
@@ -171,8 +183,8 @@ public final class DataSetUtil {
 		SimpleDataSet localDataSet = getSimpleDataSet(dataSet);
 
 		if (localDataSet == null) {
-			throw new ScriptException(
-					String.format("%s类型的数据集无法保持副本,建议转换成SimpleDataSet类型", dataSet.getClass().getName()));
+			throw new ScriptException(ResourceBundleUtil.getResourceMessage("dataset", "dataset.convertdataset.error",
+					dataSet.getClass().getSimpleName()));
 		}
 
 		Object[][] fatherArray = localDataSet.getDataArray();
@@ -400,7 +412,8 @@ public final class DataSetUtil {
 			}
 			cell[1] = Integer.parseInt(s.substring(cs.length, s.length())) - 1;
 		} catch (Exception e) {
-			throw new RuntimeException(String.format("转换Excel单元格下标方式失败:坐标[%s]", s));
+			throw new RuntimeException(
+					ResourceBundleUtil.getResourceMessage("dataset", "dataset.convertcell.error", s));
 		}
 
 		return cell;

@@ -1,6 +1,6 @@
 package org.tinygroup.tinyscript.dataset.function;
 
-import java.util.Set;
+import java.util.Map;
 
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
@@ -51,12 +51,13 @@ public class DataSetUnionFunction extends AbstractDataSetOperateFunction {
 	@Override
 	protected DataSet operate(AbstractDataSet dataSet1, AbstractDataSet dataSet2, Object pks, ScriptContext context)
 			throws Exception {
-		Set<DataSetRow> set1 = createDataSetRows(dataSet1, pks, context);
+		Map<String, DataSetRow> map = createMapDataSetRows(dataSet1, pks, context);
 		for (int i = 1; i <= dataSet2.getRows(); i++) {
-			DataSetRow row = new DefaultDataSetRow(dataSet2, i, createRowComparator(dataSet2, pks, context));
-			set1.add(row);
+			String key = createRowKey(dataSet2, pks, i, context);
+			DataSetRow row = new DefaultDataSetRow(dataSet2, i);
+			map.put(key, row);
 		}
-		return DataSetUtil.createDynamicDataSet(set1);
+		return DataSetUtil.createDynamicDataSet(map);
 	}
 
 }

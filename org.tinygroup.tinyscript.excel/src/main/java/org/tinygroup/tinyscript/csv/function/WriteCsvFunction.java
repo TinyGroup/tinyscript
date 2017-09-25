@@ -96,40 +96,43 @@ public class WriteCsvFunction extends AbstractScriptFunction {
 		}
 
 		CSVPrinter printer = null;
+
 		try {
 			printer = new CSVPrinter(new OutputStreamWriter(csvFile.getOutputStream(), encode),
 					(CSVFormat) (CSVFormat.class.getDeclaredField(type).get(CSVFormat.class)));
 		} catch (NoSuchFieldException e) {
 			throw new ScriptException(ResourceBundleUtil.getResourceMessage("excel", "csv.type.error", type));
 		}
-
-		List<Object> records = new ArrayList<Object>();
-
-		for (Field field : dataSet.getFields()) {
-			records.add(field.getName());
-		}
-
 		try {
-			printer.printRecord(records);
-		} catch (IOException e) {
+			List<Object> records = new ArrayList<Object>();
+
+			for (Field field : dataSet.getFields()) {
+				records.add(field.getName());
+			}
+
+			try {
+				printer.printRecord(records);
+			} catch (IOException e) {
+				throw new ScriptException(ResourceBundleUtil.getResourceMessage("excel", "csv.write.title.error"), e);
+			}
+
+			for (int i = start; i <= end; i++) {
+				records = new ArrayList<Object>();
+				for (int j = 1; j <= dataSet.getColumns(); j++) {
+					try {
+						records.add(dataSet.getData(i, j));
+					} catch (Exception e) {
+						printer.close();
+						throw new ScriptException(
+								ResourceBundleUtil.getResourceMessage("excel", "write.cell.error", i, j), e);
+					}
+				}
+				printer.printRecord(records);
+			}
+		} finally {
 			printer.close();
-			throw new ScriptException(ResourceBundleUtil.getResourceMessage("excel", "csv.write.title.error"), e);
 		}
 
-		for (int i = start; i <= end; i++) {
-			records = new ArrayList<Object>();
-			for (int j = 1; j <= dataSet.getColumns(); j++) {
-				try {
-					records.add(dataSet.getData(i, j));
-				} catch (Exception e) {
-					printer.close();
-					throw new ScriptException(ResourceBundleUtil.getResourceMessage("excel", "write.cell.error", i, j),
-							e);
-				}
-			}
-			printer.printRecord(records);
-		}
-		printer.close();
 	}
 
 }

@@ -23,7 +23,7 @@ groupds = groupds.sortGroup("rate desc");
 //过滤回撤率大于50%的数据
 groupds = groupds.sort("UP desc");
 groupds = groupds.limit(1,5);
-groupds = groupds.filterGroup(rate[0]<=0.5);
+groupds = groupds.filterGroup(()->{return rate[0]<=0.5;});
 
 dataset2 = readTxt("/example/history.txt");
 dataset3 = readTxt("/example/score.txt");

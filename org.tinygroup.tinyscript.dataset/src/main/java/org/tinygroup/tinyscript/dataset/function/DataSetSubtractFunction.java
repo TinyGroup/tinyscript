@@ -1,6 +1,6 @@
 package org.tinygroup.tinyscript.dataset.function;
 
-import java.util.Set;
+import java.util.Map;
 
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
@@ -8,7 +8,6 @@ import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.dataset.AbstractDataSet;
 import org.tinygroup.tinyscript.dataset.DataSet;
 import org.tinygroup.tinyscript.dataset.DataSetRow;
-import org.tinygroup.tinyscript.dataset.impl.DefaultDataSetRow;
 import org.tinygroup.tinyscript.dataset.util.DataSetUtil;
 import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
@@ -50,14 +49,14 @@ public class DataSetSubtractFunction extends AbstractDataSetOperateFunction {
 
 	protected DataSet operate(AbstractDataSet dataSet1, AbstractDataSet dataSet2, Object pks, ScriptContext context)
 			throws Exception {
-		Set<DataSetRow> set = createDataSetRows(dataSet1, pks, context);
+		Map<String, DataSetRow> map = createMapDataSetRows(dataSet1, pks, context);
 		for (int i = 1; i <= dataSet2.getRows(); i++) {
-			DataSetRow row = new DefaultDataSetRow(dataSet2, i, createRowComparator(dataSet2, pks, context));
-			if (set.contains(row)) {
-				set.remove(row);
+			String key = createRowKey(dataSet2, pks, i, context);
+			if (map.containsKey(key)) {
+				map.remove(key);
 			}
 		}
-		return DataSetUtil.createDynamicDataSet(set);
+		return DataSetUtil.createDynamicDataSet(map);
 	}
 
 }

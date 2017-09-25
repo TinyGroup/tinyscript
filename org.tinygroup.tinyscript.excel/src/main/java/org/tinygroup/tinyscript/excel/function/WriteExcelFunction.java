@@ -17,6 +17,7 @@ import org.tinygroup.tinyscript.dataset.DataSet;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.interpret.FileObjectUtil;
 import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
+import org.tinygroup.tinyscript.interpret.exception.NotMatchException;
 import org.tinygroup.vfs.FileObject;
 
 public class WriteExcelFunction extends AbstractScriptFunction {
@@ -68,12 +69,13 @@ public class WriteExcelFunction extends AbstractScriptFunction {
 			}
 
 			return null;
+		} catch (ClassCastException e) {
+			throw new NotMatchException(e);
 		} catch (Exception e) {
 			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	private void writeExcel(String fileUrl, Object dataSet, List<String> sheetNames, int start, int end)
 			throws Exception {
 		Workbook wb = null;
@@ -93,31 +95,39 @@ public class WriteExcelFunction extends AbstractScriptFunction {
 			throw new ScriptException(ResourceBundleUtil.getResourceMessage("excel", "file.type.nonsupport"));
 		}
 
-		if (dataSet instanceof DataSet) {
-			writeSheet(wb, (DataSet) dataSet,
-					(sheetNames == null || sheetNames.size() == 0) ? "sheet1" : sheetNames.get(0), start,
-					checkEnd((DataSet) dataSet, end));
-		} else if (dataSet instanceof List && ((List<DataSet>) dataSet).get(0) instanceof DataSet) {
-			List<DataSet> dataSets = ((List<DataSet>) dataSet);
+		try {
+			if (dataSet instanceof DataSet) {
+				writeSheet(wb, (DataSet) dataSet,
+						(sheetNames == null || sheetNames.size() == 0) ? "sheet1" : sheetNames.get(0), start,
+						checkEnd((DataSet) dataSet, end));
+			} else if (dataSet instanceof List) {
 
-			for (int i = 0; i < dataSets.size(); i++) {
+				List<?> dataSets = (List<?>) dataSet;
 
-				String sheetName = null;
-				if (sheetNames != null && sheetNames.size() > i) {
-					sheetName = sheetNames.get(i);
-				} else {
-					sheetName = "sheet" + (i + 1);
+				for (int i = 0; i < dataSets.size(); i++) {
+
+					String sheetName = null;
+					if (sheetNames != null && sheetNames.size() > i) {
+						sheetName = sheetNames.get(i);
+					} else {
+						sheetName = "sheet" + (i + 1);
+					}
+
+					try {
+						writeSheet(wb, (DataSet) dataSets.get(i), sheetName, start,
+								checkEnd((DataSet) dataSets.get(i), end));
+					} catch (ClassCastException e) {
+						throw new NotMatchException(e);
+					} catch (ScriptException e1) {
+						throw e1;
+					}
+
 				}
-
-				writeSheet(wb, dataSets.get(i), sheetName, start, checkEnd(dataSets.get(i), end));
 			}
-		} else {
+			wb.write(excelFile.getOutputStream());
+		} finally {
 			wb.close();
-			throw new ScriptException(ResourceBundleUtil.getResourceMessage("excel", "dataset.type.nonsupport"));
 		}
-
-		wb.write(excelFile.getOutputStream());
-
 	}
 
 	private void writeSheet(Workbook wb, DataSet dataSet, String sheetName, int start, int end) throws Exception {

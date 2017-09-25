@@ -1,7 +1,7 @@
 package org.tinygroup.tinyscript.dataset.function;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
@@ -48,18 +48,19 @@ public class DataSetXorFunction extends AbstractDataSetOperateFunction {
 	@Override
 	protected DataSet operate(AbstractDataSet dataSet1, AbstractDataSet dataSet2, Object pks, ScriptContext context)
 			throws Exception {
-		Set<DataSetRow> newRows = new HashSet<DataSetRow>();
-		Set<DataSetRow> set = createDataSetRows(dataSet1, pks, context);
+		Map<String, DataSetRow> map = createMapDataSetRows(dataSet1, pks, context);
+		Map<String, DataSetRow> newMap = new LinkedHashMap<String, DataSetRow>();
 		for (int i = 1; i <= dataSet2.getRows(); i++) {
-			DataSetRow row = new DefaultDataSetRow(dataSet2, i, createRowComparator(dataSet2, pks, context));
-			if (!set.contains(row)) {
-				newRows.add(row);
+			String key = createRowKey(dataSet2, pks, i, context);
+			DataSetRow row = new DefaultDataSetRow(dataSet2, i);
+			if (!map.containsKey(key)) {
+				newMap.put(key, row);
 			} else {
-				set.remove(row);
+				map.remove(key);
 			}
 		}
-		newRows.addAll(set);
-		return DataSetUtil.createDynamicDataSet(newRows);
+		newMap.putAll(map);
+		return DataSetUtil.createDynamicDataSet(newMap);
 	}
 
 }

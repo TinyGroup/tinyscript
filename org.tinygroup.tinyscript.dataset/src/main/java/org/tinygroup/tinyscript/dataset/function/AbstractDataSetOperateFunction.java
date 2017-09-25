@@ -1,21 +1,19 @@
 package org.tinygroup.tinyscript.dataset.function;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.dataset.AbstractDataSet;
 import org.tinygroup.tinyscript.dataset.DataSet;
 import org.tinygroup.tinyscript.dataset.DataSetRow;
 import org.tinygroup.tinyscript.dataset.Field;
-import org.tinygroup.tinyscript.dataset.RowComparator;
 import org.tinygroup.tinyscript.dataset.impl.DefaultDataSetRow;
-import org.tinygroup.tinyscript.dataset.impl.LambdaRowComparator;
-import org.tinygroup.tinyscript.dataset.impl.ListRowComparator;
 import org.tinygroup.tinyscript.dataset.util.DataSetUtil;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
+import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 import org.tinygroup.tinyscript.interpret.LambdaFunction;
 
 public abstract class AbstractDataSetOperateFunction extends AbstractScriptFunction {
@@ -25,7 +23,9 @@ public abstract class AbstractDataSetOperateFunction extends AbstractScriptFunct
 		return DataSet.class.getName();
 	}
 
-	/**批量转换主键（string→int）
+	/**
+	 * 批量转换主键（string→int）
+	 * 
 	 * @param dataSet
 	 * @param pks
 	 * @return
@@ -50,36 +50,36 @@ public abstract class AbstractDataSetOperateFunction extends AbstractScriptFunct
 		return pksIndex;
 	}
 
-	/**创建行集合
-	 * @param dataSet
-	 * @param pks
-	 * @param context
-	 * @return
-	 * @throws Exception
-	 */
-	protected Set<DataSetRow> createDataSetRows(AbstractDataSet dataSet, Object pks, ScriptContext context)
+	
+
+	protected Map<String, DataSetRow> createMapDataSetRows(AbstractDataSet dataSet, Object pks, ScriptContext context)
 			throws Exception {
-		Set<DataSetRow> rows = new HashSet<DataSetRow>();
+		Map<String, DataSetRow> result = new LinkedHashMap<String, DataSetRow>();
 		for (int i = 1; i <= dataSet.getRows(); i++) {
-			rows.add(new DefaultDataSetRow(dataSet, i, createRowComparator(dataSet, pks, context)));
+			String key = createRowKey(dataSet, pks, i, context);
+			result.put(key, new DefaultDataSetRow(dataSet, i));
 		}
-		return rows;
+		return result;
 	}
 
-	/**
-	 * 创建行比较器
-	 * @param dataSet
-	 * @param pks
-	 * @param context
-	 * @return
-	 * @throws Exception
-	 */
-	protected RowComparator createRowComparator(DataSet dataSet, Object pks, ScriptContext context) throws Exception {
+	protected String createRowKey(AbstractDataSet dataSet, Object pks, int row, ScriptContext context)
+			throws Exception {
 		if (pks instanceof List || pks instanceof String) {
 			List<Integer> pksIndex = showPkIndex(dataSet, pks);
-			return new ListRowComparator(pksIndex);
+			StringBuilder builder = new StringBuilder();
+			for (int col : pksIndex) {
+				builder.append(dataSet.getData(row, col));
+			}
+			return builder.toString();
 		} else if (pks instanceof LambdaFunction) {
-			return new LambdaRowComparator((LambdaFunction) pks, context);
+			LambdaFunction keyFunction = (LambdaFunction) pks;
+			ScriptContext subContext = new DefaultScriptContext();
+			subContext.setParent(context);
+			for (int i = 0; i < dataSet.getFields().size(); i++) {
+				subContext.put(dataSet.getFields().get(i).getName(), dataSet.getData(row, i + 1));
+			}
+			return keyFunction.execute(subContext).getResult().toString();
+
 		}
 		return null;
 	}

@@ -19,6 +19,7 @@ import org.tinygroup.tinyscript.dataset.util.DataSetUtil;
 import org.tinygroup.tinyscript.function.AbstractDpKnapsackFunction;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 import org.tinygroup.tinyscript.interpret.LambdaFunction;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 public class DataSetKnapsackFunction extends AbstractDpKnapsackFunction {
 
@@ -30,7 +31,7 @@ public class DataSetKnapsackFunction extends AbstractDpKnapsackFunction {
 	@Override
 	public Object execute(ScriptSegment segment, ScriptContext context, Object... parameters) throws ScriptException {
 		if (parameters == null || parameters.length <= 3) {
-			throw new ScriptException("dpKnapsack函数的参数 错误!");
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
 		}
 
 		SimpleDataSet dataSet = (SimpleDataSet) parameters[0];
@@ -48,7 +49,7 @@ public class DataSetKnapsackFunction extends AbstractDpKnapsackFunction {
 				result = dpKnapsackResult(weight, (double[]) convertToArray(parameters[3], double.class), bagSize,
 						maxCount);
 			} catch (Exception e) {
-				throw new ScriptException("执行dpKnapsack出错", e);
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 			}
 		} else if (checkParameters(parameters, 5)) {
 			try {
@@ -64,7 +65,7 @@ public class DataSetKnapsackFunction extends AbstractDpKnapsackFunction {
 				}
 
 			} catch (Exception e) {
-				throw new ScriptException("执行dpKnapsack出错", e);
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 			}
 		} else if (checkParameters(parameters, 6)) {
 			try {
@@ -74,10 +75,10 @@ public class DataSetKnapsackFunction extends AbstractDpKnapsackFunction {
 				result = dpKnapsackResult(weight, (double[]) convertToArray(parameters[4], double.class), bagSize,
 						maxCount, dataSet, context, lambdaFunction);
 			} catch (Exception e) {
-				throw new ScriptException("执行dpKnapsack出错", e);
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 			}
 		} else {
-			throw new ScriptException("参数格式不对");
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
 		}
 
 		return getLastResult(result, dataSet);
@@ -100,7 +101,7 @@ public class DataSetKnapsackFunction extends AbstractDpKnapsackFunction {
 				}
 			}
 		} catch (Exception e) {
-			throw new ScriptException("转换数组发生异常", e);
+			throw new ScriptException(ResourceBundleUtil.getResourceMessage("dataset", "dataset.convertarray.error"));
 		}
 
 		return obj;
@@ -115,7 +116,7 @@ public class DataSetKnapsackFunction extends AbstractDpKnapsackFunction {
 				subContext.put(field.getName(), DataSetUtil.createDataSetColumn(dataSet, dataSet.getShowIndex(j)));
 			}
 		} catch (Exception e) {
-			throw new ScriptException("添加列到上下文出错", e);
+			throw new ScriptException(ResourceBundleUtil.getResourceMessage("dataset", "dataset.addcontext.error"));
 		}
 		return subContext;
 	}
@@ -138,7 +139,7 @@ public class DataSetKnapsackFunction extends AbstractDpKnapsackFunction {
 				}
 			}
 		} catch (Exception e) {
-			throw new ScriptException("删除行失败", e);
+			throw new ScriptException(ResourceBundleUtil.getResourceMessage("dataset", "dataset.row.delete.error"));
 		}
 
 		Iterator<?> it = result.subList(1, result.size()).iterator();
