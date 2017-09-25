@@ -14,6 +14,7 @@ import org.tinygroup.tinyscript.dataset.util.DataSetUtil;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 import org.tinygroup.tinyscript.interpret.LambdaFunction;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
 import org.tinygroup.tinyscript.interpret.ScriptResult;
 import org.tinygroup.tinyscript.interpret.call.FunctionCallExpressionParameter;
@@ -35,19 +36,19 @@ public class DataSetUpdateFunction extends AbstractScriptFunction {
 	public Object execute(ScriptSegment segment, ScriptContext context, Object... parameters) throws ScriptException {
 		try {
 			if (parameters == null || parameters.length == 0) {
-				throw new ScriptException("update函数的参数为空!");
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
 			} else if (checkParameters(parameters, 3)) {
 				AbstractDataSet dataSet = (AbstractDataSet) getValue(parameters[0]);
 				String colName = (String) getValue(parameters[1]);
 
 				return updateExpression(dataSet, colName, parameters[2], context);
 			} else {
-				throw new ScriptException("update函数的参数格式不正确!");
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
 			}
 		} catch (ScriptException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new ScriptException("update函数的参数格式不正确!", e);
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 		}
 	}
 
@@ -59,7 +60,8 @@ public class DataSetUpdateFunction extends AbstractScriptFunction {
 			expression = getExpression(parameter);
 			int col = DataSetUtil.getFieldIndex(dataSet, colName);
 			if (col < 0) {
-				throw new ScriptException(String.format("根据字段%s没有在数据集找到匹配列", colName));
+				throw new ScriptException(
+						ResourceBundleUtil.getResourceMessage("dataset", "dataset.fields.notfound", colName));
 			}
 
 			Set<Integer> columns = null;
@@ -71,13 +73,11 @@ public class DataSetUpdateFunction extends AbstractScriptFunction {
 			expression = ScriptContextUtil.convertExpression(expression);
 
 			Object function = null;
-			if (expression.indexOf("->")>0){
-			    function = ((FunctionCallExpressionParameter) (parameter)).eval();
-			}
-			else{
+			if (expression.indexOf("->") > 0) {
+				function = ((FunctionCallExpressionParameter) (parameter)).eval();
+			} else {
 				function = expression;
 			}
-				
 
 			if (dataSet instanceof GroupDataSet) {
 				GroupDataSet groupDataSet = (GroupDataSet) dataSet;
@@ -93,7 +93,7 @@ public class DataSetUpdateFunction extends AbstractScriptFunction {
 		} catch (ScriptException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new ScriptException("执行update函数发生异常", e);
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 		}
 	}
 

@@ -7,6 +7,7 @@ import org.tinygroup.tinyscript.dataset.DataSet;
 import org.tinygroup.tinyscript.dataset.DynamicDataSet;
 import org.tinygroup.tinyscript.dataset.impl.VariableDataSet;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 /**
  * 转换为动态序表
@@ -27,7 +28,7 @@ public class ToDynamicDataSetFunction extends AbstractScriptFunction {
 			Object... parameters) throws ScriptException {
 		try{
 			if (parameters == null || parameters.length == 0) {
-				throw new ScriptException(String.format("%s函数的参数为空!",getNames()));
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
 			}else if(checkParameters(parameters, 1)){
 				DataSet dataSet = (DataSet) parameters[0];
 				if(dataSet instanceof DynamicDataSet){
@@ -35,12 +36,12 @@ public class ToDynamicDataSetFunction extends AbstractScriptFunction {
 				}
 				return new VariableDataSet(dataSet);
 			}else{
-				throw new ScriptException(String.format("%s函数的参数格式不正确!",getNames()));
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
 			}
 		}catch (ScriptException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new ScriptException(String.format("%s函数的参数格式不正确!",getNames()), e);
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 		}
 		
 	}

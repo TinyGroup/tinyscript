@@ -18,6 +18,7 @@ import org.tinygroup.tinyscript.dataset.util.DataSetUtil;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 import org.tinygroup.tinyscript.interpret.LambdaFunction;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.call.FunctionCallExpressionParameter;
 
 public class GroupDataSetFilterFunction extends AbstractScriptFunction {
@@ -37,19 +38,19 @@ public class GroupDataSetFilterFunction extends AbstractScriptFunction {
 	public Object execute(ScriptSegment segment, ScriptContext context, Object... parameters) throws ScriptException {
 		try {
 			if (parameters == null || parameters.length == 0) {
-				throw new ScriptException("filterGroup函数的参数为空!");
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
 			} else if (checkParameters(parameters, 2)) {
 				GroupDataSet groupDataSet = (GroupDataSet) getValue(parameters[0]);
 				LambdaFunction expression = (LambdaFunction) (((FunctionCallExpressionParameter) parameters[1]).eval());
 				return filterGroup(context, groupDataSet, expression);
 			} else {
-				throw new ScriptException("filterGroup函数的参数格式不正确");
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
 			}
 
 		} catch (ScriptException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new ScriptException("filterGroup函数的参数格式不正确!", e);
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 		}
 	}
 

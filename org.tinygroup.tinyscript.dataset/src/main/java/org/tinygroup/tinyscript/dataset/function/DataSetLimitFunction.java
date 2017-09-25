@@ -8,15 +8,14 @@ import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.dataset.DynamicDataSet;
 import org.tinygroup.tinyscript.dataset.GroupDataSet;
-import org.tinygroup.tinyscript.dataset.impl.AggregateResult;
 import org.tinygroup.tinyscript.dataset.impl.DefaultGroupDataSet;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 public class DataSetLimitFunction extends AbstractScriptFunction {
 
 	@Override
 	public String getNames() {
-		// TODO Auto-generated method stub
 		return "limit";
 	}
 
@@ -27,22 +26,21 @@ public class DataSetLimitFunction extends AbstractScriptFunction {
 
 	@Override
 	public Object execute(ScriptSegment segment, ScriptContext context, Object... parameters) throws ScriptException {
-		// TODO Auto-generated method stub
 		try {
 			if (parameters == null || parameters.length == 0) {
-				throw new ScriptException("limit函数的参数为空!");
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
 			} else if (checkParameters(parameters, 3)) {
 				DefaultGroupDataSet dataSet = (DefaultGroupDataSet) parameters[0];
 				int begin = (Integer) parameters[1];
 				int end = (Integer) parameters[2];
 				return limit(dataSet, begin - 1, end - 1);
 			} else {
-				throw new ScriptException("limit函数的参数格式不正确!");
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
 			}
 		} catch (ScriptException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new ScriptException("limit函数的参数格式不正确!", e);
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 		}
 	}
 

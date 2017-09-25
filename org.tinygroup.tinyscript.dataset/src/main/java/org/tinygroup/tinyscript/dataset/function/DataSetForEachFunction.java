@@ -8,6 +8,7 @@ import org.tinygroup.tinyscript.dataset.DataSet;
 import org.tinygroup.tinyscript.dataset.util.DataSetUtil;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.interpret.LambdaFunction;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.ScriptResult;
 
 /**
@@ -29,19 +30,19 @@ public class DataSetForEachFunction extends AbstractScriptFunction {
 			Object... parameters) throws ScriptException {
 		try{
 			if(parameters == null || parameters.length == 0) {
-				throw new ScriptException("forEach函数的参数为空!");
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
 			}else if(checkParameters(parameters, 2)){
 				AbstractDataSet dataSet = (AbstractDataSet) parameters[0];
 				LambdaFunction function = (LambdaFunction) parameters[1];
 				
 				return forEach(dataSet,function,context);
 			}else{
-				throw new ScriptException("forEach函数的参数格式不正确!");
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
 			}
 		}catch (ScriptException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new ScriptException("forEach函数的参数格式不正确!", e);
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 		}
 	}
 	

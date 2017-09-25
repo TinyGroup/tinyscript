@@ -1,7 +1,7 @@
 package org.tinygroup.tinyscript.dataset.function;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
@@ -9,7 +9,6 @@ import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.dataset.AbstractDataSet;
 import org.tinygroup.tinyscript.dataset.DataSet;
 import org.tinygroup.tinyscript.dataset.DataSetRow;
-import org.tinygroup.tinyscript.dataset.impl.DefaultDataSetRow;
 import org.tinygroup.tinyscript.dataset.util.DataSetUtil;
 import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
@@ -62,15 +61,15 @@ public class DataSetIntersectionFunction extends AbstractDataSetOperateFunction 
 	 */
 	protected DataSet operate(AbstractDataSet dataSet1, AbstractDataSet dataSet2, Object pks, ScriptContext context)
 			throws Exception {
-		Set<DataSetRow> newRows = new HashSet<DataSetRow>();
-		Set<DataSetRow> set = createDataSetRows(dataSet1, pks, context);
+		Map<String, DataSetRow> map = createMapDataSetRows(dataSet1, pks, context);
+		Map<String, DataSetRow> newMap = new LinkedHashMap<String,DataSetRow>();
 		for (int i = 1; i <= dataSet2.getRows(); i++) {
-			DataSetRow row = new DefaultDataSetRow(dataSet2, i, createRowComparator(dataSet2, pks, context));
-			if (set.contains(row)) {
-				newRows.add(row);
+			String key = createRowKey(dataSet2, pks, i, context);
+			if (map.containsKey(key)) {
+				newMap.put(key, map.get(key));
 			}
 		}
-		return DataSetUtil.createDynamicDataSet(newRows);
+		return DataSetUtil.createDynamicDataSet(newMap);
 	}
 
 }
