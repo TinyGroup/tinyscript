@@ -48,6 +48,10 @@ public final class Field {
 				&& this.title.equals(((Field) field).getTitle());
 	}
 
+	public int hashCode() {
+		return name.hashCode() + type.hashCode() + title.hashCode();
+	}
+
 	public String toString() {
 		return "Field [name=" + name + ", title=" + title + ", type=" + type + "]";
 	}

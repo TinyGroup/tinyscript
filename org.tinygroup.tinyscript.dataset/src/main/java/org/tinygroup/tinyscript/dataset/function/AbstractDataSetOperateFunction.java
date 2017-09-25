@@ -1,9 +1,11 @@
 package org.tinygroup.tinyscript.dataset.function;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.dataset.AbstractDataSet;
@@ -50,8 +52,6 @@ public abstract class AbstractDataSetOperateFunction extends AbstractScriptFunct
 		return pksIndex;
 	}
 
-	
-
 	protected Map<String, DataSetRow> createMapDataSetRows(AbstractDataSet dataSet, Object pks, ScriptContext context)
 			throws Exception {
 		Map<String, DataSetRow> result = new LinkedHashMap<String, DataSetRow>();
@@ -96,10 +96,12 @@ public abstract class AbstractDataSetOperateFunction extends AbstractScriptFunct
 		if (dataSet1.getColumns() != dataSet2.getColumns()) {
 			return false;
 		} else {
+			Set<Field> fields = new HashSet<Field>();
 			for (int i = 0; i < dataSet1.getFields().size(); i++) {
-				Field field1 = dataSet1.getFields().get(i);
-				Field field2 = dataSet2.getFields().get(i);
-				if (!field1.equals(field2)) {
+				fields.add(dataSet1.getFields().get(i));
+			}
+			for (int i = 0; i < dataSet2.getFields().size(); i++) {
+				if (!fields.contains(dataSet2.getFields().get(i))) {
 					return false;
 				}
 			}
