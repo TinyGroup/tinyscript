@@ -95,38 +95,39 @@ public class WriteExcelFunction extends AbstractScriptFunction {
 			throw new ScriptException(ResourceBundleUtil.getResourceMessage("excel", "file.type.nonsupport"));
 		}
 
-		if (dataSet instanceof DataSet) {
-			writeSheet(wb, (DataSet) dataSet,
-					(sheetNames == null || sheetNames.size() == 0) ? "sheet1" : sheetNames.get(0), start,
-					checkEnd((DataSet) dataSet, end));
-		} else if (dataSet instanceof List) {
+		try {
+			if (dataSet instanceof DataSet) {
+				writeSheet(wb, (DataSet) dataSet,
+						(sheetNames == null || sheetNames.size() == 0) ? "sheet1" : sheetNames.get(0), start,
+						checkEnd((DataSet) dataSet, end));
+			} else if (dataSet instanceof List) {
 
-			List<?> dataSets = (List<?>) dataSet;
+				List<?> dataSets = (List<?>) dataSet;
 
-			for (int i = 0; i < dataSets.size(); i++) {
+				for (int i = 0; i < dataSets.size(); i++) {
 
-				String sheetName = null;
-				if (sheetNames != null && sheetNames.size() > i) {
-					sheetName = sheetNames.get(i);
-				} else {
-					sheetName = "sheet" + (i + 1);
+					String sheetName = null;
+					if (sheetNames != null && sheetNames.size() > i) {
+						sheetName = sheetNames.get(i);
+					} else {
+						sheetName = "sheet" + (i + 1);
+					}
+
+					try {
+						writeSheet(wb, (DataSet) dataSets.get(i), sheetName, start,
+								checkEnd((DataSet) dataSets.get(i), end));
+					} catch (ClassCastException e) {
+						throw new NotMatchException(e);
+					} catch (ScriptException e1) {
+						throw e1;
+					}
+
 				}
-
-				try {
-					writeSheet(wb, (DataSet) dataSets.get(i), sheetName, start,
-							checkEnd((DataSet) dataSets.get(i), end));
-				} catch (ClassCastException e) {
-					throw new NotMatchException(e);
-				} catch (ScriptException e1) {
-					throw e1;
-				}
-
 			}
+			wb.write(excelFile.getOutputStream());
+		} finally {
+			wb.close();
 		}
-
-		wb.write(excelFile.getOutputStream());
-		wb.close();
-
 	}
 
 	private void writeSheet(Workbook wb, DataSet dataSet, String sheetName, int start, int end) throws Exception {
