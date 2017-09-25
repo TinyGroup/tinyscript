@@ -7,6 +7,8 @@ import junit.framework.TestCase;
 
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 import org.tinygroup.tinyscript.impl.DefaultScriptEngine;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
+import org.tinygroup.tinyscript.interpret.exception.InterpretFormatException;
 
 /**
  * 脚本引擎的测试随机数据
@@ -89,9 +91,12 @@ public class RandomTest  extends TestCase{
 		assertEquals(3,ss.length);
 		
 		//数组不支持改变原来数组
-		array = (Object[]) scriptEngine.execute("return randArray(ss,2,true);", context);
-		assertEquals(2,array.length);
-		assertEquals(3,ss.length);
+		try{
+			array = (Object[]) scriptEngine.execute("return randArray(ss,2,true);", context);
+		}catch(InterpretFormatException e){
+			Throwable ex = e.getInterpretExceptionInfo().getSource().getCause();
+			assertEquals(ResourceBundleUtil.getDefaultMessage("function.randarray.unsupport"), ex.getMessage());
+		}
 		
 	}
 }

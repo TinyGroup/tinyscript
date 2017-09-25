@@ -56,6 +56,9 @@ public class ArrayRandFunction extends AbstractScriptFunction{
 			    int num = (Integer)getValue(parameters[1]);
 			    boolean variable = (Boolean)getValue(parameters[2]);
 				if(obj.getClass().isArray()){
+				   if(variable){
+					  throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.randarray.unsupport"));
+				   }
 				   return randArray(obj,num);
 				}else if(obj instanceof Collection){
 				   return randCollection((Collection)obj,num,variable);
