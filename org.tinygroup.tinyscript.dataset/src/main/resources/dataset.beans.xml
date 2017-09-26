@@ -162,5 +162,9 @@
 	<bean id="dataSetXorFunction" scope="singleton"
 		class="org.tinygroup.tinyscript.dataset.function.DataSetXorFunction">
 	</bean>
+	
+	<bean id="dataSetFilterOneFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetFilterOneFunction">
+	</bean>
 
 </beans>

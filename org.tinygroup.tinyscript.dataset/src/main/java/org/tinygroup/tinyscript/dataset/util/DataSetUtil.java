@@ -445,4 +445,19 @@ public final class DataSetUtil {
 		return result;
 	}
 
+	public static void setRowValue(ScriptContext context, AbstractDataSet dataSet, Set<Integer> columns, int row)
+			throws Exception {
+		for (int j = 0; j < dataSet.getColumns(); j++) {
+			Field field = dataSet.getFields().get(j);
+			if (columns != null && columns.contains(j)) {
+				// 存在字段数组形式
+				context.put(field.getName(), DataSetUtil.createDataSetColumn(dataSet, dataSet.getShowIndex(j)));
+			} else {
+				// 直接赋值
+				context.put(field.getName(), dataSet.getData(dataSet.getShowIndex(row), dataSet.getShowIndex(j))); // 设置行参数上下文
+			}
+
+		}
+	}
+
 }

@@ -10,7 +10,6 @@ import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.dataset.AbstractDataSet;
 import org.tinygroup.tinyscript.dataset.DynamicDataSet;
-import org.tinygroup.tinyscript.dataset.Field;
 import org.tinygroup.tinyscript.dataset.GroupDataSet;
 import org.tinygroup.tinyscript.dataset.impl.AggregateResult;
 import org.tinygroup.tinyscript.dataset.impl.DefaultGroupDataSet;
@@ -60,7 +59,7 @@ public class GroupDataSetFilterFunction extends AbstractScriptFunction {
 
 		Set<Integer> columns = new HashSet<Integer>();
 		for (int j = 0; j < groupDataSet.getFields().size(); j++) {
-			columns.add(j + 1);
+			columns.add(j);
 		}
 
 		for (int dsNum = 0; dsNum < groupDataSet.getGroups().size(); dsNum++) {
@@ -70,7 +69,7 @@ public class GroupDataSetFilterFunction extends AbstractScriptFunction {
 				ScriptContext subContext = new DefaultScriptContext();
 				subContext.setParent(context);
 				subContext.put("$currentRow", groupDataSet.getShowIndex(i));
-				setRowValue(subContext, subDs, columns, i);
+				DataSetUtil.setRowValue(subContext, subDs, columns, i);
 				setAggregateValue(subContext, subDs, groupDataSet.getAggregateResultList(), dsNum);
 				if ((Boolean) expression.execute(subContext).getResult()) {
 					matchRows.add(i);
@@ -88,21 +87,6 @@ public class GroupDataSetFilterFunction extends AbstractScriptFunction {
 			List<AggregateResult> aggregateResultList, int row) throws Exception {
 		for (AggregateResult result : aggregateResultList) {
 			context.put(result.getName(), result.getData(row));
-		}
-	}
-
-	private void setRowValue(ScriptContext context, AbstractDataSet dataSet, Set<Integer> columns, int row)
-			throws Exception {
-		for (int j = 0; j < dataSet.getColumns(); j++) {
-			Field field = dataSet.getFields().get(j);
-			if (columns != null && columns.contains(j)) {
-				// 存在字段数组形式
-				context.put(field.getName(), DataSetUtil.createDataSetColumn(dataSet, dataSet.getShowIndex(j)));
-			} else {
-				// 直接赋值
-				context.put(field.getName(), dataSet.getData(dataSet.getShowIndex(row), dataSet.getShowIndex(j))); // 设置行参数上下文
-			}
-
 		}
 	}
 
