@@ -93,4 +93,8 @@ public class DataSetConvertFunction extends DynamicNameScriptFunction {
 		return TypeConvertUtil.exsitType(name);
 	}
 
+	public List<String> getFunctionNames() {
+		return TypeConvertUtil.getTypes();
+	}
+
 }

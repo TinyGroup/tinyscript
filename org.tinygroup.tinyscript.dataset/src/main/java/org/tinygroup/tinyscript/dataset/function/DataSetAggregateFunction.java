@@ -76,4 +76,8 @@ public class DataSetAggregateFunction extends DynamicNameScriptFunction {
 		return -1;
 	}
 
+	public List<String> getFunctionNames() {
+		return ExpressionUtil.getCalculatorNames();
+	}
+
 }

@@ -126,4 +126,13 @@ public class GroupDataSetAggregateFunction extends DynamicNameScriptFunction {
 		return null;
 	}
 
+	public List<String> getFunctionNames() {
+		List<String> names = new ArrayList<String>();
+		List<String> list = ExpressionUtil.getCalculatorNames();
+		for(String name:list){
+			names.add(name+"Group");
+		}
+		return names;
+	}
+
 }
