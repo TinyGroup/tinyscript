@@ -1,6 +1,7 @@
 package org.tinygroup.tinyscript.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import org.tinygroup.logger.LoggerFactory;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptFunction;
 import org.tinygroup.tinyscript.ScriptSegment;
+import org.tinygroup.tinyscript.config.FunctionConfig;
 import org.tinygroup.tinyscript.function.*;
 import org.tinygroup.tinyscript.function.date.*;
 import org.tinygroup.tinyscript.function.locale.*;
@@ -251,6 +253,42 @@ public class DefaultScriptEngine extends AbstractScriptEngine {
 			}
 		}
 		return null;
+	}
+	
+	public List<FunctionConfig> getFunctionConfigs(Object object) throws ScriptException{
+		List<FunctionConfig> configs = new ArrayList<FunctionConfig>();
+		if(object==null){
+		   //一般非绑定函数
+		   for(ScriptFunction function:functionMap.values()){
+			   configs.addAll(function.getFunctionConfigs()); 
+		   }
+		   //动态非绑定函数
+		   for(DynamicNameScriptFunction dynamicNameScriptFunction:dynamicList){
+			   configs.addAll(dynamicNameScriptFunction.getFunctionConfigs()); 
+		   }
+		}else{
+		   //一般绑定函数
+		   for(Class<?> clazz:typeFunctionMap.keySet()){
+			   if(clazz.equals(object.getClass()) || clazz.isInstance(object)){ 
+				  Map<String, ScriptFunction> nameMap = typeFunctionMap.get(clazz);
+				  for(ScriptFunction function:nameMap.values()){
+					  configs.addAll(function.getFunctionConfigs()); 
+				  }
+			   }
+		   }
+		   //动态绑定函数
+		   for(Class<?> clazz:typeDynamicMap.keySet()){
+			   if(clazz.equals(object.getClass()) || clazz.isInstance(object)){ 
+				  List<DynamicNameScriptFunction> dynamicNameScriptFunctions = typeDynamicMap.get(clazz);
+				  for(DynamicNameScriptFunction dynamicNameScriptFunction:dynamicNameScriptFunctions){
+					  configs.addAll(dynamicNameScriptFunction.getFunctionConfigs()); 
+				  }
+			   }
+		   }
+		}
+		//进行排序
+		Collections.sort(configs);
+		return configs;
 	}
 	
 	private ScriptFunction findDynamicNameScriptFunction(Class<?> clazz,String functionName){

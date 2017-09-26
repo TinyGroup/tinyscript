@@ -1,6 +1,8 @@
 package org.tinygroup.tinyscript.expression;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.tinygroup.tinyscript.ScriptException;
@@ -51,6 +53,15 @@ public final class TypeConvertUtil {
 	public static boolean exsitType(String type){
 		return processorMap.containsKey(type);
 	}
+	
+	/**
+	 * 获得存在的类型
+	 * @return
+	 */
+	public static List<String> getTypes(){
+		return new ArrayList<String>(processorMap.keySet());
+	}
+	
 	/**
 	 * 执行指定类型的转换逻辑
 	 * @param type

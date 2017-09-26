@@ -58,4 +58,8 @@ public class MathAggregateFunction extends DynamicNameScriptFunction{
 		return ExpressionUtil.getNumberCalculator(name)!=null;
 	}
 
+	public List<String> getFunctionNames() {
+		return ExpressionUtil.getCalculatorNames();
+	}
+
 }

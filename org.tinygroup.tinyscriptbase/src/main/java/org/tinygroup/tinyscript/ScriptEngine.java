@@ -1,5 +1,9 @@
 package org.tinygroup.tinyscript;
 
+import java.util.List;
+
+import org.tinygroup.tinyscript.config.FunctionConfig;
+
 /**
  * tiny脚本引擎
  * @author yancheng11334
@@ -89,6 +93,14 @@ public interface ScriptEngine {
      * @return
      */
     ScriptFunction findScriptFunction(Object object, String functionName) throws ScriptException;
+    
+    /**
+     * 根据对象查找函数定义项
+     * @param object
+     * @return
+     * @throws ScriptException
+     */
+    List<FunctionConfig> getFunctionConfigs(Object object) throws ScriptException;
     
 	/**
 	 * 查询脚本段

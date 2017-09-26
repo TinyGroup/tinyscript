@@ -1,5 +1,7 @@
 package org.tinygroup.tinyscript.function;
 
+import java.util.List;
+
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
@@ -31,6 +33,10 @@ public class TypeConvertFunction extends DynamicNameScriptFunction{
 
 	public boolean exsitFunctionName(String name) {
 		return TypeConvertUtil.exsitType(name);
+	}
+
+	public List<String> getFunctionNames() {
+		return TypeConvertUtil.getTypes();
 	}
 
 }

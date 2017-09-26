@@ -1,6 +1,7 @@
 package org.tinygroup.tinyscript;
 
 import java.io.File;
+import java.util.Date;
 import java.util.List;
 
 import org.tinygroup.commons.tools.FileUtil;
@@ -12,11 +13,11 @@ import org.tinygroup.tinyscript.ScriptEngine;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.assignvalue.AssignValueProcessor;
 import org.tinygroup.tinyscript.assignvalue.AssignValueUtil;
+import org.tinygroup.tinyscript.config.FunctionConfig;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 import org.tinygroup.tinyscript.impl.DefaultScriptEngine;
 import org.tinygroup.tinyscript.interpret.AttributeUtil;
 import org.tinygroup.tinyscript.interpret.ScriptUtil;
-import org.tinygroup.tinyscript.objectitem.ObjectItemProcessor;
 import org.tinygroup.tinyscript.objectitem.ObjectItemUtil;
 import org.tinygroup.tinyscript.objectitem.ObjectSingleItemProcessor;
 
@@ -168,6 +169,17 @@ public class ScriptEngineTest extends TestCase{
 		 assertEquals(20,scriptEngine.execute("student = new org.tinygroup.tinyscript.Student(\"John\",20,true); return student[\"age\"];"));
 		 assertEquals(true,scriptEngine.execute("student = new org.tinygroup.tinyscript.Student(\"John\",20,true); return student[\"registered\"];"));
 		 
+	}
+	
+	//测试方法配置项
+	public void testFuncitonConfig() throws Exception {
+		//无绑定的函数
+		List<FunctionConfig> configs = scriptEngine.getFunctionConfigs(null);
+		assertEquals(true,configs.size()>=41);
+		
+		//绑定对象的函数
+		configs = scriptEngine.getFunctionConfigs(new Date());
+		assertEquals(true,configs.size()>=2);
 	}
 	
 	class ThreeAssignValueProcessor implements AssignValueProcessor{

@@ -1,6 +1,8 @@
 package org.tinygroup.tinyscript.function.output;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.tinygroup.tinyscript.ScriptContext;
@@ -52,6 +54,11 @@ public class LoggerFunction extends DynamicNameScriptFunction {
 
 	public boolean exsitFunctionName(String name) {
 		return names.contains(name);
+	}
+
+
+	public List<String> getFunctionNames() {
+		return new ArrayList<String>(names);
 	}
 
 }

@@ -342,6 +342,14 @@ public final class ExpressionUtil {
     }
     
     /**
+     * 获得计算器名称列表
+     * @return
+     */
+    public static List<String> getCalculatorNames(){
+    	return new ArrayList<String>(numberCalculatorMap.keySet());
+    }
+    
+    /**
      * 执行计算
      * @param name
      * @param numbers

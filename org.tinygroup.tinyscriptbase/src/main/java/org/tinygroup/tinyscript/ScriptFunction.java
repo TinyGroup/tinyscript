@@ -1,5 +1,9 @@
 package org.tinygroup.tinyscript;
 
+import java.util.List;
+
+import org.tinygroup.tinyscript.config.FunctionConfig;
+
 /**
  * tiny脚本函数
  * @author yancheng11334
@@ -40,4 +44,10 @@ public interface ScriptFunction extends ScriptEngineOperator{
      * @throws ScriptException
      */
     Object execute(ScriptSegment segment, ScriptContext context, Object... parameters) throws ScriptException;
+    
+    /**
+     * 获得函数的定义信息
+     * @return
+     */
+    List<FunctionConfig> getFunctionConfigs();
 }

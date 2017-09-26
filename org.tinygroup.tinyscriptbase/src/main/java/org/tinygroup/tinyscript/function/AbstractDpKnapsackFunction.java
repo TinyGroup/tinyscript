@@ -18,6 +18,12 @@ public abstract class AbstractDpKnapsackFunction extends DynamicNameScriptFuncti
 			return true;
 		return false;
 	}
+	
+	public List<String> getFunctionNames() {
+		List<String> names = new ArrayList<String>();
+		names.add("dpKnapsack");
+		return names;
+	}
 
 	public List<Object> dpKnapsackResult(int[] weight, double[] value, int bagSize, int[] maxCount,
 			Object... parameters) throws Exception {

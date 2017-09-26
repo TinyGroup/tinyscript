@@ -1,9 +1,15 @@
 package org.tinygroup.tinyscript.function;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.tinygroup.commons.tools.StringUtil;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptEngine;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptFunction;
+import org.tinygroup.tinyscript.config.FunctionConfig;
+import org.tinygroup.tinyscript.config.ScriptFunctionConfig;
 import org.tinygroup.tinyscript.interpret.ExpressionParameter;
 import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
@@ -132,5 +138,23 @@ public abstract class AbstractScriptFunction implements ScriptFunction{
 		}
 		//检验参数失败
 		return false;
+	}
+	
+	/**
+	 * 返回函数名的通用处理方法
+	 */
+	public List<FunctionConfig> getFunctionConfigs(){
+		//如果需要返回详细描述、字段等特征，需要的函数自行覆盖实现
+		List<FunctionConfig> configs = new ArrayList<FunctionConfig>();
+		String names = getNames();
+		if(names!=null){
+		   String[] ss = names.split(",");
+		   for(String name:ss){
+			   if(!StringUtil.isEmpty(name)){
+				  configs.add(new ScriptFunctionConfig(name)); 
+			   }
+		   }
+		}
+		return configs;
 	}
 }
