@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.tinygroup.tinyscript.ScriptClassInstance;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
@@ -38,7 +39,11 @@ public class LoggerFunction extends DynamicNameScriptFunction {
 		try{
 			if (parameters == null || parameters.length == 0) {
 				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", functionName)); 
-			}else if(parameters!=null && parameters.length>=1){
+			}else if(parameters!=null && parameters.length>=1 && parameters[0] instanceof String){
+				ScriptClassInstance scriptClassInstance = ScriptContextUtil.getScriptClassInstance(context);
+				if(scriptClassInstance!=null){
+					parameters[0] = String.format("[%s] ", scriptClassInstance.getScriptClass().getClassName()) + parameters[0];
+				}
 				return FunctionCallUtil.operate(segment, context, logger, functionName, parameters);
 			}else{
 				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", functionName)); 
