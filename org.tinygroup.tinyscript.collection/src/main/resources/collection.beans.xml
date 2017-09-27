@@ -110,4 +110,8 @@
 	<bean id="DpKnapsackFunction" scope="singleton"
 		class="org.tinygroup.tinyscript.collection.function.list.DpKnapsackFunction">
 	</bean>
+	
+	<bean id="createMapFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.collection.function.map.CreateMapFunction">
+	</bean>
 </beans>

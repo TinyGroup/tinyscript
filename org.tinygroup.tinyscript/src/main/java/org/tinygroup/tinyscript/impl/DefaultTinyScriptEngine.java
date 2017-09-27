@@ -19,6 +19,7 @@ import org.tinygroup.tinyscript.collection.function.list.SortFunction;
 import org.tinygroup.tinyscript.collection.function.list.SubtractFunction;
 import org.tinygroup.tinyscript.collection.function.list.UnionFunction;
 import org.tinygroup.tinyscript.collection.function.list.XorFunction;
+import org.tinygroup.tinyscript.collection.function.map.CreateMapFunction;
 import org.tinygroup.tinyscript.collection.function.map.MapIntersectionFunction;
 import org.tinygroup.tinyscript.collection.function.map.MapSubtractFunction;
 import org.tinygroup.tinyscript.collection.function.map.MapUnionFunction;
@@ -48,6 +49,7 @@ import org.tinygroup.tinyscript.dataset.function.DataSetCopyFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetFieldFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetFillFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetFilterFunction;
+import org.tinygroup.tinyscript.dataset.function.DataSetFilterOneFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetForEachFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetGroupDynamicFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetGroupFunction;
@@ -150,6 +152,7 @@ public class DefaultTinyScriptEngine extends DefaultScriptEngine implements Scri
 		addScriptFunction(new MapIntersectionFunction());
 		addScriptFunction(new MapSubtractFunction());
 		addScriptFunction(new MapXorFunction());
+		addScriptFunction(new CreateMapFunction());
 
 		addScriptFunction(new SetUnionFunction());
 		addScriptFunction(new SetIntersectionFunction());
@@ -193,6 +196,7 @@ public class DefaultTinyScriptEngine extends DefaultScriptEngine implements Scri
 		addScriptFunction(new DataSetGroupStagedFunction());
 		addScriptFunction(new DataSetGroupDynamicFunction());
 		addScriptFunction(new ToDynamicDataSetFunction());
+		addScriptFunction(new DataSetFilterOneFunction());
 
 		addScriptFunction(new GroupDataSetFilterFunction());
 		addScriptFunction(new GroupDataSetSortFunction());
