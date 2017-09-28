@@ -7,6 +7,7 @@ import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.expression.ExpressionUtil;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 public class FillFunction extends AbstractScriptFunction {
 
@@ -23,7 +24,7 @@ public class FillFunction extends AbstractScriptFunction {
 			Object... parameters) throws ScriptException {
 		try {
 			if (parameters == null || parameters.length == 0) {
-				throw new ScriptException("fill函数的参数为空!");
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
 			} else if (parameters.length == 2 && parameters[0] != null) {
                 List list = (List) parameters[0];
                 for(int i=0;i<list.size();i++){
@@ -41,12 +42,12 @@ public class FillFunction extends AbstractScriptFunction {
 					list.set(i, parameters[3]);
 				}
 			} else {
-				throw new ScriptException("fill函数的参数格式不正确!");
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
 			}
 		} catch (ScriptException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new ScriptException("fill函数的参数格式不正确!", e);
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 		}
 
 		return null;

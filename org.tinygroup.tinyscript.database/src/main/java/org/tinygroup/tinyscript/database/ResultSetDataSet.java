@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import org.tinygroup.tinyscript.dataset.AbstractDataSet;
 import org.tinygroup.tinyscript.dataset.Field;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 /**
  * Created by luoguo on 2014/7/4.
@@ -17,11 +18,11 @@ public class ResultSetDataSet extends AbstractDataSet {
 	public ResultSetDataSet(ResultSet resultSet) {
 		this.resultSet = resultSet;
 		try {
-			ResultSetMetaData metaData=resultSet.getMetaData();
-			columnCount=metaData.getColumnCount();
+			ResultSetMetaData metaData = resultSet.getMetaData();
+			columnCount = metaData.getColumnCount();
 			for (int i = 1; i <= columnCount; i++) {
-				Field field=new Field();
-				field.setName(metaData.getColumnLabel(i)); //需要支持as场景
+				Field field = new Field();
+				field.setName(metaData.getColumnLabel(i)); // 需要支持as场景
 				field.setTitle(metaData.getColumnLabel(i));
 				field.setType(metaData.getColumnClassName(i));
 				fields.add(field);
@@ -31,11 +32,12 @@ public class ResultSetDataSet extends AbstractDataSet {
 			throw new RuntimeException(e);
 		}
 	}
-	public ResultSetDataSet(ResultSet resultSet,boolean tag) {
+
+	public ResultSetDataSet(ResultSet resultSet, boolean tag) {
 		this(resultSet);
 		this.setIndexFromOne(tag);
 	}
-	
+
 	public boolean isReadOnly() {
 		try {
 			return resultSet.getConcurrency() == ResultSet.CONCUR_READ_ONLY;
@@ -47,7 +49,7 @@ public class ResultSetDataSet extends AbstractDataSet {
 	private void checkNoForwardType() throws Exception {
 		try {
 			if (resultSet.getType() == ResultSet.TYPE_FORWARD_ONLY) {
-				throw new Exception("结果集只支持向前滚动");
+				throw new Exception(ResourceBundleUtil.getResourceMessage("database", "database.prev.error"));
 			}
 		} catch (SQLException e) {
 			throw new Exception(e);
@@ -103,19 +105,19 @@ public class ResultSetDataSet extends AbstractDataSet {
 	public boolean absolute(int row) throws Exception {
 		checkNoForwardType();
 		try {
-			if(isIndexFromOne()){
+			if (isIndexFromOne()) {
 				return resultSet.absolute(row);
-			}else{
-				return resultSet.absolute(row+1);
+			} else {
+				return resultSet.absolute(row + 1);
 			}
-			
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 		}
 	}
 
 	public int getRows() throws Exception {
-		throw new Exception("不支持的方法！");
+		throw new Exception(ResourceBundleUtil.getResourceMessage("database", "database.method.nosupport","getRows"));
 	}
 
 	public int getColumns() throws Exception {
@@ -124,9 +126,9 @@ public class ResultSetDataSet extends AbstractDataSet {
 
 	public <T> T getData(int row, int col) throws Exception {
 		if (absolute(row)) {
-			return  getData(col);
+			return getData(col);
 		}
-		throw new Exception("不存在" + row + "行的数据！");
+		throw new Exception(ResourceBundleUtil.getResourceMessage("database", "database.data.noexists", row));
 	}
 
 	public <T> void setData(int row, int col, T data) throws Exception {
@@ -136,12 +138,12 @@ public class ResultSetDataSet extends AbstractDataSet {
 	@SuppressWarnings("unchecked")
 	public <T> T getData(int col) throws Exception {
 		try {
-			if(isIndexFromOne()){
+			if (isIndexFromOne()) {
 				return (T) resultSet.getObject(col);
-			}else{
+			} else {
 				return (T) resultSet.getObject(col + 1);
 			}
-			
+
 		} catch (SQLException e) {
 			throw new Exception(e);
 		}
