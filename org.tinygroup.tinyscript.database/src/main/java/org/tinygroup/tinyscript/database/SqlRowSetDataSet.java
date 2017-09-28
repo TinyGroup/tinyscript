@@ -4,6 +4,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.jdbc.support.rowset.SqlRowSetMetaData;
 import org.tinygroup.tinyscript.dataset.AbstractDataSet;
 import org.tinygroup.tinyscript.dataset.Field;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 /**
  * 包装Spring记录集原生类型
@@ -86,7 +87,7 @@ public class SqlRowSetDataSet extends AbstractDataSet{
 		if (absolute(row)) {
 			return  getData(col);
 		}
-		throw new Exception("不存在" + row + "行的数据！");
+		throw new Exception(ResourceBundleUtil.getResourceMessage("database", "database.data.noexists", row));
 	}
 
 	public <T> void setData(int row, int col, T data) throws Exception {

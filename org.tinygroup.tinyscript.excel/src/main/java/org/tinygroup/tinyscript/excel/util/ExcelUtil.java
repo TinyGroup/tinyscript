@@ -9,10 +9,12 @@ import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.vfs.FileObject;
 
 /**
  * excel辅助工具类
+ * 
  * @author yancheng11334
  *
  */
@@ -23,33 +25,36 @@ public class ExcelUtil {
 
 	/**
 	 * 根据模板加载excel
+	 * 
 	 * @param fileObject
 	 * @return
 	 * @throws Exception
 	 */
-	public static  Workbook readWorkbook(FileObject fileObject) throws Exception {
+	public static Workbook readWorkbook(FileObject fileObject) throws Exception {
 		Workbook wb = null;
 		try {
 			String fileName = fileObject.getFileName().toLowerCase();
-			if(fileName.endsWith(XLSX_FILE_NAME) || fileName.endsWith(XLTX_FILE_NAME)){
+			if (fileName.endsWith(XLSX_FILE_NAME) || fileName.endsWith(XLTX_FILE_NAME)) {
 				wb = new XSSFWorkbook(fileObject.getInputStream());
-			}else{
+			} else {
 				wb = new HSSFWorkbook(fileObject.getInputStream());
 			}
-			
+
 		} catch (IOException e) {
-            throw new Exception(String.format("解析excel文件%s，发生异常",fileObject.getFileName()),e);
+			throw new Exception(
+					ResourceBundleUtil.getResourceMessage("excel", "read.excelfile.error", fileObject.getFileName()), e);
 		}
 		return wb;
 	}
-	
+
 	/**
 	 * 创建新的excel
+	 * 
 	 * @param fileObject
 	 * @return
 	 * @throws Exception
 	 */
-	public static  Workbook createWorkbook(FileObject fileObject) throws Exception {
+	public static Workbook createWorkbook(FileObject fileObject) throws Exception {
 		Workbook wb = null;
 		String fileName = fileObject.getFileName().toLowerCase();
 		if (fileName.endsWith(XLSX_FILE_NAME) || fileName.endsWith(XLTX_FILE_NAME)) {
@@ -59,59 +64,60 @@ public class ExcelUtil {
 		}
 		return wb;
 	}
-	
+
 	/**
 	 * 复制行
+	 * 
 	 * @param srcRow
 	 * @param dstRow
 	 * @throws Exception
 	 */
-	public static void copyRow(Row srcRow,Row dstRow) throws Exception {
-//		CellStyle srcSylte = srcRow.getRowStyle();
-//		CellStyle dstStyle = dstRow.getRowStyle();
-//		dstStyle.cloneStyleFrom(srcSylte);
-//		dstRow.setRowStyle(dstStyle);
-//		dstRow.setHeight(srcRow.getHeight());
-//		dstRow.setHeightInPoints(srcRow.getHeightInPoints());
-//		dstRow.setRowNum(srcRow.getRowNum());
-//		dstRow.setZeroHeight(srcRow.getZeroHeight());
-		if(srcRow==null || dstRow==null){
-		   return;
+	public static void copyRow(Row srcRow, Row dstRow) throws Exception {
+		// CellStyle srcSylte = srcRow.getRowStyle();
+		// CellStyle dstStyle = dstRow.getRowStyle();
+		// dstStyle.cloneStyleFrom(srcSylte);
+		// dstRow.setRowStyle(dstStyle);
+		// dstRow.setHeight(srcRow.getHeight());
+		// dstRow.setHeightInPoints(srcRow.getHeightInPoints());
+		// dstRow.setRowNum(srcRow.getRowNum());
+		// dstRow.setZeroHeight(srcRow.getZeroHeight());
+		if (srcRow == null || dstRow == null) {
+			return;
 		}
-		for(int j=srcRow.getFirstCellNum();j<srcRow.getLastCellNum();j++){
+		for (int j = srcRow.getFirstCellNum(); j < srcRow.getLastCellNum(); j++) {
 			Cell srcCell = srcRow.getCell(j);
 			Cell dstCell = dstRow.createCell(j);
 			copyCell(srcCell, dstCell);
 		}
 	}
-	
+
 	/**
 	 * 复制单元格
+	 * 
 	 * @param srcCell
 	 * @param dstCell
 	 * @throws Exception
 	 */
-	public static void copyCell(Cell srcCell,Cell dstCell) throws Exception {
+	public static void copyCell(Cell srcCell, Cell dstCell) throws Exception {
 		CellStyle srcSylte = srcCell.getCellStyle();
 		CellStyle dstStyle = dstCell.getRow().getSheet().getWorkbook().createCellStyle();
-		//CellStyle dstStyle = dstCell.getCellStyle();
+		// CellStyle dstStyle = dstCell.getCellStyle();
 		dstStyle.cloneStyleFrom(srcSylte);
 		dstCell.setCellStyle(dstStyle);
 		dstCell.setCellType(Cell.CELL_TYPE_STRING);
 		dstCell.setCellValue(ExcelUtil.getCellValue(srcCell));
 	}
-	
+
 	public static String getCellValue(Cell cell) {
 		String value = "";
-		if(cell==null){
-		   return value;	
+		if (cell == null) {
+			return value;
 		}
 		switch (cell.getCellType()) {
 		case Cell.CELL_TYPE_NUMERIC: // 数值型
 			if (DateUtil.isCellDateFormatted(cell)) {
 				// 如果是date类型则 ，获取该cell的date值
-				value = DateUtil.getJavaDate(cell.getNumericCellValue())
-						.toString();
+				value = DateUtil.getJavaDate(cell.getNumericCellValue()).toString();
 			} else {// 纯数字
 				value = String.valueOf(cell.getNumericCellValue());
 			}
