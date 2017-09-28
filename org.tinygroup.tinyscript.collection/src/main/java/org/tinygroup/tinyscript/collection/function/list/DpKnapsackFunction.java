@@ -12,6 +12,7 @@ import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.function.AbstractDpKnapsackFunction;
 import org.tinygroup.tinyscript.interpret.LambdaFunction;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 public class DpKnapsackFunction extends AbstractDpKnapsackFunction {
 
@@ -23,7 +24,7 @@ public class DpKnapsackFunction extends AbstractDpKnapsackFunction {
 	@Override
 	public Object execute(ScriptSegment segment, ScriptContext context, Object... parameters) throws ScriptException {
 		if (parameters == null || parameters.length <= 3) {
-			throw new ScriptException("dpKnapsack参数 错误!");
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", "dpKnapsack"));
 		}
 
 		List<Object> result = null;
@@ -44,7 +45,7 @@ public class DpKnapsackFunction extends AbstractDpKnapsackFunction {
 				result = dpKnapsackResult(weight, (double[]) convertToArray(value, double.class), bagSize, maxCount);
 
 			} catch (Exception e) {
-				throw new ScriptException("dpKnapsack函数执行发生异常:", e);
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", "dpKnapsack"), e);
 			}
 		} else if (checkParameters(parameters, 5)) {// 混合背包和多重背包
 			try {
@@ -57,7 +58,7 @@ public class DpKnapsackFunction extends AbstractDpKnapsackFunction {
 
 				result = dpKnapsackResult(weight, (double[]) convertToArray(value, double.class), bagSize, maxCount);
 			} catch (Exception e) {
-				throw new ScriptException("dpKnapsack函数执行发生异常:", e);
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", "dpKnapsack"), e);
 			}
 		} else if (checkParameters(parameters, 6)) {// 用户定义规则
 			try {
@@ -73,7 +74,7 @@ public class DpKnapsackFunction extends AbstractDpKnapsackFunction {
 				result = dpKnapsackResult(weight, (double[]) convertToArray(value, double.class), bagSize, maxCount,
 						list, context, lambdaFunction);
 			} catch (Exception e) {
-				throw new ScriptException("dpKnapsack函数执行发生异常:", e);
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", "dpKnapsack"), e);
 			}
 		}
 		return getLastResult(result, list);
@@ -131,7 +132,8 @@ public class DpKnapsackFunction extends AbstractDpKnapsackFunction {
 			obj = Array.newInstance(clazz, Array.getLength(array) + 1);
 			System.arraycopy(array, 0, obj, 1, Array.getLength(array));
 		} else {
-			throw new ScriptException("转换数组发生异常");
+			throw new ScriptException(
+					ResourceBundleUtil.getDefaultMessage("function.parameter.error", "convertToArray"));
 		}
 		return obj;
 	}

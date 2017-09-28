@@ -4,6 +4,7 @@ import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 /**
  * 交集抽象函数
@@ -22,18 +23,18 @@ public abstract class AbstractIntersectionFunction<T> extends AbstractScriptFunc
 			Object... parameters) throws ScriptException {
 		try{
 			if(parameters == null || parameters.length == 0){
-				throw new ScriptException(String.format("%s函数的参数为空!", getNames()));
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
 			}else if(checkParameters(parameters, 2)){
 				T t1 = (T) parameters[0];
 				T t2 = (T) parameters[1];
 				return intersect(t1,t2);
 			}else{
-				throw new ScriptException(String.format("%s函数的参数格式不正确!", getNames()));
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
 			}
 		}catch(ScriptException e){
 			throw e;
 		}catch(Exception e){
-			throw new ScriptException(String.format("%s函数执行发生异常:", getNames()),e);
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 		}
 	}
 	

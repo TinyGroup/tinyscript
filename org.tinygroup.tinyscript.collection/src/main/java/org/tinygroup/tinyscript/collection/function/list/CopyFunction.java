@@ -7,6 +7,7 @@ import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 public class CopyFunction extends AbstractScriptFunction {
 
@@ -23,19 +24,19 @@ public class CopyFunction extends AbstractScriptFunction {
 			Object... parameters) throws ScriptException {
 		try {
 			if (parameters == null || parameters.length == 0) {
-				throw new ScriptException("copy函数的参数为空!");
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
 			} else if (checkParameters(parameters, 1)) {
                 List list = (List) parameters[0];
                 List newList = new ArrayList();
                 newList.addAll(list);
                 return newList;
 			} else {
-				throw new ScriptException("copy函数的参数格式不正确!");
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
 			}
 		} catch (ScriptException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new ScriptException("copy函数的参数格式不正确!", e);
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 		}
 
 	}
