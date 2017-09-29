@@ -13,9 +13,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<scm>
-		<connection>scm:git:https://git.oschina.net/tinyframework/tinyscript.git</connection>
-		<developerConnection>scm:git:https://git.oschina.net/tinyframework/tinyscript.git</developerConnection>
-		<url>https://git.oschina.net/tinyframework/tinyscript.git</url>
+		<connection>scm:git:https://gitee.com/tinyframework/tinyscript.git</connection>
+		<developerConnection>scm:git:https://gitee.com/tinyframework/tinyscript.git</developerConnection>
+		<url>https://gitee.com/tinyframework/tinyscript.git</url>
 	</scm>
 	<modules>
 		<module>org.tinygroup.tinyscriptbase</module>
