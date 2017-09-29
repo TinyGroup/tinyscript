@@ -166,5 +166,9 @@
 	<bean id="dataSetFilterOneFunction" scope="singleton"
 		class="org.tinygroup.tinyscript.dataset.function.DataSetFilterOneFunction">
 	</bean>
+	
+	<bean id="dataSetToBeanListFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetToBeanListFunction">
+	</bean>
 
 </beans>
