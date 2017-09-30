@@ -13,6 +13,7 @@ import org.tinygroup.tinyscript.database.ResultSetDataSet;
 import org.tinygroup.tinyscript.dataset.DataSet;
 import org.tinygroup.tinyscript.dataset.impl.VariableDataSet;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 public class QuerySqlFunction extends AbstractScriptFunction {
 
@@ -28,7 +29,7 @@ public class QuerySqlFunction extends AbstractScriptFunction {
 			Object... parameters) throws ScriptException {
 		try{
 			if (parameters == null || parameters.length == 0) {
-				throw new ScriptException("query函数的参数为空!");
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
 			}else if(parameters.length == 2 && parameters[0] != null && parameters[1] != null){
 				String sql = (String) parameters[1];
 				if(parameters[0] instanceof DataSource){
@@ -36,15 +37,15 @@ public class QuerySqlFunction extends AbstractScriptFunction {
 				}else if(parameters[0] instanceof Connection){
 					return queryConnection((Connection)parameters[0],sql);
 				}else{
-					throw new ScriptException("query函数的参数格式不正确:未知类型"+parameters[0].getClass().getName());
+					throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
 				}
 			}else {
-				throw new ScriptException("query函数的参数格式不正确!");
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
 			}
 		}catch (ScriptException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new ScriptException("query函数执行发生异常:", e);
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 		}
 	}
 	

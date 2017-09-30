@@ -76,7 +76,8 @@ public abstract class AbstractDataSet implements DataSet {
 	}
 
 	public DataSet cloneDataSet() throws CloneNotSupportedException {
-		throw new CloneNotSupportedException("本数据集不支持clone操作");
+		throw new CloneNotSupportedException(
+				ResourceBundleUtil.getResourceMessage("dataset", "dataset.operate.nosupport", "clone"));
 	}
 
 	public boolean isIndexFromOne() {

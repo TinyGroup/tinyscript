@@ -115,7 +115,7 @@ public class DataSetGroupStagedFunction extends AbstractScriptFunction {
 			
 			return new DefaultGroupDataSet(newFields,groups,dataSet.isIndexFromOne());
 		}catch(Exception e){
-			throw new ScriptException(String.format("%s函数执行发生异常:", getNames()),e);
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 		}
 	}
 	
