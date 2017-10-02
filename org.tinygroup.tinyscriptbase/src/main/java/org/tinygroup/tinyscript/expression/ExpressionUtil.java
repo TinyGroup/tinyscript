@@ -17,6 +17,7 @@ import org.tinygroup.tinyscript.expression.convert.*;
 import org.tinygroup.tinyscript.expression.iteratorconvert.*;
 import org.tinygroup.tinyscript.expression.operator.*;
 import org.tinygroup.tinyscript.expression.range.*;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 /**
  * 表达式工具类
@@ -171,7 +172,7 @@ public final class ExpressionUtil {
 			}
 			return convert(value, value.getClass(), destType);
 		}catch(Exception e){
-			throw new ScriptException(String.format("不支持%s类型的值对象转换成%s类型", value.getClass().getName(),destType.getName()),e);
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("number.convert.error", value.getClass().getName(),destType.getName()),e);
 		}
 	}
 	
@@ -229,9 +230,6 @@ public final class ExpressionUtil {
 	}
 	
 	public static void addBooleanConverter(BooleanConverter converter){
-//		if(!booleanConverters.contains(converter)){
-//			booleanConverters.add(converter);
-//		}
 		for(BooleanConverter oldBooleanConverter:booleanConverters){
 			if(oldBooleanConverter.equals(converter) || oldBooleanConverter.getClass().isInstance(converter)){
 			   return;
@@ -241,9 +239,6 @@ public final class ExpressionUtil {
 	}
 	
 	public static void addIteratorConverter(IteratorConverter converter){
-//		if(!iteratorConverters.contains(converter)){
-//			iteratorConverters.add(converter);
-//		}
 		for(IteratorConverter oldIteratorConverter:iteratorConverters){
 			if(oldIteratorConverter.equals(converter) || oldIteratorConverter.getClass().isInstance(converter)){
 			   return ;
@@ -256,7 +251,7 @@ public final class ExpressionUtil {
 			throws ScriptException {
 		Operator operator = operationMap.get(op);
 		if (operator == null) {
-			throw new ScriptException(String.format("找不到对应于%s的处理器.", op));
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("op.notfound.error", op));
 		}
 		return operator.operation(parameters);
 	}
@@ -265,7 +260,7 @@ public final class ExpressionUtil {
 			String op, String name, Object value) throws ScriptException {
 		OperatorWithContext operator = operationWithContextMap.get(op);
 		if (operator == null) {
-			throw new ScriptException(String.format("找不到对应于%s的处理器.", op));
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("op.notfound.error", op));
 		}
 		return operator.operation(context, name, value);
 	}
@@ -359,7 +354,7 @@ public final class ExpressionUtil {
     public static Object compute(String name,List<Object> numbers) throws ScriptException {
     	NumberCalculator numberCalculator = numberCalculatorMap.get(name);
     	if(numberCalculator==null){
-    	   throw new ScriptException(String.format("找不到对应于%s的计算器.", name));
+    	   throw new ScriptException(ResourceBundleUtil.getDefaultMessage("calculator.notfound.error", name));
     	}
     	if(numbers==null || numbers.isEmpty()){
     	   return numberCalculator.getEmptyValue();
@@ -464,7 +459,7 @@ public final class ExpressionUtil {
     
     public static List<Object> createRange(Object start,Object end) throws ScriptException{
     	if(start==null || end==null ){
-    	   throw new ScriptException("创建range失败:元素为null!");
+    	   throw new ScriptException(ResourceBundleUtil.getDefaultMessage("range.empty.error"));
     	}
     	for(RangeOperator rangeOperator:rangeOperators){
     	    if(rangeOperator.isMatch(start,end)){

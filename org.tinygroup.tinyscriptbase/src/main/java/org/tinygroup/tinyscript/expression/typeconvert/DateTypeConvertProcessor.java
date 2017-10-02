@@ -7,6 +7,7 @@ import java.util.Date;
 
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.expression.TypeConvertProcessor;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 /**
  * 转换日期类型
@@ -40,8 +41,7 @@ public class DateTypeConvertProcessor implements TypeConvertProcessor {
 		} else if (obj instanceof Calendar) {
 			return ((Calendar) obj).getTime();
 		} else {
-			throw new ScriptException(String.format("类型%s的对象不支持转换为Date型", obj
-					.getClass().getName()));
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("number.convert.error", obj.getClass().getName(),Date.class.getName()));
 		}
 	}
 

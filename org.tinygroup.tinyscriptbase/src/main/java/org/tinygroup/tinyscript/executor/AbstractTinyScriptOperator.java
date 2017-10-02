@@ -9,6 +9,7 @@ import org.tinygroup.tinyscript.ScriptEngine;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.ScriptUtil;
 
 /**
@@ -54,7 +55,7 @@ public abstract class AbstractTinyScriptOperator implements TinyScriptOperator{
 		}catch(ScriptException e){
 		    throw e;
 		}catch(Exception e){
-		    throw new ScriptException(String.format("执行脚本类%s发生异常:", absolutePath),e);
+		    throw new ScriptException(ResourceBundleUtil.getDefaultMessage("engine.run.error", absolutePath),e);
 		}
 	}
 

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 /**
  * 赋值扩展工具类
@@ -52,7 +53,7 @@ public class AssignValueUtil {
 		       return ;
 		    }
 		}
-		throw new ScriptException("没有找到合适的AssignValueProcessor进行处理.");
+		throw new ScriptException(ResourceBundleUtil.getDefaultMessage("unmatch.info1", AssignValueProcessor.class.getName()));
 	}
 	
 }

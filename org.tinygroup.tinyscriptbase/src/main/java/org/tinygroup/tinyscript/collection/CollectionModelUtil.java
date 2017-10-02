@@ -22,9 +22,7 @@ public final class CollectionModelUtil {
 	}
 	
 	public static void  addCollectionModel(ScriptCollectionModel model){
-//		if(!modelList.contains(model)){
-//			modelList.add(model);
-//		}
+
 		for(ScriptCollectionModel scriptCollectionModel:modelList){
 			if(scriptCollectionModel.equals(model) || scriptCollectionModel.getClass().isInstance(model)){
 			   return;

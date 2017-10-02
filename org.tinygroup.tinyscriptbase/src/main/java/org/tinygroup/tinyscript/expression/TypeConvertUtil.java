@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.expression.typeconvert.*;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 /**
  * 可扩展的类型转换工具类
@@ -72,7 +73,7 @@ public final class TypeConvertUtil {
 	public static Object convert(String type,Object...parameters) throws Exception{
 		TypeConvertProcessor processor = processorMap.get(type);
 		if(processor==null){
-		   throw new ScriptException(String.format("根据类型[%s]没有找到匹配的类型转换器", type));
+		   throw new ScriptException(ResourceBundleUtil.getDefaultMessage("type.convert.error", type));
 		}
 		return processor.convert(parameters);
 	}

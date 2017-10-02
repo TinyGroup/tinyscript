@@ -17,6 +17,7 @@ package org.tinygroup.tinyscript.expression.operator;
 
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.expression.Operator;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 /**
  * Created by luoguo on 2014/6/5.
@@ -35,7 +36,7 @@ public abstract class AbstractOperator implements Operator {
     }
     
     protected void notSupported(Object object) throws ScriptException {
-    	throw new ScriptException(String.format("类型[%s]不支持[%s]的操作", object.getClass().getName(),getOperation()));
+    	throw new ScriptException(ResourceBundleUtil.getDefaultMessage("op.unsupport.error1", object.getClass().getName(),getOperation()));
     }
     
     //默认都支持,特殊几个操作符处理器不支持如==

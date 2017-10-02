@@ -7,6 +7,7 @@ import org.tinygroup.fileresolver.impl.AbstractFileProcessor;
 import org.tinygroup.logger.LogLevel;
 import org.tinygroup.tinyscript.ScriptEngine;
 import org.tinygroup.tinyscript.ScriptSegment;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.ScriptUtil;
 import org.tinygroup.vfs.FileObject;
 
@@ -29,22 +30,22 @@ public class ScriptSegmentFileProcessor extends AbstractFileProcessor {
 
 	public void process() {
 		for (FileObject fileObject : changeList) {
-			LOGGER.logMessage(LogLevel.INFO, "tiny脚本文件[{0}]开始加载",fileObject.getAbsolutePath());
+			LOGGER.logMessage(LogLevel.INFO, ResourceBundleUtil.getDefaultMessage("fileprocessor.load.start", fileObject.getAbsolutePath()));
 			ScriptSegment segment = loadScriptSegment(fileObject);
 			if(segment!=null){
 			   scriptEngine.addScriptSegment(segment);
-			   LOGGER.logMessage(LogLevel.INFO, "加载tiny脚本类[{0}]",segment.getSegmentId());
+			   LOGGER.logMessage(LogLevel.INFO, ResourceBundleUtil.getDefaultMessage("fileprocessor.loading", segment.getSegmentId()));
 			}
-			LOGGER.logMessage(LogLevel.INFO, "tiny脚本文件[{0}]加载完毕",fileObject.getAbsolutePath());
+			LOGGER.logMessage(LogLevel.INFO, ResourceBundleUtil.getDefaultMessage("fileprocessor.load.end", fileObject.getAbsolutePath()));
 		}
 		for (FileObject fileObject : deleteList) {
-			LOGGER.logMessage(LogLevel.INFO, "tiny脚本文件[{0}]开始删除",fileObject.getAbsolutePath());
+			LOGGER.logMessage(LogLevel.INFO, ResourceBundleUtil.getDefaultMessage("fileprocessor.delete.start", fileObject.getAbsolutePath()));
 			ScriptSegment segment = loadScriptSegment(fileObject);
 			if(segment!=null){
 				scriptEngine.removeScriptSegment(segment);
-			   LOGGER.logMessage(LogLevel.INFO, "删除tiny脚本类[{0}]",segment.getSegmentId());
+				LOGGER.logMessage(LogLevel.INFO, ResourceBundleUtil.getDefaultMessage("fileprocessor.deleting", segment.getSegmentId()));
 			}
-			LOGGER.logMessage(LogLevel.INFO, "tiny脚本文件[{0}]删除完毕",fileObject.getAbsolutePath());
+			LOGGER.logMessage(LogLevel.INFO, ResourceBundleUtil.getDefaultMessage("fileprocessor.delete.end", fileObject.getAbsolutePath()));
 		}
 	}
 	
@@ -55,13 +56,13 @@ public class ScriptSegmentFileProcessor extends AbstractFileProcessor {
 			String text = FileUtil.readStreamContent(inputStream, scriptEngine.getEncode());
 			return ScriptUtil.getDefault().createScriptSegment(scriptEngine, null, text);
 		}catch(Exception e){
-			LOGGER.errorMessage("加载tiny脚本文件[{0}]出错", e,fileObject.getAbsolutePath());
+			LOGGER.errorMessage(ResourceBundleUtil.getDefaultMessage("fileprocessor.load.error", fileObject.getAbsolutePath()),e);
 		} finally{
 			if(inputStream!=null){
 				try {
 					inputStream.close();
 				} catch (Exception e) {
-					LOGGER.errorMessage("关闭流出错,文件路径:[{0}]", e,fileObject.getAbsolutePath());
+					LOGGER.errorMessage(ResourceBundleUtil.getDefaultMessage("close.file.error", fileObject.getAbsolutePath()),e);
 				}
 			}
 		}

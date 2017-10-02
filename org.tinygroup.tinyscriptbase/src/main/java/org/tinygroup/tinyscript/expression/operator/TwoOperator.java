@@ -16,6 +16,7 @@
 package org.tinygroup.tinyscript.expression.operator;
 
 import org.tinygroup.tinyscript.ScriptException;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 /**
  * Created by luoguo on 2014/6/6.
@@ -35,7 +36,7 @@ public abstract class TwoOperator extends AbstractOperator {
     protected abstract Object operation(Object left, Object right);
 
     protected UnsupportedOperationException getUnsupportedOperationException(Object left, Object right) {
-        throw new UnsupportedOperationException("类型" + left.getClass().getName() + "," + right.getClass().getName() + "不支持" + getOperation() + "操作");
+        throw new UnsupportedOperationException(ResourceBundleUtil.getDefaultMessage("op.unsupport.error2", left.getClass().getName(),right.getClass().getName(),getOperation()));
     }
 
 }
