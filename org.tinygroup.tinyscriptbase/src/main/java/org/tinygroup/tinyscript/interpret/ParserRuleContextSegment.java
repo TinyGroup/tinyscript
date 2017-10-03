@@ -120,7 +120,7 @@ public class ParserRuleContextSegment implements ScriptSegment{
 	
 	private Object execute(ParseTree tree,ScriptContext context) throws ScriptException {
 		if(!(scriptEngine instanceof AbstractScriptEngine)){
-			throw new ScriptException(String.format("类型[%s]的tiny脚本引擎并不是AbstractScriptEngine的子类，不支持获取脚本解释器!", scriptEngine.getClass().getName()));
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("script.parser.error1", scriptEngine.getClass().getName()));
 		}
 		AbstractScriptEngine abstractScriptEngine = (AbstractScriptEngine) scriptEngine;
 		try{
@@ -147,7 +147,7 @@ public class ParserRuleContextSegment implements ScriptSegment{
 		}catch(ScriptException e){
 			throw e;
 		}catch(Exception e){
-			throw new ScriptException(String.format("scriptId:[%s],script:[%s]的脚本片段渲染发生异常", segmentId,script),e);
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("script.parser.error2", segmentId,script),e);
 		}
 	}
 
@@ -212,7 +212,7 @@ public class ParserRuleContextSegment implements ScriptSegment{
         	        	    	fieldMaps.put(field.getFieldName(), field);
         	    		    }
         	    	   }catch(Exception e){
-        	    		  throw new ScriptException(String.format("解析%s类的类属性变量失败", className),e);
+        	    		  throw new ScriptException(ResourceBundleUtil.getDefaultMessage("script.parser.error3",className),e);
         	    	   }
         	    	  
         	       }
@@ -306,7 +306,7 @@ public class ParserRuleContextSegment implements ScriptSegment{
 				throws ScriptException {
 			ScriptClassMethod method = innerScriptClass.getScriptMethod(methodName);
 			if(method==null){
-			   throw new ScriptException(String.format("类型%s的对象没有找到函数%s", innerScriptClass.getClassName(),methodName));
+			   throw new ScriptException(ResourceBundleUtil.getDefaultMessage("script.parser.error4",innerScriptClass.getClassName(),methodName));
 			}
 			return method.execute(context, parameters);
 		}
@@ -499,7 +499,7 @@ public class ParserRuleContextSegment implements ScriptSegment{
 						context.put(parameterNames[i], parameters[i]);
 					}
 				}else{
-					throw new ScriptException("执行脚本函数发生异常:参数列表与定义不一致");
+					throw new ScriptException(ResourceBundleUtil.getDefaultMessage("script.parser.error5"));
 				}
 				
 				return ParserRuleContextSegment.this.execute(methodDeclarationContext,context);

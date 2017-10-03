@@ -9,6 +9,7 @@ import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.interpret.LambdaFunction;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.exception.NotMatchException;
 
 
@@ -40,7 +41,7 @@ public class JavaMethodProcessor extends AbstractMethodProcessor{
 		try{
 			List<Method> methods = JavaMethodUtil.getClassMethod(object.getClass(),methodName);
 			if(methods==null){
-			   throw new NoSuchMethodException(String.format("类[%s]不存在方法[%s]", object.getClass().getName(),methodName));
+			   throw new NoSuchMethodException(ResourceBundleUtil.getDefaultMessage("java.run.error2",object.getClass().getName(),methodName));
 			}
 			//遍历同名方法,匹配参数
 			for(Method method:methods){
@@ -50,9 +51,9 @@ public class JavaMethodProcessor extends AbstractMethodProcessor{
 				   return method.invoke(object, newArgs);
 				}
 			}
-			throw new NoSuchMethodException(String.format("类[%s]不存在与参数列表一致的方法[%s]", object.getClass().getName(),methodName));
+			throw new NoSuchMethodException(ResourceBundleUtil.getDefaultMessage("java.run.error3",object.getClass().getName(),methodName));
 		}catch(InvocationTargetException e){
-		    throw new ScriptException(String.format("类[%s]执行方法[%s]发生异常.", object.getClass().getName(),methodName),e.getTargetException()); 
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("java.run.error1",object.getClass().getName(),methodName),e.getTargetException()); 
 		}catch(Exception e){
 			//抛出不匹配信息
 		    throw new NotMatchException(e); 
@@ -118,7 +119,7 @@ public class JavaMethodProcessor extends AbstractMethodProcessor{
 		try{
 			List<Method> methods = JavaMethodUtil.getClassMethod(object.getClass(),methodName);
 			if(methods==null){
-			   throw new NoSuchMethodException(String.format("类[%s]不存在方法[%s]", object.getClass().getName(),methodName));
+			   throw new NoSuchMethodException(ResourceBundleUtil.getDefaultMessage("java.run.error2",object.getClass().getName(),methodName));
 			}
 			//遍历同名方法,匹配参数
 			for(Method method:methods){
@@ -128,9 +129,9 @@ public class JavaMethodProcessor extends AbstractMethodProcessor{
 				   return method.invoke(object, newArgs);
 				}
 			}
-			throw new NoSuchMethodException(String.format("类[%s]不存在与参数列表一致的方法[%s]", object.getClass().getName(),methodName));
+			throw new NoSuchMethodException(ResourceBundleUtil.getDefaultMessage("java.run.error3",object.getClass().getName(),methodName));
 		}catch(InvocationTargetException e){
-		    throw new ScriptException(String.format("类[%s]执行方法[%s]发生异常.", object.getClass().getName(),methodName),e.getTargetException()); 
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("java.run.error1",object.getClass().getName(),methodName),e.getTargetException());  
 		}catch(Exception e){
 			//抛出不匹配信息
 		    throw new NotMatchException(); 

@@ -78,9 +78,9 @@ public final class AttributeUtil {
 		    	//忽略不匹配异常
 		    	continue;
 		    }catch(Exception e){
-		    	throw new ScriptException(String.format("[%s]中查找[%s]的属性值发生异常:", object.getClass().getName(),name),e);
+		    	throw new ScriptException(ResourceBundleUtil.getDefaultMessage("attribute.run.error", object.getClass().getName(),name),e);
 		    }
 		}
-		throw new ScriptException(String.format("[%s]中不能找到[%s]的属性值.", object.getClass().getName(),name));
+		throw new ScriptException(ResourceBundleUtil.getDefaultMessage("attribute.notfound.error", object.getClass().getName(),name));
 	}
 }

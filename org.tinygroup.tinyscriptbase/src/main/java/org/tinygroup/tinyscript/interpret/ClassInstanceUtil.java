@@ -38,9 +38,7 @@ public class ClassInstanceUtil {
 	}
 	
 	public static void addSingleMethodProxy(SingleMethodProcessor singleMethodProxy){
-//		if(!singleMethodProcessors.contains(singleMethodProxy)){
-//			singleMethodProcessors.add(singleMethodProxy);
-//		}
+
 		for(SingleMethodProcessor oldSingleMethodProcessor:singleMethodProcessors){
 		    if(oldSingleMethodProcessor.equals(singleMethodProxy) || oldSingleMethodProcessor.getClass().isInstance(singleMethodProxy)){
 		       return ;
@@ -54,9 +52,6 @@ public class ClassInstanceUtil {
 	}
 	
 	public static void addNewInstanceProcessor(NewInstanceProcessor processor){
-//		if(!newInstanceProcessors.contains(processor)){
-//			newInstanceProcessors.add(processor);
-//		}
 		for(NewInstanceProcessor newInstanceProcessor:newInstanceProcessors){
 		    if(newInstanceProcessor.equals(processor) || newInstanceProcessor.getClass().isInstance(processor)){
 		       return ;
@@ -70,9 +65,6 @@ public class ClassInstanceUtil {
 	}
 	
 	public static void addInstanceOfProcessor(InstanceOfProcessor processor){
-//		if(!instanceOfProcessors.contains(processor)){
-//			instanceOfProcessors.add(processor);
-//		}
 		for(InstanceOfProcessor instanceOfProcessor:instanceOfProcessors){
 		    if(instanceOfProcessor.equals(processor) || instanceOfProcessor.getClass().isInstance(processor)){
 		       return;
@@ -123,8 +115,7 @@ public class ClassInstanceUtil {
 			}
 			
 		}
-		
-		throw new ScriptException(String.format("沒有找到类名[%s]的实例执行器.", className));
+		throw new ScriptException(ResourceBundleUtil.getDefaultMessage("newinstance.notfound.error", className));
 	}
 	
 	public static boolean isInstance(Object object,Object type) throws Exception {
@@ -138,7 +129,7 @@ public class ClassInstanceUtil {
 				continue;
 		    }
 		}
-		throw new ScriptException("没有找到合适的InstanceOfProcessor处理器.");
+		throw new ScriptException(ResourceBundleUtil.getDefaultMessage("unmatch.info1", InstanceOfProcessor.class.getName()));
 	}
 	
 }

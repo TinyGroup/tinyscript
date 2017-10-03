@@ -6,6 +6,7 @@ import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.impl.AbstractScriptEngine;
 import org.tinygroup.tinyscript.interpret.ExpressionParameter;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.ExpressionContext;
 
 /**
@@ -55,7 +56,7 @@ public class FunctionCallExpressionParameter implements ExpressionParameter{
 			AbstractScriptEngine abstractScriptEngine = (AbstractScriptEngine) engine;
 			return abstractScriptEngine.getScriptInterpret().interpretParseTreeValue(expressionContext, segment, context);
 		}else{
-		   throw new ScriptException("本ScriptEngine实现不支持获取ScriptInterpret操作!");
+		    throw new ScriptException(ResourceBundleUtil.getDefaultMessage("engine.unsupport.interpret"));
 		}
 	}
 

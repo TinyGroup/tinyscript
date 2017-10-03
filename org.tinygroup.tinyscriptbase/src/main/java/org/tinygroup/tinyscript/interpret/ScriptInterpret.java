@@ -178,7 +178,7 @@ public final class ScriptInterpret {
 				throw e;
 			}
 		}else{
-			throw new ScriptException(String.format("未知的ParseTree节点类型:%s", tree.getClass().getName()));
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("interpret.unknown.error",tree.getClass().getName()));
 		}
 	}
 	

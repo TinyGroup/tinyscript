@@ -50,7 +50,7 @@ public class InnerScriptReader {
 			}
 			return sb.toString();
 		}catch(Exception e){
-		    throw new ScriptException(String.format("根据[%d,%d]-[%d,%d]获取脚本片段失败", startLine,startCharPositionInLine,
+		    throw new ScriptException(ResourceBundleUtil.getDefaultMessage("script.reader.error1", startLine,startCharPositionInLine,
 		    		stopLine,stopCharPositionInLine));
 		}
 	}
@@ -69,7 +69,7 @@ public class InnerScriptReader {
 			}
 			return sb.toString();
 		}catch(Exception e){
-		    throw new ScriptException(String.format("根据[%d,%d]获取脚本片段失败", line,charPositionInLine));
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("script.reader.error2", line,charPositionInLine));
 		}
 	}
 
@@ -87,7 +87,7 @@ public class InnerScriptReader {
 			}
 			return sb.toString();
 		}catch(Exception e){
-		    throw new ScriptException(String.format("根据[%d,%d]获取脚本片段失败", line,charPositionInLine));
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("script.reader.error2", line,charPositionInLine));
 		}
 	}
 }

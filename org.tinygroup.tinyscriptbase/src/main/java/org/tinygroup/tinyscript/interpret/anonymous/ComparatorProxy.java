@@ -4,6 +4,7 @@ import java.util.Comparator;
 
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.interpret.LambdaFunction;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.ScriptResult;
 
 public class ComparatorProxy extends AbstractSingleMethodProxy implements Comparator<Object>{
@@ -19,7 +20,7 @@ public class ComparatorProxy extends AbstractSingleMethodProxy implements Compar
 			result = lambdaFunction.execute(scriptContext, o1,o2);
 			return (Integer) result.getResult();
 		} catch (Exception e) {
-			throw new RuntimeException("执行Comparator代理类发生异常",e);
+			throw new RuntimeException(ResourceBundleUtil.getDefaultMessage("proxy.run.error", Comparator.class.getName()),e);
 		}	
 	}
 

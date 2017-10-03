@@ -7,6 +7,7 @@ import org.apache.commons.beanutils.MethodUtils;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.exception.NotMatchException;
 
 
@@ -38,7 +39,7 @@ public class JavaStaticMethodProcessor extends AbstractMethodProcessor{
 		try{
 			return MethodUtils.invokeStaticMethod(clazz, methodName, parameters);
 		}catch(InvocationTargetException e){
-		    throw new ScriptException(String.format("类[%s]执行方法[%s]发生异常.", clazz.getName(),methodName),e.getTargetException()); 
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("java.run.error4",clazz.getName(),methodName),e.getTargetException()); 
 		}catch(Exception e){
 			//抛出不匹配信息
 		    throw new NotMatchException(e); 
@@ -63,7 +64,7 @@ public class JavaStaticMethodProcessor extends AbstractMethodProcessor{
 				}
 			}
 		}catch(InvocationTargetException e){
-		    throw new ScriptException(String.format("类[%s]执行静态方法[%s]发生异常.", clazz.getName(),methodName),e.getTargetException()); 
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("java.run.error4",clazz.getName(),methodName),e.getTargetException()); 
 		}catch(Exception e){
 			//抛出不匹配信息
 		    throw new NotMatchException(e); 

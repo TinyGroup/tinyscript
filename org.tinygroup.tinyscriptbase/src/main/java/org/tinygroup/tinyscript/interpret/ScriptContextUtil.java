@@ -148,7 +148,7 @@ public class ScriptContextUtil {
 		if(beanName!=null){
 		   return beanName;
 		}else{
-		   throw new ScriptException(String.format("从上下文环境和全局配置项没有找到[%s],获取用户自定义bean名称失败", parameterName));
+		   throw new ScriptException(ResourceBundleUtil.getDefaultMessage("context.notfound.bean", parameterName));
 		}
 	}
 	

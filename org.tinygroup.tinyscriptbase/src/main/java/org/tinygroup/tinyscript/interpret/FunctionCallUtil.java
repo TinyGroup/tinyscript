@@ -27,9 +27,7 @@ public class FunctionCallUtil {
 	}
 	
 	public static void addFunctionCallProcessor(FunctionCallProcessor processor){
-//		if(!processors.contains(processor)){
-//			processors.add(processor);
-//		}
+
 		for(FunctionCallProcessor functionCallProcessor:processors){
 			if(functionCallProcessor.equals(processor) || functionCallProcessor.getClass().isInstance(processor)){
 			   return ;
@@ -66,9 +64,9 @@ public class FunctionCallUtil {
 		    }
 		}
 		if(object!=null){
-			throw new NoSuchMethodException(String.format("没有找到合适的FunctionCallProcessor进行处理,对象类型[%s],方法名[%s]",object.getClass().getName(),methodName));
+			throw new NoSuchMethodException(ResourceBundleUtil.getDefaultMessage("call.notfound.error", object.getClass().getName(),methodName));
 		}else{
-			throw new NoSuchMethodException(String.format("没有找到合适的FunctionCallProcessor进行处理,对象为null,方法名[%s]",methodName));
+			throw new NoSuchMethodException(ResourceBundleUtil.getDefaultMessage("call.null.error", methodName));
 		}
 	}
 }
