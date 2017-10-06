@@ -5,6 +5,7 @@ import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.expression.ExpressionUtil;
 import org.tinygroup.tinyscript.interpret.ParserRuleContextProcessor;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.ScriptInterpret;
 import org.tinygroup.tinyscript.interpret.ScriptResult;
 import org.tinygroup.tinyscript.interpret.exception.LogicalConnectException;
@@ -50,7 +51,7 @@ public class MathLogicalConnectProcessor implements ParserRuleContextProcessor<T
 				throw e;
 			}
 		}catch(Exception e){
-			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_EXPRESSION,String.format("%s进行逻辑%s操作发生异常", name,op));
+			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_EXPRESSION,ResourceBundleUtil.getDefaultMessage("context.math.error5", name,op));
 		}
 		
 	}

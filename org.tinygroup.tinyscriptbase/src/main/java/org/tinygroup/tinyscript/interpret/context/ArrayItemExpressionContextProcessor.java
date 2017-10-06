@@ -4,6 +4,7 @@ import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.interpret.ParserRuleContextProcessor;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.ScriptInterpret;
 import org.tinygroup.tinyscript.interpret.ScriptResult;
 import org.tinygroup.tinyscript.objectitem.ObjectItemUtil;
@@ -34,7 +35,7 @@ public class ArrayItemExpressionContextProcessor implements ParserRuleContextPro
 			}
 			return new ScriptResult(value);
 		}catch(Exception e){
-			throw new ScriptException(String.format("[%s]类型的ParserRuleContext处理发生异常:对象[%s],下标名[%s]", getType(),objName,itemName),e);
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("context.arrayitem.error",  getType(),objName,itemName),e);
 		}
 	}
 

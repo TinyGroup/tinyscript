@@ -11,6 +11,7 @@ import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.impl.ArrayScriptContext;
 import org.tinygroup.tinyscript.impl.ArrayScriptContext.Element;
 import org.tinygroup.tinyscript.interpret.ParserRuleContextProcessor;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.ScriptInterpret;
 import org.tinygroup.tinyscript.interpret.ScriptResult;
 import org.tinygroup.tinyscript.interpret.ScriptUtil;
@@ -42,7 +43,7 @@ public class ArrayCreatorContextProcessor implements ParserRuleContextProcessor<
 			
 			Class<?> componentType = ScriptUtil.findJavaClass(className,segment,null);
 			if(componentType==null){
-			   throw new ScriptException(String.format("创建[%s]类型的多维数组失败:没有找到类对象.", className));
+			   throw new ScriptException(ResourceBundleUtil.getDefaultMessage("context.array.error1", className));
 			}
 			Object array = null;
 			//处理多维数组结构体
@@ -52,7 +53,7 @@ public class ArrayCreatorContextProcessor implements ParserRuleContextProcessor<
 				if(dimContext.expression()!=null){
 				   dimensions[i] = (Integer)interpret.interpretParseTreeValue(dimContext.expression(), segment, context);
 				   if(dimensions[i]<0){
-					  throw new ScriptException(String.format("创建[%s]类型的多维数组失败:第[%s]维度数组的长度不能小于0", className,i));
+					  throw new ScriptException(ResourceBundleUtil.getDefaultMessage("context.array.error2", className,i));
 				   }
 				}	
 			}
@@ -71,12 +72,12 @@ public class ArrayCreatorContextProcessor implements ParserRuleContextProcessor<
 			    }
 			}
 			if(emptyTag && arrayScriptContext==null){
-				throw new ScriptException(String.format("创建[%s]类型的多维数组失败:数组结构存在未定义长度的维度,同时又没有定义初始化数据", className));
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("context.array.error3", className));
 			}else if(emptyTag && arrayScriptContext!=null){
 				//利用初始化数据填充空维度
 				Integer[] dataDims = arrayScriptContext.getDimsToLeaf();
 				if(dimensions.length!=dataDims.length){
-				   throw new ScriptException(String.format("创建[%s]类型的多维数组失败:数组结构维度长度[%s],数组初始化数据维度长度[%s],两者不匹配", className,dimensions.length,dataDims.length));
+				   throw new ScriptException(ResourceBundleUtil.getDefaultMessage("context.array.error4", className,dimensions.length,dataDims.length));
 				}
 				for(int i=0;i<dimensions.length;i++){
 					if(dimensions[i]<0){
@@ -101,7 +102,7 @@ public class ArrayCreatorContextProcessor implements ParserRuleContextProcessor<
 			
 			return new ScriptResult(array);
 		}catch (Exception e) {
-			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_RUNNING,String.format("创建对象[%s]数组发生异常", className));
+			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_RUNNING,ResourceBundleUtil.getDefaultMessage("context.array.error5", className));
 		}
 	}
 	

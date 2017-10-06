@@ -4,6 +4,7 @@ import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.interpret.ParserRuleContextProcessor;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
 import org.tinygroup.tinyscript.interpret.ScriptInterpret;
 import org.tinygroup.tinyscript.interpret.ScriptResult;
@@ -40,7 +41,7 @@ public class CustomScriptExpressionContextProcessor implements ParserRuleContext
 			 }
 			 return new ScriptResult(value);
 		}catch(Exception e){
-			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_RUNNING,String.format("执行%s用户自定义规则发生异常", rule));
+			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_RUNNING,ResourceBundleUtil.getDefaultMessage("context.custom.error", rule));
 		}
 	}
 	

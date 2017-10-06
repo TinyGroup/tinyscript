@@ -10,6 +10,7 @@ import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.impl.ScriptMethodContext;
 import org.tinygroup.tinyscript.interpret.FunctionCallUtil;
 import org.tinygroup.tinyscript.interpret.ParserRuleContextProcessor;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.ScriptInterpret;
 import org.tinygroup.tinyscript.interpret.ScriptResult;
 import org.tinygroup.tinyscript.interpret.call.FunctionCallExpressionParameter;
@@ -55,9 +56,9 @@ public class FunctionCallExpressionContextProcessor implements ParserRuleContext
 			    return new ScriptResult(value);
 			    
 		}catch(NoSuchMethodException e){
-			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_FUNCTION,String.format("不支持函数[%s]", name));
+			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_FUNCTION,ResourceBundleUtil.getDefaultMessage("context.call.error1", name));
 		}catch(Exception e){
-			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_FUNCTION,String.format("执行函数[%s]发生异常", name));
+			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_FUNCTION,ResourceBundleUtil.getDefaultMessage("context.call.error2", name));
 		}
 	    
 	}

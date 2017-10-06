@@ -6,6 +6,7 @@ import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.expression.ExpressionUtil;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.ScriptInterpret;
 import org.tinygroup.tinyscript.interpret.ParserRuleContextProcessor;
 import org.tinygroup.tinyscript.interpret.ScriptResult;
@@ -34,7 +35,7 @@ public class MathCompareRelationalProcessor implements ParserRuleContextProcesso
 			Object value = ExpressionUtil.executeOperation(parseTree.getChild(1).getText(), a,b);
 			return new ScriptResult(value);
 		}catch(Exception e){
-			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_EXPRESSION,String.format("%s=%s,%s=%s进行%s比较运算发生异常", aName,a,bName,b,op));
+			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_EXPRESSION,ResourceBundleUtil.getDefaultMessage("context.math.error3", aName,a,bName,b,op));
 		}
 		
 	}

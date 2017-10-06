@@ -4,6 +4,7 @@ import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.interpret.ParserRuleContextProcessor;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.ScriptInterpret;
 import org.tinygroup.tinyscript.interpret.ScriptResult;
 import org.tinygroup.tinyscript.interpret.exception.RunScriptException;
@@ -38,13 +39,13 @@ public class CreatorContextProcessor implements
 			   //执行new数组
 				return interpret.interpretParseTree(parseTree.arrayCreator(), segment, context);
 			}else{
-				throw new ScriptException("new指令匹配的处理数据结构失败!");
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("context.creator.error1"));
 			}
 
 		} catch (RunScriptException e) {
 			throw e;
 		} catch (Exception e) {
-			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_RUNNING,String.format("创建对象[%s]发生异常", className));
+			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_RUNNING,ResourceBundleUtil.getDefaultMessage("context.creator.error2", className));
 		}
 	}
 	

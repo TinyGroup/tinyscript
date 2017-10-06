@@ -4,6 +4,7 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.ScriptResult;
 import org.tinygroup.tinyscript.interpret.TerminalNodeProcessor;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser;
@@ -27,7 +28,7 @@ public abstract class AbstractTerminalNodeProcessor implements TerminalNodeProce
 		try{
 			return new ScriptResult(processTerminalNode(terminalNode,segment,context));
 		}catch(Exception e){
-			throw new ScriptException(String.format("[%s]类型的TerminalNode处理发生异常", TinyScriptParser.tokenNames[getType()]),e);
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("terminal.common.error", TinyScriptParser.tokenNames[getType()]),e);
 		}
 	}
 	

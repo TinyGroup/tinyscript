@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 public class ObjectItemUtil {
 
@@ -57,7 +58,7 @@ public class ObjectItemUtil {
 			   return processor.process(context,obj, items);
 			}
 		}
-		throw new ScriptException("没有找到合适的ObjectItemProcessor进行处理.");
+		throw new ScriptException(ResourceBundleUtil.getDefaultMessage("unmatch.info1", ObjectItemProcessor.class.getName()));
 	}
 	
 	/**
@@ -78,7 +79,7 @@ public class ObjectItemUtil {
 			}
 		}
 		if(!tag){
-		   throw new ScriptException("没有找到合适的ObjectItemProcessor进行处理.");
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("unmatch.info1", ObjectItemProcessor.class.getName()));
 		}
 	}
 }

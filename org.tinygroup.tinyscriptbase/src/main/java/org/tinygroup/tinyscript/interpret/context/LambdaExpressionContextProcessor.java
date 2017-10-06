@@ -9,12 +9,12 @@ import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.interpret.LambdaFunction;
 import org.tinygroup.tinyscript.interpret.ParserRuleContextProcessor;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
 import org.tinygroup.tinyscript.interpret.ScriptInterpret;
 import org.tinygroup.tinyscript.interpret.ScriptResult;
 import org.tinygroup.tinyscript.interpret.call.JavaMethodUtil;
 import org.tinygroup.tinyscript.interpret.exception.ReturnException;
-import org.tinygroup.tinyscript.interpret.exception.RunScriptException;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.ExpressionContext;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.LambdaBodyContext;
@@ -46,9 +46,8 @@ public class LambdaExpressionContextProcessor implements ParserRuleContextProces
 				ScriptContextUtil.setLambdaFunction(context, lambdaFunction);
 			}
 			
-			
 		}catch(Exception e){
-			throw new ScriptException(String.format("[%s]类型的ParserRuleContext处理发生异常:lambda表达式[%s]", getType(),parseTree.getText()),e);
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("context.lambda.error1", getType(),parseTree.getText()),e);
 		}
 		return ScriptResult.VOID_RESULT;
 	} 
@@ -109,9 +108,8 @@ public class LambdaExpressionContextProcessor implements ParserRuleContextProces
 				}finally{
 					synValue(context);
 				}
-				
 			}else{
-				throw new ScriptException("执行lambda函数发生异常:参数列表与定义不一致");
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("context.lambda.error2"));
 			}
 			
 		}
