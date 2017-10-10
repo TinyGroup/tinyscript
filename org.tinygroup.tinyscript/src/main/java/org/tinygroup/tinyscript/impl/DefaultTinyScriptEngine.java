@@ -67,6 +67,7 @@ import org.tinygroup.tinyscript.dataset.function.DataSetSubFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetSubtractFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetToBeanListFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetUnionFunction;
+import org.tinygroup.tinyscript.dataset.function.DataSetUpdateFieldFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetUpdateFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetXorFunction;
 import org.tinygroup.tinyscript.dataset.function.FirstRowFunction;
@@ -199,6 +200,7 @@ public class DefaultTinyScriptEngine extends DefaultScriptEngine implements Scri
 		addScriptFunction(new ToDynamicDataSetFunction());
 		addScriptFunction(new DataSetFilterOneFunction());
 		addScriptFunction(new DataSetToBeanListFunction());
+		addScriptFunction(new DataSetUpdateFieldFunction());
 
 		addScriptFunction(new GroupDataSetFilterFunction());
 		addScriptFunction(new GroupDataSetSortFunction());
