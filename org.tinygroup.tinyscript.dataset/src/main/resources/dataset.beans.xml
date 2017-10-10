@@ -170,5 +170,9 @@
 	<bean id="dataSetToBeanListFunction" scope="singleton"
 		class="org.tinygroup.tinyscript.dataset.function.DataSetToBeanListFunction">
 	</bean>
+	
+	<bean id="dataSetUpdateFieldFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetUpdateFieldFunction">
+	</bean>
 
 </beans>
