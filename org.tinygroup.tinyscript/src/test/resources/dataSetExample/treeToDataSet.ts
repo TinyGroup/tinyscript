@@ -1,0 +1,3 @@
+dataSet = readTxt("/dataSetExample/tree.txt");
+tree = dataSet.toTree("menuid","parentid");
+println(tree.toDataSet());
