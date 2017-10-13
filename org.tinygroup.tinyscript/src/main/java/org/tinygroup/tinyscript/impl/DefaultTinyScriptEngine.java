@@ -82,6 +82,7 @@ import org.tinygroup.tinyscript.dataset.objectitem.DataSetColumnItemProcessor;
 import org.tinygroup.tinyscript.dataset.objectitem.DataSetItemProcessor;
 import org.tinygroup.tinyscript.dataset.objectitem.DataSetRowItemProcessor;
 import org.tinygroup.tinyscript.datasetwithtree.function.DataSetToTreeFunction;
+import org.tinygroup.tinyscript.datasetwithtree.function.TreeToDataSetFunction;
 import org.tinygroup.tinyscript.excel.function.ReadExcelFunction;
 import org.tinygroup.tinyscript.excel.function.WriteExcelFunction;
 import org.tinygroup.tinyscript.expression.ExpressionUtil;
@@ -163,6 +164,7 @@ public class DefaultTinyScriptEngine extends DefaultScriptEngine implements Scri
 
 		addScriptFunction(new CreateDataTreeFunction());
 		addScriptFunction(new DataSetToTreeFunction());
+		addScriptFunction(new TreeToDataSetFunction());
 		addScriptFunction(new ReadJsonFunction());
 		addScriptFunction(new ReadXmlFunction());
 
