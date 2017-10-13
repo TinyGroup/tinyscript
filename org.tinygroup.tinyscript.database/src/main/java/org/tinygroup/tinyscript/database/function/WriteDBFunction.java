@@ -185,11 +185,15 @@ public class WriteDBFunction extends AbstractScriptFunction {
 	private ResultSetMetaData getTableMetaData(String table, Connection conn) throws Exception {
 		String sql = "select * from " + table + " where 1=0; "; // 不查数据
 		Statement sc = null;
+		ResultSet rs = null;
 		try {
 			sc = conn.createStatement();
-			ResultSet rs = sc.executeQuery(sql);
+		    rs = sc.executeQuery(sql);
 			return rs.getMetaData();
 		} finally {
+			if (rs !=null ){
+				rs.close();
+			}
 			if (sc != null) {
 				sc.close();
 			}
