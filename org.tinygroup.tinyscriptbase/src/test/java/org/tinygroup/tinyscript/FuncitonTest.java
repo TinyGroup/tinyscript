@@ -46,6 +46,14 @@ public class FuncitonTest extends TestCase {
 		assertEquals(10.9d, scriptEngine.execute("return sum(1,2,3,4.9d) ;"));
 		assertEquals(2.0d, scriptEngine.execute("return sqrt(4) ;"));
 		assertEquals(2, scriptEngine.execute("return int(sqrt(4));"));
+		
+		assertEquals(-1, scriptEngine.execute("return ceil(-1);"));
+		assertEquals(-1d, scriptEngine.execute("return ceil(-1.5d);"));
+		assertEquals(2f, scriptEngine.execute("return ceil(1.5f);"));
+		
+		assertEquals(-1, scriptEngine.execute("return floor(-1);"));
+		assertEquals(-2d, scriptEngine.execute("return floor(-1.5d);"));
+		assertEquals(1f, scriptEngine.execute("return floor(1.5f);"));
 	}
 
 	public void testConvert() throws Exception {

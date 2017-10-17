@@ -64,6 +64,8 @@ public class DefaultScriptEngine extends AbstractScriptEngine {
 		addScriptFunction(new MathSqrtFunction());
 	    addScriptFunction(new MathPowFunction());
 	    addScriptFunction(new MathRoundFunction());
+	    addScriptFunction(new MathCeilFunction());
+	    addScriptFunction(new MathFloorFunction());
 				
 		addScriptFunction(new MathAggregateFunction());
 				
