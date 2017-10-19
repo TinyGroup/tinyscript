@@ -31,6 +31,9 @@ public class Shr2Operator extends TwoOperator {
         if (isType(left,Integer.class)) {
             return (Integer) left >>> (Integer) right;
         }
+        if (isType(left,Long.class)) {
+            return (Long) left >>> (Long) right;
+        }
 
         throw getUnsupportedOperationException(left,right);
     }
