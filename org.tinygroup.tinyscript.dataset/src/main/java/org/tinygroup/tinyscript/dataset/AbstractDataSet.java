@@ -107,4 +107,25 @@ public abstract class AbstractDataSet implements DataSet {
 	public int getActualIndex(int index) {
 		return isIndexFromOne() ? index - 1 : index;
 	}
+	
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		try{
+			for(Field f:getFields()){
+				sb.append(f.getName()).append(" ");
+			}
+			sb.append("\n");
+			for(int i=0;i<getRows();i++){
+			   for(int j=0;j<getColumns();j++){
+				   sb.append(getData(getShowIndex(i), getShowIndex(j))).append(" ");
+			   }
+			   sb.append("\n");
+			}
+			sb.append("\n");
+		}catch(Exception e){
+			//可能会抛出异常
+			throw new RuntimeException(e);
+		}
+		return sb.toString();
+	}
 }
