@@ -121,7 +121,7 @@ public abstract class AbstractDataSet implements DataSet {
 			   }
 			   sb.append("\n");
 			}
-			sb.append("\n");
+			
 		}catch(Exception e){
 			//可能会抛出异常
 			throw new RuntimeException(e);
