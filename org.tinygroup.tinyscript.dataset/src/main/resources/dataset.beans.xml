@@ -174,5 +174,17 @@
 	<bean id="dataSetUpdateFieldFunction" scope="singleton"
 		class="org.tinygroup.tinyscript.dataset.function.DataSetUpdateFieldFunction">
 	</bean>
+	
+	<bean id="dataSetLeftJoinFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetLeftJoinFunction">
+	</bean>
+	
+	<bean id="dataSetRightJoinFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetRightJoinFunction">
+	</bean>
+	
+	<bean id="dataSetFullJoinFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetFullJoinFunction">
+	</bean>
 
 </beans>
