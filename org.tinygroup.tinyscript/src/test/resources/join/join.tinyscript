@@ -1,0 +1,22 @@
+ds1 = readCsv("/join/t1.csv","utf-8");
+ds2 = readCsv("/join/t2.csv","utf-8");
+
+//测试内联
+inner = ds1.join(ds2,"userid=userid");
+println(inner);
+println("=================================");
+
+//测试左联
+left = ds1.leftjoin(ds2,"userid=userid");
+println(left);
+println("=================================");
+
+//测试右联
+right = ds1.rightjoin(ds2,"userid=userid");
+println(right);
+println("=================================");
+
+//测试全联
+full = ds1.fulljoin(ds2,"userid=userid");
+println(full);
+println("=================================");
