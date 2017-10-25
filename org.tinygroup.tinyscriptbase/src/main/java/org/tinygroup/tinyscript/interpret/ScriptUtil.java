@@ -45,6 +45,8 @@ public final class ScriptUtil {
 		defaultInterpret.addTerminalNodeProcessor(new LBraceNodeProcessor());
 		defaultInterpret.addTerminalNodeProcessor(new RBraceNodeProcessor());
 		defaultInterpret.addTerminalNodeProcessor(new ThisNodeProcessor());
+		defaultInterpret.addTerminalNodeProcessor(new BlockCommentNodeProcessor());
+		defaultInterpret.addTerminalNodeProcessor(new LineCommentNodeProcessor());
 
 		// 添加上下文节点处理器
 		defaultInterpret

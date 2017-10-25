@@ -5,7 +5,7 @@ grammar TinyScript;
 
 //编译单元包含包定义、导入和类定义
 compilationUnit
-    :   packageDeclaration? importDeclaration*  classDeclaration? statementDeclaration
+    :   packageDeclaration? importDeclaration* COMMENT? classDeclaration? statementDeclaration
     ;
 //定义包
 packageDeclaration
@@ -33,7 +33,7 @@ classBody
 
 //成员定义包含属性和方法
 memberDeclaration
-    :   methodDeclaration | fieldDeclaration
+    :   COMMENT? (methodDeclaration | fieldDeclaration)
     ;
 
 /* We use rule this even for void methods which cannot have [] after parameters.
@@ -106,7 +106,7 @@ literal
 // STATEMENTS / BLOCKS
 
 block
-    :   '{' blockStatement* '}'
+    :  COMMENT | ('{' blockStatement* '}')
     ;
 
 blockStatement
@@ -698,9 +698,13 @@ CUSTOM_SCRIPT
     ;
 
 COMMENT
-    :   '/*' .*? '*/' -> skip
+    :   LINE_COMMENT | BLOCK_COMMENT
+    ;
+    
+BLOCK_COMMENT
+    :   '/*' .*? '*/'
     ;
 
 LINE_COMMENT
-    :   '//' ~[\r\n]* -> skip
+    :   '//' ~[\r\n]*
     ;
