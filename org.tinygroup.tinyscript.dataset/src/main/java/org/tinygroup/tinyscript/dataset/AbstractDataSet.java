@@ -31,7 +31,7 @@ public abstract class AbstractDataSet implements DataSet {
 	}
 
 	protected void throwNotSupportMethod() throws Exception {
-		throw new Exception(ResourceBundleUtil.getResourceMessage("dataset.onlyread.error", "dataset.fields.notfound"));
+		throw new Exception(ResourceBundleUtil.getResourceMessage("dataset", "dataset.onlyread.error"));
 	}
 
 	protected Integer getColumn(String fieldName) {

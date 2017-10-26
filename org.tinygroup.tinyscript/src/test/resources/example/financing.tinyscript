@@ -31,7 +31,7 @@ printResult(money,days,ele)->{//对结果进行打印
 	}
 	println("总价值："+sumIncome(ele,temp,days));	
 };
-caculate(money,days)->{
+calculate(money,days)->{
 	investmentprogram = null;//投资方案结果
 	result = 0;//最大收益
 	list.combine((ele)->{
@@ -43,7 +43,7 @@ caculate(money,days)->{
 	});
 	return investmentprogram;
 };
-printResult(5000,80,caculate(5000,80));
-printResult(3000,30,caculate(3000,30));
-printResult(3000,60,caculate(3000,60));
-printResult(2000,20,caculate(2000,20));
+printResult(5000,80,calculate(5000,80));
+printResult(3000,30,calculate(3000,30));
+printResult(3000,60,calculate(3000,60));
+printResult(2000,20,calculate(2000,20));
