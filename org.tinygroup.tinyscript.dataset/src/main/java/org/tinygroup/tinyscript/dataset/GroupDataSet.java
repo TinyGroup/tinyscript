@@ -82,15 +82,20 @@ public abstract class GroupDataSet extends DynamicDataSet {
 		}
 
 		StringBuilder sb = new StringBuilder();
+		sb.append("----------------------------------------\n");
 		for (int k = 0; k < dataSets.size(); k++) {
 			try {
-				for (Field f : dataSets.get(k).getFields()) {
-					sb.append(f.getName()).append(" ");
-				}
-				for (AggregateResult result : list) {
-					sb.append(result.getName()).append(" ");
-				}
-				sb.append("\n");
+				if(k == 0) {
+					for (Field f : dataSets.get(k).getFields()) {
+						sb.append(f.getName()).append(" ");
+					}
+					for (AggregateResult result : list) {
+						sb.append(result.getName()).append(" ");
+					}
+					sb.append("\n");
+				}		
+				
+				sb.append("----------------------------------------\n");
 				for (int i = 0; i < dataSets.get(k).getRows(); i++) {
 					for (int j = 0; j < dataSets.get(k).getColumns(); j++) {
 						sb.append(dataSets.get(k).getData(getShowIndex(i), getShowIndex(j))).append(" ");
@@ -105,7 +110,7 @@ public abstract class GroupDataSet extends DynamicDataSet {
 				throw new RuntimeException(e);
 			}
 		}
-
+		sb.append("----------------------------------------\n");
 		return sb.toString();
 	}
 
