@@ -288,6 +288,21 @@ public final class DataSetUtil {
 		}
 		return -1;
 	}
+	
+	/**
+	 * 返回一组索引字段对应的列
+	 * @param fields
+	 * @param colNames
+	 * @return
+	 * @throws Exception
+	 */
+	public static int[] getFieldIndex(List<Field> fields, String[] colNames) throws Exception {
+		int[] cols = new int[colNames.length];
+		for(int i=0;i<colNames.length;i++){
+			cols[i] = getFieldIndex(fields,colNames[i]);
+		}
+		return cols;
+	}
 
 	/**
 	 * 设置行上下文参数

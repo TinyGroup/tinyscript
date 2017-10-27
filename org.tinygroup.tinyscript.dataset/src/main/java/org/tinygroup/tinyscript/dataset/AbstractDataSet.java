@@ -41,6 +41,22 @@ public abstract class AbstractDataSet implements DataSet {
 	public List<Field> getFields() {
 		return fields;
 	}
+	
+	/**
+	 * 读取同一行若干列的字段内容
+	 * @param row
+	 * @param cols
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	public <T> List<T> getDatas(int row, int[] cols) throws Exception {
+		List<T> list  = new ArrayList<T>();
+		for(int col:cols){
+			list.add((T)getData(row,col));
+		}
+		return list;
+	}
 
 	public void setFields(List<Field> fields) {
 		this.fields = fields;
