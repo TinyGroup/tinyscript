@@ -1,0 +1,26 @@
+ds1 = readCsv("/join/k1.csv","gbk");
+ds2 = readCsv("/join/k2.csv","gbk");
+println(ds1);
+println("=================================");
+println(ds2);
+println("=================================");
+
+//测试内联,采用lambda表达式关联姓名
+inner = ds1.join(ds2,()->{ return name;},()->{ return firstname+lastname;});
+println(inner);
+println("=================================");
+
+//测试左联,采用lambda表达式关联姓名
+left = ds1.leftjoin(ds2,()->{ return name;},()->{ return firstname+lastname;});
+println(left);
+println("=================================");
+
+//测试右联,采用lambda表达式关联姓名
+right = ds1.rightjoin(ds2,()->{ return name;},()->{ return firstname+lastname;});
+println(right);
+println("=================================");
+
+//测试全联,采用lambda表达式关联姓名
+full = ds1.fulljoin(ds2,()->{ return name;},()->{ return firstname+lastname;});
+println(full);
+println("=================================");
