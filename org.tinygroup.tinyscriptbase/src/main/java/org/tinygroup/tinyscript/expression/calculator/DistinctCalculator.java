@@ -18,7 +18,7 @@ public class DistinctCalculator extends CollectionNumberCalculator {
 		return "distinct";
 	}
 
-	public Object computeItem(List<Object> numbers) throws ScriptException {
+	public Object computeItem(List<Object> numbers, Object... params) throws ScriptException {
 		Set<Object> sets = new HashSet<Object>();
 		for(Object object:numbers){
 		    if(object!=null){

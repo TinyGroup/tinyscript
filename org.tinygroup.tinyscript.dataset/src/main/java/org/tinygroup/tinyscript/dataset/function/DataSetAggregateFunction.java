@@ -39,6 +39,11 @@ public class DataSetAggregateFunction extends DynamicNameScriptFunction {
 				AbstractDataSet dataSet = (AbstractDataSet) getValue(parameters[0]);
 				String fieldName = (String) getValue(parameters[1]);
 				return executeDataSet(dataSet, fieldName, functionName);
+			} else if (parameters.length > 2) {
+				AbstractDataSet dataSet = (AbstractDataSet) getValue(parameters[0]);
+				String fieldName = (String) getValue(parameters[1]);
+				Object[] newParams = subArray(parameters, 2);
+				return executeDataSet(dataSet, fieldName, functionName, newParams);
 			} else {
 				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
 			}
@@ -53,7 +58,8 @@ public class DataSetAggregateFunction extends DynamicNameScriptFunction {
 		return ExpressionUtil.getNumberCalculator(name) != null;
 	}
 
-	protected Object executeDataSet(AbstractDataSet dataSet, String fieldName, String functionName) throws Exception {
+	protected Object executeDataSet(AbstractDataSet dataSet, String fieldName, String functionName, Object... params)
+			throws Exception {
 		int col = getColumn(dataSet, fieldName);
 		int rowNum = dataSet.getRows();
 		List<Object> parameterList = new ArrayList<Object>();
@@ -61,7 +67,7 @@ public class DataSetAggregateFunction extends DynamicNameScriptFunction {
 			Object v = dataSet.getData(dataSet.getShowIndex(i), dataSet.getShowIndex(col));
 			parameterList.add(v);
 		}
-		return ExpressionUtil.compute(functionName, parameterList);
+		return ExpressionUtil.compute(functionName, parameterList, params);
 	}
 
 	protected int getColumn(DataSet dataSet, Object obj) throws Exception {

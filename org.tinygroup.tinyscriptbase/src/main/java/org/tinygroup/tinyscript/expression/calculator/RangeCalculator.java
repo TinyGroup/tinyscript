@@ -18,7 +18,7 @@ public class RangeCalculator extends CollectionNumberCalculator {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public Object computeItem(List<Object> numbers) throws ScriptException {
+	public Object computeItem(List<Object> numbers, Object... params) throws ScriptException {
 		if (numbers.size() == 1) {
 			return ExpressionUtil.executeOperation("-", numbers.get(0),
 					numbers.get(0));
