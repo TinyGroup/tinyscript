@@ -43,7 +43,11 @@ public class GroupDataSetAggregateFunction extends DynamicNameScriptFunction {
 				GroupDataSet dataSet = (GroupDataSet) getValue(parameters[0]);
 				String fieldName = (String) getValue(parameters[1]);
 				return executeGroupDataSet(dataSet, fieldName, functionName);
-
+			} else if (parameters.length > 2) {
+				GroupDataSet dataSet = (GroupDataSet) getValue(parameters[0]);
+				String fieldName = (String) getValue(parameters[1]);
+				Object[] newParams = subArray(parameters, 2);
+				return executeGroupDataSet(dataSet, fieldName, functionName, newParams);
 			} else {
 				throw new ScriptException(
 						ResourceBundleUtil.getDefaultMessage("function.parameter.error", functionName));
@@ -55,27 +59,28 @@ public class GroupDataSetAggregateFunction extends DynamicNameScriptFunction {
 		}
 	}
 
-	protected Object executeGroupDataSet(GroupDataSet groupDataSet, String fieldName, String functionName)
-			throws Exception {
+	protected Object executeGroupDataSet(GroupDataSet groupDataSet, String fieldName, String functionName,
+			Object... params) throws Exception {
 		String aggregateName = createAggregateName(functionName, fieldName);
 		groupDataSet.createAggregateResult(aggregateName);
 		int col = getColumn(groupDataSet, fieldName);
 		for (int i = 0; i < groupDataSet.getRows(); i++) {
 			DynamicDataSet subDataSet = groupDataSet.getGroups().get(i);
-			Object value = executeAggregate(subDataSet, col, functionName);
+			Object value = executeAggregate(subDataSet, col, functionName, params);
 			groupDataSet.setData(groupDataSet.getShowIndex(i), aggregateName, value);
 		}
 		return groupDataSet;
 	}
 
-	protected Object executeAggregate(AbstractDataSet dataSet, int col, String functionName) throws Exception {
+	protected Object executeAggregate(AbstractDataSet dataSet, int col, String functionName, Object... params)
+			throws Exception {
 		int rowNum = dataSet.getRows();
 		List<Object> parameterList = new ArrayList<Object>();
 		for (int i = 0; i < rowNum; i++) {
 			Object v = dataSet.getData(dataSet.getShowIndex(i), dataSet.getShowIndex(col));
 			parameterList.add(v);
 		}
-		return ExpressionUtil.compute(getCalculatorName(functionName), parameterList);
+		return ExpressionUtil.compute(getCalculatorName(functionName), parameterList, params);
 	}
 
 	protected int getColumn(DataSet dataSet, Object obj) throws Exception {
@@ -129,8 +134,8 @@ public class GroupDataSetAggregateFunction extends DynamicNameScriptFunction {
 	public List<String> getFunctionNames() {
 		List<String> names = new ArrayList<String>();
 		List<String> list = ExpressionUtil.getCalculatorNames();
-		for(String name:list){
-			names.add(name+"Group");
+		for (String name : list) {
+			names.add(name + "Group");
 		}
 		return names;
 	}

@@ -16,7 +16,7 @@ public class AvgCalculator extends CollectionNumberCalculator{
 		return "avg";
 	}
 
-	public Object computeItem(List<Object> numbers) throws ScriptException {
+	public Object computeItem(List<Object> numbers, Object... params) throws ScriptException {
 		double total = 0.0d;
 		for(Object obj:numbers){
 			total += ExpressionUtil.convertDouble(obj);

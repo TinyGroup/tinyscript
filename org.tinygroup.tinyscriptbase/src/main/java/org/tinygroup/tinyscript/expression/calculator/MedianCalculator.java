@@ -19,7 +19,7 @@ public class MedianCalculator extends CollectionNumberCalculator {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public Object computeItem(List<Object> numbers) throws ScriptException {
+	public Object computeItem(List<Object> numbers, Object... params) throws ScriptException {
 		// 先对参数进行排序
 		List list = (List) numbers;
 		Collections.sort(list);

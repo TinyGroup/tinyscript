@@ -17,7 +17,7 @@ public class StandardDeviationCalculator extends CollectionNumberCalculator {
 		return "stdevp";
 	}
 
-	public Object computeItem(List<Object> numbers) throws ScriptException {
+	public Object computeItem(List<Object> numbers, Object... params) throws ScriptException {
 		if (numbers.size() == 1) {
 			return 0d;
 		} else {

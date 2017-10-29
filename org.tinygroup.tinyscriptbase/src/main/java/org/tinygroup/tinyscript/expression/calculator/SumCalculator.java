@@ -16,7 +16,7 @@ public class SumCalculator extends CollectionNumberCalculator {
 		return "sum";
 	}
 
-	public Object computeItem(List<Object> numbers) throws ScriptException {
+	public Object computeItem(List<Object> numbers, Object... params) throws ScriptException {
 		if (numbers.size() == 1) {
 			return numbers.get(0);
 		} else {

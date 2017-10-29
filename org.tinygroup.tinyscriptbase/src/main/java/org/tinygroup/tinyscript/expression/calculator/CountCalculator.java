@@ -15,7 +15,7 @@ public class CountCalculator extends CollectionNumberCalculator {
 		return "count";
 	}
 
-	public Object computeItem(List<Object> numbers) throws ScriptException {
+	public Object computeItem(List<Object> numbers, Object... param) throws ScriptException {
 		int num=0;
 		for(Object object:numbers){
 		   if(object!=null){
