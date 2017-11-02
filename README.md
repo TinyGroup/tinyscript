@@ -21,4 +21,5 @@
 	├── org.tinygroup.tinyscript.excel                //功能强化，实现数据集在Excel方面的扩展
 	├── org.tinygroup.tinyscript.text                 //功能强化，实现数据集在文本方面的扩展
 	├── org.tinygroup.tinyscript.datasetwithtree      //数据模型转换，实现数据集和树间的转换
+	├── org.tinygroup.tinyscript.template             //Tiny模板语言扩展
 	├── org.tinygroup.tinyscript                      //TinyScript具体实现
