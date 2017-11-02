@@ -1,3 +1,7 @@
+最新版本号：
+=========================
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.tinygroup/tinyscript/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.tinygroup/tinyscript)
+
 #tinyscript
 一个注重提升集合类处理操作的脚本语言。
 
