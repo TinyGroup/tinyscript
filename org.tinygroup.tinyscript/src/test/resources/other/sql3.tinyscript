@@ -1,0 +1,5 @@
+defaultDB="mysql";
+
+ds = [[ select * from menu ]].toDynamic();
+println(ds); 
+return ds;
