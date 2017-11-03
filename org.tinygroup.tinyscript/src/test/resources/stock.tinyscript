@@ -42,7 +42,7 @@ class Example6 {
        otherDs =  groupDs.filterGroup(()->{return (distinctGroup_item_id.size() < num);}); //购买部分产品的客户分组集
        balance1 =  allProductDs.avg("acct_balance");
        balance2 =  otherDs.avg("acct_balance");
-       System.out.println("balance1="+balance1+" balance2="+balance2);
+       println("balance1="+balance1+" balance2="+balance2);
     }
     
      /* 统计某年的大客户  */
@@ -70,7 +70,7 @@ class Example6 {
           i1 = i/100;
           i2 = (i-i1*100)/10;
           i3 = i%10;
-          //System.out.println("i1="+i1+" i2="+i2+" i3="+i3);
+          //println("i1="+i1+" i2="+i2+" i3="+i3);
           if(pow(i1,3)+pow(i2,3)+pow(i3,3)==i){
             list.add(i);
           }
@@ -84,22 +84,22 @@ class Example6 {
         Chinese = [94,101,92,126,101,91,126,123,97,114];   //语文成绩
         english = [102,98,143,91,128,115,120,97,139,101];  //英文成绩
         integratedScience = [211,219,208,287,296,213,206,188,217,241]; //理科综合成绩
-        System.out.println("math avg="+avg(math)+" max="+max(math)+" min="+min(math));
-        System.out.println("Chinese avg="+avg(Chinese)+" max="+max(Chinese)+" min="+min(Chinese));
-        System.out.println("english avg="+avg(english)+" max="+max(english)+" min="+min(english));
-        System.out.println("integratedScience avg="+avg(integratedScience)+" max="+max(integratedScience)+" min="+min(integratedScience));
+        println("math avg="+avg(math)+" max="+max(math)+" min="+min(math));
+        println("Chinese avg="+avg(Chinese)+" max="+max(Chinese)+" min="+min(Chinese));
+        println("english avg="+avg(english)+" max="+max(english)+" min="+min(english));
+        println("integratedScience avg="+avg(integratedScience)+" max="+max(integratedScience)+" min="+min(integratedScience));
         for(i=0;i<10;i++){
-           System.out.println("第"+(i+1)+"名学生总分:"+(math.get(i)+Chinese.get(i)+english.get(i)+integratedScience.get(i)));
+           println("第"+(i+1)+"名学生总分:"+(math.get(i)+Chinese.get(i)+english.get(i)+integratedScience.get(i)));
         }
         //成绩排序
         math.sort("desc");
         Chinese.sort("desc");
         english.sort("desc");
         integratedScience.sort("desc");
-        System.out.println("sort math="+math);
-        System.out.println("sort Chinese="+Chinese);
-        System.out.println("sort english="+english);
-        System.out.println("sort integratedScience="+integratedScience);
+        println("sort math="+math);
+        println("sort Chinese="+Chinese);
+        println("sort english="+english);
+        println("sort integratedScience="+integratedScience);
     }
 }
 a = new Example6();
