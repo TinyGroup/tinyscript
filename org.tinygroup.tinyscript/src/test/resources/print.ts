@@ -9,17 +9,17 @@ class Model{
        //测试方法内输出
        fields = dataSet.getFields();
        for(field:fields){
-          System.out.println("field="+field.getName());
+          println("field="+field.getName());
        }
     }
     
     printList(){
       list1 = ["aaa","bbb","ccc","ddd"];
       list2 = ["bbb","ddd","eee","fff"];
-      System.out.println(list1+list2);  //并集
-      System.out.println(list1-list2);  //差集
-      System.out.println(list1&list2);  //交集
-      System.out.println(list1^list2);  //相对差(异或)
+      println(list1+list2);  //并集
+      println(list1-list2);  //差集
+      println(list1&list2);  //交集
+      println(list1^list2);  //相对差(异或)
     }
     
     //测试返回值
@@ -36,5 +36,5 @@ model.printDataSet("/Orders.txt");
 model.printList();
 array = model.createArray();
 for(s:array){
-  System.out.println(s);
+  println(s);
 }
