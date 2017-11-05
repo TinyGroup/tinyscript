@@ -1,0 +1,14 @@
+println(dateAdd("YEAR",1,"2017-10-31 11:1:1"));
+println(datediff("WEEK","2017-10-31","2017-11-1","wednesday"));
+println(dateName("MONTH","2017-10-31 11:1:1"));
+println(datePart("WEEK","2017-10-31 11:1:1","monday"));
+println(dateTrunc("WEEKDAY","2017-11-30 11:1:1"));
+println(day("2017-11-30 11:1:1"));
+println(isDate("2017/11/30"));
+println(makeDate(2010,10,1));
+println(makeDateTime("2016-1-1","11:1:1"));
+println(month("2016-12-1"));
+println(year("2017-12-1"));
+println(now());
+println(today());
+println(max("2017-12-1","2017-12-1 11:1:59"));
