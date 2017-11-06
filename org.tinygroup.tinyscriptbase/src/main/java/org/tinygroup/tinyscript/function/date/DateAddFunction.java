@@ -24,9 +24,9 @@ public class DateAddFunction extends AbstractScriptFunction {
 			if (parameters == null || parameters.length == 0) {
 				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
 			} else if (checkParameters(parameters, 3)) {
-				DateEnum datePart = DateEnum.valueOf((String) parameters[0]);
+				DateEnum datePart = DateEnum.valueOf(((String) parameters[0]).toUpperCase());
 				Integer interval = ExpressionUtil.convertInteger(parameters[1]);
-				Date date = ExpressionUtil.convertDate(parameters[2]);
+				Date date = (Date) parameters[2];
 				Calendar newDate = Calendar.getInstance();
 				newDate.setTime(date);
 				newDate.set(datePart.getCalendarId(), newDate.get(datePart.getCalendarId()) + interval);

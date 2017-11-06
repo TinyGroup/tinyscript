@@ -2,11 +2,8 @@ package org.tinygroup.tinyscript.expression;
 
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -265,21 +262,7 @@ public final class ExpressionUtil {
 		}
 	}
 
-	public static Date convertDate(Object date) throws ParseException {
-		if(date instanceof Date) {
-			return (Date)date;
-		} 
-		String strDate = (String)date;
-		SimpleDateFormat sdf;
-		if (strDate.indexOf("-") > 0) {
-			sdf = strDate.indexOf(":") > 0 ? new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
-					: new SimpleDateFormat("yyyy-MM-dd");
-		} else {
-			sdf = strDate.indexOf(":") > 0 ? new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-					: new SimpleDateFormat("yyyy/MM/dd");
-		}
-		return sdf.parse(strDate);
-	}
+
 
 	public static Double convertDouble(Object value) throws ScriptException {
 		return (Double) convert(value, Double.class);

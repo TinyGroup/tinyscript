@@ -18,7 +18,7 @@ public class TodayFunction extends AbstractScriptFunction {
 	@Override
 	public Object execute(ScriptSegment segment, ScriptContext context, Object... parameters) throws ScriptException {
 		try {
-			return DateUtil.dateToString(new Date(),"yyyy-MM-dd");
+			return DateUtil.dateToString(new Date(),"yyyy/MM/dd");
 		} catch (Exception e) {
 			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 		}

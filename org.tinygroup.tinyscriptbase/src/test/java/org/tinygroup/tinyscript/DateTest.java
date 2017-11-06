@@ -8,6 +8,7 @@ import java.util.Date;
 
 import junit.framework.TestCase;
 
+import org.tinygroup.tinyscript.function.date.DateUtil;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 import org.tinygroup.tinyscript.impl.DefaultScriptEngine;
 
@@ -18,16 +19,6 @@ public class DateTest extends TestCase {
 	protected void setUp() throws Exception {
 		scriptEngine = new DefaultScriptEngine();
 		scriptEngine.start();
-	}
-
-	public void testDateDiff() throws Exception {
-		Timestamp t1 = Timestamp.valueOf("2017-04-28 00:00:13.0");
-		Timestamp t2 = Timestamp.valueOf("2017-04-27 23:59:59.0");
-		ScriptContext context = new DefaultScriptContext();
-		context.put("t1", t1);
-		context.put("t2", t2);
-
-		assertEquals(14L, scriptEngine.execute("return datediff(\"SECOND\",t1,t2);", context));
 	}
 
 	public void testEqualsDate() throws Exception {
@@ -44,16 +35,23 @@ public class DateTest extends TestCase {
 	}
 
 	public void testTableau() throws ScriptException, ParseException {
+		Date date1 = DateUtil.convertDateByString("2017-10-31 11:1:1", "yyyy-MM-dd HH:mm:ss");
+		Date date2 = DateUtil.convertDateByString("2017-11-2", "yyyy-MM-dd");
+		ScriptContext context = new DefaultScriptContext();
+		context.put("date1", date1);
+		context.put("date2", date2);
+
 		assertNotNull(scriptEngine.execute("return now();"));
 		assertNotNull(scriptEngine.execute("return today();"));
+
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date date = dateFormat.parse("2018-10-31 11:1:1");
-		assertEquals(date, scriptEngine.execute("return dateAdd(\"YEAR\",1,\"2017-10-31 11:1:1\");"));
-		assertEquals(1, scriptEngine.execute("return datediff(\"WEEK\",\"2017-10-31\",\"2017-11-1\",\"wednesday\");"));
-		assertEquals("Oct", scriptEngine.execute("return dateName(\"MONTH\",\"2017-10-31 11:1:1\");"));
-		assertEquals(44, scriptEngine.execute("return datePart(\"WEEK\",\"2017-10-31 11:1:1\",\"monday\");"));
-		assertNotNull(scriptEngine.execute("return dateTrunc(\"WEEKDAY\",\"2017-11-30 11:1:1\");"));
-		assertEquals(true, scriptEngine.execute("return isDate(\"2017/11/30\");"));
+		assertEquals(date, scriptEngine.execute("return dateAdd(\"YEAR\",1,date1);", context));
+		assertEquals(1, scriptEngine.execute("return dateDiff(\"WEEK\",date1,date2,\"wednesday\");", context));
+		assertEquals("tuesday", scriptEngine.execute("return dateName(\"WEEKDAY\",date1);", context));
+		assertEquals(44, scriptEngine.execute("return datePart(\"WEEK\",date1,\"monday\");", context));
+		assertNotNull(scriptEngine.execute("return dateTrunc(\"WEEKDAY\",date1);", context));
+		assertEquals(false, scriptEngine.execute("return isDate(\"2017/11/30\");"));
 
 	}
 
