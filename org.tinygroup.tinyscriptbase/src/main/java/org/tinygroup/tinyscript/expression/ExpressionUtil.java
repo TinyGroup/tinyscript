@@ -2,8 +2,11 @@ package org.tinygroup.tinyscript.expression;
 
 import java.lang.reflect.Array;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -11,12 +14,94 @@ import java.util.Map;
 
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
-import org.tinygroup.tinyscript.expression.booleanconvert.*;
-import org.tinygroup.tinyscript.expression.calculator.*;
-import org.tinygroup.tinyscript.expression.convert.*;
-import org.tinygroup.tinyscript.expression.iteratorconvert.*;
-import org.tinygroup.tinyscript.expression.operator.*;
-import org.tinygroup.tinyscript.expression.range.*;
+import org.tinygroup.tinyscript.expression.booleanconvert.ArrayBooleanConverter;
+import org.tinygroup.tinyscript.expression.booleanconvert.CollectionBooleanConverter;
+import org.tinygroup.tinyscript.expression.booleanconvert.EnumeratorBooleanConverter;
+import org.tinygroup.tinyscript.expression.booleanconvert.IteratorBooleanConverter;
+import org.tinygroup.tinyscript.expression.booleanconvert.MapBooleanConverter;
+import org.tinygroup.tinyscript.expression.booleanconvert.StringBooleanConverter;
+import org.tinygroup.tinyscript.expression.calculator.AvgCalculator;
+import org.tinygroup.tinyscript.expression.calculator.CountAllCalculator;
+import org.tinygroup.tinyscript.expression.calculator.CountCalculator;
+import org.tinygroup.tinyscript.expression.calculator.DistinctCalculator;
+import org.tinygroup.tinyscript.expression.calculator.MaxCalculator;
+import org.tinygroup.tinyscript.expression.calculator.MedianCalculator;
+import org.tinygroup.tinyscript.expression.calculator.MinCalculator;
+import org.tinygroup.tinyscript.expression.calculator.PercentileCalculator;
+import org.tinygroup.tinyscript.expression.calculator.RangeCalculator;
+import org.tinygroup.tinyscript.expression.calculator.SampleStdevpCalculator;
+import org.tinygroup.tinyscript.expression.calculator.SampleVarianceCalculator;
+import org.tinygroup.tinyscript.expression.calculator.StandardDeviationCalculator;
+import org.tinygroup.tinyscript.expression.calculator.SumCalculator;
+import org.tinygroup.tinyscript.expression.calculator.VarianceCalculator;
+import org.tinygroup.tinyscript.expression.convert.ByteBigDecimal;
+import org.tinygroup.tinyscript.expression.convert.ByteCharacter;
+import org.tinygroup.tinyscript.expression.convert.ByteDouble;
+import org.tinygroup.tinyscript.expression.convert.ByteFloat;
+import org.tinygroup.tinyscript.expression.convert.ByteInteger;
+import org.tinygroup.tinyscript.expression.convert.CharacterBigDecimal;
+import org.tinygroup.tinyscript.expression.convert.CharacterDouble;
+import org.tinygroup.tinyscript.expression.convert.CharacterFloat;
+import org.tinygroup.tinyscript.expression.convert.CharacterInteger;
+import org.tinygroup.tinyscript.expression.convert.DoubleBigDecimal;
+import org.tinygroup.tinyscript.expression.convert.DoubleFloat;
+import org.tinygroup.tinyscript.expression.convert.DoubleInteger;
+import org.tinygroup.tinyscript.expression.convert.DoubleLong;
+import org.tinygroup.tinyscript.expression.convert.FloatBigDecimal;
+import org.tinygroup.tinyscript.expression.convert.FloatDouble;
+import org.tinygroup.tinyscript.expression.convert.FloatInteger;
+import org.tinygroup.tinyscript.expression.convert.FloatLong;
+import org.tinygroup.tinyscript.expression.convert.IntegerBigDecimal;
+import org.tinygroup.tinyscript.expression.convert.IntegerDouble;
+import org.tinygroup.tinyscript.expression.convert.IntegerFloat;
+import org.tinygroup.tinyscript.expression.convert.IntegerLong;
+import org.tinygroup.tinyscript.expression.convert.LongBigDecimal;
+import org.tinygroup.tinyscript.expression.convert.LongDouble;
+import org.tinygroup.tinyscript.expression.convert.LongFloat;
+import org.tinygroup.tinyscript.expression.convert.LongInteger;
+import org.tinygroup.tinyscript.expression.convert.StringBigDecimal;
+import org.tinygroup.tinyscript.expression.convert.StringDouble;
+import org.tinygroup.tinyscript.expression.convert.StringFloat;
+import org.tinygroup.tinyscript.expression.convert.StringInteger;
+import org.tinygroup.tinyscript.expression.convert.StringLong;
+import org.tinygroup.tinyscript.expression.iteratorconvert.ArrayIteratorConverter;
+import org.tinygroup.tinyscript.expression.iteratorconvert.CollectionIteratorConverter;
+import org.tinygroup.tinyscript.expression.iteratorconvert.MapIteratorConverter;
+import org.tinygroup.tinyscript.expression.iteratorconvert.StringIteratorConverter;
+import org.tinygroup.tinyscript.expression.operator.AdOperator;
+import org.tinygroup.tinyscript.expression.operator.AddOperator;
+import org.tinygroup.tinyscript.expression.operator.AndLogicOperator;
+import org.tinygroup.tinyscript.expression.operator.BigEqualsOperator;
+import org.tinygroup.tinyscript.expression.operator.BigOperator;
+import org.tinygroup.tinyscript.expression.operator.ComplementOperator;
+import org.tinygroup.tinyscript.expression.operator.ComplexOperator;
+import org.tinygroup.tinyscript.expression.operator.DevideOperator;
+import org.tinygroup.tinyscript.expression.operator.EqualsOperator;
+import org.tinygroup.tinyscript.expression.operator.LeftAddOperator;
+import org.tinygroup.tinyscript.expression.operator.LeftLiteralOperator;
+import org.tinygroup.tinyscript.expression.operator.LeftNotOperator;
+import org.tinygroup.tinyscript.expression.operator.LeftPlusPlusOperator;
+import org.tinygroup.tinyscript.expression.operator.LeftSubtractOperator;
+import org.tinygroup.tinyscript.expression.operator.LeftSubtractSubtractOperator;
+import org.tinygroup.tinyscript.expression.operator.LessEqualsOperator;
+import org.tinygroup.tinyscript.expression.operator.LessOperator;
+import org.tinygroup.tinyscript.expression.operator.ModOperator;
+import org.tinygroup.tinyscript.expression.operator.MultiplyOperator;
+import org.tinygroup.tinyscript.expression.operator.NotEqualsOperator;
+import org.tinygroup.tinyscript.expression.operator.OrLogicOperator;
+import org.tinygroup.tinyscript.expression.operator.OrOperator;
+import org.tinygroup.tinyscript.expression.operator.RightPlusPlusOperator;
+import org.tinygroup.tinyscript.expression.operator.RightSubtractSubtractOperator;
+import org.tinygroup.tinyscript.expression.operator.ShlOperator;
+import org.tinygroup.tinyscript.expression.operator.Shr2Operator;
+import org.tinygroup.tinyscript.expression.operator.ShrOperator;
+import org.tinygroup.tinyscript.expression.operator.SimpleConditionOperator;
+import org.tinygroup.tinyscript.expression.operator.SubtractOperator;
+import org.tinygroup.tinyscript.expression.operator.XorOperator;
+import org.tinygroup.tinyscript.expression.range.CharRangeOperator;
+import org.tinygroup.tinyscript.expression.range.IntegerRangeOperator;
+import org.tinygroup.tinyscript.expression.range.LongRangeOperator;
+import org.tinygroup.tinyscript.expression.range.NumberRangeOperator;
 import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 /**
@@ -178,6 +263,22 @@ public final class ExpressionUtil {
 			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("number.convert.error",
 					value.getClass().getName(), destType.getName()), e);
 		}
+	}
+
+	public static Date convertDate(Object date) throws ParseException {
+		if(date instanceof Date) {
+			return (Date)date;
+		} 
+		String strDate = (String)date;
+		SimpleDateFormat sdf;
+		if (strDate.indexOf("-") > 0) {
+			sdf = strDate.indexOf(":") > 0 ? new SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+					: new SimpleDateFormat("yyyy-MM-dd");
+		} else {
+			sdf = strDate.indexOf(":") > 0 ? new SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
+					: new SimpleDateFormat("yyyy/MM/dd");
+		}
+		return sdf.parse(strDate);
 	}
 
 	public static Double convertDouble(Object value) throws ScriptException {
