@@ -1,12 +1,11 @@
 package org.tinygroup.tinyscript.expression.typeconvert;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.expression.TypeConvertProcessor;
+import org.tinygroup.tinyscript.function.date.DateUtil;
 import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 /**
@@ -33,7 +32,7 @@ public class DateTypeConvertProcessor implements TypeConvertProcessor {
 
 	protected Date convertDate(Object obj, String rule) throws Exception {
 		if (obj instanceof String) {
-			return convertDateByString((String) obj, rule);
+			return DateUtil.convertDateByString((String) obj, rule);
 		} else if (obj instanceof Long) {
 			return new Date((Long) obj);
 		} else if (obj instanceof Date) {
@@ -43,15 +42,5 @@ public class DateTypeConvertProcessor implements TypeConvertProcessor {
 		} else {
 			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("number.convert.error", obj.getClass().getName(),Date.class.getName()));
 		}
-	}
-
-	private Date convertDateByString(String s, String rule) throws Exception {
-		DateFormat format;
-		if (rule != null) {
-			format = new SimpleDateFormat(rule);
-		} else {
-			format = new SimpleDateFormat();
-		}
-		return format.parse(s);
 	}
 }

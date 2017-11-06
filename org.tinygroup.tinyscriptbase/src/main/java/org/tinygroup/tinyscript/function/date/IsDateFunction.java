@@ -5,7 +5,6 @@ import java.text.ParseException;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
-import org.tinygroup.tinyscript.expression.ExpressionUtil;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.exception.NotMatchException;
@@ -23,7 +22,10 @@ public class IsDateFunction extends AbstractScriptFunction {
 			if (parameters == null || parameters.length == 0) {
 				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
 			} else if (checkParameters(parameters, 1)) {
-				ExpressionUtil.convertDate(parameters[0]);
+				DateUtil.convertDateByString((String) parameters[0], null);
+				return true;
+			} else if (checkParameters(parameters, 2)) {
+				DateUtil.convertDateByString((String) parameters[0], (String) parameters[1]);
 				return true;
 			} else {
 				throw new NotMatchException(

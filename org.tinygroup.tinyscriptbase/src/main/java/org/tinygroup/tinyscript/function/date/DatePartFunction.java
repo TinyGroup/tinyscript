@@ -6,7 +6,6 @@ import java.util.Date;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
-import org.tinygroup.tinyscript.expression.ExpressionUtil;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.exception.NotMatchException;
@@ -27,12 +26,12 @@ public class DatePartFunction extends AbstractScriptFunction {
 			if (parameters == null || parameters.length == 0) {
 				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
 			} else if (checkParameters(parameters, 2)) {
-				datePart = DateEnum.valueOf((String) parameters[0]);
-				Date date = ExpressionUtil.convertDate(parameters[1]);
+				datePart = DateEnum.valueOf(((String) parameters[0]).toUpperCase());
+				Date date = (Date) parameters[1];
 				cal.setTime(date);
 			} else if (checkParameters(parameters, 3)) {
-				datePart = DateEnum.valueOf((String) parameters[0]);
-				Date date = ExpressionUtil.convertDate(parameters[1]);
+				datePart = DateEnum.valueOf(((String) parameters[0]).toUpperCase());
+				Date date = (Date) parameters[1];
 				startWeekDay = (String) parameters[2];
 				cal.setTime(date);
 			} else {
