@@ -454,12 +454,6 @@ public final class DataSetUtil {
 		return columns;
 	}
 
-	public static Set<DataSetRow> createDataSetRows(DataSet dataSet) {
-		Set<DataSetRow> result = new HashSet<DataSetRow>();
-
-		return result;
-	}
-
 	public static void setRowValue(ScriptContext context, AbstractDataSet dataSet, Set<Integer> columns, int row)
 			throws Exception {
 		for (int j = 0; j < dataSet.getColumns(); j++) {
