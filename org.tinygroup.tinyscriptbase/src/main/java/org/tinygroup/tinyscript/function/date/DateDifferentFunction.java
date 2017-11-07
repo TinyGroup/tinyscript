@@ -53,7 +53,6 @@ public class DateDifferentFunction extends AbstractScriptFunction {
 			case WEEKDAY:
 				return cal2.get(datePart.getCalendarId()) - cal2.get(datePart.getCalendarId());
 			case WEEK:
-				System.out.println(cal1.getTime());
 				return DateUtil.countWeekDiff(cal1, cal2, startWeekDay);
 			case DAY:
 				return (date1.getTime() - date2.getTime()) / (1000 * 60 * 60 * 24);
