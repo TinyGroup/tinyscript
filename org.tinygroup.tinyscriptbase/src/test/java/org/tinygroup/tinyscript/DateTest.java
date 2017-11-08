@@ -51,7 +51,6 @@ public class DateTest extends TestCase {
 		assertEquals("tuesday", scriptEngine.execute("return dateName(\"WEEKDAY\",date1);", context));
 		assertEquals(44, scriptEngine.execute("return datePart(\"WEEK\",date1,\"monday\");", context));
 		assertNotNull(scriptEngine.execute("return dateTrunc(\"WEEKDAY\",date1);", context));
-		assertEquals(false, scriptEngine.execute("return isDate(\"2017/11/30\");"));
 
 	}
 
