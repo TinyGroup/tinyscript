@@ -81,7 +81,6 @@ public class DefaultScriptEngine extends AbstractScriptEngine {
 		addScriptFunction(new DatePartFunction());
 		addScriptFunction(new DateTruncFunction());
 		addScriptFunction(new DayFunction());
-		addScriptFunction(new IsDateFunction());
 		addScriptFunction(new MakeDateFunction());
 		addScriptFunction(new MakeDateTime());
 		addScriptFunction(new MonthFunction());
@@ -90,6 +89,7 @@ public class DefaultScriptEngine extends AbstractScriptEngine {
 		addScriptFunction(new YearFunction());
 		addScriptFunction(new EqualsDateFunction());
 		addScriptFunction(new DateDifferentFunction());
+		addScriptFunction(new DateToStringFunction());
 		addScriptFunction(new TypeConvertFunction());
 		addScriptFunction(new EvalScriptFunction());
 
