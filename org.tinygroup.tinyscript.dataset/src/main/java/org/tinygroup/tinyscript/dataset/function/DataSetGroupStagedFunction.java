@@ -9,14 +9,10 @@ import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.dataset.AbstractDataSet;
-import org.tinygroup.tinyscript.dataset.DataSet;
 import org.tinygroup.tinyscript.dataset.DynamicDataSet;
-import org.tinygroup.tinyscript.dataset.Field;
 import org.tinygroup.tinyscript.dataset.GroupDataSet;
-import org.tinygroup.tinyscript.dataset.impl.DefaultGroupDataSet;
+import org.tinygroup.tinyscript.dataset.impl.MultiLevelGroupDataSet;
 import org.tinygroup.tinyscript.dataset.util.DataSetUtil;
-import org.tinygroup.tinyscript.function.AbstractScriptFunction;
-import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
 
@@ -25,18 +21,10 @@ import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
  * @author yancheng11334
  *
  */
-public class DataSetGroupStagedFunction extends AbstractScriptFunction {
+public class DataSetGroupStagedFunction extends AbstractGroupFunction {
 
 	public String getNames() {
 		return "groupStaged";
-	}
-	
-	public String getBindingTypes() {
-		return DataSet.class.getName();
-	}
-	
-	public boolean  enableExpressionParameter(){
-		return true;
 	}
 
 	public Object execute(ScriptSegment segment, ScriptContext context,
@@ -45,7 +33,7 @@ public class DataSetGroupStagedFunction extends AbstractScriptFunction {
 			if(parameters == null || parameters.length == 0){
 				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
 			}else if(parameters.length>1){
-				AbstractDataSet dataSet = (AbstractDataSet) getValue(parameters[0]);
+				DynamicDataSet dataSet = (DynamicDataSet) getValue(parameters[0]);
 				String[] expressions = new String[parameters.length-1];
 				for(int i=0;i<expressions.length;i++){
 					expressions[i] = ScriptContextUtil.convertExpression(getExpression(parameters[i+1]));
@@ -61,17 +49,38 @@ public class DataSetGroupStagedFunction extends AbstractScriptFunction {
 		}
 	}
 	
-	private GroupDataSet groupStaged(AbstractDataSet dataSet,String[] expressions,ScriptContext context)  throws Exception{
+	private GroupDataSet groupStaged(DynamicDataSet dataSet,String[] expressions,ScriptContext context)  throws Exception{
+		try{
+			if(dataSet instanceof MultiLevelGroupDataSet){
+				 //某一级序表进行分组
+				MultiLevelGroupDataSet multiLevelGroupDataSet = (MultiLevelGroupDataSet) dataSet;
+				List<MultiLevelGroupDataSet> subDataSetList = multiLevelGroupDataSet.getUnGroups();
+				for(MultiLevelGroupDataSet subDataSet:subDataSetList){
+					List<DynamicDataSet> list = group(subDataSet.getSource(),expressions,context);
+					subDataSet.setGroups(list);
+				}
+				return multiLevelGroupDataSet;
+			}else{
+				//首次分组
+				List<DynamicDataSet> list = group(dataSet,expressions,context);
+				MultiLevelGroupDataSet multiLevelGroupDataSet = new MultiLevelGroupDataSet(dataSet,list);
+				return multiLevelGroupDataSet;
+			}
+		}catch (ScriptException e) {
+			throw e;
+		}catch (Exception e) {
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
+		}
+	}
+	
+	private List<DynamicDataSet> group(AbstractDataSet dataSet,String[] expressions,ScriptContext context)  throws Exception{
 		Map<String,DynamicDataSet> result = new HashMap<String,DynamicDataSet>();
 		try{
 			int rowNum = dataSet.getRows();
-			//记录数不足的数据集直接返回
-			if(rowNum<=1){
-			   return new DefaultGroupDataSet(dataSet.getFields(),dataSet.isIndexFromOne());
-			}
 			
 			//逐条遍历记录
 			for(int i=0;i<rowNum;i++){
+				int showRow = dataSet.getShowIndex(i);
 				String key = "";
 				for(String expression:expressions){
 				   if(executeDynamicBoolean(expression, updateScriptContext(dataSet,i,context))){
@@ -81,23 +90,19 @@ public class DataSetGroupStagedFunction extends AbstractScriptFunction {
 				}
 				DynamicDataSet groupDataSet = result.get(key);
 				if(groupDataSet==null){
-					//新建分组结果的数据集
-					groupDataSet = DataSetUtil.createDynamicDataSet(dataSet, i);
-					result.put(key, groupDataSet);
+				   // 新建分组结果的数据集
+				   groupDataSet = DataSetUtil.createDynamicDataSet(dataSet, i);
+				   result.put(key, groupDataSet);
 				}else{
-					//更新分组结果的数据集
-					int row = groupDataSet.getRows();
-					groupDataSet.insertRow(dataSet.getShowIndex(row));
-					for(int j=0;j<groupDataSet.getColumns();j++){
-						groupDataSet.setData(dataSet.getShowIndex(row), dataSet.getShowIndex(j), dataSet.getData(dataSet.getShowIndex(i), dataSet.getShowIndex(j)));
-					}
+					// 更新分组结果的数据集
+				   int groupRowNum = groupDataSet.getRows();
+				   int groupShowRow = groupDataSet.getShowIndex(groupRowNum);
+				   groupDataSet.insertRow(groupShowRow);
+				   for (int j = 0; j < groupDataSet.getColumns(); j++) {
+					   int showColumn = groupDataSet.getShowIndex(j);
+					   groupDataSet.setData(groupShowRow, showColumn, dataSet.getData(showRow, showColumn));
+			       }
 				}
-			}
-			
-			//处理字段
-			List<Field> newFields = new ArrayList<Field>();
-			for(Field field:dataSet.getFields()){
-				newFields.add(field);
 			}
 			
 			//处理分组结果
@@ -113,21 +118,12 @@ public class DataSetGroupStagedFunction extends AbstractScriptFunction {
 			   groups.add(otherDataSet);
 			}
 			
-			return new DefaultGroupDataSet(newFields,groups,dataSet.isIndexFromOne());
-		}catch(Exception e){
+			return groups;
+		}catch (ScriptException e) {
+			throw e;
+		}catch (Exception e) {
 			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 		}
-	}
-	
-	//更新上下文
-	private ScriptContext updateScriptContext(AbstractDataSet dataSet,int row,ScriptContext context) throws Exception{
-		ScriptContext subContext = new DefaultScriptContext();
-		subContext.setParent(context);
-		for(int i=0;i<dataSet.getFields().size();i++){
-			Field field = dataSet.getFields().get(i);
-			subContext.put(field.getName(), dataSet.getData(dataSet.getShowIndex(row), dataSet.getShowIndex(i)));
-		}
-		return subContext;
 	}
 
 }

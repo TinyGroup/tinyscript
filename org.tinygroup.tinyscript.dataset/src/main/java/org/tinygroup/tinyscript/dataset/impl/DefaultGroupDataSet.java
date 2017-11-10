@@ -19,6 +19,7 @@ import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
  * @author yancheng11334
  *
  */
+@Deprecated
 public class DefaultGroupDataSet extends GroupDataSet implements Cloneable {
 
 	private List<DynamicDataSet> subDataSetList = new ArrayList<DynamicDataSet>();

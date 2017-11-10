@@ -9,14 +9,10 @@ import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.dataset.AbstractDataSet;
-import org.tinygroup.tinyscript.dataset.DataSet;
 import org.tinygroup.tinyscript.dataset.DynamicDataSet;
-import org.tinygroup.tinyscript.dataset.Field;
 import org.tinygroup.tinyscript.dataset.GroupDataSet;
-import org.tinygroup.tinyscript.dataset.impl.DefaultGroupDataSet;
+import org.tinygroup.tinyscript.dataset.impl.MultiLevelGroupDataSet;
 import org.tinygroup.tinyscript.dataset.util.DataSetUtil;
-import org.tinygroup.tinyscript.function.AbstractScriptFunction;
-import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
 
@@ -25,18 +21,10 @@ import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
  * @author yancheng11334
  *
  */
-public class DataSetGroupDynamicFunction extends AbstractScriptFunction {
+public class DataSetGroupDynamicFunction extends AbstractGroupFunction {
 
 	public String getNames() {
 		return "groupDynamic";
-	}
-	
-	public String getBindingTypes() {
-		return DataSet.class.getName();
-	}
-	
-	public boolean  enableExpressionParameter(){
-		return true;
 	}
 
 	public Object execute(ScriptSegment segment, ScriptContext context,
@@ -45,7 +33,7 @@ public class DataSetGroupDynamicFunction extends AbstractScriptFunction {
 			if(parameters == null || parameters.length == 0){
 				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
 			}else if(checkParameters(parameters, 2)){
-				AbstractDataSet dataSet = (AbstractDataSet) getValue(parameters[0]);
+				DynamicDataSet dataSet = (DynamicDataSet) getValue(parameters[0]);
 				String expression = ScriptContextUtil.convertExpression(getExpression(parameters[1]));
 				return groupDynamic(dataSet,expression,context);
 			}else{
@@ -57,15 +45,34 @@ public class DataSetGroupDynamicFunction extends AbstractScriptFunction {
 			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 		}
 	}
+	private GroupDataSet groupDynamic(DynamicDataSet dataSet,String expression,ScriptContext context)  throws Exception{
+		try{
+			if(dataSet instanceof MultiLevelGroupDataSet){
+				 //某一级序表进行分组
+				MultiLevelGroupDataSet multiLevelGroupDataSet = (MultiLevelGroupDataSet) dataSet;
+				List<MultiLevelGroupDataSet> subDataSetList = multiLevelGroupDataSet.getUnGroups();
+				for(MultiLevelGroupDataSet subDataSet:subDataSetList){
+					List<DynamicDataSet> list = group(subDataSet.getSource(),expression,context);
+					subDataSet.setGroups(list);
+				}
+				return multiLevelGroupDataSet;
+			}else{
+				//首次分组
+				List<DynamicDataSet> list = group(dataSet,expression,context);
+				MultiLevelGroupDataSet multiLevelGroupDataSet = new MultiLevelGroupDataSet(dataSet,list);
+				return multiLevelGroupDataSet;
+			}
+		}catch (ScriptException e) {
+			throw e;
+		}catch (Exception e) {
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
+		}
+	}
 	
-	private GroupDataSet groupDynamic(AbstractDataSet dataSet,String expression,ScriptContext context)  throws Exception{
+	private List<DynamicDataSet> group(AbstractDataSet dataSet,String expression,ScriptContext context)  throws Exception{
 		Map<Object,DynamicDataSet> result = new HashMap<Object,DynamicDataSet>();
 		try{
 			int rowNum = dataSet.getRows();
-			//记录数不足的数据集直接返回
-			if(rowNum<=1){
-			   return new DefaultGroupDataSet(dataSet.getFields(),dataSet.isIndexFromOne());
-			}
 			
 			//逐条遍历记录
 			for(int i=0;i<rowNum;i++){
@@ -85,27 +92,11 @@ public class DataSetGroupDynamicFunction extends AbstractScriptFunction {
 				}
 			}
 			
-			//处理字段
-			List<Field> newFields = new ArrayList<Field>();
-			for(Field field:dataSet.getFields()){
-				newFields.add(field);
-			}
-			
-			return new DefaultGroupDataSet(newFields,new ArrayList<DynamicDataSet>(result.values()),dataSet.isIndexFromOne());
+			return new ArrayList<DynamicDataSet>(result.values());
 		}catch(Exception e){
 			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 		}
 	}
 	
-	//更新上下文
-	private ScriptContext updateScriptContext(AbstractDataSet dataSet,int row,ScriptContext context) throws Exception{
-		ScriptContext subContext = new DefaultScriptContext();
-		subContext.setParent(context);
-		for(int i=0;i<dataSet.getFields().size();i++){
-			Field field = dataSet.getFields().get(i);
-			subContext.put(field.getName(), dataSet.getData(dataSet.getShowIndex(row), dataSet.getShowIndex(i)));
-		}
-		return subContext;
-	}
 
 }

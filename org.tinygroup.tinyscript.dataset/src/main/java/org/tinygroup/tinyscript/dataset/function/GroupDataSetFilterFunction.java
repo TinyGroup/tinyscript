@@ -8,11 +8,10 @@ import java.util.Set;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
-import org.tinygroup.tinyscript.dataset.AbstractDataSet;
 import org.tinygroup.tinyscript.dataset.DynamicDataSet;
 import org.tinygroup.tinyscript.dataset.GroupDataSet;
 import org.tinygroup.tinyscript.dataset.impl.AggregateResult;
-import org.tinygroup.tinyscript.dataset.impl.DefaultGroupDataSet;
+import org.tinygroup.tinyscript.dataset.impl.MultiLevelGroupDataSet;
 import org.tinygroup.tinyscript.dataset.util.DataSetUtil;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
@@ -65,29 +64,40 @@ public class GroupDataSetFilterFunction extends AbstractScriptFunction {
 		for (int dsNum = 0; dsNum < groupDataSet.getGroups().size(); dsNum++) {
 			List<Integer> matchRows = new ArrayList<Integer>();
 			DynamicDataSet subDs = groupDataSet.getGroups().get(dsNum);
+			DynamicDataSet source = getSource(subDs);
 			for (int i = 0; i < subDs.getRows(); i++) {
 				ScriptContext subContext = new DefaultScriptContext();
 				subContext.setParent(context);
 				subContext.put("$currentRow", groupDataSet.getShowIndex(i));
 				DataSetUtil.setRowValue(subContext, subDs, columns, i);
-				setAggregateValue(subContext, subDs, groupDataSet.getAggregateResultList(), dsNum);
+				setAggregateValue(subContext,groupDataSet,dsNum);
 				if ((Boolean) expression.execute(subContext).getResult()) {
 					matchRows.add(i);
 				}
 			}
 			if (!matchRows.isEmpty()) {
-				newList.add(DataSetUtil.createDynamicDataSet(subDs, matchRows));
+				newList.add(DataSetUtil.createDynamicDataSet(source, matchRows));
 			}
 		}
-		return new DefaultGroupDataSet(groupDataSet.getFields(), newList, groupDataSet.getAggregateResultList(),
-				groupDataSet.isIndexFromOne());
+		DynamicDataSet source = getSource(groupDataSet);	
+		return new MultiLevelGroupDataSet(source,newList);
 	}
-
-	private void setAggregateValue(ScriptContext context, AbstractDataSet dataSet,
-			List<AggregateResult> aggregateResultList, int row) throws Exception {
+	
+	private DynamicDataSet getSource(DynamicDataSet groupDataSet){
+		if(groupDataSet instanceof MultiLevelGroupDataSet){
+		   MultiLevelGroupDataSet multiLevelGroupDataSet = (MultiLevelGroupDataSet) groupDataSet;
+		   return multiLevelGroupDataSet.getSource();
+		}else{
+		   return groupDataSet;
+		}
+	}
+	
+	private void setAggregateValue(ScriptContext context, GroupDataSet groupDataSet, int row) throws Exception{
+		List<AggregateResult> aggregateResultList = groupDataSet.getAggregateResultList();
 		for (AggregateResult result : aggregateResultList) {
 			context.put(result.getName(), result.getData(row));
 		}
 	}
+			
 
 }

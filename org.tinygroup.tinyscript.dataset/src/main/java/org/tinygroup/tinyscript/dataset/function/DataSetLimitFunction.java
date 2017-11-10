@@ -8,7 +8,7 @@ import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.dataset.DynamicDataSet;
 import org.tinygroup.tinyscript.dataset.GroupDataSet;
-import org.tinygroup.tinyscript.dataset.impl.DefaultGroupDataSet;
+import org.tinygroup.tinyscript.dataset.impl.MultiLevelGroupDataSet;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
@@ -30,7 +30,7 @@ public class DataSetLimitFunction extends AbstractScriptFunction {
 			if (parameters == null || parameters.length == 0) {
 				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
 			} else if (checkParameters(parameters, 3)) {
-				DefaultGroupDataSet dataSet = (DefaultGroupDataSet) parameters[0];
+				GroupDataSet dataSet = (GroupDataSet) parameters[0];
 				int begin = (Integer) parameters[1];
 				int end = (Integer) parameters[2];
 				return limit(dataSet, begin - 1, end - 1);
@@ -47,11 +47,22 @@ public class DataSetLimitFunction extends AbstractScriptFunction {
 	public GroupDataSet limit(GroupDataSet dataSet, int begin, int end) throws CloneNotSupportedException {
 		List<DynamicDataSet> newSubDataSetList = new ArrayList<DynamicDataSet>();
 		for (int i = begin; i <= end; i++) {
-			DynamicDataSet newDataSet = (DynamicDataSet) (dataSet.getGroups().get(i).cloneDataSet());
-			newSubDataSetList.add(newDataSet);
+			DynamicDataSet subDataSet = dataSet.getGroups().get(i);
+			if(subDataSet instanceof MultiLevelGroupDataSet){
+				MultiLevelGroupDataSet multiLevelGroupDataSet = (MultiLevelGroupDataSet) subDataSet;
+				newSubDataSetList.add(multiLevelGroupDataSet.getSource());
+			}else{
+				newSubDataSetList.add((DynamicDataSet)subDataSet.cloneDataSet());
+			}
 		}
-
-		return new DefaultGroupDataSet(dataSet.getFields(), newSubDataSetList, dataSet.isIndexFromOne());
+		DynamicDataSet source = null;
+		if(dataSet instanceof MultiLevelGroupDataSet){
+		   MultiLevelGroupDataSet multiLevelGroupDataSet = (MultiLevelGroupDataSet) dataSet;
+		   source = multiLevelGroupDataSet.getSource();
+		}else{
+		   source = dataSet;
+		}
+		return new MultiLevelGroupDataSet(source,newSubDataSetList);
 	}
 
 }
