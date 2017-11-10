@@ -40,7 +40,7 @@ public class Example6Test extends TestCase{
 		engine = new DefaultTinyScriptEngine();
 		context = new DefaultScriptContext();
 		
-		String content = FileUtil.readFileContent(new File("src/test/resources/stock.tinyscript"), "utf-8");
+		String content = FileUtil.readFileContent(new File("src/test/resources/stock.tsf"), "utf-8");
 		ScriptSegment scriptSegment = ScriptUtil.getDefault().createScriptSegment(engine, null, content);
 		engine.addScriptSegment(scriptSegment);
 	}

@@ -29,7 +29,7 @@ public class MultiResultTest extends TestCase{
 		engine = new DefaultTinyScriptEngine();
 		context = new DefaultScriptContext();
 		
-		String content = FileUtil.readFileContent(new File("src/test/resources/multiresult.tinyscript"), "utf-8");
+		String content = FileUtil.readFileContent(new File("src/test/resources/multiresult.tsf"), "utf-8");
 		ScriptSegment scriptSegment = ScriptUtil.getDefault().createScriptSegment(engine, null, content);
 		engine.addScriptSegment(scriptSegment);
 	}

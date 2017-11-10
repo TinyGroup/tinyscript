@@ -1,6 +1,0 @@
-
-/* 自定义排序 */
-orderUser(id){
-   nid = id.substring(1);
-   return long(nid);
-}

@@ -1,5 +1,4 @@
 <runtypes>
 	<!-- 调用带spring上下文的脚本引擎运行器-->
-	<runtype extension="tinyscript" class="org.tinygroup.tinyscript.executor.DefaultTinyScriptExecutor" />
-	<runtype extension="ts" class="org.tinygroup.tinyscript.executor.DefaultTinyScriptExecutor" />
+	<runtype extension="tsf" class="org.tinygroup.tinyscript.executor.DefaultTinyScriptExecutor" />
 </runtypes>

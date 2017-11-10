@@ -23,7 +23,7 @@ public class NewDbTest {
 		//获取spring方式的脚本引擎
 		ScriptEngine engine = ScriptEngineFactory.createByBean("bean2");
 		//加载脚本
-		String script = FileUtil.readFileContent(new File("src/test/resources/other/sql3.tinyscript"), "utf-8");
+		String script = FileUtil.readFileContent(new File("src/test/resources/other/sql3.tsf"), "utf-8");
 		//获取序表对象
 		DataSet dataSet = (DataSet) engine.execute(script);
 		
