@@ -63,7 +63,7 @@ public class ScriptEngineTest extends TestCase{
 		
 		
 		//测试tiny脚本的class
-		String text = FileUtil.readFileContent(new File("src/test/resources/class.tinyscript"), "utf-8");
+		String text = FileUtil.readFileContent(new File("src/test/resources/class.tsf"), "utf-8");
 		ScriptSegment segment = ScriptUtil.getDefault().createScriptSegment(scriptEngine, null, text);
 		
 		scriptEngine.addScriptSegment(segment);
@@ -80,7 +80,7 @@ public class ScriptEngineTest extends TestCase{
 
 	
 	public void testLoadScript() throws Exception{
-		String text = FileUtil.readFileContent(new File("src/test/resources/class.tinyscript"), "utf-8");
+		String text = FileUtil.readFileContent(new File("src/test/resources/class.tsf"), "utf-8");
 		ScriptSegment segment = ScriptUtil.getDefault().createScriptSegment(scriptEngine, null, text);
 		assertEquals("abc.def", segment.getPackage());
 		

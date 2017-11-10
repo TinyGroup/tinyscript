@@ -70,7 +70,7 @@ public class ScriptSegmentFileProcessor extends AbstractFileProcessor {
 	}
 
 	protected boolean checkMatch(FileObject fileObject) {
-		return fileObject.getFileName().endsWith(".tinyscript") || fileObject.getFileName().endsWith(".ts");
+		return fileObject.getFileName().endsWith(".tsf") ;
 	}
 
 }

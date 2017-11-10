@@ -1,5 +1,4 @@
 <runtypes>
 	<!-- 调用基本的脚本引擎运行器-->
-	<runtype extension="tinyscript" class="org.tinygroup.tinyscript.executor.BaseScriptEngineExecutor" />
-	<runtype extension="ts" class="org.tinygroup.tinyscript.executor.BaseScriptEngineExecutor" />
+	<runtype extension="tsf" class="org.tinygroup.tinyscript.executor.BaseScriptEngineExecutor" />
 </runtypes>
