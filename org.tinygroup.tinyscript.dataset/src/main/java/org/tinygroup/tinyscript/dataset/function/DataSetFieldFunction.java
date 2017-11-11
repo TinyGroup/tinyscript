@@ -54,7 +54,8 @@ public class DataSetFieldFunction extends AbstractScriptFunction {
 	}
 
 	private int getFieldIndex(DataSet dataSet, String name) throws Exception {
-		return DataSetUtil.getFieldIndex(dataSet, name);
+		int index = DataSetUtil.getFieldIndex(dataSet, name);
+		return dataSet.isIndexFromOne() ? index + 1 : index;
 	}
 
 }

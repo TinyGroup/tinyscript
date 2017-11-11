@@ -10,29 +10,33 @@ import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 
 public class RowTest extends TestCase {
 
-
-	public void testRow()  throws Exception {
+	public void testRow() throws Exception {
 		ScriptEngine engine = new DefaultTinyScriptEngine();
 		ScriptContext context = new DefaultScriptContext();
-		
-        DataSet orderDs  = (DataSet) engine.execute("return readTxt(\"src/test/resources/testOrder.txt\");");
-	
+
+		DataSet orderDs = (DataSet) engine.execute("return readTxt(\"src/test/resources/testOrder.txt\");");
+		boolean isIndexFromOne = orderDs.isIndexFromOne();
 		context.put("orderDs", orderDs);
 		orderDs.absolute(3);
-		assertEquals("3", engine.execute("return orderDs.cursorRow().getData(\"ID\");", context));
+		assertEquals(isIndexFromOne ? "3" : "4",
+				engine.execute("return orderDs.cursorRow().getData(\"ID\");", context));
 		orderDs.absolute(3);
-		assertEquals("2", engine.execute("return orderDs.cursorRow(-1).getData(\"ID\");", context));
+		assertEquals(isIndexFromOne ? "2" : "3",
+				engine.execute("return orderDs.cursorRow(-1).getData(\"ID\");", context));
 		orderDs.absolute(3);
-		assertEquals("4", engine.execute("return orderDs.cursorRow(1).getData(\"ID\");", context));
+		assertEquals(isIndexFromOne ? "4" : "5",
+				engine.execute("return orderDs.cursorRow(1).getData(\"ID\");", context));
 		orderDs.absolute(3);
-		assertEquals("4", engine.execute("return orderDs.nextRow().getData(\"ID\");", context));
+		assertEquals(isIndexFromOne ? "4" : "5", engine.execute("return orderDs.nextRow().getData(\"ID\");", context));
 		orderDs.absolute(3);
-		assertEquals("4", engine.execute("return orderDs.nextRow(1).getData(\"ID\");", context));
+		assertEquals(isIndexFromOne ? "4" : "5", engine.execute("return orderDs.nextRow(1).getData(\"ID\");", context));
 		orderDs.absolute(3);
-		assertEquals("2", engine.execute("return orderDs.previewRow().getData(\"ID\");", context));
+		assertEquals(isIndexFromOne ? "2" : "3",
+				engine.execute("return orderDs.previewRow().getData(\"ID\");", context));
 		orderDs.absolute(3);
-		assertEquals("2", engine.execute("return orderDs.previewRow(1).getData(\"ID\");", context));
-		
+		assertEquals(isIndexFromOne ? "2" : "3",
+				engine.execute("return orderDs.previewRow(1).getData(\"ID\");", context));
+
 		assertEquals("1", engine.execute("return orderDs.firstRow().getData(\"ID\");", context));
 		assertEquals("2", engine.execute("return orderDs.firstRow(1).getData(\"ID\");", context));
 		assertEquals("5", engine.execute("return orderDs.lastRow().getData(\"ID\");", context));

@@ -90,14 +90,15 @@ public class DataSetKnapsackFunction extends AbstractDpKnapsackFunction {
 		int length;
 		DefaultDataSetColumn setColumn = (DefaultDataSetColumn) array;
 		Object obj = null;
+		boolean isIndexFromOne = setColumn.isIndexFromOne();
 		try {
 			length = setColumn.getRows();
 			obj = Array.newInstance(clazz, length + 1);
 			for (int i = 1; i < length + 1; i++) {
 				if (clazz == int.class || clazz == Integer.class) {
-					Array.set(obj, i, Integer.parseInt(setColumn.getData(i) + ""));
+					Array.set(obj, i, Integer.parseInt(setColumn.getData(isIndexFromOne ? i : i - 1) + ""));
 				} else {
-					Array.set(obj, i, Double.parseDouble(setColumn.getData(i) + ""));
+					Array.set(obj, i, Double.parseDouble(setColumn.getData(isIndexFromOne ? i : i - 1) + ""));
 				}
 			}
 		} catch (Exception e) {
@@ -118,6 +119,7 @@ public class DataSetKnapsackFunction extends AbstractDpKnapsackFunction {
 		} catch (Exception e) {
 			throw new ScriptException(ResourceBundleUtil.getResourceMessage("dataset", "dataset.addcontext.error"));
 		}
+		subContext.put("isIndexFromOne", dataSet.isIndexFromOne());
 		return subContext;
 	}
 
@@ -134,7 +136,7 @@ public class DataSetKnapsackFunction extends AbstractDpKnapsackFunction {
 			dataSet = (SimpleDataSet) ((SimpleDataSet) obj).clone();
 			for (int i = 1; i < result.size(); i++) {
 				if ((Integer) result.get(i) == 0) {
-					dataSet.deleteRow(i - index);
+					dataSet.deleteRow(dataSet.isIndexFromOne() ? i - index : i - index - 1);
 					index++;
 				}
 			}

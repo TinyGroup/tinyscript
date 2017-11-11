@@ -50,7 +50,7 @@ public class DataSetXorFunction extends AbstractDataSetOperateFunction {
 			throws Exception {
 		Map<String, DataSetRow> map = createMapDataSetRows(dataSet1, pks, context);
 		Map<String, DataSetRow> newMap = new LinkedHashMap<String, DataSetRow>();
-		for (int i = 1; i <= dataSet2.getRows(); i++) {
+		for (int i = 0; i < dataSet2.getRows(); i++) {
 			String key = createRowKey(dataSet2, pks, i, context);
 			DataSetRow row = new DefaultDataSetRow(dataSet2, i);
 			if (!map.containsKey(key)) {

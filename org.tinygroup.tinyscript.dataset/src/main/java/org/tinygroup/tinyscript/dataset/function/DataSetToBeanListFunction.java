@@ -6,6 +6,7 @@ import java.util.List;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
+import org.tinygroup.tinyscript.dataset.AbstractDataSet;
 import org.tinygroup.tinyscript.dataset.DataSet;
 import org.tinygroup.tinyscript.dataset.impl.DataSetBean;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
@@ -29,10 +30,10 @@ public class DataSetToBeanListFunction extends AbstractScriptFunction {
 			if (parameters == null || parameters.length == 0) {
 				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
 			} else if (checkParameters(parameters, 1)) {
-				DataSet dataSet = (DataSet) parameters[0];
+				AbstractDataSet dataSet = (AbstractDataSet) parameters[0];
 				List<DataSetBean> list = new ArrayList<DataSetBean>();
-				for (int i = 1; i <= dataSet.getRows(); i++) {
-					list.add(new DataSetBean(dataSet, i));
+				for (int i = 0; i < dataSet.getRows(); i++) {
+					list.add(new DataSetBean(dataSet, dataSet.getShowIndex(i)));
 				}
 				return list;
 			} else {

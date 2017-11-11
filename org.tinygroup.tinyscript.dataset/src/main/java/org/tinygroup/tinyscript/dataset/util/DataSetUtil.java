@@ -70,8 +70,7 @@ public final class DataSetUtil {
 
 			data[rowId] = new Object[fields.size()];
 			for (int i = 0; i < fields.size(); i++) {
-
-				data[rowId][i] = row.getData(i + 1);
+				data[rowId][i] = row.getData(isIndexFromOne ? i + 1 : i);
 			}
 			rowId++;
 		}
@@ -288,9 +287,10 @@ public final class DataSetUtil {
 		}
 		return -1;
 	}
-	
+
 	/**
 	 * 返回一组索引字段对应的列
+	 * 
 	 * @param fields
 	 * @param colNames
 	 * @return
@@ -298,8 +298,8 @@ public final class DataSetUtil {
 	 */
 	public static int[] getFieldIndex(List<Field> fields, String[] colNames) throws Exception {
 		int[] cols = new int[colNames.length];
-		for(int i=0;i<colNames.length;i++){
-			cols[i] = getFieldIndex(fields,colNames[i]);
+		for (int i = 0; i < colNames.length; i++) {
+			cols[i] = getFieldIndex(fields, colNames[i]);
 		}
 		return cols;
 	}

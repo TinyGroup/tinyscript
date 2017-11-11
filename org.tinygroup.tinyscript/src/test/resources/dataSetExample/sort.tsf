@@ -1,0 +1,8 @@
+dataSet = readTxt("/dataSetExample/sortExample.txt");
+println(dataSet.sort("w_eight desc"));
+println(dataSet.sort("n-ame desc,w_eight desc,value asc"));
+println(dataSet.sort((a,b)->{
+	return a[0]>b[0]?1:a[0]==b[0]?0:-1;
+}));
+println([6,2,3].sort());//默认asc排序
+println([6,2,3].sort("desc"));

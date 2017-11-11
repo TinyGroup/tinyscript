@@ -89,7 +89,7 @@ public class ReadTxtFunction extends AbstractScriptFunction {
 			}
 
 			// 返回数据集
-			return DataSetUtil.createDynamicDataSet(fields, dataArray, getScriptEngine().isIndexFromOne());
+			return DataSetUtil.createDynamicDataSet(fields, dataArray, false);
 		} finally {
 			if (fileObject != null) {
 				fileObject.clean();
