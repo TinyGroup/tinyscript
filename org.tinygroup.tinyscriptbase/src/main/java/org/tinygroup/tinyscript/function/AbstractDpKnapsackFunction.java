@@ -60,7 +60,6 @@ public abstract class AbstractDpKnapsackFunction extends DynamicNameScriptFuncti
 	 */
 	private void dpKnapsackResult(double result[][], int types, int bagSize, int[] weight, int[] maxCount,
 			double value[], Object... parameters) throws Exception {
-
 		ScriptContext context = null;
 		LambdaFunction pruneFunction = null;
 		if (parameters.length > 0) {
@@ -81,7 +80,7 @@ public abstract class AbstractDpKnapsackFunction extends DynamicNameScriptFuncti
 				int nCount = Math.min(maxCount[i], v / weight[i]);
 				for (int k = 0; k <= nCount; k++) {
 					if (context != null) {
-						context.put("i", i);
+						context.put("i", ((Boolean)context.get("isIndexFromOne"))?i:i-1);
 						context.put("v", v);
 						context.put("k", k);
 					}

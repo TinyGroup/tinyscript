@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.tinygroup.tinyscript.ScriptException;
-import org.tinygroup.tinyscript.dataset.DataSet;
+import org.tinygroup.tinyscript.dataset.AbstractDataSet;
 import org.tinygroup.tinyscript.dataset.Field;
 import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
@@ -41,11 +41,11 @@ public class DataSetBean implements Map<String, Object> {
 		putAll(map);
 	}
 
-	public DataSetBean(DataSet dataSet, int rowId) {
+	public DataSetBean(AbstractDataSet dataSet, int rowId) {
 		this(dataSet, rowId, false);
 	}
 
-	public DataSetBean(DataSet dataSet, int rowId, boolean order) {
+	public DataSetBean(AbstractDataSet dataSet, int rowId, boolean order) {
 		if (order) {
 			map = new LinkedHashMap<String, Object>();
 		} else {
@@ -54,9 +54,9 @@ public class DataSetBean implements Map<String, Object> {
 		this.fields = dataSet.getFields();
 		this.rowId = rowId;
 		this.type = dataSet.getClass().getSimpleName();
-		for (int i = 1; i <= fields.size(); i++) {
+		for (int i = 0; i < fields.size(); i++) {
 			try {
-				put(fields.get(i - 1).getName(), dataSet.getData(rowId, i));
+				put(fields.get(i).getName(), dataSet.getData(rowId, dataSet.getShowIndex(i)));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

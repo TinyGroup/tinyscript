@@ -50,7 +50,7 @@ public class DataSetSubtractFunction extends AbstractDataSetOperateFunction {
 	protected DataSet operate(AbstractDataSet dataSet1, AbstractDataSet dataSet2, Object pks, ScriptContext context)
 			throws Exception {
 		Map<String, DataSetRow> map = createMapDataSetRows(dataSet1, pks, context);
-		for (int i = 1; i <= dataSet2.getRows(); i++) {
+		for (int i = 0; i < dataSet2.getRows(); i++) {
 			String key = createRowKey(dataSet2, pks, i, context);
 			if (map.containsKey(key)) {
 				map.remove(key);

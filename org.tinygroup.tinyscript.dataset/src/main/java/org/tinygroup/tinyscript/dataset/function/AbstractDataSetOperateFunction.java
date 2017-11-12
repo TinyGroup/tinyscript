@@ -40,13 +40,13 @@ public abstract class AbstractDataSetOperateFunction extends AbstractScriptFunct
 			for (String pk : (List<String>) pks) {
 				int pkIndex = DataSetUtil.getFieldIndex(dataSet, pk);
 				if (pkIndex != -1) {
-					pksIndex.add(dataSet.isIndexFromOne() ? pkIndex + 1 : pkIndex);
+					pksIndex.add(pkIndex);
 				}
 			}
 		} else if (pks instanceof String) {
 			int pkIndex = DataSetUtil.getFieldIndex(dataSet, (String) pks);
 			if (pkIndex != -1) {
-				pksIndex.add(dataSet.isIndexFromOne() ? pkIndex + 1 : pkIndex);
+				pksIndex.add(pkIndex);
 			}
 		}
 		return pksIndex;
@@ -55,9 +55,9 @@ public abstract class AbstractDataSetOperateFunction extends AbstractScriptFunct
 	protected Map<String, DataSetRow> createMapDataSetRows(AbstractDataSet dataSet, Object pks, ScriptContext context)
 			throws Exception {
 		Map<String, DataSetRow> result = new LinkedHashMap<String, DataSetRow>();
-		for (int i = 1; i <= dataSet.getRows(); i++) {
+		for (int i = 0; i < dataSet.getRows(); i++) {
 			String key = createRowKey(dataSet, pks, i, context);
-			result.put(key, new DefaultDataSetRow(dataSet, i));
+			result.put(key, new DefaultDataSetRow(dataSet, dataSet.getShowIndex(i)));
 		}
 		return result;
 	}
@@ -68,7 +68,7 @@ public abstract class AbstractDataSetOperateFunction extends AbstractScriptFunct
 			List<Integer> pksIndex = showPkIndex(dataSet, pks);
 			StringBuilder builder = new StringBuilder();
 			for (int col : pksIndex) {
-				builder.append(dataSet.getData(row, col));
+				builder.append(dataSet.getData(dataSet.getShowIndex(row), dataSet.getShowIndex(col)));
 			}
 			return builder.toString();
 		} else if (pks instanceof LambdaFunction) {
@@ -76,7 +76,7 @@ public abstract class AbstractDataSetOperateFunction extends AbstractScriptFunct
 			ScriptContext subContext = new DefaultScriptContext();
 			subContext.setParent(context);
 			for (int i = 0; i < dataSet.getFields().size(); i++) {
-				subContext.put(dataSet.getFields().get(i).getName(), dataSet.getData(row, i + 1));
+				subContext.put(dataSet.getFields().get(i).getName(), dataSet.getData(row, dataSet.getShowIndex(i)));
 			}
 			return keyFunction.execute(subContext).getResult().toString();
 

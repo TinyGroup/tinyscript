@@ -202,12 +202,12 @@ public class SimpleDataSet extends DynamicDataSet implements Cloneable {
 	public DynamicDataSet insertColumn(int col, Field field) throws Exception {
 		int colNum = getColumns();
 		if (isIndexFromOne()) {
-			if (col < 1 || col >= colNum + 1) {
+			if (col < 1 || col > colNum + 1) {
 				throw new Exception(ResourceBundleUtil.getResourceMessage("dataset", "dataset.row.outofindex",
 						"insertColumn", col));
 			}
 		} else {
-			if (col < 0 || col >= colNum) {
+			if (col < 0 || col > colNum) {
 				throw new Exception(ResourceBundleUtil.getResourceMessage("dataset", "dataset.row.outofindex",
 						"insertColumn", col));
 			}
