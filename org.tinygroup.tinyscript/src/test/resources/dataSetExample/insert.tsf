@@ -1,0 +1,3 @@
+dataSet1 = readTxt("/dataSetExample/data1.txt");
+dataSet2 = readTxt("/dataSetExample/data2.txt");
+println(dataSet1.insert(dataSet2));

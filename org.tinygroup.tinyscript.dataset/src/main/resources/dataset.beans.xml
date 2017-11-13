@@ -186,5 +186,8 @@
 	<bean id="dataSetFullJoinFunction" scope="singleton"
 		class="org.tinygroup.tinyscript.dataset.function.DataSetFullJoinFunction">
 	</bean>
-
+	
+	<bean id="dataSetInsertFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetInsertFunction">
+	</bean>
 </beans>
