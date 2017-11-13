@@ -55,8 +55,8 @@ public final class DataSetUtil {
 	 * @return
 	 * @throws Exception
 	 */
-	public static DynamicDataSet createDynamicDataSet(Map<String, DataSetRow> map) throws Exception {
-		List<Field> fields = null;
+	public static DynamicDataSet createDynamicDataSet(Map<String, DataSetRow> map, List<Field> fields)
+			throws Exception {
 		Object[][] data = new Object[map.keySet().size()][];
 		int rowId = 0;
 		boolean isIndexFromOne = false;
@@ -64,10 +64,6 @@ public final class DataSetUtil {
 		for (String key : map.keySet()) {
 			DataSetRow row = map.get(key);
 			isIndexFromOne = row.isIndexFromOne();
-			if (fields == null) {
-				fields = row.getFields();
-			}
-
 			data[rowId] = new Object[fields.size()];
 			for (int i = 0; i < fields.size(); i++) {
 				data[rowId][i] = row.getData(isIndexFromOne ? i + 1 : i);

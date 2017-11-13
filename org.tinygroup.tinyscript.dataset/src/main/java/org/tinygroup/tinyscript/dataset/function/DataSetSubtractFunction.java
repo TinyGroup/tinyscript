@@ -56,7 +56,7 @@ public class DataSetSubtractFunction extends AbstractDataSetOperateFunction {
 				map.remove(key);
 			}
 		}
-		return DataSetUtil.createDynamicDataSet(map);
+		return DataSetUtil.createDynamicDataSet(map, dataSet1.getFields());
 	}
 
 }

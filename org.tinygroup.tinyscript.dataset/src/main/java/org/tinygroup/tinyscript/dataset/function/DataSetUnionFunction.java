@@ -54,10 +54,10 @@ public class DataSetUnionFunction extends AbstractDataSetOperateFunction {
 		Map<String, DataSetRow> map = createMapDataSetRows(dataSet1, pks, context);
 		for (int i = 0; i < dataSet2.getRows(); i++) {
 			String key = createRowKey(dataSet2, pks, i, context);
-			DataSetRow row = new DefaultDataSetRow(dataSet2, i);
+			DataSetRow row = new DefaultDataSetRow(dataSet2, dataSet2.getShowIndex(i));
 			map.put(key, row);
 		}
-		return DataSetUtil.createDynamicDataSet(map);
+		return DataSetUtil.createDynamicDataSet(map, dataSet1.getFields());
 	}
 
 }
