@@ -69,7 +69,7 @@ public class DataSetIntersectionFunction extends AbstractDataSetOperateFunction 
 				newMap.put(key, map.get(key));
 			}
 		}
-		return DataSetUtil.createDynamicDataSet(newMap);
+		return DataSetUtil.createDynamicDataSet(newMap, dataSet1.getFields());
 	}
 
 }

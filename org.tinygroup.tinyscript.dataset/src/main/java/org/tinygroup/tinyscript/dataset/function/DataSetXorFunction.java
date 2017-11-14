@@ -60,7 +60,7 @@ public class DataSetXorFunction extends AbstractDataSetOperateFunction {
 			}
 		}
 		newMap.putAll(map);
-		return DataSetUtil.createDynamicDataSet(newMap);
+		return DataSetUtil.createDynamicDataSet(newMap,dataSet1.getFields());
 	}
 
 }

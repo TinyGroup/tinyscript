@@ -76,7 +76,8 @@ public abstract class AbstractDataSetOperateFunction extends AbstractScriptFunct
 			ScriptContext subContext = new DefaultScriptContext();
 			subContext.setParent(context);
 			for (int i = 0; i < dataSet.getFields().size(); i++) {
-				subContext.put(dataSet.getFields().get(i).getName(), dataSet.getData(row, dataSet.getShowIndex(i)));
+				subContext.put(dataSet.getFields().get(i).getName(),
+						dataSet.getData(dataSet.getShowIndex(row), dataSet.getShowIndex(i)));
 			}
 			return keyFunction.execute(subContext).getResult().toString();
 
@@ -93,19 +94,16 @@ public abstract class AbstractDataSetOperateFunction extends AbstractScriptFunct
 	 * @throws Exception
 	 */
 	protected boolean checkField(DataSet dataSet1, DataSet dataSet2) throws Exception {
-		if (dataSet1.getColumns() != dataSet2.getColumns()) {
-			return false;
-		} else {
-			Set<Field> fields = new HashSet<Field>();
-			for (int i = 0; i < dataSet1.getFields().size(); i++) {
-				fields.add(dataSet1.getFields().get(i));
-			}
-			for (int i = 0; i < dataSet2.getFields().size(); i++) {
-				if (!fields.contains(dataSet2.getFields().get(i))) {
-					return false;
-				}
+		Set<Field> fields = new HashSet<Field>();
+		for (int i = 0; i < dataSet2.getFields().size(); i++) {
+			fields.add(dataSet2.getFields().get(i));
+		}
+		for (int i = 0; i < dataSet1.getFields().size(); i++) {
+			if (!fields.contains(dataSet1.getFields().get(i))) {
+				return false;
 			}
 		}
+
 		return true;
 	}
 
