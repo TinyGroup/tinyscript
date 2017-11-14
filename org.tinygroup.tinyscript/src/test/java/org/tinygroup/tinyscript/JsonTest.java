@@ -31,12 +31,14 @@ public class JsonTest extends TestCase {
 		context.put("json", str);
 		DataSet ds = (DataSet) engine.execute("return json.jsonToDataSet();",context);
 		assertEquals(5, ds.getRows());
-		assertEquals("COST",ds.getData(1, 1));
+		ds.absolute(1);
+		assertEquals("COST",ds.getData("FIELD"));
 		
 		//验证JSONArray转换ds
 		context.put("array", array);
 		ds = (DataSet) engine.execute("return array.jsonToDataSet();",context);
 		assertEquals(5, ds.getRows());
-		assertEquals("COST",ds.getData(1, 1));
+		ds.absolute(1);
+		assertEquals("COST",ds.getData("FIELD"));
 	}
 }
