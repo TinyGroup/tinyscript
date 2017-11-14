@@ -198,4 +198,12 @@
 	<bean id="jsonToDataSetFunction" scope="singleton"
 		class="org.tinygroup.tinyscript.dataset.function.json.JsonToDataSetFunction">
 	</bean>
+	
+	<bean id="dataSetToXmlFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.xml.DataSetToXmlFunction">
+	</bean>
+	
+	<bean id="xmlToDataSetFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.xml.XmlToDataSetFunction">
+	</bean>
 </beans>
