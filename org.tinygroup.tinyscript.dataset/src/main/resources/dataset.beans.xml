@@ -190,4 +190,12 @@
 	<bean id="dataSetInsertFunction" scope="singleton"
 		class="org.tinygroup.tinyscript.dataset.function.DataSetInsertFunction">
 	</bean>
+	
+	<bean id="dataSetToJsonFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.json.DataSetToJsonFunction">
+	</bean>
+	
+	<bean id="jsonToDataSetFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.json.JsonToDataSetFunction">
+	</bean>
 </beans>
