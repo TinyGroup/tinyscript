@@ -84,6 +84,8 @@ import org.tinygroup.tinyscript.dataset.function.PreviewRowFunction;
 import org.tinygroup.tinyscript.dataset.function.ToDynamicDataSetFunction;
 import org.tinygroup.tinyscript.dataset.function.json.DataSetToJsonFunction;
 import org.tinygroup.tinyscript.dataset.function.json.JsonToDataSetFunction;
+import org.tinygroup.tinyscript.dataset.function.xml.DataSetToXmlFunction;
+import org.tinygroup.tinyscript.dataset.function.xml.XmlToDataSetFunction;
 import org.tinygroup.tinyscript.dataset.objectitem.DataSetColumnItemProcessor;
 import org.tinygroup.tinyscript.dataset.objectitem.DataSetItemProcessor;
 import org.tinygroup.tinyscript.dataset.objectitem.DataSetRowItemProcessor;
@@ -215,6 +217,8 @@ public class DefaultTinyScriptEngine extends DefaultScriptEngine implements Scri
 		addScriptFunction(new DataSetInsertFunction());
 		addScriptFunction(new DataSetToJsonFunction());
 		addScriptFunction(new JsonToDataSetFunction());
+		addScriptFunction(new DataSetToXmlFunction());
+		addScriptFunction(new XmlToDataSetFunction());
 
 		addScriptFunction(new GroupDataSetFilterFunction());
 		addScriptFunction(new GroupDataSetSortFunction());
