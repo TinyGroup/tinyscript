@@ -44,6 +44,7 @@ public class MultiLevelGroupDataSet extends GroupDataSet {
 	 * @param dataSet
 	 */
 	public MultiLevelGroupDataSet(DynamicDataSet dataSet){
+		currentRow = 0;
 		source = dataSet;
 		setFields(new ArrayList<Field>(source.getFields()));
 		setIndexFromOne(source.isIndexFromOne());
