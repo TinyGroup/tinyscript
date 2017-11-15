@@ -242,11 +242,20 @@ public class MultiLevelGroupDataSet extends GroupDataSet {
 	}
 
 	public <T> T getData(int col) throws Exception {
-		return getData(getShowIndex(currentRow), col);
+		if(isGrouped()){
+		   return getData(getShowIndex(currentRow), col);
+		}else{
+		   return source.getData(col);
+		}
+		
 	}
 
 	public <T> void setData(int col, T data) throws Exception {
-		setData(getShowIndex(currentRow), col, data);
+		if(isGrouped()){
+			setData(getShowIndex(currentRow), col, data);
+		}else{
+			source.setData(col, data);
+		}
 	}
 
 	public List<DynamicDataSet> getGroups() {
@@ -458,6 +467,14 @@ public class MultiLevelGroupDataSet extends GroupDataSet {
 			return getShowIndex(currentRow);
 		}else{
 		    return source.getCurrentRow();
+		}
+	}
+	
+	public String toString(){
+		if(isGrouped()){
+			return super.toString();
+		}else{
+			return source.toString();
 		}
 	}
 
