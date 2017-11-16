@@ -11,16 +11,16 @@ println(inner);
 println("=================================");
 
 //测试左联,采用lambda表达式关联姓名
-left = ds1.leftjoin(ds2,()->{ return name;},()->{ return firstname+lastname;});
+left = ds1.joinLeft(ds2,()->{ return name;},()->{ return firstname+lastname;});
 println(left);
 println("=================================");
 
 //测试右联,采用lambda表达式关联姓名
-right = ds1.rightjoin(ds2,()->{ return name;},()->{ return firstname+lastname;});
+right = ds1.joinRight(ds2,()->{ return name;},()->{ return firstname+lastname;});
 println(right);
 println("=================================");
 
 //测试全联,采用lambda表达式关联姓名
-full = ds1.fulljoin(ds2,()->{ return name;},()->{ return firstname+lastname;});
+full = ds1.joinFull(ds2,()->{ return name;},()->{ return firstname+lastname;});
 println(full);
 println("=================================");

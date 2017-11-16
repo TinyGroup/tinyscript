@@ -11,11 +11,12 @@ import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 /**
- * 序表相关的填充函数
+ * 序表相关的填充函数(可以使用update函数代替)
  * 
  * @author yancheng11334
  *
  */
+@Deprecated
 public class DataSetFillFunction extends AbstractScriptFunction {
 
 	public String getNames() {

@@ -11,16 +11,16 @@ println(inner);
 println("=================================");
 
 //测试左联,以用户ID和日期做联合主键
-left = ds1.leftjoin(ds2,["userid","opdate"],["userid","punishdate"]);
+left = ds1.joinLeft(ds2,["userid","opdate"],["userid","punishdate"]);
 println(left);
 println("=================================");
 
 //测试右联,以用户ID和日期做联合主键
-right = ds1.rightjoin(ds2,["userid","opdate"],["userid","punishdate"]);
+right = ds1.joinRight(ds2,["userid","opdate"],["userid","punishdate"]);
 println(right);
 println("=================================");
 
 //测试全联,以用户ID和日期做联合主键
-full = ds1.fulljoin(ds2,["userid","opdate"],["userid","punishdate"]);
+full = ds1.joinFull(ds2,["userid","opdate"],["userid","punishdate"]);
 println(full);
 println("=================================");

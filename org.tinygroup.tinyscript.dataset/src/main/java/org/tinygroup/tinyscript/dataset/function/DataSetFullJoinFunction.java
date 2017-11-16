@@ -18,7 +18,7 @@ import org.tinygroup.tinyscript.interpret.LambdaFunction;
 public class DataSetFullJoinFunction extends AbstractJoinFunction {
 
 	public String getNames() {
-		return "fulljoin";
+		return "joinFull";
 	}
 
 	protected List<int[]> joinTwoDataSet(AbstractDataSet leftDs,

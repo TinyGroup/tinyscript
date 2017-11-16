@@ -7,16 +7,16 @@ println(inner);
 println("=================================");
 
 //测试左联
-left = ds1.leftjoin(ds2,"userid=userid");
+left = ds1.joinLeft(ds2,"userid=userid");
 println(left);
 println("=================================");
 
 //测试右联
-right = ds1.rightjoin(ds2,"userid=userid");
+right = ds1.joinRight(ds2,"userid=userid");
 println(right);
 println("=================================");
 
 //测试全联
-full = ds1.fulljoin(ds2,"userid=userid");
+full = ds1.joinFull(ds2,"userid=userid");
 println(full);
 println("=================================");
