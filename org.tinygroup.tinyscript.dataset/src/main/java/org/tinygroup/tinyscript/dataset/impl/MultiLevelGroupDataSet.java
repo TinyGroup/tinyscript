@@ -328,7 +328,7 @@ public class MultiLevelGroupDataSet extends GroupDataSet {
 		List<DynamicDataSet> newDataSetList = new ArrayList<DynamicDataSet>();
 		for(DynamicDataSet dataSet:subDataSetList){
 		   MultiLevelGroupDataSet multiLevelGroupDataSet = (MultiLevelGroupDataSet) dataSet;
-		   newDataSetList.add(DataSetUtil.createDynamicDataSet(multiLevelGroupDataSet.getSource(), beginIndex, endIndex));
+		   newDataSetList.add(DataSetUtil.createDynamicDataSet(multiLevelGroupDataSet.getSource(), getActualIndex(beginIndex), getActualIndex(endIndex)));
 		}
 		MultiLevelGroupDataSet multiLevelGroupDataSet = new MultiLevelGroupDataSet(source,newDataSetList);
 		return multiLevelGroupDataSet;
@@ -338,7 +338,7 @@ public class MultiLevelGroupDataSet extends GroupDataSet {
 		List<DynamicDataSet> newDataSetList = new ArrayList<DynamicDataSet>();
 		for(DynamicDataSet dataSet:subDataSetList){
 		   MultiLevelGroupDataSet multiLevelGroupDataSet = (MultiLevelGroupDataSet) dataSet;
-		   newDataSetList.add(DataSetUtil.createDynamicDataSet(multiLevelGroupDataSet.getSource(), beginIndex, multiLevelGroupDataSet.getRows()-1));
+		   newDataSetList.add(DataSetUtil.createDynamicDataSet(multiLevelGroupDataSet.getSource(), getActualIndex(beginIndex), multiLevelGroupDataSet.getRows()-1));
 		}
 		MultiLevelGroupDataSet multiLevelGroupDataSet = new MultiLevelGroupDataSet(source,newDataSetList);
 		return multiLevelGroupDataSet;

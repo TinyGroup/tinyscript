@@ -2,11 +2,10 @@ package org.tinygroup.tinyscript;
 
 import junit.framework.TestCase;
 
-import org.tinygroup.tinyscript.ScriptEngine;
-import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.dataset.DataSet;
-import org.tinygroup.tinyscript.impl.DefaultTinyScriptEngine;
+import org.tinygroup.tinyscript.dataset.GroupDataSet;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
+import org.tinygroup.tinyscript.impl.DefaultTinyScriptEngine;
 
 public class SubTest extends TestCase {
 
@@ -29,11 +28,38 @@ public class SubTest extends TestCase {
 		assertEquals(4, orderDs3.getColumns());
 		assertEquals(5, orderDs3.getRows());
 		
-		engine.setIndexFromOne(false);
+		orderDs1.setIndexFromOne(false);
 		orderDs3  = (DataSet) engine.execute("return orderDs1.sub(1);",context);
 		context.put("orderDs3", orderDs3);
 		assertEquals(4, orderDs3.getColumns());
 		assertEquals(4, orderDs3.getRows());
+	}
+	
+	public void testSubGroup() throws Exception {
+		ScriptEngine engine = new DefaultTinyScriptEngine();
+		ScriptContext context = new DefaultScriptContext();
+		
+		DataSet ds = (DataSet) engine.execute("return readTxt(\"src/test/resources/mailCharge.txt\"); ");
+		context.put("ds", ds);
+		
+		GroupDataSet ds0 = (GroupDataSet) engine.execute("gs = ds.group(\"FIELD\");  return gs;",context);
+		assertEquals(5, ds0.getColumns());
+		assertEquals(2, ds0.getRows());
+		assertEquals(2, ds0.getGroups().size());
+		assertEquals(1, ds0.getGroups().get(0).getRows());
+		assertEquals(4, ds0.getGroups().get(1).getRows());
+		
+		GroupDataSet ds1 = (GroupDataSet) engine.execute("gs = ds.group(\"FIELD\");  return gs.sub(1,2);",context);
+		assertEquals(5, ds1.getColumns());
+		assertEquals(2, ds1.getRows());
+		assertEquals(2, ds1.getGroups().size());
+		
+		GroupDataSet ds2 = (GroupDataSet) engine.execute("gs = ds.group(\"FIELD\");  return gs.subGroup(1,1);",context);
+		assertEquals(5, ds2.getColumns());
+		assertEquals(2, ds2.getRows());
+		assertEquals(2, ds2.getGroups().size());
+		assertEquals(1, ds2.getGroups().get(0).getRows());
+		assertEquals(1, ds2.getGroups().get(1).getRows());
 	}
 
 }

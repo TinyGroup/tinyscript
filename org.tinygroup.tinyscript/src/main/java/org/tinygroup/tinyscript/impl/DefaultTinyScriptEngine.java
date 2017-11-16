@@ -59,7 +59,6 @@ import org.tinygroup.tinyscript.dataset.function.DataSetInsertFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetIntersectionFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetJoinFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetLeftJoinFunction;
-import org.tinygroup.tinyscript.dataset.function.DataSetLimitFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetMatchFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetRemoveFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetRenameFunction;
@@ -188,7 +187,6 @@ public class DefaultTinyScriptEngine extends DefaultScriptEngine implements Scri
 		addScriptFunction(new DataSetSubtractFunction());
 		addScriptFunction(new DataSetUnionFunction());
 		addScriptFunction(new DataSetXorFunction());
-		addScriptFunction(new DataSetLimitFunction());
 		addScriptFunction(new DataSetCopyFunction());
 		addScriptFunction(new DataSetRemoveFunction());
 		addScriptFunction(new DataSetFillFunction());

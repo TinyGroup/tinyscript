@@ -164,30 +164,24 @@ public final class DataSetUtil {
 
 	/**
 	 * 构建动态数据集(保持父数据集副本,关联修改)
-	 * 
+	 * <br/>范围:[beginIndex,endIndex]
 	 * @param dataSet
-	 * @param beginIndex
-	 * @param endIndex
+	 * @param beginIndex 实际开始下标
+	 * @param endIndex 实际结束下标
 	 * @return
 	 * @throws Exception
 	 */
-	public static DynamicDataSet createDynamicDataSet(DataSet dataSet, int beginIndex, int endIndex) throws Exception {
-		beginIndex = beginIndex > 0 ? beginIndex : 0;
-		endIndex = endIndex < dataSet.getRows() ? endIndex : dataSet.getRows() - 1;
-
-		SimpleDataSet localDataSet = getSimpleDataSet(dataSet);
-
-		if (localDataSet == null) {
-			throw new ScriptException(ResourceBundleUtil.getResourceMessage("dataset", "dataset.convertdataset.error",
-					dataSet.getClass().getSimpleName()));
-		}
-
-		Object[][] fatherArray = localDataSet.getDataArray();
-		Object[][] childArray = new Object[endIndex - beginIndex + 1][];
+	public static DynamicDataSet createDynamicDataSet(AbstractDataSet dataSet, int beginIndex, int endIndex) throws Exception {
+		List<Field> newFields = new ArrayList<Field>();
+		newFields.addAll(dataSet.getFields());
+		Object[][] dataArray = new Object[endIndex - beginIndex + 1][];
 		for (int i = beginIndex; i <= endIndex; i++) {
-			childArray[i - beginIndex] = fatherArray[i];
+			dataArray[i - beginIndex] = new Object[newFields.size()];
+			for (int j = 0; j < newFields.size(); j++) {
+				dataArray[i - beginIndex][j] = dataSet.getData(dataSet.getShowIndex(i), dataSet.getShowIndex(j));
+			}
 		}
-		return new SimpleDataSet(dataSet.getFields(), childArray, dataSet.isIndexFromOne());
+		return DataSetUtil.createDynamicDataSet(newFields, dataArray, dataSet.isIndexFromOne());
 	}
 
 	private static SimpleDataSet getSimpleDataSet(DataSet dataSet) throws Exception {
