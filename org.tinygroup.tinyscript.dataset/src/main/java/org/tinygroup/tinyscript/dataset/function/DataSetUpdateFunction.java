@@ -1,7 +1,13 @@
 package org.tinygroup.tinyscript.dataset.function;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
+import org.tinygroup.commons.tools.CollectionUtil;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
@@ -17,7 +23,6 @@ import org.tinygroup.tinyscript.interpret.LambdaFunction;
 import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
 import org.tinygroup.tinyscript.interpret.ScriptResult;
-import org.tinygroup.tinyscript.interpret.call.FunctionCallExpressionParameter;
 
 public class DataSetUpdateFunction extends AbstractScriptFunction {
 
@@ -40,8 +45,35 @@ public class DataSetUpdateFunction extends AbstractScriptFunction {
 			} else if (checkParameters(parameters, 3)) {
 				AbstractDataSet dataSet = (AbstractDataSet) getValue(parameters[0]);
 				String colName = (String) getValue(parameters[1]);
-
-				return updateExpression(dataSet, colName, parameters[2], context);
+				String expression = getExpression(parameters[2]);
+				
+				//获取更新的列下标
+				int col = DataSetUtil.getFieldIndex(dataSet, colName);
+				if (col < 0) {
+					throw new ScriptException(
+							ResourceBundleUtil.getResourceMessage("dataset", "dataset.fields.notfound", colName));
+				}
+				
+				//获取包含数组的列下标
+				Set<Integer> columns =  DataSetUtil.getFieldArray(dataSet, expression);
+				
+				//获取lambda表达式
+				LambdaFunction lambdaFunction = getLambdaFunction(parameters[2]);
+				
+				if(lambdaFunction!=null){
+					return updateByLambda(dataSet, col, columns,lambdaFunction, context);
+				}else{
+					return updateByExpression(dataSet, col, columns,expression, context);
+				}
+				
+			} else if (parameters != null && parameters.length == 4 && parameters[0] != null && parameters[1] != null) {
+				//重构结构
+				DynamicDataSet dynamicDataSet = (DynamicDataSet) getValue(parameters[0]);
+				LambdaFunction lambdaFunction = (LambdaFunction) getValue(parameters[1]);
+				List<Field> insertFields = convertFields(getValue(parameters[2]));
+				List<Field> deleteFields = convertFields(getValue(parameters[3]));
+				
+				return updateField(dynamicDataSet,lambdaFunction,insertFields,deleteFields,context);
 			} else {
 				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
 			}
@@ -51,73 +83,185 @@ public class DataSetUpdateFunction extends AbstractScriptFunction {
 			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 		}
 	}
-
-	private DataSet updateExpression(AbstractDataSet dataSet, String colName, Object parameter, ScriptContext context)
-			throws ScriptException {
-		String expression = null;
-
-		try {
-			expression = getExpression(parameter);
-			int col = DataSetUtil.getFieldIndex(dataSet, colName);
-			if (col < 0) {
-				throw new ScriptException(
-						ResourceBundleUtil.getResourceMessage("dataset", "dataset.fields.notfound", colName));
+	
+	private DynamicDataSet updateField(DynamicDataSet dynamicDataSet,LambdaFunction lambdaFunction,List<Field> insertFields,List<Field> deleteFields,ScriptContext context) throws Exception {
+		if (!CollectionUtil.isEmpty(insertFields)) {
+			// 执行插入字段逻辑
+			for (Field field : insertFields) {
+				dynamicDataSet.insertColumn(dynamicDataSet.isIndexFromOne() ? dynamicDataSet.getFields().size() + 1
+						: dynamicDataSet.getFields().size(), field);
 			}
+		}
 
-			Set<Integer> columns = null;
+		// 逐行遍历
+		for (int i = 0; i < dynamicDataSet.getRows(); i++) {
+			ScriptContext subContext = new DefaultScriptContext();
+			subContext.setParent(context);
 
-			// 获取需要数组处理的字段
-			columns = DataSetUtil.getFieldArray(dataSet, expression);
-
-			// 转换表达式为脚本可以执行的语法片段
-			expression = ScriptContextUtil.convertExpression(expression);
-
-			Object function = null;
-			if (expression.indexOf("->") > 0) {
-				function = ((FunctionCallExpressionParameter) (parameter)).eval();
+			// 加载行记录信息到上下文环境
+			if (lambdaFunction.getParamterNames() != null && lambdaFunction.getParamterNames().length > 0) {
+				Object[] readParamters = new Object[lambdaFunction.getParamterNames().length];
+				// 只加载用户指定参数
+				for (int j = 0; j < lambdaFunction.getParamterNames().length; j++) {
+					int col = DataSetUtil.getFieldIndex(dynamicDataSet, lambdaFunction.getParamterNames()[j]);
+					readParamters[j] = dynamicDataSet.getData(dynamicDataSet.getShowIndex(i),
+							dynamicDataSet.getShowIndex(col));
+				}
+				// 动态执行lambda表达式
+				lambdaFunction.execute(subContext, readParamters);
 			} else {
-				function = expression;
+				// 加载全部参数
+				for (int j = 0; j < dynamicDataSet.getFields().size(); j++) {
+					Field f = dynamicDataSet.getFields().get(j);
+					subContext.put(f.getName(), dynamicDataSet.getData(dynamicDataSet.getShowIndex(i),
+							dynamicDataSet.getShowIndex(j)));
+				}
+				// 动态执行lambda表达式
+				lambdaFunction.execute(subContext);
 			}
 
+			// 根据插入字段更新列
+			for (int j = 0; j < insertFields.size(); j++) {
+				int col = DataSetUtil.getFieldIndex(dynamicDataSet, insertFields.get(j).getName());
+				dynamicDataSet.setData(dynamicDataSet.getShowIndex(i), dynamicDataSet.getShowIndex(col),
+						subContext.getItemMap().get(insertFields.get(j).getName()));
+			}
+		}
+
+		if (!CollectionUtil.isEmpty(deleteFields)) {
+			// 执行删除字段逻辑
+			for (Field field : deleteFields) {
+				dynamicDataSet.deleteColumn(field.getName());
+			}
+		}
+		return dynamicDataSet;
+	}
+	/**
+	 * 转换字段信息
+	 * 
+	 * @param obj
+	 * @return
+	 * @throws ScriptException
+	 */
+	@SuppressWarnings("rawtypes")
+	private List<Field> convertFields(Object obj) throws ScriptException {
+		List<Field> fields = new ArrayList<Field>();
+		if (obj != null) {
+			if (obj.getClass().isArray()) {
+				int length = Array.getLength(obj);
+				for (int i = 0; i < length; i++) {
+					addField(fields, Array.get(obj, i));
+				}
+			} else if (obj instanceof Collection) {
+				Collection c = (Collection) obj;
+				Iterator it = c.iterator();
+				while (it.hasNext()) {
+					addField(fields, it.next());
+				}
+			} else {
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
+			}
+		}
+		return fields;
+	}
+
+	private void addField(List<Field> fields, Object o) throws ScriptException {
+		if (o instanceof String) {
+			String name = (String) o;
+			fields.add(new Field(name, name, "Object"));
+		} else if (o instanceof Field) {
+			Field f = (Field) o;
+			fields.add(f);
+		} else {
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
+		}
+	}
+	
+	private LambdaFunction getLambdaFunction(Object obj){
+		try{
+			return (LambdaFunction) getValue(obj);
+		}catch(Exception e){
+			//忽略异常
+			return null;
+		}
+	}
+	
+	private DataSet updateByExpression(AbstractDataSet dataSet, int col, Set<Integer> columns,String expression, ScriptContext context)
+			throws ScriptException {
+		try{
+			String runExpression = ScriptContextUtil.convertExpression(expression);
 			if (dataSet instanceof GroupDataSet) {
 				GroupDataSet groupDataSet = (GroupDataSet) dataSet;
 				for (DynamicDataSet subDs : groupDataSet.getGroups()) {
-					updateRowWithExpression(subDs, col, function, columns, context);
+					updateRowWithExpression(subDs, col, runExpression, columns, context);
 				}
 			} else {
-				updateRowWithExpression(dataSet, col, function, columns, context);
+				updateRowWithExpression(dataSet, col, runExpression, columns, context);
 			}
-
 			return dataSet;
-
-		} catch (ScriptException e) {
+		}catch (ScriptException e) {
+			throw e;
+		} catch (Exception e) {
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
+		}
+	}
+	
+	private DataSet updateByLambda(AbstractDataSet dataSet, int col, Set<Integer> columns,LambdaFunction function, ScriptContext context)
+			throws ScriptException {
+		try{
+			if (dataSet instanceof GroupDataSet) {
+				GroupDataSet groupDataSet = (GroupDataSet) dataSet;
+				for (DynamicDataSet subDs : groupDataSet.getGroups()) {
+					updateRowWithLambda(subDs, col, function, columns, context);
+				}
+			} else {
+				updateRowWithLambda(dataSet, col, function, columns, context);
+			}
+			return dataSet;
+		}catch (ScriptException e) {
 			throw e;
 		} catch (Exception e) {
 			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 		}
 	}
 
+	
 	// 参数为实际下标
-	private void updateRowWithExpression(AbstractDataSet dataSet, int col, Object expression, Set<Integer> columns,
+	private void updateRowWithExpression(AbstractDataSet dataSet, int col, String expression, Set<Integer> columns,
 			ScriptContext context) throws Exception {
+		int showCol = dataSet.getShowIndex(col);
 		for (int i = 0; i < dataSet.getRows(); i++) {
+			int showRow = dataSet.getShowIndex(i);
 			ScriptContext subContext = new DefaultScriptContext();
 			subContext.setParent(context);
-			subContext.put("$currentRow", dataSet.getShowIndex(i));
+			subContext.put("$currentRow", showRow);
 			setRowValue(subContext, dataSet, columns, i);
-			Object value;
 			try {
-				if (expression instanceof LambdaFunction) {
-					value = ((LambdaFunction) expression).execute(subContext, i + 1);
-					dataSet.setData(dataSet.getShowIndex(i), dataSet.getShowIndex(col),
-							((ScriptResult) value).getResult());
-				} else {
-					value = executeDynamicObject((String) expression, subContext);
-					dataSet.setData(dataSet.getShowIndex(i), dataSet.getShowIndex(col), value);
-				}
-
+				Object value = executeDynamicObject(expression, subContext);
+				dataSet.setData(showRow, showCol, value);
 			} catch (ScriptException e) {
 				// 忽略脚本异常
+				continue;
+			}
+
+		}
+	}
+	
+	private void updateRowWithLambda(AbstractDataSet dataSet, int col, LambdaFunction function, Set<Integer> columns,
+			ScriptContext context) throws Exception {
+		int showCol = dataSet.getShowIndex(col);
+		for (int i = 0; i < dataSet.getRows(); i++) {
+			int showRow = dataSet.getShowIndex(i);
+			ScriptContext subContext = new DefaultScriptContext();
+			subContext.setParent(context);
+			subContext.put("$currentRow",showRow);
+			setRowValue(subContext, dataSet, columns, i);
+			try {
+				ScriptResult value = function.execute(subContext, showRow);
+				dataSet.setData(showRow, showCol,value.getResult());
+			} catch (ScriptException e) {
+				// 忽略脚本异常
+				continue;
 			}
 
 		}

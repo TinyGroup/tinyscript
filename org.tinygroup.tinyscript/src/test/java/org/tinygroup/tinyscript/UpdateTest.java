@@ -39,7 +39,7 @@ public class UpdateTest extends TestCase {
 
 		// 合并字段
 		DataSet result = (DataSet) engine.execute(
-				"return mailDs.updateField((MINVAL,MAXVAL)->{f1=MINVAL+MAXVAL;f2=MINVAL*2;f3=MINVAL*4;},{\"f1\"},{\"MINVAL\",\"MAXVAL\"});",
+				"return mailDs.update((MINVAL,MAXVAL)->{f1=MINVAL+MAXVAL;f2=MINVAL*2;f3=MINVAL*4;},{\"f1\"},{\"MINVAL\",\"MAXVAL\"});",
 				context);
 		assertEquals(4, result.getColumns());
 
@@ -48,7 +48,7 @@ public class UpdateTest extends TestCase {
 		context.put("mailDs", mailDs);
 		// 拆分字段
 		result = (DataSet) engine.execute(
-				"return mailDs.updateField(()->{d=new java.util.Date(); day=d.getDay(); hour=d.getHours(); },{\"day\",\"hour\"},null);",
+				"return mailDs.update(()->{d=new java.util.Date(); day=d.getDay(); hour=d.getHours(); },{\"day\",\"hour\"},null);",
 				context);
 		assertEquals(7, result.getColumns());
 	}

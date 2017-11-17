@@ -167,10 +167,6 @@
 		class="org.tinygroup.tinyscript.dataset.function.DataSetToBeanListFunction">
 	</bean>
 	
-	<bean id="dataSetUpdateFieldFunction" scope="singleton"
-		class="org.tinygroup.tinyscript.dataset.function.DataSetUpdateFieldFunction">
-	</bean>
-	
 	<bean id="dataSetLeftJoinFunction" scope="singleton"
 		class="org.tinygroup.tinyscript.dataset.function.DataSetLeftJoinFunction">
 	</bean>
