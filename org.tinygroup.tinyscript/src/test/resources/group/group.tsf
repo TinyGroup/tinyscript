@@ -1,0 +1,25 @@
+//演示多级分组
+defaultDB="mysql";
+
+ds = [[select * from test2 ]].toDynamic();
+println("输出原始序表：");
+println(ds);
+
+gs1 = ds.group("sex"); 
+println("输出分组序表：");
+println(gs1);
+
+gs2 = ds.group("sex").groupStaged(AGE<=18,AGE>=18 && AGE <60 , AGE>=60);
+level1 = gs2.getGroups(1); //获取第一级分组
+println("一级分组个数:"+level1.size());
+println("遍历第一级序表：");
+for(sub:level1){
+  println(sub);
+}
+
+level2 = gs2.getGroups(2); //获取第二级分组
+println("二级分组个数:"+level2.size());  //sex=1的序表不存在AGE>60的记录，所以分组个数只有5个而不是6个
+println("遍历第二级序表：");
+for(sub:level2){
+  println(sub);
+}
