@@ -22,7 +22,7 @@ public class DataSetColumnInProcessor implements InExpressionProcessor {
 		if (colCache == null || !colCache.getField().equals(colCache.getField())) {
 			colCache = new DataSetColumnCache(colData);
 		}
-		return colCache.checkData(item);
+		return colCache.isExist(item);
 	}
 
 	class DataSetColumnCache {
@@ -37,7 +37,7 @@ public class DataSetColumnInProcessor implements InExpressionProcessor {
 			this.field = colData.getField();
 		}
 
-		public boolean checkData(Object item) {
+		public boolean isExist(Object item) {
 			return colCache.contains(item);
 		}
 
