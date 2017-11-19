@@ -61,6 +61,9 @@ import org.tinygroup.tinyscript.expression.convert.StringDouble;
 import org.tinygroup.tinyscript.expression.convert.StringFloat;
 import org.tinygroup.tinyscript.expression.convert.StringInteger;
 import org.tinygroup.tinyscript.expression.convert.StringLong;
+import org.tinygroup.tinyscript.expression.in.ArrayInProcessor;
+import org.tinygroup.tinyscript.expression.in.CollectionInProcessor;
+import org.tinygroup.tinyscript.expression.in.MapInProcessor;
 import org.tinygroup.tinyscript.expression.iteratorconvert.ArrayIteratorConverter;
 import org.tinygroup.tinyscript.expression.iteratorconvert.CollectionIteratorConverter;
 import org.tinygroup.tinyscript.expression.iteratorconvert.MapIteratorConverter;
@@ -125,6 +128,7 @@ public final class ExpressionUtil {
 	private static Map<String, NumberCalculator> numberCalculatorMap = new HashMap<String, NumberCalculator>();
 	private static List<RangeOperator> rangeOperators = new ArrayList<RangeOperator>();
 
+	private static List<InExpressionProcessor> inProcessors = new ArrayList<InExpressionProcessor>();
 	static {
 		typeMap.put(Byte.class, 0);
 		typeMap.put(Character.class, 1);
@@ -243,11 +247,20 @@ public final class ExpressionUtil {
 		addRangeOperator(new LongRangeOperator());
 		addRangeOperator(new NumberRangeOperator());
 		addRangeOperator(new CharRangeOperator());
+		
+		// 添加in表达式处理器
+		addInProcessor(new ArrayInProcessor());
+		addInProcessor(new CollectionInProcessor());
+		addInProcessor(new MapInProcessor());
 	}
 
 	@SuppressWarnings("unchecked")
 	public static Object convert(Object object, Class<?> sourceType, Class<?> destType) {
 		return converters[typeMap.get(sourceType)][typeMap.get(destType)].convert(object);
+	}
+
+	public static void addInProcessor(InExpressionProcessor inProcessor) {
+		inProcessors.add(inProcessor);
 	}
 
 	public static Object convert(Object value, Class<?> destType) throws ScriptException {
@@ -261,8 +274,6 @@ public final class ExpressionUtil {
 					value.getClass().getName(), destType.getName()), e);
 		}
 	}
-
-
 
 	public static Double convertDouble(Object value) throws ScriptException {
 		return (Double) convert(value, Double.class);
@@ -569,24 +580,14 @@ public final class ExpressionUtil {
 	 * @param collection
 	 * @param item
 	 * @return
+	 * @throws Exception 
 	 */
-	public static boolean in(Object collection, Object item) {
-		boolean tag = false;
-		if (collection.getClass().isArray()) {
-			int length = Array.getLength(collection);
-			for (int i = 0; i < length; i++) {
-				if (item.equals(Array.get(collection, i))) {
-					tag = true;
-					break;
-				}
+	public static boolean in(Object collection, Object item) throws Exception {
+		for(InExpressionProcessor inProcessor : inProcessors) {
+			if(inProcessor.isMatch(collection)) {
+				return inProcessor.checkIn(collection, item);
 			}
-		} else if (collection instanceof Collection) {
-			Collection c = (Collection) collection;
-			tag = c.contains(item);
-		} else if (collection instanceof Map) {
-			Map map = (Map) collection;
-			tag = map.containsKey(item);
 		}
-		return tag;
+		return false;
 	}
 }

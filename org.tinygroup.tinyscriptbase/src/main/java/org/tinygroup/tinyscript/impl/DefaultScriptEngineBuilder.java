@@ -13,6 +13,7 @@ import org.tinygroup.tinyscript.assignvalue.AssignValueUtil;
 import org.tinygroup.tinyscript.collection.CollectionModelUtil;
 import org.tinygroup.tinyscript.expression.BooleanConverter;
 import org.tinygroup.tinyscript.expression.ExpressionUtil;
+import org.tinygroup.tinyscript.expression.InExpressionProcessor;
 import org.tinygroup.tinyscript.expression.IteratorConverter;
 import org.tinygroup.tinyscript.expression.NumberCalculator;
 import org.tinygroup.tinyscript.expression.Operator;
@@ -225,5 +226,16 @@ public class DefaultScriptEngineBuilder extends AbstractScriptEngineBuilder{
 			   TypeConvertUtil.addTypeConvertProcessor(it.next());
 		   }
 		}
+	}
+
+	@Override
+	protected void registerInProcessor() throws ScriptException {
+		Collection<InExpressionProcessor> c = BeanContainerFactory.getBeanContainer(getClass().getClassLoader()).getBeans(InExpressionProcessor.class);
+		if(c!=null && !c.isEmpty()){
+		   Iterator<InExpressionProcessor> it = c.iterator();
+		   while(it.hasNext()){
+			   ExpressionUtil.addInProcessor(it.next());
+		   }
+		}		
 	}
 }

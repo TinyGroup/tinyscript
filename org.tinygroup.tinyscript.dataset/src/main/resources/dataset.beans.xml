@@ -6,6 +6,10 @@
 	<bean id="dataSetColumnAttributeProcessor" scope="singleton"
 		class="org.tinygroup.tinyscript.dataset.attribute.DataSetColumnAttributeProcessor">
 	</bean>
+	
+	<bean id="dataSetColumnInProcessor" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.in.DataSetColumnInProcessor">
+	</bean>
 
 	<bean id="excelAssignValueProcessor" scope="singleton"
 		class="org.tinygroup.tinyscript.dataset.attribute.ExcelAssignValueProcessor">
