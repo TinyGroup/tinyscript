@@ -39,6 +39,7 @@ public abstract class AbstractScriptEngineBuilder implements ScriptEngineBuilder
 		registerObjectItemProcessor();
 		registerCustomProcessor();
 		registerTypeConvertProcessor();
+		registerInProcessor();
 	}
 
 	/**
@@ -149,4 +150,10 @@ public abstract class AbstractScriptEngineBuilder implements ScriptEngineBuilder
 	 * @throws ScriptException
 	 */
 	protected abstract void registerTypeConvertProcessor() throws ScriptException;
+	
+	/**
+	 * 注册可扩展in关键字处理器
+	 * @throws ScriptException
+	 */
+	protected abstract void registerInProcessor() throws ScriptException;
 }
