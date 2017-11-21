@@ -30,24 +30,3 @@
 	├── org.tinygroup.tinyscript.template             //Tiny模板语言扩展
 	├── org.tinygroup.tinyscript                      //TinyScript具体实现
 	
-#升级历史<br/>
-版本1.2.0：<br/>
-[新增] 增加序表insert函数,支持lambda语法，允许数据来自别的序表<br/>
-[新增] 增加序表和json互转函数：toJson和jsonToDataSet<br/>
-[新增] 增加序表和xml互转函数：toXml和xmlToDataSet<br/>
-[新增] 增加一系列日期加强函数：dateAdd、dateName、datePart、dateTrunc、day、makeDate、makeDateTime、month和year<br/>
-[新增] 增加当前日期函数：now和today<br/>
-<br/>
-[删除] 删除序表limit函数，可以采用sub函数取代<br/>
-[删除] 删除序表updateField函数，可以采用update函数取代<br/>
-<br/>
-[重构] tinyscript脚本后缀由*.tinyscript和*.ts统一调整为*.tsf,包括处理器、配置及测试脚本及测试用例<br/>
-[重构] 实现多级分组,底层实现使用MultiLevelGroupDataSet取代DefaultGroupDataSet<br/>
-[重构] 简化日期函数,参数范围仅限于Date类型<br/>
-[重构] 重构关联函数,函数命名调整:leftjoin改为joinLeft,rightjoin改为joinRight,fulljoin改为joinFull<br/>
-[重构] 序表集合操作逻辑调整：记录以A表为准，允许B表字段范围包含A表字段，不再强制要求两表字段完全一致<br/>
-[重构] 修改sub和subGroup函数逻辑<br/>
-[重构] 修改update函数，优化内部结构<br/>
-<br/>
-[Bug]  修改序表排序包含特殊字符报错的Bug，同时调整缺省方向为asc<br/>
-[Bug]  修改下标为0时某些函数发生越界异常的Bug<br/>
