@@ -35,8 +35,10 @@
 [新增] 增加序表insert函数,支持lambda语法，允许数据来自别的序表<br/>
 [新增] 增加序表和json互转函数：toJson和jsonToDataSet<br/>
 [新增] 增加序表和xml互转函数：toXml和xmlToDataSet<br/>
-[新增] 增加一系列日期加强函数：dateAdd、dateName、datePart、dateTrunc、day、makeDate、makeDateTime、month、now、today和year<br/>
+[新增] 增加一系列日期加强函数：dateAdd、dateName、datePart、dateTrunc、day、makeDate、makeDateTime、month和year<br/>
+[新增] 增加当前日期函数：now和today<br/>
 <br/>
+[删除] 删除序表limit函数，可以采用sub函数取代<br/>
 [删除] 删除序表updateField函数，可以采用update函数取代<br/>
 <br/>
 [重构] tinyscript脚本后缀由*.tinyscript和*.ts统一调整为*.tsf,包括处理器、配置及测试脚本及测试用例<br/>
