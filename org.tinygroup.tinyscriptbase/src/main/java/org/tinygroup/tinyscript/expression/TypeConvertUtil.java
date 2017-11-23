@@ -29,6 +29,9 @@ public final class TypeConvertUtil {
 		addTypeConvertProcessor(new FloatTypeConvertProcessor());
 		addTypeConvertProcessor(new DoubleTypeConvertProcessor());
 		addTypeConvertProcessor(new DateTypeConvertProcessor());
+		addTypeConvertProcessor(new BooleanTypeConvertProcessor());
+		addTypeConvertProcessor(new ShortTypeConvertProcessor());
+		addTypeConvertProcessor(new CharTypeConvertProcessor());
 	}
 
 	/**
