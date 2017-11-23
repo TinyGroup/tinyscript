@@ -19,6 +19,7 @@ public class AssignValueUtil {
 	static {
 		addAssignValueProcessor(new DefaultAssignValueProcessor());
 		addAssignValueProcessor(new MapAssignValueProcessor());
+		addAssignValueProcessor(new FieldAssignValueProcessor());
 		addAssignValueProcessor(new ClassFieldAssignValueProcessor());
 		addAssignValueProcessor(new ObjectItemAssignValueProcessor());
 	}
