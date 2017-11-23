@@ -1,0 +1,27 @@
+//演示序表转换序列
+ds = readCsv("/customer1.csv","gbk");
+
+//无参，直接转换为map的序列
+println(ds.toList());
+
+//Customer1属性符合映射规范，指定对象输出
+println(ds.toList("org.tinygroup.tinyscript.Customer1"));
+
+//Customer2属性不符合映射规范，需要调整
+//重命名字段，转换字段类型
+ds.rename("user_name","name").rename("user_pass","password").rename("user_sex","sex").rename("user_age","age").int("sex","age").boolean("online_tag");
+println(ds.toList("org.tinygroup.tinyscript.Customer2"));
+
+//lambda表达式输出
+newds = readCsv("/customer1.csv","gbk");
+println(newds.toList(()->{
+   customer = new org.tinygroup.tinyscript.Customer2();
+   customer.name = user_name;
+   customer.password = user_pass;
+   customer.sex = user_sex;
+   customer.age = user_age;
+   customer.mobile = mobile;
+   customer.address = address;
+   customer.onlineTag = boolean(online_tag);
+   return customer;
+}));
