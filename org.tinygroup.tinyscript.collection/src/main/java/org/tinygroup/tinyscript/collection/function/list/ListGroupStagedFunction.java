@@ -35,12 +35,12 @@ public class ListGroupStagedFunction extends AbstractScriptFunction {
 			if (parameters == null || parameters.length == 0) {
 				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
 			} else if (parameters.length > 1) {
-				List<?> dataSet = (List<?>) getValue(parameters[0]);
+				List<?> dataArray = (List<?>) getValue(parameters[0]);
 				String[] expressions = new String[parameters.length - 1];
 				for (int i = 0; i < expressions.length; i++) {
 					expressions[i] = ScriptContextUtil.convertExpression(getExpression(parameters[i + 1]));
 				}
-				return groupStaged(dataSet, expressions, context);
+				return groupStaged(dataArray, expressions, context);
 			} else {
 				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
 			}

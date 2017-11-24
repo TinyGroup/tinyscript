@@ -36,9 +36,9 @@ public class ListGroupDynamicFunction extends AbstractScriptFunction {
 			if (parameters == null || parameters.length == 0) {
 				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
 			} else if (checkParameters(parameters, 2)) {
-				List<?> dataSet = (List<?>) getValue(parameters[0]);
+				List<?> dataArray = (List<?>) getValue(parameters[0]);
 				String expression = ScriptContextUtil.convertExpression(getExpression(parameters[1]));
-				return groupDynamic(dataSet, expression, context);
+				return groupDynamic(dataArray, expression, context);
 			} else {
 				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
 			}
