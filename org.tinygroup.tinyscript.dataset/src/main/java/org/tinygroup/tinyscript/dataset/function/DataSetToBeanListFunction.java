@@ -53,7 +53,7 @@ public class DataSetToBeanListFunction extends AbstractScriptFunction {
 						Class<?> clazz = Class.forName((String)parameters[1]);
 						return toListBean(dataSet,clazz);
 					}catch(ClassNotFoundException e){
-						throw new ScriptException(ResourceBundleUtil.getResourceMessage("dataset","dataset.tolist.noclass", parameters[1]));
+						throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.tobean.noclass", parameters[1]));
 					}
 				}else if(parameters[1] instanceof Class){
 					//用户指定类，返回类实例的序列
@@ -73,7 +73,7 @@ public class DataSetToBeanListFunction extends AbstractScriptFunction {
 						Class<?> clazz = Class.forName((String)parameters[1]);
 						return toListBean(dataSet,clazz,relation);
 					}catch(ClassNotFoundException e){
-						throw new ScriptException(ResourceBundleUtil.getResourceMessage("dataset","dataset.tolist.noclass", parameters[1]));
+						throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.tobean.noclass", parameters[1]));
 					}
 				}else if(parameters[1] instanceof Class){
 					//用户指定类，定义序表字段和值对象字段的映射关系，返回类实例的序列
@@ -156,7 +156,7 @@ public class DataSetToBeanListFunction extends AbstractScriptFunction {
 			try{
 				bean = clazz.newInstance();
 			}catch(Exception e){
-				throw new ScriptException(ResourceBundleUtil.getResourceMessage("dataset","dataset.tolist.instance",clazz.getName()));
+				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.tobean.instance",clazz.getName()));
 			}
 			int showRow = dataSet.getShowIndex(i);
 			for(Entry<String, Integer> entry:map.entrySet()){
@@ -164,7 +164,7 @@ public class DataSetToBeanListFunction extends AbstractScriptFunction {
 				try{
 					BeanUtils.setProperty(bean, entry.getKey(),value);
 				}catch(Exception e){
-					throw new ScriptException(ResourceBundleUtil.getResourceMessage("dataset","dataset.tolist.setvalue",clazz.getName(),entry.getKey(),value),e);
+					throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.tobean.setvalue",clazz.getName(),entry.getKey(),value),e);
 				}
 			}
 			list.add(bean);
