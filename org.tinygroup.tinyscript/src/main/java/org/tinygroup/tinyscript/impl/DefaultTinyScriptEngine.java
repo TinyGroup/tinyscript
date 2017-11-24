@@ -14,6 +14,8 @@ import org.tinygroup.tinyscript.collection.function.list.CopyFunction;
 import org.tinygroup.tinyscript.collection.function.list.FillFunction;
 import org.tinygroup.tinyscript.collection.function.list.FilterFunction;
 import org.tinygroup.tinyscript.collection.function.list.IntersectionFunction;
+import org.tinygroup.tinyscript.collection.function.list.ListGroupDynamicFunction;
+import org.tinygroup.tinyscript.collection.function.list.ListGroupStagedFunction;
 import org.tinygroup.tinyscript.collection.function.list.RemoveFunction;
 import org.tinygroup.tinyscript.collection.function.list.SortFunction;
 import org.tinygroup.tinyscript.collection.function.list.SubtractFunction;
@@ -215,6 +217,9 @@ public class DefaultTinyScriptEngine extends DefaultScriptEngine implements Scri
 		addScriptFunction(new JsonToDataSetFunction());
 		addScriptFunction(new DataSetToXmlFunction());
 		addScriptFunction(new XmlToDataSetFunction());
+		addScriptFunction(new ListGroupDynamicFunction());
+		addScriptFunction(new ListGroupStagedFunction());
+		
 
 		addScriptFunction(new GroupDataSetFilterFunction());
 		addScriptFunction(new GroupDataSetSortFunction());
