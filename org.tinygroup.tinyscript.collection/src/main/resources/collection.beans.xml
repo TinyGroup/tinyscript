@@ -114,4 +114,12 @@
 	<bean id="createMapFunction" scope="singleton"
 		class="org.tinygroup.tinyscript.collection.function.map.CreateMapFunction">
 	</bean>
+	
+	<bean id="listGroupDynamicFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.collection.function.list.ListGroupDynamicFunction">
+	</bean>
+	
+	<bean id="listGroupStagedFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.collection.function.list.ListGroupStagedFunction">
+	</bean>
 </beans>
