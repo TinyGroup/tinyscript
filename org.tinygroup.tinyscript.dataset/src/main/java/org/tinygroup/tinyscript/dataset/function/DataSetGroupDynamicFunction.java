@@ -76,6 +76,8 @@ public class DataSetGroupDynamicFunction extends AbstractGroupFunction {
 			
 			//逐条遍历记录
 			for(int i=0;i<rowNum;i++){
+				int rowId = dataSet.getShowIndex(i);
+				context.put("rowId", rowId);
 				Object key = executeDynamicObject(expression, updateScriptContext(dataSet,i,context));
 				DynamicDataSet groupDataSet = result.get(key);
 				if(groupDataSet==null){
@@ -91,7 +93,6 @@ public class DataSetGroupDynamicFunction extends AbstractGroupFunction {
 					}
 				}
 			}
-			
 			return new ArrayList<DynamicDataSet>(result.values());
 		}catch(Exception e){
 			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);

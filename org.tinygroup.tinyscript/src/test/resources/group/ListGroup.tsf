@@ -1,0 +1,3 @@
+list = [1..5];
+println(list.groupStaged(curData<3));
+println(list.groupDynamic(curData%2));
