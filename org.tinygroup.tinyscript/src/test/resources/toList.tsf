@@ -25,3 +25,12 @@ println(newds.toList(()->{
    customer.onlineTag = boolean(online_tag);
    return customer;
 }));
+
+//演示map转换对象
+map = {"user_name":"张森三","USER_PASS":"123456","userAge":50,"online-tag":true};
+println(map.toBean("org.tinygroup.tinyscript.Customer1"));
+
+//演示局部变量转换对象
+userName ="我是局部变量";
+userPass ="不用new对象";
+println(toBean("org.tinygroup.tinyscript.Customer1"));

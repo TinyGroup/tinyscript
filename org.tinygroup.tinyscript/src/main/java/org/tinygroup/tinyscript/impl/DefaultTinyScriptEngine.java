@@ -24,6 +24,7 @@ import org.tinygroup.tinyscript.collection.function.list.XorFunction;
 import org.tinygroup.tinyscript.collection.function.map.CreateMapFunction;
 import org.tinygroup.tinyscript.collection.function.map.MapIntersectionFunction;
 import org.tinygroup.tinyscript.collection.function.map.MapSubtractFunction;
+import org.tinygroup.tinyscript.collection.function.map.MapToBeanFunction;
 import org.tinygroup.tinyscript.collection.function.map.MapUnionFunction;
 import org.tinygroup.tinyscript.collection.function.map.MapXorFunction;
 import org.tinygroup.tinyscript.collection.function.math.AllPermutationFunction;
@@ -164,6 +165,7 @@ public class DefaultTinyScriptEngine extends DefaultScriptEngine implements Scri
 		addScriptFunction(new MapSubtractFunction());
 		addScriptFunction(new MapXorFunction());
 		addScriptFunction(new CreateMapFunction());
+		addScriptFunction(new MapToBeanFunction());
 
 		addScriptFunction(new SetUnionFunction());
 		addScriptFunction(new SetIntersectionFunction());
