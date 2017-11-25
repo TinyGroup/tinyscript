@@ -13,6 +13,7 @@ import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptFunction;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.config.FunctionConfig;
+import org.tinygroup.tinyscript.function.ContextToBeanFunction;
 import org.tinygroup.tinyscript.function.DynamicNameScriptFunction;
 import org.tinygroup.tinyscript.function.EvalScriptFunction;
 import org.tinygroup.tinyscript.function.TypeConvertFunction;
@@ -153,6 +154,7 @@ public class DefaultScriptEngine extends AbstractScriptEngine {
 		addScriptFunction(new LoggerFunction());
 
 		addScriptFunction(new SetLocaleFunction());
+		addScriptFunction(new ContextToBeanFunction());
 
 		addScriptFunction(new StringAsciiFunction());
 		addScriptFunction(new NumberToCharFunction());
