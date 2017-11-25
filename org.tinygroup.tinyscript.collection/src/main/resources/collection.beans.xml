@@ -70,6 +70,10 @@
 	<bean id="mapXorFunction" scope="singleton"
 		class="org.tinygroup.tinyscript.collection.function.map.MapXorFunction">
 	</bean>
+	
+	<bean id="mapToBeanFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.collection.function.map.MapToBeanFunction">
+	</bean>
 
 	<bean id="allPermutationFunction" scope="singleton"
 		class="org.tinygroup.tinyscript.collection.function.math.AllPermutationFunction">
