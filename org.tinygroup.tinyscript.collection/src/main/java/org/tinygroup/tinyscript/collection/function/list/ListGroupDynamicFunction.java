@@ -54,6 +54,7 @@ public class ListGroupDynamicFunction extends AbstractScriptFunction {
 		for (int i = 0; i < dataArray.size(); i++) {
 			ScriptContext subContext = new DefaultScriptContext();
 			subContext.setParent(context);
+			subContext.put("it", dataArray.get(i));
 			ScriptContextUtil.setCurData(subContext, dataArray.get(i));
 			Object key = executeDynamicObject(expression, subContext);
 			List<Object> group = result.get(key);

@@ -55,6 +55,7 @@ public class DataSetRemoveFunction extends AbstractScriptFunction {
 			// 倒序删除
 			int p = rowNum - 1 - i;
 			DataSetRow dataSetRow = DataSetUtil.createDataSetRow(dataSet, dynamicDataSet.getShowIndex(p));
+			subContext.put("it", dataSetRow);
 			for (int j = 0; j < dataSet.getFields().size(); j++) {
 				Field field = dataSet.getFields().get(j);
 				subContext.put(field.getName(), dataSetRow.getData(dynamicDataSet.getShowIndex(j)));

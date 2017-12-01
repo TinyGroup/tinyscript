@@ -1,6 +1,10 @@
 dataSet = readTxt("/dataSetExample/data1.txt");
 dataSet1 = readTxt("/dataSetExample/data2.txt");
 println(dataSet.remove(()->{
+	return it.getData("name") in dataSet1.name;
+}));
+
+println(dataSet.remove(()->{
 	return name in dataSet1.name;
 }));
 
