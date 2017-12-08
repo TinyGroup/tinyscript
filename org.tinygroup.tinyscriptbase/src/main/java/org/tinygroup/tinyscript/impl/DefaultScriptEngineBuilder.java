@@ -8,6 +8,8 @@ import org.tinygroup.tinyscript.ScriptCollectionModel;
 import org.tinygroup.tinyscript.ScriptEngine;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptFunction;
+import org.tinygroup.tinyscript.analysis.AnalysisModelProcessor;
+import org.tinygroup.tinyscript.analysis.AnalysisModelUtil;
 import org.tinygroup.tinyscript.assignvalue.AssignValueProcessor;
 import org.tinygroup.tinyscript.assignvalue.AssignValueUtil;
 import org.tinygroup.tinyscript.collection.CollectionModelUtil;
@@ -228,7 +230,6 @@ public class DefaultScriptEngineBuilder extends AbstractScriptEngineBuilder{
 		}
 	}
 
-	@Override
 	protected void registerInProcessor() throws ScriptException {
 		Collection<InExpressionProcessor> c = BeanContainerFactory.getBeanContainer(getClass().getClassLoader()).getBeans(InExpressionProcessor.class);
 		if(c!=null && !c.isEmpty()){
@@ -237,5 +238,15 @@ public class DefaultScriptEngineBuilder extends AbstractScriptEngineBuilder{
 			   ExpressionUtil.addInProcessor(it.next());
 		   }
 		}		
+	}
+
+	protected void registerAnalysisModelProcessor() throws ScriptException {
+		Collection<AnalysisModelProcessor> c = BeanContainerFactory.getBeanContainer(getClass().getClassLoader()).getBeans(AnalysisModelProcessor.class);
+		if(c!=null && !c.isEmpty()){
+		   Iterator<AnalysisModelProcessor> it = c.iterator();
+		   while(it.hasNext()){
+			   AnalysisModelUtil.addProcessor(it.next());
+		   }
+		}	
 	}
 }

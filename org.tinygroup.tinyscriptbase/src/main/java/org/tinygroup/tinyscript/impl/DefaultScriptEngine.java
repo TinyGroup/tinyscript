@@ -13,6 +13,7 @@ import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptFunction;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.config.FunctionConfig;
+import org.tinygroup.tinyscript.function.AnalysisModelFunction;
 import org.tinygroup.tinyscript.function.ContextToBeanFunction;
 import org.tinygroup.tinyscript.function.DynamicNameScriptFunction;
 import org.tinygroup.tinyscript.function.EvalScriptFunction;
@@ -141,6 +142,7 @@ public class DefaultScriptEngine extends AbstractScriptEngine {
 		addScriptFunction(new DateToStringFunction());
 		addScriptFunction(new TypeConvertFunction());
 		addScriptFunction(new EvalScriptFunction());
+		addScriptFunction(new AnalysisModelFunction());
 
 		addScriptFunction(new DoubleRandFunction());
 		addScriptFunction(new FloatRandFunction());

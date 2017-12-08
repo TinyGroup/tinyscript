@@ -40,6 +40,7 @@ public abstract class AbstractScriptEngineBuilder implements ScriptEngineBuilder
 		registerCustomProcessor();
 		registerTypeConvertProcessor();
 		registerInProcessor();
+		registerAnalysisModelProcessor();
 	}
 
 	/**
@@ -156,4 +157,10 @@ public abstract class AbstractScriptEngineBuilder implements ScriptEngineBuilder
 	 * @throws ScriptException
 	 */
 	protected abstract void registerInProcessor() throws ScriptException;
+	
+	/**
+	 * 注册可扩展分析模型处理器
+	 * @throws ScriptException
+	 */
+	protected abstract void registerAnalysisModelProcessor() throws ScriptException;
 }
