@@ -3,6 +3,7 @@ package org.tinygroup.tinyscript;
 import org.tinygroup.beancontainer.BeanContainerFactory;
 import org.tinygroup.config.util.ConfigurationUtil;
 import org.tinygroup.tinyscript.impl.DefaultScriptEngine;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 /**
  * 脚本引擎工厂方法
@@ -35,7 +36,7 @@ public final class ScriptEngineFactory {
 		//从全局配置获取默认的引擎配置信息
 		String scriptEngineBean = ConfigurationUtil.getConfigurationManager().getConfiguration("defaultScriptEngine");
 		if(scriptEngineBean==null){
-		   throw new ScriptException("请检查配置文件是否定义[defaultScriptEngine]配置项");
+		   throw new ScriptException(ResourceBundleUtil.getDefaultMessage("application.item.undefine","defaultScriptEngine"));
 		}
 		return createByBean(scriptEngineBean);
 	}
@@ -71,7 +72,7 @@ public final class ScriptEngineFactory {
 			builder.registerProcessor(scriptEngine);
 			return scriptEngine;
 		} catch (Exception e) {
-			throw new ScriptException("构建ScriptEngine实例发生异常:", e);
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("class.intance.build","ScriptEngine"), e);
 		}
 	}
 }
