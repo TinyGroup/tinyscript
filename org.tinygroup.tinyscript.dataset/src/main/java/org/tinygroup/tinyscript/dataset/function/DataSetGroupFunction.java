@@ -22,8 +22,7 @@ public class DataSetGroupFunction extends AbstractGroupFunction {
 		return "group";
 	}
 
-	public Object execute(ScriptSegment segment, ScriptContext context,
-			Object... parameters) throws ScriptException {
+	public Object execute(ScriptSegment segment, ScriptContext context, Object... parameters) throws ScriptException {
 		try {
 			if (parameters == null || parameters.length == 0) {
 				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.empty", getNames()));
@@ -47,34 +46,35 @@ public class DataSetGroupFunction extends AbstractGroupFunction {
 
 	/**
 	 * 多级分组
+	 * 
 	 * @param dataSet
 	 * @param fields
 	 * @return
 	 * @throws Exception
 	 */
 	private GroupDataSet groups(DynamicDataSet dataSet, String[] fields) throws Exception {
-		try{
-			if(dataSet instanceof MultiLevelGroupDataSet){
-			   //某一级序表进行分组
+		try {
+			if (dataSet instanceof MultiLevelGroupDataSet) {
+				// 某一级序表进行分组
 				MultiLevelGroupDataSet multiLevelGroupDataSet = (MultiLevelGroupDataSet) dataSet;
 				List<MultiLevelGroupDataSet> subDataSetList = multiLevelGroupDataSet.getUnGroups();
-				for(MultiLevelGroupDataSet subDataSet:subDataSetList){
-					List<DynamicDataSet> list = group(subDataSet.getSource(),fields);
+				for (MultiLevelGroupDataSet subDataSet : subDataSetList) {
+					List<DynamicDataSet> list = group(subDataSet.getSource(), fields);
 					subDataSet.setGroups(list);
 				}
+				updateAggregateResult(multiLevelGroupDataSet);
 				return multiLevelGroupDataSet;
-			}else{
-			   //首次分组
-				List<DynamicDataSet> list = group(dataSet,fields);
-				MultiLevelGroupDataSet multiLevelGroupDataSet = new MultiLevelGroupDataSet(dataSet,list);
+			} else {
+				// 首次分组
+				List<DynamicDataSet> list = group(dataSet, fields);
+				MultiLevelGroupDataSet multiLevelGroupDataSet = new MultiLevelGroupDataSet(dataSet, list);
 				return multiLevelGroupDataSet;
 			}
-		}catch (ScriptException e) {
+		} catch (ScriptException e) {
 			throw e;
-		}catch (Exception e) {
+		} catch (Exception e) {
 			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 		}
 	}
-
 
 }

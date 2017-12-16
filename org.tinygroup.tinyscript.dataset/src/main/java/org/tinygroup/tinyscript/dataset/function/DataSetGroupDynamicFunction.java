@@ -55,6 +55,7 @@ public class DataSetGroupDynamicFunction extends AbstractGroupFunction {
 					List<DynamicDataSet> list = group(subDataSet.getSource(),expression,context);
 					subDataSet.setGroups(list);
 				}
+				updateAggregateResult(multiLevelGroupDataSet);
 				return multiLevelGroupDataSet;
 			}else{
 				//首次分组

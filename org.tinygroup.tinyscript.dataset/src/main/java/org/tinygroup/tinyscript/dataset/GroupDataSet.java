@@ -12,6 +12,8 @@ import org.tinygroup.tinyscript.dataset.impl.AggregateResult;
  */
 public abstract class GroupDataSet extends DynamicDataSet {
 
+	protected static final String AGGREGATE_TYPE = "aggregate";
+
 	/**
 	 * 获取完整的分组数据
 	 * 
@@ -24,7 +26,7 @@ public abstract class GroupDataSet extends DynamicDataSet {
 	 * 
 	 * @param aggregateName
 	 */
-	public abstract void createAggregateResult(String aggregateName);
+	public abstract void createAggregateResult(String aggregateName, Object... params);
 
 	/**
 	 * 获取聚合结果
@@ -85,20 +87,22 @@ public abstract class GroupDataSet extends DynamicDataSet {
 		sb.append("----------------------------------------\n");
 		for (int k = 0; k < dataSets.size(); k++) {
 			try {
-				if(k == 0) {
+				if (k == 0) {
 					for (Field f : dataSets.get(k).getFields()) {
-						sb.append(f.getName()).append(" ");
+						if (!AGGREGATE_TYPE.equals(f.getType()))
+							sb.append(f.getName()).append(" ");
 					}
 					for (AggregateResult result : list) {
 						sb.append(result.getName()).append(" ");
 					}
 					sb.append("\n");
-				}		
-				
+				}
+
 				sb.append("----------------------------------------\n");
 				for (int i = 0; i < dataSets.get(k).getRows(); i++) {
 					for (int j = 0; j < dataSets.get(k).getColumns(); j++) {
-						sb.append(dataSets.get(k).getData(getShowIndex(i), getShowIndex(j))).append(" ");
+						if (!AGGREGATE_TYPE.equals(dataSets.get(k).getFields().get(j).getType()))
+							sb.append(dataSets.get(k).getData(getShowIndex(i), getShowIndex(j))).append(" ");
 					}
 					for (AggregateResult result : list) {
 						sb.append(result.getData(k)).append(" ");
