@@ -11,6 +11,7 @@ import org.tinygroup.tinyscript.dataset.DataSet;
 import org.tinygroup.tinyscript.dataset.DynamicDataSet;
 import org.tinygroup.tinyscript.dataset.GroupDataSet;
 import org.tinygroup.tinyscript.dataset.impl.AggregateResult;
+import org.tinygroup.tinyscript.dataset.impl.MultiLevelGroupDataSet;
 import org.tinygroup.tinyscript.dataset.util.DataSetUtil;
 import org.tinygroup.tinyscript.expression.ExpressionUtil;
 import org.tinygroup.tinyscript.function.DynamicNameScriptFunction;
@@ -65,7 +66,15 @@ public class GroupDataSetAggregateFunction extends DynamicNameScriptFunction {
 		groupDataSet.createAggregateResult(aggregateName);
 		int col = getColumn(groupDataSet, fieldName);
 		for (int i = 0; i < groupDataSet.getRows(); i++) {
-			DynamicDataSet subDataSet = groupDataSet.getGroups().get(i);
+			DynamicDataSet subDataSet;
+			if (groupDataSet.getGroups() != null && groupDataSet.getGroups().size() > 0) {
+				subDataSet = groupDataSet.getGroups().get(i);
+			} else {
+				subDataSet = ((MultiLevelGroupDataSet) groupDataSet).getSource();
+			}
+			if (subDataSet instanceof GroupDataSet) {
+				executeGroupDataSet((GroupDataSet) subDataSet, fieldName, functionName, params);
+			}
 			Object value = executeAggregate(subDataSet, col, functionName, params);
 			groupDataSet.setData(groupDataSet.getShowIndex(i), aggregateName, value);
 		}
