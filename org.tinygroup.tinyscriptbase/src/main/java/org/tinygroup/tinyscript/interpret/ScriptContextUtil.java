@@ -27,6 +27,8 @@ public class ScriptContextUtil {
 	private static final String CURRENT_DATA = "$curData";
 
 	private static final String CUSTOM_BEAN_NAME = "customBean";
+	
+	private static final String FIND_CLASS_TAG = "$findClassTag";
 
 	public static void setCurData(ScriptContext context, Object value) {
 		context.put(CURRENT_DATA.substring(1), value);
@@ -70,6 +72,28 @@ public class ScriptContextUtil {
 		if (context != null) {
 			context.put(INSTANCE_NAME, instance);
 		}
+	}
+	
+	public static void enableFindClassTag(ScriptContext context){
+		if (context != null) {
+			context.put(FIND_CLASS_TAG, true);
+		}
+	}
+	
+	public static void disableFindClassTag(ScriptContext context){
+		if (context != null) {
+			context.remove(FIND_CLASS_TAG);
+		}
+	}
+	
+	public static boolean getFindClassTag(ScriptContext context){
+		if(context!=null){
+		   Boolean tag = context.get(FIND_CLASS_TAG);
+		   if(tag!=null){
+			  return tag.booleanValue();
+		   }  
+		}
+	    return false;
 	}
 
 	public static ScriptEngine getScriptEngine(ScriptContext context) {

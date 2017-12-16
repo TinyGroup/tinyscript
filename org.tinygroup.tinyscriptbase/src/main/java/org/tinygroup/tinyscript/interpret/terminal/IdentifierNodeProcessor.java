@@ -1,8 +1,10 @@
 package org.tinygroup.tinyscript.interpret.terminal;
 
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.tinygroup.commons.tools.CollectionUtil;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptSegment;
+import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
 import org.tinygroup.tinyscript.interpret.ScriptUtil;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser;
 
@@ -24,7 +26,10 @@ public class IdentifierNodeProcessor extends AbstractTerminalNodeProcessor  {
 		}
 		
 		//执行import判断
-		return ScriptUtil.findJavaClass(name, segment, null);
+		if(!CollectionUtil.isEmpty(segment.getImportList()) || ScriptContextUtil.getFindClassTag(context)){
+		   return ScriptUtil.findJavaClass(name, segment, null);
+		}
+		return null;
 	}
 
 }

@@ -6,6 +6,7 @@ import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.interpret.ClassInstanceUtil;
 import org.tinygroup.tinyscript.interpret.ParserRuleContextProcessor;
 import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
+import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
 import org.tinygroup.tinyscript.interpret.ScriptInterpret;
 import org.tinygroup.tinyscript.interpret.ScriptResult;
 import org.tinygroup.tinyscript.interpret.exception.RunScriptException;
@@ -22,11 +23,14 @@ public class InstanceofContextProcessor implements ParserRuleContextProcessor<Ti
 			ScriptContext context) throws Exception {
 		try{
 			Object a = interpret.interpretParseTreeValue(parseTree.expression().get(0), segment, context);
+			ScriptContextUtil.enableFindClassTag(context);
 			Object b = interpret.interpretParseTreeValue(parseTree.expression().get(1), segment, context);
 			
 			return new ScriptResult(ClassInstanceUtil.isInstance(a, b));
 		}catch(Exception e){
 			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_DIRECTIVE,ResourceBundleUtil.getDefaultMessage("context.directive.error", "instance"));
+		}finally{
+			ScriptContextUtil.disableFindClassTag(context);
 		}
 		
 	}

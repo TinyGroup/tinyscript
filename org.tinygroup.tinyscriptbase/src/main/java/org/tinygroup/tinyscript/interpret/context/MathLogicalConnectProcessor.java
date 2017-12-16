@@ -8,7 +8,6 @@ import org.tinygroup.tinyscript.interpret.ParserRuleContextProcessor;
 import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.ScriptInterpret;
 import org.tinygroup.tinyscript.interpret.ScriptResult;
-import org.tinygroup.tinyscript.interpret.exception.LogicalConnectException;
 import org.tinygroup.tinyscript.interpret.exception.RunScriptException;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser;
 import org.tinygroup.tinyscript.parser.grammer.TinyScriptParser.LogicalConnectExpressionContext;
@@ -32,24 +31,16 @@ public class MathLogicalConnectProcessor implements ParserRuleContextProcessor<T
 			
 			if(checkShortAnd(a,op)){
 				//执行短路与中断
-				throw new LogicalConnectException((Boolean)a);
+				return new ScriptResult(a);
 			}else if(checkShortOr(a,op)){
 				//执行短路或中断
-				throw new LogicalConnectException((Boolean)a);
+				return new ScriptResult(a);
 			}else{
 				//执行正常逻辑运算
 				Object b = interpret.interpretParseTreeValue(parseTree.expression().get(1), segment, context);
 				return new ScriptResult(ExpressionUtil.executeOperation(op, a,b));
 			}
 			
-		}catch(LogicalConnectException e){
-			if(getType()!=parseTree.getParent().getClass()){
-				//最顶层的LogicalConnectExpressionContext
-				return new ScriptResult(e.getTag());
-			}else{
-				//继续往上抛
-				throw e;
-			}
 		}catch(Exception e){
 			throw new RunScriptException(e,parseTree,segment,ScriptException.ERROR_TYPE_EXPRESSION,ResourceBundleUtil.getDefaultMessage("context.math.error5", name,op));
 		}
