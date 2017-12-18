@@ -9,10 +9,13 @@ gs1 = ds.group("sex");
 println("输出分组序表：");
 println(gs1);
 
-gs2 = ds.group("sex");
-gs2 = gs2.avgGroup("age");
-gs2 = gs2.groupStaged(AGE<=18,AGE>=18 && AGE <60 , AGE>=60);//此处会对聚合结果进行更新
+gs1 = ds.group("sex").sumGroup("age");
+gs2 = gs1.groupStaged(AGE<=18,AGE>=18 && AGE <60 , AGE>=60);//此处会对聚合结果进行更新
+println("输出序表gs1：");
+println(gs1);
+println("输出序表gs2：");
 println(gs2);
+
 level1 = gs2.getGroups(1); //获取第一级分组
 println("一级分组个数:"+level1.size());
 println("遍历第一级序表：");
