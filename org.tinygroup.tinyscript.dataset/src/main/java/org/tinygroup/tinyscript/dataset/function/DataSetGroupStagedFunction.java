@@ -11,6 +11,7 @@ import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.dataset.AbstractDataSet;
 import org.tinygroup.tinyscript.dataset.DynamicDataSet;
 import org.tinygroup.tinyscript.dataset.GroupDataSet;
+import org.tinygroup.tinyscript.dataset.impl.DefaultDataSetRow;
 import org.tinygroup.tinyscript.dataset.impl.MultiLevelGroupDataSet;
 import org.tinygroup.tinyscript.dataset.util.DataSetUtil;
 import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
@@ -60,7 +61,7 @@ public class DataSetGroupStagedFunction extends AbstractGroupFunction {
 					List<DynamicDataSet> list = group(subDataSet.getSource(), expressions, context);
 					subDataSet.setGroups(list);
 				}
-				updateAggregateResult(multiLevelGroupDataSet);
+				updateAggregateResult(subDataSetList, multiLevelGroupDataSet.getAggregateResultList());
 				return multiLevelGroupDataSet;
 			} else {
 				// 首次分组
@@ -83,6 +84,7 @@ public class DataSetGroupStagedFunction extends AbstractGroupFunction {
 
 			// 逐条遍历记录
 			for (int i = 0; i < rowNum; i++) {
+				ScriptContextUtil.setCurData(context, new DefaultDataSetRow(dataSet, dataSet.getShowIndex(i)));
 				int showRow = dataSet.getShowIndex(i);
 				String key = "";
 				for (String expression : expressions) {

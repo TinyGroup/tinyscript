@@ -62,7 +62,7 @@ public class DataSetGroupFunction extends AbstractGroupFunction {
 					List<DynamicDataSet> list = group(subDataSet.getSource(), fields);
 					subDataSet.setGroups(list);
 				}
-				updateAggregateResult(multiLevelGroupDataSet);
+				updateAggregateResult(subDataSetList, multiLevelGroupDataSet.getAggregateResultList());
 				return multiLevelGroupDataSet;
 			} else {
 				// 首次分组

@@ -57,7 +57,6 @@ public class ListGroupStagedFunction extends AbstractScriptFunction {
 			String key = null;
 			ScriptContext subContext = new DefaultScriptContext();
 			subContext.setParent(context);
-			subContext.put("it", dataArray.get(i));
 			ScriptContextUtil.setCurData(subContext, dataArray.get(i));
 			for (String expression : expressions) {
 				if (executeDynamicBoolean(expression, subContext)) {

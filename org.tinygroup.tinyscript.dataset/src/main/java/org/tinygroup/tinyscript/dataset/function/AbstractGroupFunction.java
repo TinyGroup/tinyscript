@@ -12,6 +12,7 @@ import org.tinygroup.tinyscript.dataset.AbstractDataSet;
 import org.tinygroup.tinyscript.dataset.DataSet;
 import org.tinygroup.tinyscript.dataset.DynamicDataSet;
 import org.tinygroup.tinyscript.dataset.Field;
+import org.tinygroup.tinyscript.dataset.GroupDataSet;
 import org.tinygroup.tinyscript.dataset.impl.AggregateResult;
 import org.tinygroup.tinyscript.dataset.impl.MultiLevelGroupDataSet;
 import org.tinygroup.tinyscript.dataset.util.DataSetUtil;
@@ -111,14 +112,17 @@ public abstract class AbstractGroupFunction extends AbstractScriptFunction {
 		return subContext;
 	}
 
-	protected void updateAggregateResult(MultiLevelGroupDataSet multiLevelGroupDataSet) throws Exception {
+	protected void updateAggregateResult(List<MultiLevelGroupDataSet> subDataSetList,
+			List<AggregateResult> aggregateResultList) throws Exception {
 		GroupDataSetAggregateFunction aggregateFunction = BeanContainerFactory
 				.getBeanContainer(getClass().getClassLoader()).getBean(GroupDataSetAggregateFunction.class);
-		for (AggregateResult result : multiLevelGroupDataSet.getAggregateResultList()) {
-			String fieldName = result.getName().split("_")[1];
-			String functionName = result.getName().split("_")[0];
+		for (AggregateResult result : aggregateResultList) {
+			String fieldName = result.getField().getName();
+			String functionName = result.getFunctionName();
 			Object[] params = result.getParams();
-			aggregateFunction.executeGroupDataSet(multiLevelGroupDataSet, fieldName, functionName, params);
+			for (MultiLevelGroupDataSet dataSet : subDataSetList) {
+				aggregateFunction.executeGroupDataSet((GroupDataSet) dataSet, fieldName, functionName, params);
+			}
 		}
 	}
 

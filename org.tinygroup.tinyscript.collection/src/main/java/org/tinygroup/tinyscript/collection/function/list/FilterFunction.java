@@ -10,6 +10,7 @@ import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 import org.tinygroup.tinyscript.interpret.LambdaFunction;
 import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
+import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
 
 /**
  * 序列过滤函数
@@ -55,6 +56,7 @@ public class FilterFunction extends AbstractScriptFunction {
 		
 		List result = new ArrayList();
 	   	for(Object obj:list){
+	   		ScriptContextUtil.setCurData(subContext, obj);
 	   		if((Boolean)function.execute(subContext, obj).getResult()){
 	   			result.add(obj);
 	   		}

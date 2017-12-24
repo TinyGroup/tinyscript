@@ -11,7 +11,6 @@ import org.tinygroup.tinyscript.dataset.DataSet;
 import org.tinygroup.tinyscript.dataset.DynamicDataSet;
 import org.tinygroup.tinyscript.dataset.GroupDataSet;
 import org.tinygroup.tinyscript.dataset.impl.AggregateResult;
-import org.tinygroup.tinyscript.dataset.impl.MultiLevelGroupDataSet;
 import org.tinygroup.tinyscript.dataset.util.DataSetUtil;
 import org.tinygroup.tinyscript.expression.ExpressionUtil;
 import org.tinygroup.tinyscript.function.DynamicNameScriptFunction;
@@ -63,18 +62,11 @@ public class GroupDataSetAggregateFunction extends DynamicNameScriptFunction {
 	protected Object executeGroupDataSet(GroupDataSet groupDataSet, String fieldName, String functionName,
 			Object... params) throws Exception {
 		String aggregateName = createAggregateName(functionName, fieldName);
-		groupDataSet.createAggregateResult(aggregateName);
+		groupDataSet.createAggregateResult(aggregateName,
+				groupDataSet.getFields().get(DataSetUtil.getFieldIndex(groupDataSet, fieldName)), functionName, params);
 		int col = getColumn(groupDataSet, fieldName);
 		for (int i = 0; i < groupDataSet.getRows(); i++) {
-			DynamicDataSet subDataSet;
-			if (groupDataSet.getGroups() != null && groupDataSet.getGroups().size() > 0) {
-				subDataSet = groupDataSet.getGroups().get(i);
-			} else {
-				subDataSet = ((MultiLevelGroupDataSet) groupDataSet).getSource();
-			}
-			if (subDataSet instanceof GroupDataSet) {
-				executeGroupDataSet((GroupDataSet) subDataSet, fieldName, functionName, params);
-			}
+			DynamicDataSet subDataSet = groupDataSet.getGroups().get(i);
 			Object value = executeAggregate(subDataSet, col, functionName, params);
 			groupDataSet.setData(groupDataSet.getShowIndex(i), aggregateName, value);
 		}
