@@ -5,6 +5,8 @@ import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.dataset.DataSet;
 import org.tinygroup.tinyscript.dataset.Field;
+import org.tinygroup.tinyscript.dataset.GroupDataSet;
+import org.tinygroup.tinyscript.dataset.impl.AggregateResult;
 import org.tinygroup.tinyscript.dataset.util.DataSetUtil;
 import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
@@ -70,6 +72,13 @@ public class DataSetRenameFunction extends AbstractScriptFunction {
 		newField.setTitle(oldField.getTitle());
 		newField.setType(oldField.getType());
 		dataSet.getFields().set(col, newField);
+		if ("aggregate".equals(oldField.getType()) && dataSet instanceof GroupDataSet) {
+			for (AggregateResult result : ((GroupDataSet) dataSet).getAggregateResultList()) {
+				if (oldField.getName().equals(result.getName())) {
+					result.setName(newField.getName());
+				}
+			}
+		}
 		return dataSet;
 	}
 

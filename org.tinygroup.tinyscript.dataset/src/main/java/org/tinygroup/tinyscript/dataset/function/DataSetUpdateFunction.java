@@ -46,34 +46,34 @@ public class DataSetUpdateFunction extends AbstractScriptFunction {
 				AbstractDataSet dataSet = (AbstractDataSet) getValue(parameters[0]);
 				String colName = (String) getValue(parameters[1]);
 				String expression = getExpression(parameters[2]);
-				
-				//获取更新的列下标
+
+				// 获取更新的列下标
 				int col = DataSetUtil.getFieldIndex(dataSet, colName);
 				if (col < 0) {
 					throw new ScriptException(
 							ResourceBundleUtil.getResourceMessage("dataset", "dataset.fields.notfound", colName));
 				}
-				
-				//获取包含数组的列下标
-				Set<Integer> columns =  DataSetUtil.getFieldArray(dataSet, expression);
-				
-				//获取lambda表达式
+
+				// 获取包含数组的列下标
+				Set<Integer> columns = DataSetUtil.getFieldArray(dataSet, expression);
+
+				// 获取lambda表达式
 				LambdaFunction lambdaFunction = getLambdaFunction(parameters[2]);
-				
-				if(lambdaFunction!=null){
-					return updateByLambda(dataSet, col, columns,lambdaFunction, context);
-				}else{
-					return updateByExpression(dataSet, col, columns,expression, context);
+
+				if (lambdaFunction != null) {
+					return updateByLambda(dataSet, col, columns, lambdaFunction, context);
+				} else {
+					return updateByExpression(dataSet, col, columns, expression, context);
 				}
-				
+
 			} else if (parameters != null && parameters.length == 4 && parameters[0] != null && parameters[1] != null) {
-				//重构结构
+				// 重构结构
 				DynamicDataSet dynamicDataSet = (DynamicDataSet) getValue(parameters[0]);
 				LambdaFunction lambdaFunction = (LambdaFunction) getValue(parameters[1]);
 				List<Field> insertFields = convertFields(getValue(parameters[2]));
 				List<Field> deleteFields = convertFields(getValue(parameters[3]));
-				
-				return updateField(dynamicDataSet,lambdaFunction,insertFields,deleteFields,context);
+
+				return updateField(dynamicDataSet, lambdaFunction, insertFields, deleteFields, context);
 			} else {
 				throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
 			}
@@ -83,8 +83,9 @@ public class DataSetUpdateFunction extends AbstractScriptFunction {
 			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 		}
 	}
-	
-	private DynamicDataSet updateField(DynamicDataSet dynamicDataSet,LambdaFunction lambdaFunction,List<Field> insertFields,List<Field> deleteFields,ScriptContext context) throws Exception {
+
+	private DynamicDataSet updateField(DynamicDataSet dynamicDataSet, LambdaFunction lambdaFunction,
+			List<Field> insertFields, List<Field> deleteFields, ScriptContext context) throws Exception {
 		if (!CollectionUtil.isEmpty(insertFields)) {
 			// 执行插入字段逻辑
 			for (Field field : insertFields) {
@@ -113,8 +114,8 @@ public class DataSetUpdateFunction extends AbstractScriptFunction {
 				// 加载全部参数
 				for (int j = 0; j < dynamicDataSet.getFields().size(); j++) {
 					Field f = dynamicDataSet.getFields().get(j);
-					subContext.put(f.getName(), dynamicDataSet.getData(dynamicDataSet.getShowIndex(i),
-							dynamicDataSet.getShowIndex(j)));
+					subContext.put(f.getName(),
+							dynamicDataSet.getData(dynamicDataSet.getShowIndex(i), dynamicDataSet.getShowIndex(j)));
 				}
 				// 动态执行lambda表达式
 				lambdaFunction.execute(subContext);
@@ -136,6 +137,7 @@ public class DataSetUpdateFunction extends AbstractScriptFunction {
 		}
 		return dynamicDataSet;
 	}
+
 	/**
 	 * 转换字段信息
 	 * 
@@ -176,19 +178,19 @@ public class DataSetUpdateFunction extends AbstractScriptFunction {
 			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.parameter.error", getNames()));
 		}
 	}
-	
-	private LambdaFunction getLambdaFunction(Object obj){
-		try{
+
+	private LambdaFunction getLambdaFunction(Object obj) {
+		try {
 			return (LambdaFunction) getValue(obj);
-		}catch(Exception e){
-			//忽略异常
+		} catch (Exception e) {
+			// 忽略异常
 			return null;
 		}
 	}
-	
-	private DataSet updateByExpression(AbstractDataSet dataSet, int col, Set<Integer> columns,String expression, ScriptContext context)
-			throws ScriptException {
-		try{
+
+	private DataSet updateByExpression(AbstractDataSet dataSet, int col, Set<Integer> columns, String expression,
+			ScriptContext context) throws ScriptException {
+		try {
 			String runExpression = ScriptContextUtil.convertExpression(expression);
 			if (dataSet instanceof GroupDataSet) {
 				GroupDataSet groupDataSet = (GroupDataSet) dataSet;
@@ -199,16 +201,16 @@ public class DataSetUpdateFunction extends AbstractScriptFunction {
 				updateRowWithExpression(dataSet, col, runExpression, columns, context);
 			}
 			return dataSet;
-		}catch (ScriptException e) {
+		} catch (ScriptException e) {
 			throw e;
 		} catch (Exception e) {
 			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 		}
 	}
-	
-	private DataSet updateByLambda(AbstractDataSet dataSet, int col, Set<Integer> columns,LambdaFunction function, ScriptContext context)
-			throws ScriptException {
-		try{
+
+	private DataSet updateByLambda(AbstractDataSet dataSet, int col, Set<Integer> columns, LambdaFunction function,
+			ScriptContext context) throws ScriptException {
+		try {
 			if (dataSet instanceof GroupDataSet) {
 				GroupDataSet groupDataSet = (GroupDataSet) dataSet;
 				for (DynamicDataSet subDs : groupDataSet.getGroups()) {
@@ -218,14 +220,13 @@ public class DataSetUpdateFunction extends AbstractScriptFunction {
 				updateRowWithLambda(dataSet, col, function, columns, context);
 			}
 			return dataSet;
-		}catch (ScriptException e) {
+		} catch (ScriptException e) {
 			throw e;
 		} catch (Exception e) {
 			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("function.run.error", getNames()), e);
 		}
 	}
 
-	
 	// 参数为实际下标
 	private void updateRowWithExpression(AbstractDataSet dataSet, int col, String expression, Set<Integer> columns,
 			ScriptContext context) throws Exception {
@@ -236,6 +237,7 @@ public class DataSetUpdateFunction extends AbstractScriptFunction {
 			subContext.setParent(context);
 			subContext.put("$currentRow", showRow);
 			setRowValue(subContext, dataSet, columns, i);
+			ScriptContextUtil.setCurData(subContext, DataSetUtil.createDataSetRow(dataSet, dataSet.getShowIndex(i)));
 			try {
 				Object value = executeDynamicObject(expression, subContext);
 				dataSet.setData(showRow, showCol, value);
@@ -246,7 +248,7 @@ public class DataSetUpdateFunction extends AbstractScriptFunction {
 
 		}
 	}
-	
+
 	private void updateRowWithLambda(AbstractDataSet dataSet, int col, LambdaFunction function, Set<Integer> columns,
 			ScriptContext context) throws Exception {
 		int showCol = dataSet.getShowIndex(col);
@@ -254,11 +256,12 @@ public class DataSetUpdateFunction extends AbstractScriptFunction {
 			int showRow = dataSet.getShowIndex(i);
 			ScriptContext subContext = new DefaultScriptContext();
 			subContext.setParent(context);
-			subContext.put("$currentRow",showRow);
+			subContext.put("$currentRow", showRow);
 			setRowValue(subContext, dataSet, columns, i);
+			ScriptContextUtil.setCurData(subContext, DataSetUtil.createDataSetRow(dataSet, dataSet.getShowIndex(i)));
 			try {
 				ScriptResult value = function.execute(subContext, showRow);
-				dataSet.setData(showRow, showCol,value.getResult());
+				dataSet.setData(showRow, showCol, value.getResult());
 			} catch (ScriptException e) {
 				// 忽略脚本异常
 				continue;

@@ -14,6 +14,7 @@ import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 import org.tinygroup.tinyscript.interpret.LambdaFunction;
 import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
+import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
 
 public class DataSetFilterOneFunction extends AbstractScriptFunction {
 
@@ -58,6 +59,7 @@ public class DataSetFilterOneFunction extends AbstractScriptFunction {
 			ScriptContext subContext = new DefaultScriptContext();
 			subContext.setParent(context);
 			subContext.put("$currentRow", dataSet.getShowIndex(i));
+			ScriptContextUtil.setCurData(subContext, dataSetRow);
 			DataSetUtil.setRowValue(subContext, dataSet, columns, i);
 			if ((Boolean) filterFunction.execute(subContext).getResult()) {
 				return dataSetRow;

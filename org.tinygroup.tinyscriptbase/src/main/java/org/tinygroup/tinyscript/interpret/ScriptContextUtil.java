@@ -24,7 +24,7 @@ public class ScriptContextUtil {
 
 	private static final String DATASET_ROWID = "$rowId";
 
-	private static final String CURRENT_DATA = "$curData";
+	private static final String CURRENT_DATA = "$it";
 
 	private static final String CUSTOM_BEAN_NAME = "customBean";
 	

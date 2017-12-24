@@ -17,6 +17,7 @@ import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 import org.tinygroup.tinyscript.interpret.LambdaFunction;
 import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
+import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
 import org.tinygroup.tinyscript.interpret.call.FunctionCallExpressionParameter;
 
 public class GroupDataSetFilterFunction extends AbstractScriptFunction {
@@ -71,6 +72,7 @@ public class GroupDataSetFilterFunction extends AbstractScriptFunction {
 				subContext.put("$currentRow", groupDataSet.getShowIndex(i));
 				DataSetUtil.setRowValue(subContext, subDs, columns, i);
 				setAggregateValue(subContext,groupDataSet,dsNum);
+				ScriptContextUtil.setCurData(subContext, DataSetUtil.createDataSetRow(groupDataSet, groupDataSet.getShowIndex(i)));
 				if ((Boolean) expression.execute(subContext).getResult()) {
 					matchRows.add(i);
 				}

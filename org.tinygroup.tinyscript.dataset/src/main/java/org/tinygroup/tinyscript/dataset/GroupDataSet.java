@@ -26,7 +26,8 @@ public abstract class GroupDataSet extends DynamicDataSet {
 	 * 
 	 * @param aggregateName
 	 */
-	public abstract void createAggregateResult(String aggregateName, Object... params);
+	public abstract void createAggregateResult(String aggregateName, Field field, String functionName,
+			Object... params);
 
 	/**
 	 * 获取聚合结果

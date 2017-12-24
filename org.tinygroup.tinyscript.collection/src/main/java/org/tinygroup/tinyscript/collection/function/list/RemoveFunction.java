@@ -10,6 +10,7 @@ import org.tinygroup.tinyscript.function.AbstractScriptFunction;
 import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 import org.tinygroup.tinyscript.interpret.LambdaFunction;
 import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
+import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
 import org.tinygroup.tinyscript.interpret.exception.NotMatchException;
 
 /**
@@ -53,11 +54,11 @@ public class RemoveFunction extends AbstractScriptFunction {
 	@SuppressWarnings("rawtypes")
 	private List remove(ScriptContext context,List list,LambdaFunction function) throws Exception{
 		ScriptContext subContext = new DefaultScriptContext();
-		subContext.setParent(context);
-		
+		subContext.setParent(context);		
 		Iterator it = list.iterator();
 		while(it.hasNext()){
 			Object obj = it.next();
+			ScriptContextUtil.setCurData(subContext, obj);
 			if(!(Boolean)function.execute(subContext, obj).getResult()){
 			   it.remove();
 			}

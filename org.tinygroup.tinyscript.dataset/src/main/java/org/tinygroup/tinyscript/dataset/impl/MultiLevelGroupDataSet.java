@@ -311,19 +311,19 @@ public class MultiLevelGroupDataSet extends GroupDataSet {
 		}
 	}
 
-	public void createAggregateResult(String aggregateName, Object... params) {
+	public void createAggregateResult(String aggregateName, Field field, String functionName, Object... params) {
 		Iterator<AggregateResult> iterator = aggregateResultList.iterator();
-		while(iterator.hasNext()) {
-			if(iterator.next().getName().equals(aggregateName)) {
+		while (iterator.hasNext()) {
+			if (iterator.next().getName().equals(aggregateName)) {
 				iterator.remove();
 			}
 		}
 		AggregateResult result;
 		if (subDataSetList.size() > 0)
-			result = new AggregateResult(aggregateName, subDataSetList.size(), params);
+			result = new AggregateResult(aggregateName, subDataSetList.size(), field, functionName, params);
 		else
 			try {
-				result = new AggregateResult(aggregateName, source.getRows(), params);
+				result = new AggregateResult(aggregateName, source.getRows(), field, functionName, params);
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}
@@ -459,7 +459,8 @@ public class MultiLevelGroupDataSet extends GroupDataSet {
 			List<AggregateResult> newAggregateResultList = new ArrayList<AggregateResult>();
 			for (int i = 0; i < aggregateResultList.size(); i++) {
 				AggregateResult result = aggregateResultList.get(i);
-				AggregateResult newResult = new AggregateResult(result.getName(), subDataSetList.size());
+				AggregateResult newResult = new AggregateResult(result.getName(), subDataSetList.size(),
+						result.getField(), result.getFunctionName(), result.getParams());
 				newAggregateResultList.add(newResult);
 			}
 			for (int i = 0; i < sortList.size(); i++) {
@@ -494,33 +495,7 @@ public class MultiLevelGroupDataSet extends GroupDataSet {
 		if (isGrouped()) {
 			return super.toString();
 		} else {
-			StringBuilder sb = new StringBuilder();
-			try {
-				for (Field f : getFields()) {
-					if (!AGGREGATE_TYPE.equals(f.getType()))
-						sb.append(f.getName()).append(" ");
-				}
-				for (AggregateResult result : getAggregateResultList()) {
-					sb.append(result.getName()).append(" ");
-				}
-				sb.append("\n");
-				for (int i = 0; i < source.getRows(); i++) {
-					for (int j = 0; j < source.getColumns(); j++) {
-						sb.append(getData(getShowIndex(i), getShowIndex(j))).append(" ");
-					}
-					for (AggregateResult result : getAggregateResultList()) {
-						sb.append(result.getData(i)).append(" ");
-					}
-					if (i != getRows() - 1) {
-						sb.append("\n");
-					}
-				}
-			} catch (Exception e) {
-				// 可能会抛出异常
-				throw new RuntimeException(e);
-			}
-			return sb.toString();
+			return source.toString();
 		}
 	}
-
 }
