@@ -1,0 +1,17 @@
+countVip()->{
+    contractDs = readTxt("/data/Contract.txt").double("Amount");
+    clientDs = readTxt("/data/Client.txt");
+    firstDs  = contractDs.filter(()->{return SellDate.startsWith("1998");}).join(clientDs,Client = ID); //过滤1998年的数据，并关联client表
+    groupDs  = firstDs.select("Name","Amount").group("Name");  //保留计算字段,并按用户分组
+    groupDs.sumGroup("Amount"); //统计每个用户的金额
+    halfAmount = groupDs.sort("sumGroup_Amount desc").sum("sumGroup_Amount")/2;
+    list = [];  //建立空序列
+    groupDs.forEach((i) -> {
+        halfAmount -= sumGroup_Amount;
+        if(halfAmount>0){
+            list.add(Name);
+        }
+    });
+    return list;
+};
+println(countVip());

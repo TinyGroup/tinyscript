@@ -1,0 +1,55 @@
+dataSet = readTxt("/data/sortExample.txt");
+//排序操作
+println(dataSet.sort("w_eight desc"));
+println(dataSet.sort("n-ame desc,w_eight desc,value asc"));
+println(dataSet.sort((a,b)->{
+	return a[0]>b[0]?1:a[0]==b[0]?0:-1;
+}));
+println([6,2,3].sort());//默认asc排序
+println([6,2,3].sort("desc"));
+//insert操作
+dataSet1 = readTxt("/data/data1.txt");
+dataSet2 = readTxt("/data/data2.txt");
+println(dataSet1.insert(dataSet2));
+//intersect操作
+result = dataSet1.intersect(dataSet2,()->{ return name+"|"+weight; });
+println(result);
+println("================================================================");
+result = dataSet1.intersect(dataSet2,["name","weight"]);
+println(result);
+println("================================================================");
+result = dataSet1.intersect(dataSet2,"name");
+println(result);
+//subtract操作
+result = dataSet1.subtract(dataSet2,()->{return name+"|"+weight;});
+println(result);
+println("================================================================");
+result = dataSet1.subtract(dataSet2,["name","weight"]);
+println(result);
+println("================================================================");
+result = dataSet1.subtract(dataSet2,"name");
+println(result);
+//xor操作
+result = dataSet1.xor(dataSet2,()->{ return name+"|"+weight; });
+println(result);
+println("================================================================");
+result = dataSet1.xor(dataSet2,["name","weight"]);
+println(result);
+println("================================================================");
+result = dataSet1.xor(dataSet2,"name");
+println(result);
+//union操作
+println(result);
+println("================================================================");
+result = dataSet1.unite(dataSet2,["name","weight"]);
+println(result);
+println("================================================================");
+result = dataSet1.unite(dataSet2,"name");
+println(result);
+//序表转tree
+dataSet = readTxt("/data/tree.txt");
+tree = dataSet.toTree("menuid","parentid");
+println(tree.toDataSet());
+//序表转值list
+list = dataSet.toList();
+println(list);

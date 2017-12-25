@@ -1,0 +1,16 @@
+countBalance()->{
+       customerDs = readTxt("/data/Customers.txt").double("acct_balance");
+       orderDs = readTxt("/data/Orders.txt");
+       orderDetailDs = readTxt("/data/OrderDetails.txt");
+       productDs = readTxt("/data/Products2.txt");
+       tempDs =  orderDetailDs.join(orderDs,order_id=order_id).join(customerDs ,customer_id=customer_id).copy().select("customer_id","order_id","item_id","acct_balance");   //关联前三张表
+       groupDs = tempDs.group("customer_id"); //按客户分组
+       groupDs.distinctGroup("item_id"); //统计分组客户消费的产品
+       num = productDs.getRows(); //统计全部产品数目
+       allProductDs = groupDs.filterGroup(()->{return distinctGroup_item_id.size()==num;});  //购买全部产品的客户分组集
+       otherDs =  groupDs.filterGroup(()->{return (distinctGroup_item_id.size() < num);}); //购买部分产品的客户分组集
+       balance1 =  allProductDs.avg("acct_balance");
+       balance2 =  otherDs.avg("acct_balance");
+       System.out.println("balance1="+balance1+" balance2="+balance2);
+ };
+ countBalance();

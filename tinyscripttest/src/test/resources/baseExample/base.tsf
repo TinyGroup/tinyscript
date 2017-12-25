@@ -1,0 +1,125 @@
+/*
+本脚本示例演示基本的tinyscript语法，用户可以通过tinyscript运行器执行。
+具体安装过程可以参考文档：http://www.tinygroup.org/docs/6213296363248889992
+*/
+
+//boolean类型
+println(true);
+println(false);
+
+//char类型
+println('1');  //单字符数值
+println('a');  //单字符字母
+println("start"+'\t'+"end");  //特殊字符：制表符
+
+//int类型
+println(123); //十进制的123
+println(0110); //八进制，结果为72
+println(0x6B7C); //十六进制，表示27516
+println(0b111); //二进制，表示7
+println(-123); //十进制的负数
+println(-0110); //八进制的负数
+println(-0x6B7C); //十六进制的负数
+println(-0b111); //二进制的负数
+
+//long类型
+println(99999999L); //十进制的99999999
+println(0110L); //八进制，结果为72
+println(0x6B7CL); //十六进制，表示27516
+println(0b111L); //二进制，表示7
+println(-99999999L); //十进制的负数
+println(-0110L); //八进制的负数
+println(-0x6B7CL); //十六进制的负数
+println(-0b111L); //二进制的负数
+
+//float类型
+println(1.1);    //默认浮点类型
+println(1.1f);   //指定单精度类型
+println(.1f);    //小于1的浮点数可以省略0前缀
+println(9f);   
+println(1.0e3f);    //科学计数法表示浮点
+println(0x7.5p8f);  //十六进制的浮点数
+println(-2.3f);     //负单精度浮点数，正单精度浮点数可以省略前缀+
+
+//double类型
+println(2.53D);    //双精度浮点数不能省略结尾D/d
+println(.53d);     //小于1的浮点数可以省略0前缀
+println(10d);
+println(1.0e3d);    //科学计数法表示双精度浮点
+println(-5.6d);     //负双精度浮点数，正双精度浮点数可以省略前缀+
+
+//String类型
+println("abc");   //一般字符串
+println("if");    //包含指令关键字的字符串
+println("null");  //包含null关键字的字符串
+a="cat";
+d="dog";
+op="and";
+//引擎支持字符串嵌套变量，减少用户使用+拼接字符串
+println("dog and ${b}");  //字符串的$渲染,语法符合找不到对象b，返回空值
+println("dog and ${a}");  //字符串的$渲染,渲染a对象
+println("${a}{}[]");      //字符串的$渲染,渲染a对象
+println("mmmmm${a}");     //字符串的$渲染,渲染a对象
+println("dog and ${1+2+3}");     //字符串的$渲染,支持表达式
+println("##${a} ${op} ${b}##");  //渲染包含多个变量
+
+//null
+println(a==null); //判断对象是否非空
+println(b==null); //判断对象是否非空
+
+// 基本的加、减、乘、除、求模、括号
+println(1+2+3);
+println(1+2*3);
+println(100-5-50+177);
+println(10000/4/100+4);
+println(2343%5);
+println(1/2);
+println(-1/2);
+println(3*(2+2)-7);
+println((2+5)*(6-3)-7*2);
+
+// 浮点的加、减、乘、除
+println(1.0f+2.0d);      //结果3.0d
+println(1.0f-2.0d);      //结果-1.0d
+println(1.0d*2.5d-1.0d);
+println(1.0d/2);
+
+// 与、或、非、异或
+println(!false);
+println(!true);
+println(~2);
+println(128&129);
+println(128|129);
+println(15^2);
+
+// 逻辑短路
+println(1=='1');
+println(1==0 && 1==1);
+println(1=="1");
+println(1==0 || 1==1);
+println(1==1 || 6>7 || 8!=8 );
+println(1==1 && a!=null && a.length()>8);  //测试与的短路操作
+println(1==0 || a==null || a.length()>8);  //测试或的短路操作
+
+// 大小比较
+println(1==1);
+println(1==0);
+println(1!=0);
+println(0!=0);
+println(200>199);
+println(200>=200);
+println(200<199);
+println(200<=200);
+
+// 位移运算
+println(8>>2);
+println(8<<2);
+println(-121 >>> 4);
+
+// 三元表达式
+println(1+1>=1?"yes":"no");
+println(2==5-3?true:false);
+println(2!=5-3?true:false);
+a=10;b=20; println(a==20?'a':(b==10?'b':'c'));
+a=10;b=10; println(a==20?'a':(b==10?'b':'c'));
+a=20;b=20; println(a==20?'a':(b==10?'b':'c'));

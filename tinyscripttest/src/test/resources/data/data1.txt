@@ -1,0 +1,6 @@
+name	weight	value	count
+a	2	6	1
+b	2	3	1
+c	6	5	1
+e	4	6	1
+d	5	4	1

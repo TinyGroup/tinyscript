@@ -1,0 +1,10 @@
+countMailCharge(path1,path2)->{
+   ruleDs = readTxt(path1).int("MINVAL","MAXVAL","CHARGE");
+   orderDs = readTxt(path2).insertColumn("POSTAGE").int("COST","WEIGHT");
+   costRuleDs = ruleDs.filter(()->{return FIELD=="COST";}).sort("MINVAL");   //cost维度规则集
+   weightRuleDs = ruleDs.filter(()->{return FIELD=="WEIGHT";}).sort("MINVAL");  //weight维度规则集
+   orderDs.match(costRuleDs,COST > MINVAL).update("POSTAGE",CHARGE[0]);   //通过match函数匹配COST规则
+   orderDs.match(weightRuleDs,POSTAGE ==null && WEIGHT >= MINVAL && WEIGHT <=MAXVAL).update("POSTAGE",CHARGE[0]);  //通过match函数匹配WEIGHT规则   
+   return orderDs;
+};
+println(countMailCharge("/data/mailCharge.txt","/data/testOrder.txt"));

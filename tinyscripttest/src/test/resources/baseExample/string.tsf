@@ -1,0 +1,6 @@
+a = "abcdefg";
+println(a.ascii());
+println(char(97));
+println(a.repeat(2));
+println(a.subRight(3));
+println(lcs("abcde","bcbcadcde"));

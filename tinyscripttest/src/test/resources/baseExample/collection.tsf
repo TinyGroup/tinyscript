@@ -1,0 +1,23 @@
+//演示集合递归子元素的操作符和函数
+
+//List集合模型
+list1=[1,2,3]; list2=["dog","cat","bird"].toUpperCase();
+println(list1+3);
+println(list2);
+
+//Map集合模型
+map1={"key1":100,"key2":200,"key3":300};
+map2={1:"Hello",2:"Tom",3:"John"}.toLowerCase();
+println(map1/100);
+println(map2);
+
+//Set集合模型
+set1=map1.keySet().substring(1,4);
+set2=map2.keySet();
+println(set1);
+println(set2*10);
+
+//集合分组
+list = [1..5];
+println(list.groupStaged(it<3));
+println(list.groupDynamic(it%2));

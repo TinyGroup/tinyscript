@@ -1,0 +1,26 @@
+ds1 = readCsv("/data/m1.csv","gbk");
+ds2 = readCsv("/data/m2.csv","gbk");
+println(ds1);
+println("=================================");
+println(ds2);
+println("=================================");
+
+//测试内联,以用户ID和日期做联合主键
+inner = ds1.join(ds2,["userid","opdate"],["userid","punishdate"]);
+println(inner);
+println("=================================");
+
+//测试左联,以用户ID和日期做联合主键
+left = ds1.joinLeft(ds2,["userid","opdate"],["userid","punishdate"]);
+println(left);
+println("=================================");
+
+//测试右联,以用户ID和日期做联合主键
+right = ds1.joinRight(ds2,["userid","opdate"],["userid","punishdate"]);
+println(right);
+println("=================================");
+
+//测试全联,以用户ID和日期做联合主键
+full = ds1.joinFull(ds2,["userid","opdate"],["userid","punishdate"]);
+println(full);
+println("=================================");

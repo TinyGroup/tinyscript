@@ -1,0 +1,10 @@
+countStock(path)->{
+ratio = 0.095d;
+    ds = readTxt(path);
+    groupds =ds.insertColumn(3,"UP").double("CL").group("CODE").sortGroup("DT ASC");//UP代表涨停率，按code分组然后按DT升序排序
+    groupds.subGroup(1,1).update("UP",0d);  //每月的第一天涨停率为0
+    groupds.update("UP",(CL[0]-CL[-1])/CL[-1]);  //之后的每天统计当天的涨停率。
+    resultds = groupds.filterGroup(()->{return UP[0]>ratio && UP[1]>ratio && UP[2]>ratio;});
+    return resultds.distinct("CODE");//过滤掉重复的股票代码
+};
+println(countStock("/data/StockRecords.txt"));

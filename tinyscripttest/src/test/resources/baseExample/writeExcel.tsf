@@ -1,0 +1,16 @@
+dataSet1 = readExcel("/data/writeExcelTest.xlsx");
+dataSet1.get(0).writeExcel("/data/testExcel1.xlsx");
+dataSet1.writeExcel("/data/testExcel2.xlsx",["mysheet"]);
+dataSet1.writeExcel("/data/testExcel3.xlsx",["mysheet"],2);
+dataSet1.writeExcel("/data/testExcel4.xlsx",1,2);
+dataSet1.writeExcel("/data/testExcel5.xlsx",["mysheet1","mysheet2"],1,2);
+
+dataSet1 = readCsv("/data/writeCsvTest.csv","gbk");
+dataSet1.writeCsv("/data/testCsv1.csv");
+dataSet1.writeCsv("/data/testCsv2.csv",2);
+dataSet1.writeCsv("/data/testCsv3.csv","gbk");
+dataSet1.writeCsv("/data/testCsv4.csv","gbk",2);
+dataSet1.writeCsv("/data/testCsv5.csv",2,3);
+dataSet1.writeCsv("/data/testCsv6.csv","gbk",2,3);
+dataSet1.writeCsv("/data/testCsv7.csv",1,4,"RFC4180");
+dataSet1.writeCsv("/data/testCsv8.csv","gbk",2,3,"RFC4180");

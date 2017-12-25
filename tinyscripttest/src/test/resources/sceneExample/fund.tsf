@@ -1,0 +1,37 @@
+/*
+   基金量化投资：选择一个月收益排名前50名，并且最大回撤率小于50%，并且基金经理任职连续超过一年，管理的基金在同类基金排名前20%，列出符合条件的基金。
+*/
+
+dataset = readTxt("/data/dayinfo.txt");
+groupds =dataset.insertColumn(3,"UP").insertColumn(4,"rate").double("value").group("code1");
+groupds.update("UP",(e)->{
+	return (value[31-e]-value[1-e])/value[1-e];
+});//求一月的净值
+
+groupds.update("rate",(e)->{
+	minvalue = value[0];	
+	for(i = 1;i<=31-e;i++){
+		if(value[i]<minvalue){
+			minvalue = value[i];//对每一个值求在之后的最小净值
+		}
+	}
+	return (value[0]-minvalue)/value[0];
+});
+
+groupds = groupds.sortGroup("rate desc");
+
+//过滤回撤率大于50%的数据
+groupds = groupds.sort("UP desc");
+groupds = groupds.sub(1,5);
+groupds = groupds.filterGroup(()->{return rate[0]<=0.5;});
+
+dataset2 = readTxt("/data/history.txt");
+dataset3 = readTxt("/data/score.txt");
+result = dataset2.match(dataset3,code3==code2&&manager3==manager2);
+result = result.int("lastdt","firstdt").double("rank").filter(()->{return lastdt==2017 && lastdt-firstdt>=3 && rank<=0.2;});
+result = result.match(groupds,code3==code1);
+
+for(i = 1;i<=result.getRows();i++){
+	println("符合条件的基金代码:"+result[i][1]);
+}
+
