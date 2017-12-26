@@ -1,6 +1,7 @@
 package org.tinygroup.tinyscript;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * tiny脚本段
@@ -73,4 +74,9 @@ public interface ScriptSegment extends ScriptEngineOperator{
 	 */
 	Object execute(ScriptContext context) throws ScriptException;
 	
+	/**
+	 * 获取脚本片段运行缓存
+	 * @return
+	 */
+	Map<Object,Object> getCache();
 }

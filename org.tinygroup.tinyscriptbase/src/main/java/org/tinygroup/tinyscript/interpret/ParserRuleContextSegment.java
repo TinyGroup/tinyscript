@@ -47,12 +47,14 @@ public class ParserRuleContextSegment implements ScriptSegment{
 	private InnerScriptClass scriptClass;
 	private List<String> importList;
 	private InnerScriptReader scriptReader;
+	private Map<Object, Object> cache;
 	
 	public ParserRuleContextSegment(ScriptEngine engine,String sourceName,String scriptText,TinyScriptParser.CompilationUnitContext compilationUnitContext) throws ScriptException {
 		this.scriptEngine = engine;
 		this.segmentId = sourceName;
 		this.script = scriptText;
 		this.parserRuleContext = compilationUnitContext;
+		this.cache = new HashMap<Object, Object>();
 		initContext();
 	}
 	
@@ -117,6 +119,11 @@ public class ParserRuleContextSegment implements ScriptSegment{
 	public Object execute(ScriptContext context) throws ScriptException {
 		return execute(parserRuleContext,context);
 	}
+	
+	public Map<Object, Object> getCache() {
+		return cache;
+	}
+
 	
 	private Object execute(ParseTree tree,ScriptContext context) throws ScriptException {
 		if(!(scriptEngine instanceof AbstractScriptEngine)){

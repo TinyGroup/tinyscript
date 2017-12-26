@@ -185,6 +185,24 @@ public final class ScriptUtil {
 	}
 	
 	public static Class<?> findJavaClass(String className,ScriptSegment classSegment,List<String> importList) {
+		if(classSegment!=null && classSegment.getScriptEngine().isEnableCache()){
+			//启用缓存机制
+			int hashcode = importList==null?0:importList.hashCode();
+			String key = className+"|"+hashcode;
+			if(classSegment.getCache().containsKey(key)){
+			   return (Class<?>) classSegment.getCache().get(key);
+			}
+			Class<?> clazz = findJavaClassWithoutCache(className,classSegment,importList);
+			classSegment.getCache().put(key, clazz);
+			return clazz;
+		}else{
+			//无缓存
+			return findJavaClassWithoutCache(className,classSegment,importList);
+		}
+		
+	}
+	
+	private static Class<?> findJavaClassWithoutCache(String className,ScriptSegment classSegment,List<String> importList) {
 		Class<?> c = null;
 		//先直接查类名
 		c = ScriptUtil.findJavaClass(className);
