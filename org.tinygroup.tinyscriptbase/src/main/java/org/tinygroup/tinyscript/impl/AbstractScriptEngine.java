@@ -116,7 +116,7 @@ public abstract class AbstractScriptEngine implements ScriptEngine {
 		}
 		// 执行真正查询，并保存结果到缓存
 		segment = findScriptSegmentWithoutCache(queryRule);
-		if (segment != null) {
+		if (enableCache && segment != null) {
 			segmentCaches.put(queryRule, segment);
 		}
 		return segment;
