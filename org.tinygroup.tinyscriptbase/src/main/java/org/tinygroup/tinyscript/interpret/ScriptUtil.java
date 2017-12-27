@@ -118,33 +118,23 @@ public final class ScriptUtil {
 	 * @return
 	 */
 	public static Object getVariableValue(Context context, Object key) {
-		Object value = getValueFromContext(context, key);
-		if (value == null) {
-			value = getValueFromBean(key);
+		String name = key.toString();
+		if(context.exist(name)){
+			return context.get(name);
+		}else{
+			return getValueFromBean(name);
 		}
-		return value;
-	}
-
-	/**
-	 * 从上下文获取对应标识的值
-	 * 
-	 * @param context
-	 * @param key
-	 * @return
-	 */
-	public static Object getValueFromContext(Context context, Object key) {
-		return context.get(key.toString());
 	}
 
 	/**
 	 * 从Bean容器获得对应的值
 	 * 
-	 * @param key
+	 * @param name
 	 * @return
 	 */
-	public static Object getValueFromBean(Object key) {
+	public static Object getValueFromBean(String name) {
 		try {
-			return BeanContainerFactory.getBeanContainer(BeanContainerFactory.class.getClassLoader()).getBean(key.toString());
+			return BeanContainerFactory.getBeanContainer(BeanContainerFactory.class.getClassLoader()).getBean(name);
 		} catch (Exception e) {
 			return null;
 		}
