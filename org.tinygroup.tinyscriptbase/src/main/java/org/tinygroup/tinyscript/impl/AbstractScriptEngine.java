@@ -106,20 +106,21 @@ public abstract class AbstractScriptEngine implements ScriptEngine {
 	 */
 	public ScriptSegment findScriptSegment(Object queryRule)
 			throws ScriptException {
-		ScriptSegment segment = null;
 		if (enableCache) {
 			// 优先从缓存中查找脚本段
-			segment = segmentCaches.get(queryRule);
+			ScriptSegment segment = segmentCaches.get(queryRule);
 			if (segment != null) {
 				return segment;
 			}
+			// 执行真正查询，并保存结果到缓存
+			segment = findScriptSegmentWithoutCache(queryRule);
+			if (segment != null) {
+				segmentCaches.put(queryRule, segment);
+			}
+			return segment;
+		}else{
+			return findScriptSegmentWithoutCache(queryRule);
 		}
-		// 执行真正查询，并保存结果到缓存
-		segment = findScriptSegmentWithoutCache(queryRule);
-		if (enableCache && segment != null) {
-			segmentCaches.put(queryRule, segment);
-		}
-		return segment;
 	}
 
 	public void stop() throws ScriptException {
