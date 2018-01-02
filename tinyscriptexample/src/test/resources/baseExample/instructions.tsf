@@ -1,0 +1,57 @@
+//if指令
+a = true;
+if(a){
+	println("yes");
+}else{
+	println("no");
+}
+a = 1;
+if(a == 1){
+	println("1");
+}else if(a == 2){
+	println("2");
+}else{
+	println("3");
+}
+
+//while指令
+a = 1;
+while(a<5){
+	println(a++);
+}
+
+//do while指令
+a = 1;
+do{
+	println(a++);
+}while(a<3);
+
+//switch指令
+a = 1;
+switch(a){
+	case 1:{
+		println("1");
+	}
+	case 2:{
+		println("2");
+	}	
+	case 3:{
+		println("3");
+	}
+	default:{
+		println("default");
+	}
+}
+
+//in指令
+a = 1;
+if(a in [1,2,3,4,5]){
+	println("a is in the list");
+}else{
+	println("a is not in the list");
+}
+
+//not in指令
+a = "D";
+println(a not in ["A","B","C"]);
+

@@ -1,0 +1,64 @@
+<language-types>
+  <language-type id="h2" name="h2" type="1">
+    <description></description>
+    <language-field id="smallint" name="smallint"/>
+    <language-field id="mediumint" name="mediumint"/>
+    <language-field id="integer" name="integer"/>
+    <language-field id="bigint" name="bigint"/>
+    <language-field id="float" name="float"/>
+    <language-field id="double" name="double"/>
+    <language-field id="decimal" name="decimal"/>
+    <language-field id="char" name="char"/>
+    <language-field id="varchar" name="varchar"/>
+    <language-field id="blob" name="blob"/>
+    <language-field id="mediumblob" name="mediumblob"/>
+    <language-field id="longblob" name="longblob"/>
+    <language-field id="text" name="text"/>
+    <language-field id="mediumtext" name="mediumtext"/>
+    <language-field id="longtext" name="longtext"/>
+    <language-field id="date" name="date"/>
+    <language-field id="time" name="time"/>
+    <language-field id="datetime" name="datetime"/>
+    <language-field id="timestamp" name="timestamp"/>
+  </language-type>
+  <language-type id="derby" name="derby" type="1">
+    <description></description>
+    <language-field id="smallint" name="smallint"/>
+    <language-field id="int" name="int"/>
+    <language-field id="bigint" name="bigint"/>
+    <language-field id="real" name="real"/>
+    <language-field id="double" name="double"/>
+    <language-field id="decimal" name="decimal"/>
+    <language-field id="char" name="char"/>
+    <language-field id="varchar" name="varchar"/>
+    <language-field id="time" name="time"/>
+    <language-field id="date" name="date"/>
+    <language-field id="timestamp" name="timestamp"/>
+    <language-field id="blob" name="blob"/>
+    <language-field id="clob" name="clob"/>
+  </language-type>
+  <language-type id="java" name="java" type="0">
+    <description></description>
+    <language-field id="String" name="String"/>
+    <language-field id="java.util.Date" name="java.util.Date"/>
+    <language-field id="java.sql.Date" name="java.sql.Date"/>
+    <language-field id="Boolean" name="Boolean"/>
+    <language-field id="boolean" name="boolean"/>
+    <language-field id="Short" name="Short"/>
+    <language-field id="short" name="short"/>
+    <language-field id="Integer" name="Integer"/>
+    <language-field id="int" name="int"/>
+    <language-field id="Long" name="Long"/>
+    <language-field id="long" name="long"/>
+    <language-field id="Float" name="Float"/>
+    <language-field id="float" name="float"/>
+    <language-field id="Double" name="Double"/>
+    <language-field id="double" name="double"/>
+    <language-field id="Character" name="Character"/>
+    <language-field id="char" name="char"/>
+    <language-field id="Byte" name="Byte"/>
+    <language-field id="byte" name="byte"/>
+    <language-field id="java.math.BigDecimal" name="java.math.BigDecimal"/>
+    <language-field id="java.math.BigInteger" name="java.math.BigInteger"/>
+  </language-type>
+</language-types>
