@@ -48,7 +48,7 @@ public class DatePartFunction extends AbstractScriptFunction {
 				return cal.get(datePart.getCalendarId());
 			case WEEK:
 				Calendar start = Calendar.getInstance();
-				start.setTime(new Date());
+				start.setTime(cal.getTime());
 				start.set(Calendar.MONTH, 0);
 				start.set(Calendar.DATE, 1);
 				return DateUtil.countWeekDiff(start, cal, startWeekDay);

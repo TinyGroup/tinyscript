@@ -1,0 +1,62 @@
+<standard-fields>
+  <standard-field id="1663bef46ded4d1395eae74be4a873d9" name="id" title="ID" business-type-id="7ea3c248890d4b23a5f7d34732ed82cd">
+    <description></description>
+    <nick-names/>
+  </standard-field>
+  <standard-field id="93afba1f2f5841aca9bfdb5e958fa7fd" name="fullname" title="FULLNAME" business-type-id="a2c7afa4de724b0cb8f2f46fd8389a37">
+    <description></description>
+    <nick-names/>
+  </standard-field>
+  <standard-field id="843ff902ac1f44a1ab2cff19cfdc78ff" name="state" title="STATE" business-type-id="f109742be3994cd19ac2e9c2c9e500ce">
+    <description></description>
+    <nick-names/>
+  </standard-field>
+  <standard-field id="97673e3cd8104d22b27b8ed755723c61" name="age" title="年龄" business-type-id="ccd3e83b1cae428987599fb95985fa70">
+    <description></description>
+    <nick-names/>
+  </standard-field>
+  <standard-field id="89143a3255b04ca1b3f3eb0bce81ba71" name="sex" title="性别" business-type-id="ccd3e83b1cae428987599fb95985fa70">
+    <description></description>
+    <nick-names/>
+  </standard-field>
+  <standard-field id="0201feb3ea08440781d4901cac7724cc" name="parent_id" title="PARENT_ID" business-type-id="7ea3c248890d4b23a5f7d34732ed82cd">
+    <description></description>
+    <nick-names/>
+  </standard-field>
+  <standard-field id="0f30ba2e2b1947138d40a0eb9d289ecf" name="title" title="TITLE" business-type-id="a2c7afa4de724b0cb8f2f46fd8389a37">
+    <description></description>
+    <nick-names/>
+  </standard-field>
+  <standard-field id="f76fe87313df45e4b72b82bbfbceda5f" name="desc" title="DESC" business-type-id="8e447c07a07149249b64b4279e8386ce">
+    <description></description>
+    <nick-names/>
+  </standard-field>
+  <standard-field id="e1595f9a9035405f9ea0a29f79411c11" name="name" title="NAME" business-type-id="27ebfcdc558c477da425a46e566d4637">
+    <description></description>
+    <nick-names/>
+  </standard-field>
+  <standard-field id="12ecac0584f446a7a64bafe05b30c59e" name="subname" title="SUBNAME" business-type-id="27ebfcdc558c477da425a46e566d4637">
+    <description></description>
+    <nick-names/>
+  </standard-field>
+  <standard-field id="3c889238c4a54b3080579ba59c76acb7" name="gender" title="GENDER" business-type-id="27ebfcdc558c477da425a46e566d4637">
+    <description></description>
+    <nick-names/>
+  </standard-field>
+  <standard-field id="9aabefc269e347579a55c7120fbbb4f7" name="birthday" title="BIRTHDAY" business-type-id="af7b470e7d404b4882e7ec5a1513165f">
+    <description></description>
+    <nick-names/>
+  </standard-field>
+  <standard-field id="817e36dd6cc848c7837ba16f9995bfae" name="hiredate" title="HIREDATE" business-type-id="af7b470e7d404b4882e7ec5a1513165f">
+    <description></description>
+    <nick-names/>
+  </standard-field>
+  <standard-field id="43d2ff080ea04004bd06c3d8685a21cd" name="dept" title="DEPT" business-type-id="27ebfcdc558c477da425a46e566d4637">
+    <description></description>
+    <nick-names/>
+  </standard-field>
+  <standard-field id="7117bef8a4e6432facaca1478df139aa" name="salary" title="SALARY" business-type-id="7ea3c248890d4b23a5f7d34732ed82cd">
+    <description></description>
+    <nick-names/>
+  </standard-field>
+</standard-fields>

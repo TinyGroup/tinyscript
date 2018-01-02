@@ -1,0 +1,38 @@
+<tables>
+  <table id="27cb61b0cb4c4ccf973c83638b89c0ae" name="test1" title="TEST1" schema="">
+    <extend-properties/>
+    <description></description>
+    <table-field standard-field-id="1663bef46ded4d1395eae74be4a873d9" primary="true" unique="true" not-null="true" id="id" auto-increase="false"/>
+    <table-field standard-field-id="93afba1f2f5841aca9bfdb5e958fa7fd" primary="false" unique="false" not-null="false" id="fullname" auto-increase="false"/>
+    <table-field standard-field-id="843ff902ac1f44a1ab2cff19cfdc78ff" primary="false" unique="false" not-null="false" id="state" auto-increase="false"/>
+  </table>
+  <table id="6a6b76594adc4c5c8c10d7bfaca87f8f" name="test2" title="TEST2" schema="">
+    <extend-properties/>
+    <description></description>
+    <table-field standard-field-id="1663bef46ded4d1395eae74be4a873d9" primary="true" unique="true" not-null="true" id="id" auto-increase="false"/>
+    <table-field standard-field-id="93afba1f2f5841aca9bfdb5e958fa7fd" primary="false" unique="false" not-null="false" id="fullname" auto-increase="false"/>
+    <table-field standard-field-id="97673e3cd8104d22b27b8ed755723c61" primary="false" unique="false" not-null="false" id="age" auto-increase="false"/>
+    <table-field standard-field-id="89143a3255b04ca1b3f3eb0bce81ba71" primary="false" unique="false" not-null="false" id="sex" auto-increase="false"/>
+  </table>
+  <table id="05b4ba27b37549119ff8b9fe0318013a" name="menu" title="MENU" schema="">
+    <extend-properties/>
+    <description>菜单表</description>
+    <table-field standard-field-id="0201feb3ea08440781d4901cac7724cc" primary="false" unique="false" not-null="false" id="parent_id" auto-increase="false"/>
+    <table-field standard-field-id="1663bef46ded4d1395eae74be4a873d9" primary="true" unique="true" not-null="true" id="id" auto-increase="false"/>
+    <table-field standard-field-id="0f30ba2e2b1947138d40a0eb9d289ecf" primary="false" unique="false" not-null="false" id="title" auto-increase="false"/>
+    <table-field standard-field-id="f76fe87313df45e4b72b82bbfbceda5f" primary="false" unique="false" not-null="false" id="desc" auto-increase="false"/>
+  </table>
+  <table id="7c276bcae0df43759a9289f324566009" name="employee" title="EMPLOYEE" schema="">
+    <extend-properties/>
+    <description></description>
+    <table-field standard-field-id="1663bef46ded4d1395eae74be4a873d9" primary="true" unique="true" not-null="true" id="id" auto-increase="false"/>
+    <table-field standard-field-id="e1595f9a9035405f9ea0a29f79411c11" primary="false" unique="false" not-null="false" id="name" auto-increase="false"/>
+    <table-field standard-field-id="12ecac0584f446a7a64bafe05b30c59e" primary="false" unique="false" not-null="false" id="subname" auto-increase="false"/>
+    <table-field standard-field-id="3c889238c4a54b3080579ba59c76acb7" primary="false" unique="false" not-null="false" id="gender" auto-increase="false"/>
+    <table-field standard-field-id="843ff902ac1f44a1ab2cff19cfdc78ff" primary="false" unique="false" not-null="false" id="state" auto-increase="false"/>
+    <table-field standard-field-id="9aabefc269e347579a55c7120fbbb4f7" primary="false" unique="false" not-null="false" id="birthday" auto-increase="false"/>
+    <table-field standard-field-id="817e36dd6cc848c7837ba16f9995bfae" primary="false" unique="false" not-null="false" id="hiredate" auto-increase="false"/>
+    <table-field standard-field-id="43d2ff080ea04004bd06c3d8685a21cd" primary="false" unique="false" not-null="false" id="dept" auto-increase="false"/>
+    <table-field standard-field-id="7117bef8a4e6432facaca1478df139aa" primary="false" unique="false" not-null="false" id="salary" auto-increase="false"/>
+  </table>
+</tables>

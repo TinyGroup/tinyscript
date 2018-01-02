@@ -1,0 +1,141 @@
+<standard-types>
+  <standard-type id="f4f61d5d8b4f4f059a6e8e320fa1aac0" name="TINYINT" title="TINYINT" data-type="-6">
+    <description></description>
+    <placeholder-list/>
+    <dialect-type-list>
+      <dialect-type language="h2" base-type="integer"/>
+      <dialect-type language="derby" base-type="smallint" ext-type=""/>
+      <dialect-type language="java" base-type="Integer"/>
+    </dialect-type-list>
+  </standard-type>
+  <standard-type id="88d5621709f0456ebd988e15e5c28cb4" name="INTEGER" title="INTEGER" data-type="4">
+    <description></description>
+    <placeholder-list/>
+    <dialect-type-list>
+      <dialect-type language="h2" base-type="integer"/>
+      <dialect-type language="derby" base-type="int"/>
+      <dialect-type language="java" base-type="Integer"/>
+    </dialect-type-list>
+  </standard-type>
+  <standard-type id="9f58b8458d2c461e8b7f9f9ba2f122de" name="VARCHAR" title="VARCHAR" data-type="12">
+    <description></description>
+    <placeholder-list>
+      <placeholder name="length" title="长度"/>
+    </placeholder-list>
+    <dialect-type-list>
+      <dialect-type language="h2" base-type="varchar"/>
+      <dialect-type language="derby" base-type="varchar" ext-type="${length}">
+        <placeholder-value name="length"/>
+      </dialect-type>
+      <dialect-type language="java" base-type="String"/>
+    </dialect-type-list>
+  </standard-type>
+  <standard-type id="4f7b7a0015f2478b948892a3772e35b6" name="MEDIUMINT" title="MEDIUMINT" data-type="4">
+    <description></description>
+    <placeholder-list/>
+    <dialect-type-list>
+      <dialect-type language="h2" base-type="mediumint"/>
+      <dialect-type language="derby" base-type="int"/>
+      <dialect-type language="java" base-type="Integer"/>
+    </dialect-type-list>
+  </standard-type>
+  <standard-type id="41f25232e0754673bd8be2337820e4da" name="FLOAT" title="FLOAT" data-type="6">
+    <description></description>
+    <placeholder-list/>
+    <dialect-type-list>
+      <dialect-type language="h2" base-type="float"/>
+      <dialect-type language="derby" base-type="double"/>
+      <dialect-type language="java" base-type="Float"/>
+    </dialect-type-list>
+  </standard-type>
+  <standard-type id="57014dd30c61405e9783931b14c1da45" name="TEXT" title="TEXT" data-type="2004">
+    <description></description>
+    <placeholder-list/>
+    <dialect-type-list>
+      <dialect-type language="h2" base-type="text"/>
+      <dialect-type language="derby" base-type="varchar"/>
+      <dialect-type language="java" base-type="String"/>
+    </dialect-type-list>
+  </standard-type>
+  <standard-type id="310cd8e63e4f462d8115de82732f5381" name="DATE" title="DATE" data-type="91">
+    <description></description>
+    <placeholder-list/>
+    <dialect-type-list>
+      <dialect-type language="h2" base-type="date"/>
+      <dialect-type language="derby" base-type="date"/>
+      <dialect-type language="java" base-type="java.sql.Date"/>
+    </dialect-type-list>
+  </standard-type>
+  <standard-type id="897ff0252daa4b63bf5da26235feb061" name="BIGINT" title="BIGINT" data-type="-5">
+    <description></description>
+    <placeholder-list/>
+    <dialect-type-list>
+      <dialect-type language="h2" base-type="bigint"/>
+      <dialect-type language="derby" base-type="bigint"/>
+      <dialect-type language="java" base-type="long"/>
+    </dialect-type-list>
+  </standard-type>
+  <standard-type id="9d4a22f78600442aad1ed31211bf9641" name="DATETIME" title="DATETIME" data-type="91">
+    <description></description>
+    <placeholder-list/>
+    <dialect-type-list>
+      <dialect-type language="h2" base-type="datetime"/>
+      <dialect-type language="derby" base-type="time"/>
+      <dialect-type language="java" base-type="java.util.Date"/>
+    </dialect-type-list>
+  </standard-type>
+  <standard-type id="251233e5b86d4020bc97ecd917323819" name="SMALLINT" title="SMALLINT" data-type="5">
+    <description></description>
+    <placeholder-list/>
+    <dialect-type-list>
+      <dialect-type language="h2" base-type="smallint"/>
+      <dialect-type language="derby" base-type="smallint"/>
+      <dialect-type language="java" base-type="Integer"/>
+    </dialect-type-list>
+  </standard-type>
+  <standard-type id="37340aa17db54df5ba6e9b387ec93f4e" name="BOOLEAN" title="BOOLEAN" data-type="-6">
+    <description></description>
+    <placeholder-list>
+      <placeholder id="8999dae198c64b28890ca75d7943766d" name="length" title="长度"/>
+    </placeholder-list>
+    <dialect-type-list>
+      <dialect-type language="h2" base-type="char" ext-type="${length}">
+        <placeholder-value name="length"/>
+      </dialect-type>
+      <dialect-type language="derby" base-type="char" ext-type="${length}">
+        <placeholder-value name="length"/>
+      </dialect-type>
+      <dialect-type language="java" base-type="Boolean"/>
+    </dialect-type-list>
+  </standard-type>
+  <standard-type id="cf2a1d1ba419402eb921cea86f737b86" name="LONGBLOB" title="LONGBLOB" data-type="2004">
+    <description></description>
+    <placeholder-list/>
+    <dialect-type-list>
+      <dialect-type language="h2" base-type="longblob"/>
+      <dialect-type language="derby" base-type="blob"/>
+      <dialect-type language="java" base-type="String"/>
+    </dialect-type-list>
+  </standard-type>
+  <standard-type id="d334d39cf3144239a64fd7c31fa5d294" name="LONGTEXT" title="LONGTEXT" data-type="2004">
+    <description></description>
+    <placeholder-list/>
+    <dialect-type-list>
+      <dialect-type language="h2" base-type="longtext"/>
+      <dialect-type language="derby" base-type="blob"/>
+      <dialect-type language="java" base-type="String"/>
+    </dialect-type-list>
+  </standard-type>
+  <standard-type id="29ce7be938e849d38488e5d6ef73d36b" name="DOUBLE" title="DOUBLE" data-type="8">
+    <description></description>
+    <placeholder-list>
+      <placeholder name="length" title="长度"/>
+      <placeholder name="precision" title="精度"/>
+    </placeholder-list>
+    <dialect-type-list>
+      <dialect-type language="h2" base-type="double"/>
+      <dialect-type language="derby" base-type="double"/>
+      <dialect-type language="java" base-type="double"/>
+    </dialect-type-list>
+  </standard-type>
+</standard-types>
