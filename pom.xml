@@ -28,6 +28,7 @@
 		<module>org.tinygroup.tinyscript.datasetwithtree</module>
 		<module>org.tinygroup.tinyscript.template</module>
 		<module>org.tinygroup.tinyscript</module>
+		<module>tinyscriptexample</module>
 	</modules>
 	<dependencyManagement>
 		<dependencies>
