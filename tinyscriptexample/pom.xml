@@ -18,7 +18,7 @@
 		<dependency>
 			<groupId>org.tinygroup</groupId>
 			<artifactId>org.tinygroup.tinyscript</artifactId>
-			<version>1.2.0</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.tinygroup</groupId>
