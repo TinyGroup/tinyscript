@@ -44,7 +44,7 @@ public abstract class AbstractGroupFunction extends AbstractScriptFunction {
 	 * @return
 	 * @throws Exception
 	 */
-	protected List<DynamicDataSet> group(DynamicDataSet dataSet, String[] fields) throws Exception {
+	protected List<DynamicDataSet> group(DynamicDataSet dataSet, String[] fields, Object... params) throws Exception {
 		Map<Object, DynamicDataSet> result = new LinkedHashMap<Object, DynamicDataSet>();
 		try {
 			int[] showColumns = getShowColumns(dataSet, fields);
@@ -53,7 +53,7 @@ public abstract class AbstractGroupFunction extends AbstractScriptFunction {
 			// 逐条遍历记录
 			for (int i = 0; i < rowNum; i++) {
 				int showRow = dataSet.getShowIndex(i);
-				Object key = createKey(showRow, showColumns, dataSet);
+				Object key = createKey(showRow, showColumns, dataSet, params);
 				DynamicDataSet groupDataSet = result.get(key);
 				if (groupDataSet == null) {
 					// 新建分组结果的数据集
@@ -92,7 +92,8 @@ public abstract class AbstractGroupFunction extends AbstractScriptFunction {
 		return showColumns;
 	}
 
-	protected Object createKey(int showRow, int[] showColumns, AbstractDataSet dataSet) throws Exception {
+	protected Object createKey(int showRow, int[] showColumns, AbstractDataSet dataSet, Object... params)
+			throws Exception {
 		List<Object> keys = new ArrayList<Object>();
 		for (int showColumn : showColumns) {
 			keys.add(dataSet.getData(showRow, showColumn));

@@ -10,6 +10,7 @@ import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 
 /**
  * 转换日期类型
+ * 
  * @author yancheng11334
  *
  */
@@ -24,7 +25,11 @@ public class DateTypeConvertProcessor implements TypeConvertProcessor {
 			if (parameters.length == 1) {
 				return convertDate(parameters[0], null);
 			} else if (parameters.length == 2) {
-				return convertDate(parameters[0], (String)parameters[1]);
+				if (parameters[1] instanceof String)
+					return convertDate(parameters[0], (String) parameters[1]);
+				else if (parameters[1] instanceof Object[]) {
+					return convertDate(parameters[0], (String) ((Object[]) parameters[1])[0]);
+				}
 			}
 		}
 		return null;
@@ -40,7 +45,8 @@ public class DateTypeConvertProcessor implements TypeConvertProcessor {
 		} else if (obj instanceof Calendar) {
 			return ((Calendar) obj).getTime();
 		} else {
-			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("number.convert.error", obj.getClass().getName(),Date.class.getName()));
+			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("number.convert.error",
+					obj.getClass().getName(), Date.class.getName()));
 		}
 	}
 }
