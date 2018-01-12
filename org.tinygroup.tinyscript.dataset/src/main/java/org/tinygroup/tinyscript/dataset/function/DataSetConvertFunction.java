@@ -69,7 +69,7 @@ public class DataSetConvertFunction extends DynamicNameScriptFunction {
 				Object v = dataSet.getData(dataSet.getShowIndex(i), dataSet.getShowIndex(col));
 				if (v != null) {
 					try {
-						if (rules != null) {
+						if (rules != null && rules.length > 0) {
 							dataSet.setData(dataSet.getShowIndex(i), dataSet.getShowIndex(col),
 									TypeConvertUtil.convert(type, v, rules));
 						} else {

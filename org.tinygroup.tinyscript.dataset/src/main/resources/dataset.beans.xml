@@ -6,7 +6,7 @@
 	<bean id="dataSetColumnAttributeProcessor" scope="singleton"
 		class="org.tinygroup.tinyscript.dataset.attribute.DataSetColumnAttributeProcessor">
 	</bean>
-	
+
 	<bean id="dataSetColumnInProcessor" scope="singleton"
 		class="org.tinygroup.tinyscript.dataset.in.DataSetColumnInProcessor">
 	</bean>
@@ -150,56 +150,60 @@
 	<bean id="dataSetIntersectionFunction" scope="singleton"
 		class="org.tinygroup.tinyscript.dataset.function.DataSetIntersectionFunction">
 	</bean>
-	
+
 	<bean id="dataSetSubtractFunction" scope="singleton"
 		class="org.tinygroup.tinyscript.dataset.function.DataSetSubtractFunction">
 	</bean>
-	
+
 	<bean id="dataSetUnionFunction" scope="singleton"
 		class="org.tinygroup.tinyscript.dataset.function.DataSetUnionFunction">
 	</bean>
-	
+
 	<bean id="dataSetXorFunction" scope="singleton"
 		class="org.tinygroup.tinyscript.dataset.function.DataSetXorFunction">
 	</bean>
-	
+
 	<bean id="dataSetFilterOneFunction" scope="singleton"
 		class="org.tinygroup.tinyscript.dataset.function.DataSetFilterOneFunction">
 	</bean>
-	
+
 	<bean id="dataSetToBeanListFunction" scope="singleton"
 		class="org.tinygroup.tinyscript.dataset.function.DataSetToBeanListFunction">
 	</bean>
-	
+
 	<bean id="dataSetLeftJoinFunction" scope="singleton"
 		class="org.tinygroup.tinyscript.dataset.function.DataSetLeftJoinFunction">
 	</bean>
-	
+
 	<bean id="dataSetRightJoinFunction" scope="singleton"
 		class="org.tinygroup.tinyscript.dataset.function.DataSetRightJoinFunction">
 	</bean>
-	
+
 	<bean id="dataSetFullJoinFunction" scope="singleton"
 		class="org.tinygroup.tinyscript.dataset.function.DataSetFullJoinFunction">
 	</bean>
-	
+
 	<bean id="dataSetInsertFunction" scope="singleton"
 		class="org.tinygroup.tinyscript.dataset.function.DataSetInsertFunction">
 	</bean>
-	
+
 	<bean id="dataSetToJsonFunction" scope="singleton"
 		class="org.tinygroup.tinyscript.dataset.function.json.DataSetToJsonFunction">
 	</bean>
-	
+
 	<bean id="jsonToDataSetFunction" scope="singleton"
 		class="org.tinygroup.tinyscript.dataset.function.json.JsonToDataSetFunction">
 	</bean>
-	
+
 	<bean id="dataSetToXmlFunction" scope="singleton"
 		class="org.tinygroup.tinyscript.dataset.function.xml.DataSetToXmlFunction">
 	</bean>
-	
+
 	<bean id="xmlToDataSetFunction" scope="singleton"
 		class="org.tinygroup.tinyscript.dataset.function.xml.XmlToDataSetFunction">
+	</bean>
+
+	<bean id="dataSetGroupDateFunction" scope="singleton"
+		class="org.tinygroup.tinyscript.dataset.function.DataSetGroupDateFunction">
 	</bean>
 </beans>
