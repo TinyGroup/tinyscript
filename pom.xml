@@ -29,6 +29,7 @@
 		<module>org.tinygroup.tinyscript.template</module>
 		<module>org.tinygroup.tinyscript</module>
 		<module>tinyscriptexample</module>
+		<module>org.tinygroup.tinyscript.flow</module>
 	</modules>
 	<dependencyManagement>
 		<dependencies>
