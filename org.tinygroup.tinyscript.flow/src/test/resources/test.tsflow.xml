@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flows>
+ <flow id="f00001" name="四则运算">
+    <description><![CDATA[模拟(a1+a2)*(a3+a4)]]></description>
+    <node node-id="n000001" component-id="c000001" />
+    <node node-id="n000002" component-id="c000001" />
+    <node node-id="n000003" component-id="c000002" />
+    <link target-id="n000001">
+      <item type="order" order="0" parameter-name="a" />
+      <item type="order" order="1" parameter-name="b" />
+    </link>
+    <link target-id="n000002">
+      <item type="order" order="2" parameter-name="a" />
+      <item type="order" order="3" parameter-name="b" />
+    </link>
+    <link source-id="n000001" target-id="n000003">
+      <item type="order" order="0" parameter-name="a" />
+    </link>
+    <link source-id="n000002" target-id="n000003">
+      <item type="order" order="0" parameter-name="b" />
+    </link>
+ </flow>
+</flows>

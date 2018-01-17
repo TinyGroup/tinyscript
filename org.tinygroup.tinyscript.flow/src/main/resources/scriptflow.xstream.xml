@@ -1,0 +1,11 @@
+<xstream-configuration package-name="scriptflow">
+    <xstream-annotation-classes>
+        <xstream-annotation-class class-name="org.tinygroup.tinyscript.config.ScriptComponentConfigs"/>
+        <xstream-annotation-class class-name="org.tinygroup.tinyscript.config.ScriptComponentConfig"/>
+        <xstream-annotation-class class-name="org.tinygroup.tinyscript.config.ScriptFlowConfigs"/>
+        <xstream-annotation-class class-name="org.tinygroup.tinyscript.config.ScriptFlowConfig"/>
+        <xstream-annotation-class class-name="org.tinygroup.tinyscript.config.ScriptFlowNodeConfig"/>
+        <xstream-annotation-class class-name="org.tinygroup.tinyscript.config.ScriptInputParameterConfig"/>
+        <xstream-annotation-class class-name="org.tinygroup.tinyscript.config.ScriptOutputParameterConfig"/>
+    </xstream-annotation-classes>
+</xstream-configuration>

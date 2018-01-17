@@ -1,0 +1,25 @@
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd"
+       default-autowire="byName" default-lazy-init="true">
+
+    <bean id="scriptFlowManager" name="scriptFlowManager" scope="singleton" class="org.tinygroup.tinyscript.impl.DefaultScriptFlowManager">
+    </bean>
+
+    <bean id="scriptComponentFileProcessor" name="scriptComponentFileProcessor"
+          scope="singleton" class="org.tinygroup.tinyscript.fileresolver.ScriptComponentFileProcessor">
+        <property name="scriptFlowManager" ref="scriptFlowManager"></property>
+    </bean>
+    
+     <bean id="scriptFlowFileProcessor" name="scriptFlowFileProcessor"
+          scope="singleton" class="org.tinygroup.tinyscript.fileresolver.ScriptFlowFileProcessor">
+        <property name="scriptFlowManager" ref="scriptFlowManager"></property>
+    </bean>
+    
+    <bean id="scriptFlowExecutor" name="scriptFlowExecutor"
+          scope="singleton" class="org.tinygroup.tinyscript.impl.DefaultScriptFlowExecutor">
+        <property name="scriptFlowManager" ref="scriptFlowManager"></property>
+    </bean>
+
+</beans>

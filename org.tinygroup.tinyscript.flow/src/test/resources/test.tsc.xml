@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components>
+  <component id="c000001" name="加法组件">
+    <script><![CDATA[return a+b;]]></script>
+    <description><![CDATA[组件注释信息，&&&]]></description>
+    <input name="a">
+      <description><![CDATA[被加数]]></description>
+    </input>
+    <input name="b">
+      <description><![CDATA[加数]]></description>
+    </input>
+    <output nullable="false">
+      <description><![CDATA[加法运算结果]]></description>
+    </output>
+  </component>
+  <component id="c000002" name="乘法组件">
+    <script><![CDATA[return a*b;]]></script>
+    <description><![CDATA[采用不同的参数名，验证映射关系]]></description>
+    <input name="a">
+      <description><![CDATA[被乘数]]></description>
+    </input>
+    <input name="b">
+      <description><![CDATA[乘数]]></description>
+    </input>
+    <output nullable="false">
+      <description><![CDATA[乘法运算结果]]></description>
+    </output>
+  </component>
+</components>
