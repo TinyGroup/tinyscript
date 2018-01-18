@@ -75,4 +75,28 @@ public final class ScriptEngineFactory {
 			throw new ScriptException(ResourceBundleUtil.getDefaultMessage("class.intance.build","ScriptEngine"), e);
 		}
 	}
+	
+	/**
+	 * 执行注册
+	 * @param scriptEngine
+	 * @throws ScriptException
+	 */
+	public static void register(ScriptEngine scriptEngine) throws ScriptException {
+		ScriptEngineBuilder builder = (ScriptEngineBuilder) BeanContainerFactory
+				.getBeanContainer(
+						ScriptEngineBuilder.class.getClassLoader())
+				.getBean(ScriptEngineBuilder.DEFAULT_BEAN_NAME);
+		register(scriptEngine,builder);
+	}
+	
+	/**
+	 * 执行注册
+	 * @param scriptEngine
+	 * @param builder
+	 * @throws ScriptException
+	 */
+	public static void register(ScriptEngine scriptEngine,ScriptEngineBuilder builder) throws ScriptException {
+		builder.registerComponent(scriptEngine);
+		builder.registerProcessor(scriptEngine);
+	}
 }

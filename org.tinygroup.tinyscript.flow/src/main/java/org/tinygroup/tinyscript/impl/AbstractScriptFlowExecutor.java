@@ -19,6 +19,7 @@ public abstract class AbstractScriptFlowExecutor implements ScriptFlowExecutor{
 
 	private ScriptEngine scriptEngine;
 	private ScriptFlowManager scriptFlowManager;
+	private boolean initTag = false;
 	
 	protected static final String FLOW_INPUT_NAME = "$flowInput";
 	
@@ -27,12 +28,17 @@ public abstract class AbstractScriptFlowExecutor implements ScriptFlowExecutor{
 	}
 
 	public ScriptEngine getScriptEngine() {
-		if(scriptEngine==null){
-		   try {
-			 scriptEngine = ScriptEngineFactory.createByBean();
-		   } catch (ScriptException e) {
-			 throw new RuntimeException(e);
+		try {
+		   if(scriptEngine==null){
+			  scriptEngine = ScriptEngineFactory.createByBean();
+			  initTag =true; 
+		   }else if(!initTag){
+			  ScriptEngineFactory.register(scriptEngine);
+			  initTag =true; 
 		   }
+			 
+		} catch (ScriptException e) {
+			 throw new RuntimeException(e);
 		}
 		return scriptEngine;
 	}
