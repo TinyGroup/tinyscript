@@ -1,5 +1,8 @@
 package org.tinygroup.tinyscript.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.tinygroup.context.Context;
@@ -44,6 +47,25 @@ public class DefaultScriptContext extends ContextImpl implements ScriptContext{
             return parentContext.get(name);
         }
         return null;
+    }
+    
+    public Map<String, Object> getTotalItemMap() {
+    	List<Context> contextList = new ArrayList<Context>();
+    	
+    	//获取完整的上下文链
+    	Context parentContext = getParent();
+    	while(parentContext!=null){
+    		contextList.add(0,parentContext);
+    		parentContext = parentContext.getParent();
+    	}
+    	
+    	Map<String, Object> map = new HashMap<String, Object>();
+    	//合并上下文，优先级：儿子高于父亲
+    	for(Context context:contextList){
+    		map.putAll(context.getItemMap());
+    	}
+    	map.putAll(getItemMap());
+    	return map;
     }
   
 }

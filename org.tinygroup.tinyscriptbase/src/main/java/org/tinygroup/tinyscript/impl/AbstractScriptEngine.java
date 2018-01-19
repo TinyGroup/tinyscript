@@ -4,6 +4,7 @@ package org.tinygroup.tinyscript.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.tinygroup.context.Context;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptEngine;
 import org.tinygroup.tinyscript.ScriptException;
@@ -76,9 +77,16 @@ public abstract class AbstractScriptEngine implements ScriptEngine {
 
 	public Object execute(ScriptSegment segment, ScriptContext context)
 			throws ScriptException {
-		if(context.getParent()==null && !context.equals(scriptContext)){
+		//支持多层上下文结构，设置引擎上下文为最顶层上下文
+		Context nowContext = context;
+		Context parentContext = nowContext.getParent();
+		while(parentContext!=null){
+			nowContext = parentContext;
+			parentContext = nowContext.getParent();
+		}
+		if(!nowContext.equals(scriptContext)){
 		   //关联引擎上下文
-		   context.setParent(scriptContext);  
+		   nowContext.setParent(scriptContext);
 		}
 		return segment.execute(context);
 	}
