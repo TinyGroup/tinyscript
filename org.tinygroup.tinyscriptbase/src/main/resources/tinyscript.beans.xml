@@ -9,6 +9,11 @@
         <property name="scriptEngine" ref="scriptEngine"></property>
     </bean>
     
+    <bean id="scriptSegmentModuleProcessor" scope="singleton"
+          class="org.tinygroup.tinyscript.fileresolver.ScriptSegmentModuleProcessor">
+    </bean>
+    
+    
     <bean id="scriptEngine" scope="singleton"
           class="org.tinygroup.tinyscript.impl.DefaultScriptEngine">
     </bean>
