@@ -5,10 +5,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.tinygroup.context.Context;
+import org.tinygroup.tinyscript.ScriptClass;
+import org.tinygroup.tinyscript.ScriptClassMethod;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptEngine;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
+import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.ScriptInterpret;
 import org.tinygroup.tinyscript.interpret.ScriptUtil;
 
@@ -145,6 +148,26 @@ public abstract class AbstractScriptEngine implements ScriptEngine {
 	public void setScriptInterpret(
 			ScriptInterpret interpret) {
 		this.scriptInterpret = interpret;
+	}
+	
+	public Object execute(String className, String methodName,
+			Object... parameters) throws ScriptException {
+		ScriptSegment segment = findScriptSegment(className);
+		if(segment==null){
+		   throw new ScriptException(ResourceBundleUtil.getDefaultMessage("engine.notfind.segment", className));
+		}
+		ScriptClass scriptClass = segment.getScriptClass();
+		if(scriptClass==null){
+		   throw new ScriptException(ResourceBundleUtil.getDefaultMessage("engine.undefine.scriptclass", className));
+		}
+		ScriptClassMethod scriptClassMethod = scriptClass.getScriptMethod(methodName);
+		if(scriptClassMethod==null){
+		   throw new ScriptException(ResourceBundleUtil.getDefaultMessage("engine.notfind.scriptclassmethod", className,methodName));
+		}
+		ScriptContext context = new DefaultScriptContext();
+		context.setParent(scriptContext);
+		//执行脚本方法
+		return scriptClassMethod.execute(context, parameters);
 	}
 
 	/**

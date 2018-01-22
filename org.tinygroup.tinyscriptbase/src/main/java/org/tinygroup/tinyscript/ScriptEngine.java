@@ -145,6 +145,16 @@ public interface ScriptEngine {
 	 */
 	Object execute(String script) throws ScriptException;
 	
+	/***
+	 * 根据脚本类，执行指定方法
+	 * @param className
+	 * @param methodName
+	 * @param parameters
+	 * @return
+	 * @throws ScriptException
+	 */
+	Object execute(String className,String methodName,Object...parameters) throws ScriptException;
+	
 	/**
 	 * 启动脚本引擎
 	 * @throws ScriptException
