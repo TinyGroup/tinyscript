@@ -55,7 +55,6 @@ import org.tinygroup.tinyscript.dataset.function.DataSetFilterFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetFilterOneFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetForEachFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetFullJoinFunction;
-import org.tinygroup.tinyscript.dataset.function.DataSetGroupDateFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetGroupDynamicFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetGroupFunction;
 import org.tinygroup.tinyscript.dataset.function.DataSetGroupStagedFunction;
@@ -80,6 +79,7 @@ import org.tinygroup.tinyscript.dataset.function.FirstRowFunction;
 import org.tinygroup.tinyscript.dataset.function.GroupDataSetAggregateFunction;
 import org.tinygroup.tinyscript.dataset.function.GroupDataSetFilterFunction;
 import org.tinygroup.tinyscript.dataset.function.GroupDataSetSortFunction;
+import org.tinygroup.tinyscript.dataset.function.DataSetGroupDateFunction;
 import org.tinygroup.tinyscript.dataset.function.LastRowFunction;
 import org.tinygroup.tinyscript.dataset.function.NextRowFunction;
 import org.tinygroup.tinyscript.dataset.function.PreviewRowFunction;
@@ -108,6 +108,7 @@ import org.tinygroup.tinyscript.text.function.ReadTxtFunction;
 import org.tinygroup.tinyscript.tree.function.CreateDataTreeFunction;
 import org.tinygroup.tinyscript.tree.function.ReadJsonFunction;
 import org.tinygroup.tinyscript.tree.function.ReadXmlFunction;
+import org.tinygroup.tinyscript.tree.function.TreeDataNodeToJsonFunction;
 
 /**
  * 默认的tinyscript实现(非动态版本)
@@ -178,6 +179,7 @@ public class DefaultTinyScriptEngine extends DefaultScriptEngine implements Scri
 		addScriptFunction(new TreeToDataSetFunction());
 		addScriptFunction(new ReadJsonFunction());
 		addScriptFunction(new ReadXmlFunction());
+		addScriptFunction(new TreeDataNodeToJsonFunction());
 
 		addScriptFunction(new ExecuteSqlFunction());
 		addScriptFunction(new QuerySqlFunction());
