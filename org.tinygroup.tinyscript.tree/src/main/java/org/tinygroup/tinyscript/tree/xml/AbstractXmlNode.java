@@ -32,5 +32,9 @@ public abstract class AbstractXmlNode implements DataNode{
 	public DataNode findNode(String name) {
 		return findNode(this,name);
 	}
+	
+	public void setParent(DataNode parent) {
+		
+	}
 
 }

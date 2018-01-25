@@ -16,6 +16,12 @@ public interface DataNode {
 	DataNode getParent();
 	
 	/**
+	 * 设置父亲节点
+	 * @param parent
+	 */
+	void setParent(DataNode parent);
+	
+	/**
 	 * 获取节点值
 	 * @return
 	 */
