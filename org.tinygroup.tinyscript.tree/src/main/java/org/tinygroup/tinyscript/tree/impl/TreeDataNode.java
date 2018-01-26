@@ -22,7 +22,16 @@ public class TreeDataNode implements DataNode{
 		
 	}
 	
+    public TreeDataNode(String name){
+		this.name = name;
+	}
+	
     public TreeDataNode(Map<String,Object> maps){
+		this.maps = maps;
+	}
+    
+    public TreeDataNode(String name,Map<String,Object> maps){
+    	this.name = name;
 		this.maps = maps;
 	}
 	
