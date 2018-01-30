@@ -1,6 +1,7 @@
 package org.tinygroup.tinyscript;
 
 import java.util.List;
+import java.util.Map;
 
 import org.tinygroup.tinyscript.config.FunctionConfig;
 
@@ -154,6 +155,16 @@ public interface ScriptEngine {
 	 * @throws ScriptException
 	 */
 	Object execute(String className,String methodName,Object...parameters) throws ScriptException;
+	
+	/**
+	 * 根据脚本类，执行指定方法
+	 * @param maps
+	 * @param className
+	 * @param methodName
+	 * @return
+	 * @throws ScriptException
+	 */
+	Object execute(Map<String,Object> maps,String className,String methodName) throws ScriptException;
 	
 	/**
 	 * 启动脚本引擎

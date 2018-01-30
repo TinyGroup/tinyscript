@@ -169,6 +169,25 @@ public abstract class AbstractScriptEngine implements ScriptEngine {
 		//执行脚本方法
 		return scriptClassMethod.execute(context, parameters);
 	}
+	
+	public Object execute(Map<String,Object> maps,String className, String methodName) throws ScriptException {
+		ScriptSegment segment = findScriptSegment(className);
+		if(segment==null){
+		   throw new ScriptException(ResourceBundleUtil.getDefaultMessage("engine.notfind.segment", className));
+		}
+		ScriptClass scriptClass = segment.getScriptClass();
+		if(scriptClass==null){
+		   throw new ScriptException(ResourceBundleUtil.getDefaultMessage("engine.undefine.scriptclass", className));
+		}
+		ScriptClassMethod scriptClassMethod = scriptClass.getScriptMethod(methodName);
+		if(scriptClassMethod==null){
+		   throw new ScriptException(ResourceBundleUtil.getDefaultMessage("engine.notfind.scriptclassmethod", className,methodName));
+		}
+		ScriptContext context = new DefaultScriptContext(maps);
+		context.setParent(scriptContext);
+		//执行脚本方法
+		return scriptClassMethod.execute(context);
+	}
 
 	/**
 	 * 真正的查询脚本片段的逻辑实现
