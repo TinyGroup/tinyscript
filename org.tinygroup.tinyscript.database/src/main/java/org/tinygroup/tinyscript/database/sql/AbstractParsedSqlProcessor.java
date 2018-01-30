@@ -1,5 +1,9 @@
 package org.tinygroup.tinyscript.database.sql;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map.Entry;
+
 import javax.sql.DataSource;
 
 import org.springframework.jdbc.support.rowset.SqlRowSet;
@@ -12,6 +16,8 @@ import org.tinygroup.parsedsql.impl.SimpleJDBCNamedSqlExecutor;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.database.SqlRowSetDataSet;
+import org.tinygroup.tinyscript.expression.ExpressionUtil;
+import org.tinygroup.tinyscript.impl.DefaultScriptContext;
 import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
 import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
 import org.tinygroup.tinyscript.interpret.custom.CustomProcessor;
@@ -19,6 +25,7 @@ import org.tinygroup.tinyscript.interpret.custom.CustomProcessor;
 public abstract class AbstractParsedSqlProcessor implements CustomProcessor {
 
 	private static final String DB_TYPE = "defaultDB";
+	private static final String SQL_ALLOW_NULL = "sqlAllowNull";
 
 	protected JDBCNamedSqlExecutor sqlExecutor;
 	protected SQLParser sqlParser;
@@ -79,11 +86,45 @@ public abstract class AbstractParsedSqlProcessor implements CustomProcessor {
 				return new SqlRowSetDataSet(sqlRowSet, ScriptContextUtil.getScriptEngine(context).isIndexFromOne());
 			} else {
 				// 处理操作语句
-				return sqlExecutor.execute(newSql, dataSource, context);
+				if(buildNewContext(context)){
+					//重构上下文，避免清理逻辑影响原有的业务环境
+					ScriptContext newContext = new DefaultScriptContext(context.getTotalItemMap());
+					//清理值为null的变量，实现null值不覆盖原有字段值
+					clearNullValue(newContext);
+					return sqlExecutor.execute(newSql, dataSource, newContext);
+				}else{
+					return sqlExecutor.execute(newSql, dataSource, context);
+				}
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 			throw new ScriptException(e);
 		}
+	}
+	
+	/**
+	 * 是否需要重建上下文
+	 * @param context
+	 * @return
+	 */
+	private boolean buildNewContext(ScriptContext context){
+		if(context.exist(SQL_ALLOW_NULL) && !ExpressionUtil.getBooleanValue(context.get(SQL_ALLOW_NULL))){
+		   return true;
+		}
+		return false;
+	}
+	
+	private void clearNullValue(ScriptContext context){
+		 //仅清理当前上下文
+	     List<String> delKeys = new ArrayList<String>();
+	     for(Entry<String, Object> entry:context.getItemMap().entrySet()){
+	    	 if(entry.getValue()==null){
+	    	    delKeys.add(entry.getKey());
+	    	 }
+	     }
+	     for(String key:delKeys){
+	    	 context.getItemMap().remove(key);
+	     }
 	}
 
 }
