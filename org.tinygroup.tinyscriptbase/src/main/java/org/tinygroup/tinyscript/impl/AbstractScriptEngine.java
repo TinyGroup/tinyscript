@@ -152,25 +152,31 @@ public abstract class AbstractScriptEngine implements ScriptEngine {
 	
 	public Object execute(String className, String methodName,
 			Object... parameters) throws ScriptException {
-		ScriptSegment segment = findScriptSegment(className);
-		if(segment==null){
-		   throw new ScriptException(ResourceBundleUtil.getDefaultMessage("engine.notfind.segment", className));
+		ScriptClassMethod scriptClassMethod = findScriptClassMethod(className,methodName);
+		return executeScriptClassMethod(scriptClassMethod,parameters);
+	}
+	
+	public Object execute(Map<String,Object> maps,String className, String methodName) throws ScriptException {
+		ScriptClassMethod scriptClassMethod = findScriptClassMethod(className,methodName);
+		
+		String[] names = scriptClassMethod.getParamterNames();
+		Object[] parameters =new Object[names==null?0:names.length];
+		if(names!=null){
+		   for(int i=0;i<names.length;i++){
+			   parameters[i] = maps.get(names[i]);
+		   }
 		}
-		ScriptClass scriptClass = segment.getScriptClass();
-		if(scriptClass==null){
-		   throw new ScriptException(ResourceBundleUtil.getDefaultMessage("engine.undefine.scriptclass", className));
-		}
-		ScriptClassMethod scriptClassMethod = scriptClass.getScriptMethod(methodName);
-		if(scriptClassMethod==null){
-		   throw new ScriptException(ResourceBundleUtil.getDefaultMessage("engine.notfind.scriptclassmethod", className,methodName));
-		}
+		return executeScriptClassMethod(scriptClassMethod,parameters);
+	}
+	
+	private Object executeScriptClassMethod(ScriptClassMethod scriptClassMethod,Object[] parameters) throws ScriptException{
 		ScriptContext context = new DefaultScriptContext();
 		context.setParent(scriptContext);
 		//执行脚本方法
 		return scriptClassMethod.execute(context, parameters);
 	}
 	
-	public Object execute(Map<String,Object> maps,String className, String methodName) throws ScriptException {
+	private ScriptClassMethod findScriptClassMethod(String className, String methodName) throws ScriptException {
 		ScriptSegment segment = findScriptSegment(className);
 		if(segment==null){
 		   throw new ScriptException(ResourceBundleUtil.getDefaultMessage("engine.notfind.segment", className));
@@ -183,10 +189,7 @@ public abstract class AbstractScriptEngine implements ScriptEngine {
 		if(scriptClassMethod==null){
 		   throw new ScriptException(ResourceBundleUtil.getDefaultMessage("engine.notfind.scriptclassmethod", className,methodName));
 		}
-		ScriptContext context = new DefaultScriptContext(maps);
-		context.setParent(scriptContext);
-		//执行脚本方法
-		return scriptClassMethod.execute(context);
+		return scriptClassMethod;
 	}
 
 	/**

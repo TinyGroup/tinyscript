@@ -2,15 +2,13 @@ package org.tinygroup.tinyscript;
 
 import java.io.File;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import junit.framework.TestCase;
 
 import org.tinygroup.commons.tools.FileUtil;
-import org.tinygroup.tinyscript.ScriptClass;
-import org.tinygroup.tinyscript.ScriptClassField;
-import org.tinygroup.tinyscript.ScriptClassMethod;
-import org.tinygroup.tinyscript.ScriptContext;
-import org.tinygroup.tinyscript.ScriptEngine;
-import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.assignvalue.AssignValueProcessor;
 import org.tinygroup.tinyscript.assignvalue.AssignValueUtil;
 import org.tinygroup.tinyscript.config.FunctionConfig;
@@ -20,8 +18,6 @@ import org.tinygroup.tinyscript.interpret.AttributeUtil;
 import org.tinygroup.tinyscript.interpret.ScriptUtil;
 import org.tinygroup.tinyscript.objectitem.ObjectItemUtil;
 import org.tinygroup.tinyscript.objectitem.ObjectSingleItemProcessor;
-
-import junit.framework.TestCase;
 
 public class ScriptEngineTest extends TestCase{
 
@@ -180,6 +176,27 @@ public class ScriptEngineTest extends TestCase{
 		//绑定对象的函数
 		configs = scriptEngine.getFunctionConfigs(new Date());
 		assertEquals(true,configs.size()>=2);
+	}
+	
+	/**
+	 * 测试执行脚本类方法
+	 * @throws Exception
+	 */
+	public void testExecute() throws Exception {
+		String script = "class MathClass{ sum(a,b,c){ return a+b+c; } }";
+		ScriptSegment segment = ScriptUtil.getDefault().createScriptSegment(scriptEngine, null, script);
+		scriptEngine.addScriptSegment(segment);
+		
+		//执行有序参数运算
+		assertEquals(7, scriptEngine.execute("MathClass", "sum",1,2,4));
+		
+		//执行map参数运算
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("a", 1);
+		map.put("b", 2);
+		map.put("c", 8);
+		assertEquals(11, scriptEngine.execute(map,"MathClass", "sum"));
+		
 	}
 	
 	class ThreeAssignValueProcessor implements AssignValueProcessor{
