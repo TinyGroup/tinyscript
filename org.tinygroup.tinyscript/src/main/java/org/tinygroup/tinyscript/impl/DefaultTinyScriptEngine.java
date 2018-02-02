@@ -107,6 +107,7 @@ import org.tinygroup.tinyscript.objectitem.ObjectItemUtil;
 import org.tinygroup.tinyscript.text.function.ReadTxtFunction;
 import org.tinygroup.tinyscript.tree.function.CreateDataTreeFunction;
 import org.tinygroup.tinyscript.tree.function.ReadJsonFunction;
+import org.tinygroup.tinyscript.tree.function.ReadTreeDataNodeFunction;
 import org.tinygroup.tinyscript.tree.function.ReadXmlFunction;
 import org.tinygroup.tinyscript.tree.function.TreeDataNodeToJsonFunction;
 
@@ -180,6 +181,7 @@ public class DefaultTinyScriptEngine extends DefaultScriptEngine implements Scri
 		addScriptFunction(new ReadJsonFunction());
 		addScriptFunction(new ReadXmlFunction());
 		addScriptFunction(new TreeDataNodeToJsonFunction());
+		addScriptFunction(new ReadTreeDataNodeFunction());
 
 		addScriptFunction(new ExecuteSqlFunction());
 		addScriptFunction(new QuerySqlFunction());
