@@ -33,6 +33,9 @@ public class TreeDataNodeTest extends TestCase{
 		assertEquals(1, tree.getChildren().size());
 		assertEquals(3, data.getChildren().size());
 		
+		String jsonStr = DataNodeUtil.toJson(tree);
+		System.out.println(jsonStr);
+		tree = DataNodeUtil.readJson(jsonStr);
 		System.out.println(DataNodeUtil.toJson(tree));
 	}
 }

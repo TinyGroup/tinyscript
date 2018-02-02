@@ -20,5 +20,9 @@
           class="org.tinygroup.tinyscript.tree.function.TreeDataNodeToJsonFunction"> 
     </bean>
     
+    <bean id="readTreeDataNodeFunction" scope="singleton"
+          class="org.tinygroup.tinyscript.tree.function.ReadTreeDataNodeFunction"> 
+    </bean>
+    
     
 </beans>
