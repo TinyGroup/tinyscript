@@ -6,12 +6,14 @@ import java.util.Map;
 
 import org.tinygroup.context.Context;
 import org.tinygroup.tinyscript.ScriptClass;
+import org.tinygroup.tinyscript.ScriptClassInstance;
 import org.tinygroup.tinyscript.ScriptClassMethod;
 import org.tinygroup.tinyscript.ScriptContext;
 import org.tinygroup.tinyscript.ScriptEngine;
 import org.tinygroup.tinyscript.ScriptException;
 import org.tinygroup.tinyscript.ScriptSegment;
 import org.tinygroup.tinyscript.interpret.ResourceBundleUtil;
+import org.tinygroup.tinyscript.interpret.ScriptContextUtil;
 import org.tinygroup.tinyscript.interpret.ScriptInterpret;
 import org.tinygroup.tinyscript.interpret.ScriptUtil;
 
@@ -152,13 +154,20 @@ public abstract class AbstractScriptEngine implements ScriptEngine {
 	
 	public Object execute(String className, String methodName,
 			Object... parameters) throws ScriptException {
-		ScriptClassMethod scriptClassMethod = findScriptClassMethod(className,methodName);
-		return executeScriptClassMethod(scriptClassMethod,parameters);
+		ScriptClass scriptClass = findScriptClass(className);
+		ScriptContext context = new ScriptMethodContext();
+		context.setParent(scriptContext);
+		ScriptClassInstance classInstance = scriptClass.newInstance(context);
+		ScriptContextUtil.setScriptClassInstance(context, classInstance);
+		return classInstance.execute(context, methodName, parameters);
 	}
 	
 	public Object execute(Map<String,Object> maps,String className, String methodName) throws ScriptException {
-		ScriptClassMethod scriptClassMethod = findScriptClassMethod(className,methodName);
-		
+		ScriptClass scriptClass = findScriptClass(className);
+		ScriptClassMethod scriptClassMethod = scriptClass.getScriptMethod(methodName);
+		if(scriptClassMethod==null){
+		   throw new ScriptException(ResourceBundleUtil.getDefaultMessage("engine.notfind.scriptclassmethod", className,methodName));
+		}
 		String[] names = scriptClassMethod.getParamterNames();
 		Object[] parameters =new Object[names==null?0:names.length];
 		if(names!=null){
@@ -166,17 +175,14 @@ public abstract class AbstractScriptEngine implements ScriptEngine {
 			   parameters[i] = maps.get(names[i]);
 		   }
 		}
-		return executeScriptClassMethod(scriptClassMethod,parameters);
-	}
-	
-	private Object executeScriptClassMethod(ScriptClassMethod scriptClassMethod,Object[] parameters) throws ScriptException{
-		ScriptContext context = new DefaultScriptContext();
+		ScriptContext context = new ScriptMethodContext();
 		context.setParent(scriptContext);
-		//执行脚本方法
-		return scriptClassMethod.execute(context, parameters);
+		ScriptClassInstance classInstance = scriptClass.newInstance(context);
+		ScriptContextUtil.setScriptClassInstance(context, classInstance);
+		return classInstance.execute(context, methodName, parameters);
 	}
 	
-	private ScriptClassMethod findScriptClassMethod(String className, String methodName) throws ScriptException {
+	private ScriptClass findScriptClass(String className) throws ScriptException {
 		ScriptSegment segment = findScriptSegment(className);
 		if(segment==null){
 		   throw new ScriptException(ResourceBundleUtil.getDefaultMessage("engine.notfind.segment", className));
@@ -185,13 +191,9 @@ public abstract class AbstractScriptEngine implements ScriptEngine {
 		if(scriptClass==null){
 		   throw new ScriptException(ResourceBundleUtil.getDefaultMessage("engine.undefine.scriptclass", className));
 		}
-		ScriptClassMethod scriptClassMethod = scriptClass.getScriptMethod(methodName);
-		if(scriptClassMethod==null){
-		   throw new ScriptException(ResourceBundleUtil.getDefaultMessage("engine.notfind.scriptclassmethod", className,methodName));
-		}
-		return scriptClassMethod;
+		return scriptClass;
 	}
-
+	
 	/**
 	 * 真正的查询脚本片段的逻辑实现
 	 * 

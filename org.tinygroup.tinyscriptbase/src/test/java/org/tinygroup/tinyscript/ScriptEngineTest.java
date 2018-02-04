@@ -197,6 +197,16 @@ public class ScriptEngineTest extends TestCase{
 		map.put("c", 8);
 		assertEquals(11, scriptEngine.execute(map,"MathClass", "sum"));
 		
+		script = "class MathClass2{ num; MathClass2(){num=10;} sum(a,b,c){ return a+b+c+num; } }";  //有状态的脚本类
+		segment = ScriptUtil.getDefault().createScriptSegment(scriptEngine, null, script);
+		scriptEngine.addScriptSegment(segment);
+		
+		//执行有序参数运算
+		assertEquals(17, scriptEngine.execute("MathClass2", "sum",1,2,4));
+		
+		//执行map参数运算
+		assertEquals(21, scriptEngine.execute(map,"MathClass2", "sum"));
+		
 	}
 	
 	class ThreeAssignValueProcessor implements AssignValueProcessor{
