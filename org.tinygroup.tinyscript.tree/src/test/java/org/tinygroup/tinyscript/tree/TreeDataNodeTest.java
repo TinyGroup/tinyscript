@@ -38,4 +38,13 @@ public class TreeDataNodeTest extends TestCase{
 		tree = DataNodeUtil.readJson(jsonStr);
 		System.out.println(DataNodeUtil.toJson(tree));
 	}
+	
+	public void testEmpty()  throws Exception{
+		TreeDataNode tree = new TreeDataNode();
+		tree.put("msg", "ok").put("code", 0);
+	    assertNull(tree.get("data"));
+		tree.addNode("data", new TreeDataNode());
+		assertNotNull(tree.get("data"));
+		System.out.println(DataNodeUtil.toJson(tree));
+	}
 }
